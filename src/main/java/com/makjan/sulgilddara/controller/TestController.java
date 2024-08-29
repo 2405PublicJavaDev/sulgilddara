@@ -10,6 +10,6 @@ public class TestController {
 	@GetMapping("/brewery")
 	String goToIndex() {
 		System.out.println("run");
-		return "index";
+		return "inde";
 	}
 }
