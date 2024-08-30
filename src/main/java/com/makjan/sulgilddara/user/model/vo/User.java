@@ -2,9 +2,11 @@ package com.makjan.sulgilddara.user.model.vo;
 
 import java.sql.Timestamp;
 
+import org.springframework.stereotype.Repository;
+
 import lombok.Getter;
 import lombok.Setter;
-
+@Repository
 @Getter
 @Setter
 public class User {

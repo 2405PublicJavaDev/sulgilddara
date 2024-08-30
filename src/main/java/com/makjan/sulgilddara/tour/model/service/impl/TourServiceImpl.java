@@ -1,7 +1,9 @@
 package com.makjan.sulgilddara.tour.model.service.impl;
 
-import com.makjan.sulgilddara.tour.model.service.TourService;
+import org.springframework.stereotype.Service;
 
+import com.makjan.sulgilddara.tour.model.service.TourService;
+@Service
 public class TourServiceImpl implements TourService{
 
 }

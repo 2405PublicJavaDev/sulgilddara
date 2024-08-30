@@ -2,11 +2,12 @@ package com.makjan.sulgilddara.user.model.service.Impl;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.user.model.service.UserService;
 import com.makjan.sulgilddara.user.model.vo.User;
-
+@Service
 public class UserServiceImpl implements UserService {
 
 	// 회원가입 Service
