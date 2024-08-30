@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.Pagination;
+import com.makjan.sulgilddara.liquir.model.vo.Liquir;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
 public interface BreweryService {
@@ -55,7 +56,7 @@ public interface BreweryService {
 	 * @param breweryId
 	 * @return Liquir
 	 */
-//	Liquir selectLiquirListById(Integer breweryId);
+	Liquir selectLiquirListById(Integer breweryId);
 	
 	/**
 	 * 양조장 별 투어리스트 조회
