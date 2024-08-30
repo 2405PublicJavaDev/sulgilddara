@@ -5,6 +5,15 @@
 		<title>게시글 작성</title>
 	</head>
 	<body>
-	
+		<h1>공지사항 등록</h1>
+		<form action="/board/write" method="post" enctype="multipart/form-data">
+			제목 <input type="text" name="boardSubject"> <br>
+			내용 <input type="text" name=boardContent> <br>
+			작성자 <input type="text" name="boardWriter"> <br>
+			제목 <input type="text" name="boardSubject"> <br>
+			내용 <textarea rows="5" cols="40" name="boardContent"></textarea> <br>
+<!-- 			첨부파일 <input type="file" name="uploadFile"> <br> -->
+			<button>등록</button>
+		</form>
 	</body>
 </html>
