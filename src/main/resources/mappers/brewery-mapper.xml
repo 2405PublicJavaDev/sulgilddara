@@ -3,4 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper">
+	  <insert id="insertBrewery">
+	  	<selectKey order="BEFORE" resultType="_int" keyProperty="breweryId">
+	  		SELECT SEQ_BREWERY_NO.NEXTVAL FROM DUAL
+	  	</selectKey>
+	  		INSERT INTO BREWERY_TBL
+	  		VALUES(#{breweryId}, #{breweryName}, #{breweryLocal}, #{breweryAddr}, #{breweryPhone}, #{breweryTime}, #{breweryUrl}, DEFAULT, DEFAULT)
+	  </insert>
+	  <select id="selectAllList" resultType="Brewery">
+	  		SELECT * FROM BREWERY_TBL
+	  </select>
   </mapper>
+  

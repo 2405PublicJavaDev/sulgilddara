@@ -64,4 +64,6 @@ public interface BreweryService {
 	 * @return Tour
 	 */
 	Tour selectTourListById(Integer breweryId);
+	
+	List<Brewery> selectAllList();
 }
