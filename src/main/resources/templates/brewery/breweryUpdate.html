@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<title>양조장 정보 변경</title>
+	</head>
+	<body>
+		<h1>양조장 정보 변경</h1>
+		<form action="/brewery/update" method="post" th:object="${brewery}">
+            양조장명 <input type="text" name="breweryName" th:value="*{breweryName}">
+            지역 <input type="text" name="breweryLocal" th:value="*{breweryLocal}">
+            주소 <input type="text" name="breweryAddr" th:value="*{breweryAddr}">
+            오픈시간 <input type="text" name="openTime" th:value="*{openTime}">
+            마감시간 <input type="text" name="closeTime" th:value="*{closeTime}">
+            홈페이지 <input type="text" name="breweryUrl" th:value="*{breweryUrl}">
+            <input type="submit" value="변경">
+			체험 프로그램 <button th:onclick="goTourInsert();">등록</button>
+        </form>
+	</body>
+	<script th:inline="javascript">
+		function goTourInsert() {
+			loacation.href="@{/tour/insert/{breweryNo}}"
+		}
+	</script>
+</html>

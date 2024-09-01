@@ -29,14 +29,14 @@ public interface BreweryService {
 	 * @param breweryId
 	 * @return int
 	 */
-	int deleteBrewery(Integer breweryId);
+	int deleteBrewery(Integer breweryNO);
 	
 	/**
 	 * 양조장 한개 조회
 	 * @param breweryId
 	 * @return Brewery
 	 */
-	Brewery searchOneById(Integer breweryId);
+	Brewery searchOneByNo(Integer breweryNo);
 	
 	/**
 	 * 양조장 리스트 조회
@@ -65,5 +65,9 @@ public interface BreweryService {
 	 */
 	Tour selectTourListById(Integer breweryId);
 	
+	/**
+	 * 양조장 전체 조회 
+	 * @return List<Brewery>
+	 */
 	List<Brewery> selectAllList();
 }

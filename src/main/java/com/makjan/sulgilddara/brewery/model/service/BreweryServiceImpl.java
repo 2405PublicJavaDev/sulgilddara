@@ -31,21 +31,21 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public int updateBrewery(Brewery Brewery) {
-		// TODO Auto-generated method stub
+	public int updateBrewery(Brewery brewery) {
+		int result = mapper.updateBrewery(brewery);
 		return 0;
 	}
 
 	@Override
-	public int deleteBrewery(Integer breweryId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteBrewery(Integer breweryNo) {
+		int result = mapper.deleteBrewery(breweryNo);
+		return result;
 	}
 
 	@Override
-	public Brewery searchOneById(Integer breweryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Brewery searchOneByNo(Integer breweryNo) {
+		Brewery brewery = mapper.searchOneByNo(breweryNo);
+		return brewery;
 	}
 
 	@Override
