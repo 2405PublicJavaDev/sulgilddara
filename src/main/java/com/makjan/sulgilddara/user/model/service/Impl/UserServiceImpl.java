@@ -7,9 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.user.model.service.UserService;
 import com.makjan.sulgilddara.user.model.vo.User;
+
 @Service
 public class UserServiceImpl implements UserService {
-
 	// 회원가입 Service
 	@Override
 	public int registerUser(User inputUser, MultipartFile uploadFile) throws IllegalStateException, IOException {

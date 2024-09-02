@@ -3,19 +3,31 @@ package com.makjan.sulgilddara.brewery.model.service;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
-import com.makjan.sulgilddara.liquir.model.vo.Liquir;
+import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
-
+@Service
 public class BreweryServiceImpl implements BreweryService{
+	
+	private BreweryMapper mapper;
+	
+	public BreweryServiceImpl() {}
+	
+	@Autowired
+	public BreweryServiceImpl(BreweryMapper mapper) {
+		this.mapper = mapper;
+	}
 
 	@Override
 	public int insertBrewery(Brewery inputBrewery) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = mapper.insertBrewery(inputBrewery);
+		return result;
 	}
 
 	@Override
@@ -55,9 +67,15 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public Liquir selectLiquirListById(Integer breweryId) {
+	public Liquor selectLiquirListById(Integer breweryId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Brewery> selectAllList() {
+		List<Brewery> bList = mapper.selectAllList();
+		return bList;
 	}
 	
 }
