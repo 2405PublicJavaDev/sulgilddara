@@ -1,5 +1,8 @@
 package com.makjan.sulgilddara.liquor.controller;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.makjan.sulgilddara.liquor.model.service.LiquorService;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorPagination;
 
 
 @Controller
@@ -33,6 +37,7 @@ public class LiquorController {
 	
 	@PostMapping("/liquorAdd")
 	public String liquorAdd(Model model, @ModelAttribute Liquor liquor) {
+		lService.addLiquor(liquor);
 		return "liquor/liquorList";
 	}
 	
@@ -57,8 +62,16 @@ public class LiquorController {
 	}
 	
 	@GetMapping("/liquorList")
-	public String showLiquorList(@RequestParam String param) {
-		return new String();
+	public String showLiquorList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model) {
+		int totalCount = lService.getTotalCount();
+		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1)*limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Liquor> lList = lService.selectLiquorList(currentPage, rowBounds);
+		model.addAttribute("lList", lList);
+		model.addAttribute("pn", pn);
+		return "liquor/liquorList";
 	}
 	
 	

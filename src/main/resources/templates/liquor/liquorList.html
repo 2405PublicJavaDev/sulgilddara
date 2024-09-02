@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>공지사항 목록</title>
+		<link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+		<h1>주류 목록</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>제품명</th>
+					<th>알콜함량</th>
+					<th>주종</th>
+					<th>가격</th>
+					<th>병입용량</th>
+					<th>등록일시</th>
+					<th>수정일시</th>
+					<th>양조장ID</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="liquor : ${lList }">
+<!-- 				간단하게 출력할 때 사용 -->
+					<td>[[${liquor.noticeNo }]]</td>
+<!-- 				보안과 유지보수 측면에서 권장되는 방법 -->
+					<td>[[${liquor.liquorName]]
+<!-- 				쿼리스트링 방식 -->
+<!-- 				<a th:href="@{/notice/detail(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeSubject }"></a> -->
+<!-- 				PathVariable 방식 -->
+<!--					<a th:href="@{/liquor/detail/{liquorId}(liquorId=${liquor.liquorId})}" th:text="${liquor.liquorName }"></a>  -->
+					</td>
+					<td>[[${liquor.alcholContent]]</td>
+					<td>[[${liquor.liquorType }]]</td>
+					<td>[[${liquor.liquorPrice }]]</td>
+					<td>[[${liquor.liquorCapacity }]]</td>
+					<td>[[${liquor.lCreateDate }]]</td>
+					<td>[[${liquor.lUpdateDate }]]</td>
+					<td>[[${liquor.breweryId }]]</td>
+				</tr>
+<!-- 				<c:forEach items="${nList }" var="notice"> -->
+<!-- 				</c:forEach> -->
+			</tbody>
+			<tfoot>
+				<tr align="center">
+					<td colspan="5">
+						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
+							<a th:href="@{/liquor/liquorList(cp=${p})}" th:text="${p}"></a>
+						</th:block>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</body>
+</html>

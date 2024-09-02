@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makjan.sulgilddara.liquor.model.mapper.LiquorMapper">
+	<insert id="addLiquor" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="liquorId">
+			SELECT SEQ_LIQUOR_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO LIQUOR_TBL
+		VALUES(#{liquorId} , #{liquorName} , #{alcholContent}, #{liquorType}, #{liquorPrice}, #{liquorCapacity}, DEFAULT, DEFAULT, #{breweryId})
+	</insert>
+	<select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM LIQUOR_TBL
+	</select>
+	<select id="selectList" resultType="Liquor">
+		SELECT * FROM LIQUOR_TBL ORDER BY LIQUOR_ID DESC
+	</select>
+	
+</mapper>
