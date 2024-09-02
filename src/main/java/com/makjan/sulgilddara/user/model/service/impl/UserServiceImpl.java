@@ -44,4 +44,10 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	@Override
+	public User selectOne(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

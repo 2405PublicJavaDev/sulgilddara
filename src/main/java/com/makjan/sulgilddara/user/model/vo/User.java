@@ -25,7 +25,7 @@ public class User {
 	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
 	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
 	private String userPw;
-	private String confirm_userPW;
+	private String confirm_userPw;
 	@NotBlank(message="이름은 필수 입력 값입니다.")
 	private String userName;
 	
@@ -36,7 +36,7 @@ public class User {
 	// 로그인타입 
 	private LoginType loginType;
 	private String gender;
-	@Pattern(regexp = "[0-9]{3}-[0-9]{4}-[0-9]{4}", message = "전화번호 형식은 000-0000-0000 입니다.")
+	//@Pattern(regexp = "[0-9]{3}-[0-9]{4}-[0-9]{4}", message = "전화번호 형식은 000-0000-0000 입니다.") 
 	private String phone;
 	private String address;
 	private Timestamp joinDate;

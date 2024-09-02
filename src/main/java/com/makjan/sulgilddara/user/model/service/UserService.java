@@ -18,4 +18,6 @@ public interface UserService {
 	 */
 	int registerUser(User inputUser, MultipartFile uploadFile) throws IllegalStateException, IOException;
 
+	User selectOne(String userId);
+
 }
