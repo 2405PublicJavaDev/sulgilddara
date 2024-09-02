@@ -1,21 +1,28 @@
 package com.makjan.sulgilddara.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makjan.sulgilddara.board.common.utility.Util;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 
 import lombok.NoArgsConstructor;
@@ -96,9 +103,10 @@ public class BoardController {
 			boardTag.setBoardNo(board.getBoardNo());
 			int tagResult = bService.insertTag(boardTag);			
 		}
-		
 		return "board/boardList_card";
 	}
+	
+	
 	
 	@PostMapping("/board/modify")
 	public String boardModify(){
@@ -110,6 +118,43 @@ public class BoardController {
 		return "board/boardList_card";
 	}
 	
+	
+	
+	// 파일 업로드 메소드 (ajax 통신)
+	@ResponseBody
+	@PostMapping("/board/uploadImage")
+	public ResponseEntity<?> boardUploadImage(@RequestParam("file") MultipartFile file){
+		
+		if(file != null) {
+			String fileName = file.getOriginalFilename();
+			String fileRename = Util.fileRename(fileName);
+			
+			// Web용 경로
+			String filePath = "/images/board/"; // 이 경로가 fileConfig에 의해 실제 C드라이브 경로로 매핑됨.
+			
+			
+			try {
+				//실제 경로 
+				file.transferTo(new File("C:\\uploadFile\\board\\"+fileRename));
+				
+				// board객체 생성 -> db에 저장하기 위함. 사실 에디터 사용시 에디터가 정보 다갖고있음.
+				BoardFile boardFile = new BoardFile();
+				boardFile.setFileName(fileName);
+				boardFile.setFileRename(fileRename);
+				boardFile.setFilePath(filePath); // 경로에 복사
+				
+//			boardFile에 boardNo 실제 게시글 업로드 시점에서 넣어주기 -> update로 boradNo만 수정해주면 됨.
+				int result = bService.insertBoardFile(boardFile);
+				// ResponseEntity는 String과 크게 다른점은 없지만 다른 기능들을 사욜할 수 있는 객체형태
+				return ResponseEntity.ok(filePath+fileRename); // 경로 전달
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+				return ResponseEntity.badRequest().body("이미지 업로드 실패");
+			}	
+		}
+		
+		return null;
+	}
 	
 	
 	

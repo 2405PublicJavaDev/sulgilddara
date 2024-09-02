@@ -29,7 +29,7 @@
 				<textarea name="boardContent" id="summernote">
 				</textarea>
 			</div>
-<!-- 			첨부파일 <input type="file" name="uploadFile"> <br> -->
+			
 			<button>등록</button>
 		</form>
 		
@@ -64,7 +64,7 @@
 					focus : false,
 			        // callbacks은 이미지 업로드 처리입니다.
 					callbacks : {                                                    
-						onImageUpload : function(files, editor, welEditable) {   
+						onImageUpload : function(files, editor) {   // 매개변수 welEditable 제외시킴.
 			                // 다중 이미지 처리를 위해 for문을 사용했습니다.
 							for (var i = 0; i < files.length; i++) {
 								imageUploader(files[i], this);
@@ -83,6 +83,48 @@
 		      console.log(tagify.value[0].value) // 태그 배열 0번째 객체의 value값 -> 입력한 태그
 		    })
 		
+		    
+		    
+		    // 파일 업로드 콜백 함수
+		    const imageUploader = (file, el) => {
+		    //	FormData()는 브라우저에서 제공하는 API이다.
+		    // 이 객체를 사용하면 파일과 같은 바이너리 데이터를 포함하여 다양한 형식의 데이터를 multipart/form-data 형식으로 서버에 전송할 수 있다.
+		    	let formData = new FormData();
+		    // formData 객체에 데이터를 추가하는 코드이다. append 메서드를 사용하여 키-값 쌍을 FormData 객체에 추가한다.
+		    	formData.append('file', file);
+		    
+		    	$.ajax({
+		    		data : formData,
+		    		type : "POST",
+		    		
+		    		// url은 이미지 업로드 컨트롤러 메소드 경로
+		    		url : "/board/uploadImage",
+		    		
+		    		// jQuery가 Content-Type 헤더를 자동으로 설정하지 않게 된다.
+		    		// 일반적으로 FormData를 사용해 파일을 업로드할 때는 브라우저가 자동으로 multipart/form-data로 설정하므로 false로 설정한다.
+		    		contentType : false,
+		    		
+		    		// processData 속성을 false로 설정하면 jQuery가 데이터를 쿼리 문자열로 자동으로 변환하지 않는다. 
+		    		// FormData 객체를 전송할 때는 processData: false로 설정해야 한다.
+		    		processData : false,
+		    		
+		    		// 인코딩 타입을 multipart/form-data으로 지정해준다. 파일 업로드 시 타입을 이처럼 지정해줘야 한다.
+		    		enctype : 'multipart/form-data',
+		    		
+		    		// 요청이 성공적으로 완료되었을 때 호출되는 콜백 함수이다.
+		    		// 서버에서 반환된 데이터를 data 파라미터로 받아 처리할 수 있다.
+		    		success : function(data){
+		    			console.log(data);
+		    			$(el).summernote('insertImage', data, function($image){
+		    				$image.css('width', "50%");
+		    			});
+		    		}
+		    		
+		    	});
+		    }
+		    
+		    
+		    
 </script>
 	</body>
 </html>
