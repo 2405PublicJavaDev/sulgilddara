@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	</head>
+	<body>
+		<div class="Title">
+			<h1>예약 조회</h1>
+		</div>
+		<form th:action="@{/reservation/search}" method="POST">
+		<div class="content">
+			<span>예약 번호</span>
+			<div class="reserveNoInput">
+				<input type="text" name="reserveNo" placeholder="예약번호를 입력하세요">
+			</div>
+			<button>예약 조회</button>
+			<button>취소</button>
+		</div>
+		</form>
+		
+		<div class="reserveResult">
+			<h1>예약 조회 결과</h1>
+			<div class="result">
+				<table>
+					<thead>
+						<tr>
+							<th>예약 날짜</th>
+							<th>예약 인원</th>
+							<th>예약 시간</th>
+							<th>체험 프로그램</th>
+							<th>비상 연락처</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="Reservation: ${rList}" var="Reservation">
+							<td>[[${Reservation.reserveDate}]]</td>
+							<td>[[${Reservation.memberNum}]]</td>
+							<td>[[${Reservation.reserveTime}]]</td>
+							<td>[[${Reservation.tourId}]]</td>
+							<td>[[${Reservation.emergencyPhone}]]</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

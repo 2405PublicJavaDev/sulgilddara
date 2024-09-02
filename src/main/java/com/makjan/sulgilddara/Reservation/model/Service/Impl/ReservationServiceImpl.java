@@ -1,6 +1,8 @@
 package com.makjan.sulgilddara.Reservation.model.Service.Impl;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,12 @@ public class ReservationServiceImpl implements ReservationService{
 		System.out.println(reservation);
 		int result = rmapper.RegisterInfo(reservation); 
 		return result;
+	}
+
+	@Override
+	public List<Reservation> SearchInfo(Map<String, String> param) {
+		List<Reservation> rList = rmapper.SearchInfo(param);
+		return rList;
 	}
 
 }

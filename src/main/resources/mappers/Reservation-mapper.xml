@@ -3,8 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper">
- 
+ <resultMap type="Reservation" id="reserveResultMap">
+ 	<id property="reserveNo" column="RESERVE_NO"/>
+ 	<result property="userId" column="USERID"/>
+ 	<result property="memberNum" column="MEMBER_NUM"/>
+ 	<result property="reserveDate" column="RESERVE_DATE"/>
+ 	<result property="reserveTime" column="RESERVE_TIME"/>
+ 	<result property="tourId" column="TOURID"/>
+ 	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
+ </resultMap>
  <insert id="RegisterInfo">
  INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{memberNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone})
  </insert>
+ <select id="SearchInfo">
+ 	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
+ </select>
  </mapper>

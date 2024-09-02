@@ -4,6 +4,9 @@ import java.security.SecureRandom;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +56,22 @@ private static String generateRandomString(int length) {
 		reservation.setReserveNo(randomString);
 		reservation.setUserId("user2");
 		int result =rService.RegisterInfo(reservation);
-		return "reservation/test"; //결제 페이지 
+		return "reservation/reservationlookup"; //결제 페이지 
 }
+@GetMapping("/reservation/search")
+public String showListForm() {
+	return "reservation/reservationlookup";
+}
+@PostMapping("/reservation/search")
+	public String SearchInfo(@RequestParam("reserveNo")String reserveNo,
+			Model model) {
+	Map<String,String> param = new HashMap<String,String>();
+	param.put("reserveNo", reserveNo);
+	List<Reservation>rList = rService.SearchInfo(param);
+	model.addAttribute("rList",rList);
+	model.addAttribute("reserveNo",reserveNo);
+	return "reservation/reservationlookup";
+	
+}
+
 }
