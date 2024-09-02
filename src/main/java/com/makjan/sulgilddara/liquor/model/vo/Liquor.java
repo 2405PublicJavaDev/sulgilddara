@@ -1,4 +1,4 @@
-package com.makjan.sulgilddara.liquir.model.vo;
+package com.makjan.sulgilddara.liquor.model.vo;
 
 import java.sql.Timestamp;
 
@@ -7,13 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Liquir {
+public class Liquor {
 	
-	private Integer liquirId;
-	private String liquirName;
+	private Integer liquorId;
+	private String liquorName;
 	private float alcholContent;
-	private String liquirType ;
-	private Integer piquirPrice ;
+	private String liquorType ;
+	private Integer piquorPrice ;
 	private Timestamp lCreateDate;
 	private Timestamp lUpdateDate;
 	private Integer bruaryId;
