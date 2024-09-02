@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper">
+ 
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(SEQ_RESERVATION_NO.NEXTVAL,#{userId},#{memberNum},#{reserveDate},#{reserveTime},1,#{emergencyPhone})
+ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{memberNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone})
  </insert>
  </mapper>

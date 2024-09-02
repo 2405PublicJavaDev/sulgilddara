@@ -9,13 +9,13 @@
 		호랑이배꼽 양조장
 	</div>
 
-	<form th:action="/Reservation/register" method="POST">
+	<form action="/reservation/register" method="POST">
 	<div class="reservationDate">
 		<h3>방문일자 선택</h3>
 		날짜*
 		<div class="DateData"></div>
 		<span id="reserveDate"></span>
-		<input id="reserveDateInput" type="hidden" name="reserveDate" value="">
+		<input id="reserveDateInput" type="hidden" name="reserveDate" value="111">
 	</div>
 		<h1>예약 정보 입력</h1>
 		<fieldset>
@@ -74,7 +74,7 @@
             }
             html += '</table>';
 
-            document.getElementById('DateData').innerHTML = html;
+            document.querySelector('.DateData').innerHTML = html;
         }
 
         function selectDate(year, month, day) {

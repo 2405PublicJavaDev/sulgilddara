@@ -9,6 +9,6 @@ import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 @Mapper
 public interface ReservationMapper {
 
-	int RegisterInfo(Reservation reservation, LocalTime time);
+	int RegisterInfo(Reservation reservation);
 
 }

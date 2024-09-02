@@ -10,6 +10,6 @@ public interface ReservationService {
  * @param reservation
  * @return Int
  */
-	int RegisterInfo(Reservation reservation,LocalTime Time);
+	int RegisterInfo(Reservation reservation);
 
 }

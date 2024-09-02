@@ -15,8 +15,9 @@ public class ReservationServiceImpl implements ReservationService{
 	ReservationMapper rmapper;
 
 	@Override
-	public int RegisterInfo(Reservation reservation, LocalTime Time) {
-		int result = rmapper.RegisterInfo(reservation,Time); 
+	public int RegisterInfo(Reservation reservation) {
+		System.out.println(reservation);
+		int result = rmapper.RegisterInfo(reservation); 
 		return result;
 	}
 

@@ -2,24 +2,35 @@ package com.makjan.sulgilddara.Reservation.model.VO;
 
 import java.sql.Date;
 
+import lombok.NoArgsConstructor;
+
 
 public class Reservation {
 	private String reserveNo;
 	private String userId;
 	private int memberNum;
-	private Date reserveDate;
+//	private Date reserveDate;
+	private String reserveDate;
 	private String reserveTime;
-//	private String tourId;
+	private String tourId;
 	private int emergencyPhone;
 	
 	public Reservation() {
 		
 	}
 
-	public Reservation(String userId, String reserveTime) {
-		super();
-		this.userId = userId;
-		this.reserveTime = reserveTime;
+//	public Reservation(String userId, String reserveTime) {
+//		super();
+//		this.userId = userId;
+//		this.reserveTime = reserveTime;
+//	}
+
+	public String getTourId() {
+		return tourId;
+	}
+
+	public void setTourId(String tourId) {
+		this.tourId = tourId;
 	}
 
 	public String getReserveTime() {
@@ -46,10 +57,11 @@ public class Reservation {
 	public void setMemberNum(int memberNum) {
 		this.memberNum = memberNum;
 	}
-	public Date getReserveDate() {
+	public String getReserveDate() {
 		return reserveDate;
 	}
-	public void setReserveDate(Date reserveDate) {
+	
+	public void setReserveDate(String reserveDate) {
 		this.reserveDate = reserveDate;
 	}
 //	public String getTourId() {
@@ -68,9 +80,11 @@ public class Reservation {
 	@Override
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", memberNum=" + memberNum
-				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime 
+				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourId=" + tourId
 				+ ", emergencyPhone=" + emergencyPhone + "]";
 	}
+
+	
 	
 }
 
