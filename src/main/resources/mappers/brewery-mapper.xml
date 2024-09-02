@@ -8,10 +8,22 @@
 	  		SELECT SEQ_BREWERY_NO.NEXTVAL FROM DUAL
 	  	</selectKey>
 	  		INSERT INTO BREWERY_TBL
-	  		VALUES(#{breweryId}, #{breweryName}, #{breweryLocal}, #{breweryAddr}, #{breweryPhone}, #{breweryTime}, #{breweryUrl}, DEFAULT, DEFAULT)
+	  		VALUES(#{breweryNo}, #{breweryName}, #{breweryLocal}, #{breweryAddr}, #{breweryPhone}, #{breweryUrl}, DEFAULT, DEFAULT, #{openTime}, #{closeTime})
 	  </insert>
 	  <select id="selectAllList" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL
 	  </select>
+	  <select id="searchOneByNo" resultType="Brewery">
+	  		SELECT * FROM BREWERY_TBL WEHRE BREWERY_NO=#{breweryNo}
+	  </select>
+	  <update id="updateBrewery">
+	  		UPDATE BREWERY_TBL
+	  		SET BREWERY_NAME=#{brewryName}, BREWERY_LOCAL=#{breweryLocal}, BREWERY_ADDR=#{breweryAddr}, BREWERY_PHONE=#{breweryPhone}, OPENTIME=#{openTime}, CLOSETIME=#{closeTime}, bUpdateDate=DEFAULT
+	  		WHERE BREWERY_NO=#{breweryNo}
+	  </update>
+	  <delete id="deleteBrewery">
+	  		DELETE FROM BREWERY_TBL
+	  		WEHRE BREWERY_NO=#{breweryNo}
+	  </delete>
   </mapper>
   

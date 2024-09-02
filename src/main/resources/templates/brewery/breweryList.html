@@ -16,11 +16,21 @@
         </thead>
         <tbody>
             <tr th:each="brewery : ${bList}">
-            	<td th:text="${brewery.breweryName}"></td>
-            	<td th:text="${brewery.breweryLocal}"></td>
-            	<td th:text="${brewery.bUpdateDate}"></td>
+                <td th:text="${brewery.breweryName}"></td>
+                <td th:text="${brewery.breweryLocal}"></td>
+                <td th:text="${brewery.bUpdateDate}"></td>
+                <button th:onclick="modifyBrewery();">수정하기</button>
+                <button th:onclick="deleteBrewery();">삭제하기</button>
             </tr>
         </tbody>
     </table>
 </body>
+<script th:inline="javascript">
+    function modifyBrewery() {
+        location.href="@{/brewery/update/{breweryNo}(breweryNo=${brewery.breweryNo}"
+    }
+    function deleteBrewery() {
+        loacation.href="@{/brewery/delete/{breweryNo}(breweryNo=${brewery.breweryNo}"
+    }
+</script>
 </html>
