@@ -28,15 +28,13 @@ public class ReservationController {
 
 @GetMapping("/register")
 	public String RegisterInfo(Reservation reservation, Model model, HttpSession session,
-	@RequestParam("reserveDate")Date reserveDate
-			,@RequestParam("reserveTime")String reserveTime
+			@RequestParam("reserveTime")String reserveTime
 			) {
 		String userId = (String) session.getAttribute("userId");
-		reservation.setUserId(userId);
-		reservation = new Reservation(reserveDate,reserveTime);
-		LocalTime time = LocalTime.parse(reserveTime);
-		int result =rService.RegisterInfo(reservation,reserveTime);
-		return ""; //결제 페이지 
+		reservation = new Reservation(reserveTime,userId);
+		LocalTime Time = LocalTime.parse(reserveTime);
+		int result =rService.RegisterInfo(reservation,Time);
+		return "redirect:/Test"; //결제 페이지 
 		
 }
 }

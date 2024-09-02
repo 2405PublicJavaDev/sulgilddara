@@ -1,5 +1,7 @@
 package com.makjan.sulgilddara.Reservation.model.Service.Impl;
 
+import java.time.LocalTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,10 @@ import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	ReservationMapper rmapper;
+
 	@Override
-	public int RegisterInfo(Reservation reservation,String reserveTime) {
-		int result = rmapper.RegisterInfo(reservation,reserveTime); 
+	public int RegisterInfo(Reservation reservation, LocalTime Time) {
+		int result = rmapper.RegisterInfo(reservation,Time); 
 		return result;
 	}
 

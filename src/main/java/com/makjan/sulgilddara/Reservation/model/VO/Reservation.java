@@ -15,12 +15,13 @@ public class Reservation {
 	public Reservation() {
 		
 	}
-	
-	public Reservation( Date reserveDate, String reserveTime) {
+
+	public Reservation(String userId, String reserveTime) {
 		super();
-		this.reserveDate = reserveDate;
+		this.userId = userId;
 		this.reserveTime = reserveTime;
 	}
+
 	public String getReserveTime() {
 		return reserveTime;
 	}
@@ -62,6 +63,13 @@ public class Reservation {
 	}
 	public void setEmergencyPhone(int emergencyPhone) {
 		this.emergencyPhone = emergencyPhone;
+	}
+
+	@Override
+	public String toString() {
+		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", memberNum=" + memberNum
+				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourId=" + tourId
+				+ ", emergencyPhone=" + emergencyPhone + "]";
 	}
 	
 }

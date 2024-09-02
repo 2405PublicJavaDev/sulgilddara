@@ -1,5 +1,7 @@
 package com.makjan.sulgilddara.Reservation.model.Service;
 
+import java.time.LocalTime;
+
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 
 public interface ReservationService {
@@ -8,6 +10,6 @@ public interface ReservationService {
  * @param reservation
  * @return Int
  */
-	int RegisterInfo(Reservation reservation,String reserveTime);
+	int RegisterInfo(Reservation reservation,LocalTime Time);
 
 }
