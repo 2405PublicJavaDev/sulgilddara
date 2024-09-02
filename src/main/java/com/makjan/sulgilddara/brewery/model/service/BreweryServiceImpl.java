@@ -6,7 +6,9 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+import com.makjan.sulgilddara.liquir.model.vo.Liquir;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
+
 
 public class BreweryServiceImpl implements BreweryService{
 
@@ -48,6 +50,12 @@ public class BreweryServiceImpl implements BreweryService{
 
 	@Override
 	public Tour selectTourListById(Integer breweryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Liquir selectLiquirListById(Integer breweryId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
