@@ -9,7 +9,7 @@
 		호랑이배꼽 양조장
 	</div>
 
-	<div th:action="/Reservation/register"></div>
+	<form th:action="/Reservation/register" method="POST">
 	<div class="reservationDate">
 		<h3>방문일자 선택</h3>
 		날짜*
@@ -21,7 +21,7 @@
 			<legend>예약 정보</legend>
 			<h3>방문인원*</h3><p>해당 양조장의 최소~최대 인원은 10~36명입니다</p>
 			<div class="memberNum">
-				<input type="text">
+				<input type="text" name="memberNum">
 			</div>
 			<div class="reservationTime">
 					<select name="reserveTime">
@@ -41,7 +41,8 @@
 				<input type="text" placeholder="비상 연락처를 입력해주세요" name="emergencyPhone">
 			</div>
 		</fieldset>
-	
+		<button>예약하기</button>
+	</form>
 		<script>
         function createCalendar(year, month) {
             const date = new Date(year, month - 1);
