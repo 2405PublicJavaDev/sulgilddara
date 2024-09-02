@@ -1,4 +1,4 @@
-package com.makjan.sulgilddara.liquir.model.vo;
+package com.makjan.sulgilddara.liquor.model.vo;
 
 import java.sql.Timestamp;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LiquirImage {
+public class LiquorImage {
 
 	private Integer imageId;
 	private String fileName;

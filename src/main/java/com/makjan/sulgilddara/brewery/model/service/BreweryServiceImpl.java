@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
-import com.makjan.sulgilddara.liquir.model.vo.Liquir;
+import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
 @Service
@@ -67,7 +67,7 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public Liquir selectLiquirListById(Integer breweryId) {
+	public Liquor selectLiquirListById(Integer breweryId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
