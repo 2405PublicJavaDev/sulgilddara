@@ -1,10 +1,7 @@
 package com.makjan.sulgilddara.liquor.model.service;
 
-import org.springframework.stereotype.Service;
-
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 
-@Service
 public interface LiquorService {
 
 	/**
