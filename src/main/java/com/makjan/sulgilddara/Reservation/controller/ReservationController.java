@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,16 +26,20 @@ public class ReservationController {
 	public ReservationController(ReservationService rService) {
 		this.rService = rService;
 	}
-
+	
 @GetMapping("/register")
-	public String RegisterInfo(Reservation reservation, Model model, HttpSession session,
-			@RequestParam("reserveTime")String reserveTime
-			) {
-		String userId = (String) session.getAttribute("userId");
-		reservation = new Reservation(reserveTime,userId);
-		LocalTime Time = LocalTime.parse(reserveTime);
-		int result =rService.RegisterInfo(reservation,Time);
-		return "redirect:/Test"; //결제 페이지 
-		
+	public String showRegisterForm() {
+		return "reservation/register";
 }
+
+@PostMapping("/register")
+	public String RegisterInfo(Reservation reservation, Model model, HttpSession session
+			) {
+//		String userId = (String) session.getAttribute("userId");
+		reservation.setUserId("user01");
+		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
+		int result =rService.RegisterInfo(reservation,Time);
+		return "reservation/test"; //결제 페이지 
+}
+
 }

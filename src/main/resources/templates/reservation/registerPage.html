@@ -15,6 +15,7 @@
 		날짜*
 		<div class="DateData"></div>
 		<span id="reserveDate"></span>
+		<input id="reserveDateInput" type="hidden" name="reserveDate" value="">
 	</div>
 		<h1>예약 정보 입력</h1>
 		<fieldset>
@@ -79,6 +80,7 @@
         function selectDate(year, month, day) {
             const selectedDate = year + '년 ' + month + '월 ' + day + '일';
             document.getElementById('reserveDate').textContent = selectedDate;
+            document.querySelector("#reserveDateInput").value = selectedDate;
         }
 
         // 현재 날짜로 달력 생성

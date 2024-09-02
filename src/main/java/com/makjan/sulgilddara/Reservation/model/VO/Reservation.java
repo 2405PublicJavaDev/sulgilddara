@@ -9,7 +9,7 @@ public class Reservation {
 	private int memberNum;
 	private Date reserveDate;
 	private String reserveTime;
-	private String tourId;
+//	private String tourId;
 	private int emergencyPhone;
 	
 	public Reservation() {
@@ -52,12 +52,12 @@ public class Reservation {
 	public void setReserveDate(Date reserveDate) {
 		this.reserveDate = reserveDate;
 	}
-	public String getTourId() {
-		return tourId;
-	}
-	public void setTourId(String tourId) {
-		this.tourId = tourId;
-	}
+//	public String getTourId() {
+//		return tourId;
+//	}
+//	public void setTourId(String tourId) {
+//		this.tourId = tourId;
+//	}
 	public int getEmergencyPhone() {
 		return emergencyPhone;
 	}
@@ -68,7 +68,7 @@ public class Reservation {
 	@Override
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", memberNum=" + memberNum
-				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourId=" + tourId
+				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime 
 				+ ", emergencyPhone=" + emergencyPhone + "]";
 	}
 	

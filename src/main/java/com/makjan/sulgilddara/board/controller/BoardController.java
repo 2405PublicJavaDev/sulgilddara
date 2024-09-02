@@ -24,9 +24,9 @@ import lombok.NoArgsConstructor;
 @Controller
 public class BoardController {
 	
+	@Autowired
 	private BoardService bService;
 	
-	@Autowired
 	public BoardController(BoardService bService) {
 		this.bService = bService;
 	}
