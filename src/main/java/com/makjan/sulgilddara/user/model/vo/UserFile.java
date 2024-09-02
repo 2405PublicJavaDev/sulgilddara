@@ -15,7 +15,7 @@ public class UserFile {
 	private String fileName;
 	private String fileRename;
 	private String filePath;
-	private int userId;
+	private String userId;
 	
 	private MultipartFile uploadFile;
 }
