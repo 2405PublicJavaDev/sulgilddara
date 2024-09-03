@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.makjan.sulgilddara.board.model.mapper.BoardMapper">
+  
+  	<insert id="insertBoard" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
+			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, 1, 1, 1, 1)
+  	</insert>
+  
+  	
+  	<insert id="insertTag">
+  		INSERT INTO BOARD_TAG_TBL VALUES(SEQ_BOARD_TAG_NO.NEXTVAL, #{boardTagName}, #{boardNo})
+  	</insert>
+  	
+  	<insert id="insertBoardFile">
+  		INSERT INTO BOARD_FILE_TBL VALUES(SEQ_BOARD_FILE_NO.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{boardNo})
+  	</insert>
+  	
+  	<update id="updateBoardFile">
+<!--   	where 조건으로 무엇을 넣어야 할까?? -->
+<!--   		UPDATE BOARD_FILE_TBL SET BOARD_NO = #{boardNo} WHERE  --> 
+  	</update>
+  	
+  </mapper>
+  

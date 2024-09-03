@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import io.micrometer.common.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,21 +16,20 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class Brewery {
-	private Integer breweryId;
+	private Integer breweryNo;
 	private String breweryName;
 	private String breweryLocal;
 	private String breweryAddr;
-	private String breweryTime;
 	private String breweryPhone;
+	private String openTime;
+	private String closeTime;
 	private String breweryUrl;
 	private Timestamp bCreateDate;
 	private Timestamp bUpdateDate;
 	
-//	private String fileNo;
-//	private String fileName;
-//	private String fileRename;
-//	private String filePath;
-//	private Integer fileLength;
-//	
-//	private MultipartFile uploadFile;
+	private String fileName;
+	private String fileRename;
+	private String filePath;
+	
+	private MultipartFile uploadFile;
 }

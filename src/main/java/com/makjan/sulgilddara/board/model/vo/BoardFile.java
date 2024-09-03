@@ -1,29 +1,23 @@
-package com.makjan.sulgilddara.tour.model.vo;
+package com.makjan.sulgilddara.board.model.vo;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-
-public class Tour {
-	private Integer tourNo;
-	private String tourName;
-	private String tourContent;
-	private String timeTaken;
-	private Integer tourPrice;
-	
+@ToString
+public class BoardFile {
+	private Integer fileNo;
 	private String fileName;
 	private String fileRename;
 	private String filePath;
-	
-	private Integer breweryNo;
+	private Integer boardNo;
 	
 	private MultipartFile uploadFile;
+	
 }
