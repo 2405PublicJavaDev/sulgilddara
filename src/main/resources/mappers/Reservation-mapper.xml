@@ -11,9 +11,10 @@
  	<result property="reserveTime" column="RESERVE_TIME"/>
  	<result property="tourId" column="TOURID"/>
  	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
+ 	<result property="breweryName" column="BREWERY_NAME"/>
  </resultMap>
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{memberNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone})
+ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone},1)
  </insert>
  <select id="SearchInfo">
  	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}

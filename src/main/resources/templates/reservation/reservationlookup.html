@@ -25,6 +25,7 @@
 				<table>
 					<thead>
 						<tr>
+							<th>양조장 명</th>
 							<th>예약 날짜</th>
 							<th>예약 인원</th>
 							<th>예약 시간</th>
@@ -33,9 +34,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="Reservation: ${rList}" var="Reservation">
+						<tr th:each="Reservation: ${rList}" var="Reservation">						
+							<td>[[${Reservation.breweryName}]]</td>
 							<td>[[${Reservation.reserveDate}]]</td>
-							<td>[[${Reservation.memberNum}]]</td>
+							<td>[[${Reservation.visitorNum}]]</td>
 							<td>[[${Reservation.reserveTime}]]</td>
 							<td>[[${Reservation.tourId}]]</td>
 							<td>[[${Reservation.emergencyPhone}]]</td>
