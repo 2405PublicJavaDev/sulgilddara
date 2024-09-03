@@ -9,18 +9,35 @@
     <table>
         <thead>
             <tr>
+            	<th>번호</th>
                 <th>양조장명</th>
                 <th>지역</th>
                 <th>수정일시</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="brewery : ${bList}">
-            	<td th:text="${brewery.breweryName}"></td>
-            	<td th:text="${brewery.breweryLocal}"></td>
-            	<td th:text="${brewery.bUpdateDate}"></td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+            	<td th:text="${brewery.breweryNo}"></td>
+                <td th:text="${brewery.breweryName}"></td>
+                <td th:text="${brewery.breweryLocal}"></td>
+                <td th:text="${brewery.bUpdateDate}"></td>
+	      	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
+            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
+        	</tr>
+    </tbody>
+</table>
+<script th:inline="javascript">
+    function modifyBrewery(breweryNo) {
+        console.log(breweryNo);
+        location.href = "/brewery/update/" + breweryNo;
+    }
+    function deleteBrewery(breweryNo) {
+        console.log(breweryNo);
+        if (confirm("정말 삭제하시겠습니까?")) {
+            location.href = "/brewery/delete/" + breweryNo;
+        }
+    }
+</script>
 </html>
