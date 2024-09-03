@@ -19,8 +19,8 @@
 		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />	
 				
-	    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css"/>
-		
+<!-- 	    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css"/> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 		<style type="text/css">
 			
 		</style>
@@ -33,8 +33,7 @@
 			<div>
 				<select name="boardPoint">
 					<option selected="selected" value="0" th:text="'별점 선택'">
-					
-					<option value="0.5"></option>
+					<option value="0.5" th:text="\nf089">
 					<option value="1" th:text="1"> 
 					<option value="1.5" th:text="1.5">
 					<option value="2" th:text="2">
@@ -46,7 +45,7 @@
 					<option value="5" th:text="5">
 				</select>
 			</div>
-			태그 <input type="text" name="boardTagName" placeholder="#해쉬태그"> <br>
+			태그 <input type="text" name="boardTagName" placeholder="#태그"> <br>
 			내용 
 			<div class="post-form">
 				<textarea name="boardContent" id="summernote">
