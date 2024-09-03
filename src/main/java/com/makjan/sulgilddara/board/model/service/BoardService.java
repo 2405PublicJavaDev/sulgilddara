@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 
 public interface BoardService {
@@ -73,4 +74,11 @@ public interface BoardService {
 	 * @return
 	 */
 	int getTotalCount();
+
+	/**
+	 * 게시글 파일 업로드
+	 * @param boardFile
+	 * @return
+	 */
+	int insertBoardFile(BoardFile boardFile);
 }

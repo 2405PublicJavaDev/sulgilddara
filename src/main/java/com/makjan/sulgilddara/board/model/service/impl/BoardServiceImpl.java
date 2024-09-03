@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.makjan.sulgilddara.board.model.mapper.BoardMapper;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 
 @Service
@@ -73,6 +74,12 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotalCount() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int insertBoardFile(BoardFile boardFile) {
+		int result = bMapper.insertBoardFile(boardFile);
+		return result;
 	}
 	
 	
