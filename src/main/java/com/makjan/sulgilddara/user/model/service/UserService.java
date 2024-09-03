@@ -18,6 +18,27 @@ public interface UserService {
 	 */
 	int registerUser(User inputUser, MultipartFile uploadFile) throws IllegalStateException, IOException;
 
-	User selectOne(String userId);
+	/**
+	 * 회원 정보 수정 Service
+	 * @param modifyUser
+	 * @param uploadFile
+	 * @return int
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	int updateUser(User modifyUser, MultipartFile reloadFile) throws IllegalStateException, IOException;
+	
+	/**
+	 * 회원 로그인 Service
+	 * @param user
+	 * @return user
+	 */
+	User checkLogin(User user);
 
+	/**
+	 * 아이디로 회원 찾기 Service
+	 * @param userId
+	 * @return user
+	 */
+	User selectOneById(String userId);
 }

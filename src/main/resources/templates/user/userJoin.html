@@ -12,7 +12,10 @@
             <ul>
                 <li>
                     <label>프로필 사진 등록</label>
-                    <input type="file" name="uploadFile">
+                    <input type="file" name="uploadFile" id="profileImage" accept="image/*" onchange="previewImage(event)">
+                  	 <div>
+                        <img id="preview" src="#" alt="미리보기 이미지" style="display:none; width: 150px; height: auto;">
+                    </div>
                 </li>
                  <li>
                     <label>아이디 *</label>
@@ -57,5 +60,16 @@
         </fieldset>
         <input type="submit" value="가입하기">
     </form>
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 </body>
 </html>
