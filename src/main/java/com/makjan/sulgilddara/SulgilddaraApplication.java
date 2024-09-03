@@ -9,4 +9,5 @@ public class SulgilddaraApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SulgilddaraApplication.class, args);
 	}
+
 }

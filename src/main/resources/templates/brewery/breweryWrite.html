@@ -8,13 +8,21 @@
 	<h1>양조장 등록</h1>
 	<form action="/brewery/write" method="post" enctype="multipart/form-data">
 		<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
-		지역 <input type="text" placeholder="지역 입력" name="breweryLocal"> <br>
+		지역 
+		<select id="local" name="breweryLocal">
+			<option value="sudo">수도권</option>
+			<option value="gang">강원</option>
+			<option value="chung">충청</option>
+			<option value="gyeong">경상</option>
+			<option value="jeoll">전라</option>
+			<option value="jeju">제주</option>
+		</select> <br>
 		주소 <input type="text" placeholder="주소 입력" name="breweryAddr"> <br>
 		번호 <input type="text" placeholder="번호 입력" name="breweryPhone"> <br>
 		오픈시간 <input type="time" name="openTime" value="09:00"> <br>
 		마감시간 <input type="time" name="closeTime" value="18:00"> <br>
 		홈페이지 <input type="text" placeholder="홈페이지 입력" name="breweryUrl"> <br>
-		첨부파일 <input type="file" name="uploadFile">
+		첨부파일 <input type="file" name="uploadFile"> <br>
 		<input type="submit" value="등록">
 	</form>
 </body>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>투어 정보 변경</title>
+	</head>
+	<body>
+	    <h1>투어 변경</h1>
+	    <form action="/tour/update" method="post" th:object="${tour}" enctype="multipart/form-data">
+   		    <input type="hidden" name="breweryNo" th:value="*{breweryNo}">
+   		    <input type="hidden" name="tourNo" th:value="*{tourNo}">
+		    <input type="hidden" name="fileName" th:value="*{fileName}">
+		    <input type="hidden" name="fileRename" th:value="*{fileRename}">
+		    <input type="hidden" name="filePath" th:value="*{filePath}">
+	        
+	        체험 프로그램 <br>
+	        <input type="text" name="tourName" th:value="*{tourName}"> <br>
+			첨부파일
+			<th:block th:if="${tour.fileRename != null}">
+			    <th:block th:if="${#strings.endsWith(tour.fileRename, '.jpg') || #strings.endsWith(tour.fileRename, '.png') || #strings.endsWith(tour.fileRename, '.jpeg')}">
+			        <img id="previewImage" th:src="@{|${tour.filePath}/${tour.fileRename}|}" alt="미리보기 이미지" style="max-width: 300px; max-height: 300px;">
+			    </th:block>
+			</th:block> <br>
+			<th:block th:if="${tour.fileRename == null}">
+				<span>사진 없음</span>
+			</th:block>
+			<input type="file" id="newFile" name="uploadFile"> <br>	
+			<textarea name=tourContent th:text="*{tourContent}"></textarea> <br>
+			<input type="text" name="timeTaken" th:value="*{timeTaken}"> <br>
+			<input type="text" name="tourPrice" th:value="*{tourPrice}"> <br>
+			<input type="submit" value="등록">
+	    </form>
+	</body>
+	<script th:inline="javascript">
+	    document.getElementById('newFile').addEventListener('change', function(event) {
+	        var file = event.target.files[0];
+	        if (file) {
+	            var reader = new FileReader();
+	            reader.onload = function(e) {
+	                var previewImage = document.getElementById('previewImage');
+	                previewImage.src = e.target.result;
+	                previewImage.style.display = 'block';
+	            };
+	            reader.readAsDataURL(file);
+	        }
+	    });
+	</script>
+</html>
