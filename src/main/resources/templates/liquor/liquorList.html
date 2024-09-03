@@ -8,6 +8,7 @@
 	<body>
 		<h1>주류 목록</h1>
 		<table>
+			<!-- 테이블 헤드 영역 : 각 정보의 항목명이 표기됨 -->
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -23,15 +24,8 @@
 			</thead>
 			<tbody>
 				<tr th:each="liquor : ${lList }">
-<!-- 				간단하게 출력할 때 사용 -->
 					<td>[[${liquor.liquorId }]]</td>
-<!-- 				보안과 유지보수 측면에서 권장되는 방법 -->
-					<td>[[${liquor.liquorName}]]
-<!-- 				쿼리스트링 방식 -->
-<!-- 				<a th:href="@{/notice/detail(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeSubject }"></a> -->
-<!-- 				PathVariable 방식 -->
-<!--					<a th:href="@{/liquor/detail/{liquorId}(liquorId=${liquor.liquorId})}" th:text="${liquor.liquorName }"></a>  -->
-					</td>
+					<td>[[${liquor.liquorName}]]</td>
 					<td>[[${liquor.alcholContent}]]</td>
 					<td>[[${liquor.liquorType }]]</td>
 					<td>[[${liquor.liquorPrice }]]</td>
@@ -39,9 +33,9 @@
 					<td>[[${liquor.lCreateDate }]]</td>
 					<td>[[${liquor.lUpdateDate }]]</td>
 					<td>[[${liquor.breweryId }]]</td>
+					<td><button th:href="@{/liquor/edit/{id}(id=${liquor.liquorId})}">수정</button></td>
+					<td><button th:onclick="'if(confirm('정말 삭제하시겠습니까?')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\';'">삭제</button></td>
 				</tr>
-<!-- 				<c:forEach items="${nList }" var="notice"> -->
-<!-- 				</c:forEach> -->
 			</tbody>
 			<tfoot>
 				<tr align="center">
