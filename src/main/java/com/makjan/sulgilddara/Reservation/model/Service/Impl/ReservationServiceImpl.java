@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,6 @@ public class ReservationServiceImpl implements ReservationService{
 		return result;
 	}
 
-	@Override
-	public List<Reservation> SearchInfo(Map<String, String> param) {
-		List<Reservation> rList = rmapper.SearchInfo(param);
-		return rList;
-	}
-
 
 	@Override
 	public List<Reservation> SearchAllInfo(Reservation reservation) {
@@ -41,5 +36,17 @@ public class ReservationServiceImpl implements ReservationService{
 	public List<Reservation> SearchreserveNo(Reservation reservation) {
 		List<Reservation> rList = rmapper.SearchreserveNo(reservation);
 		return rList;
+	}
+
+	@Override
+	public List<Reservation> SearchInfo(Map<String, String> param, RowBounds rowBounds) {
+		List<Reservation> rList = rmapper.SearchInfo(param,rowBounds);
+		return rList;
+	}
+
+	@Override
+	public int getTotalCount() {
+		int result = rmapper.getTotalCount();
+		return result;
 	}
 }

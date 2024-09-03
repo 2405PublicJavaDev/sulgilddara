@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
+import com.makjan.sulgilddara.model.vo.Pagination;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
@@ -72,11 +74,19 @@ public String showListForm() {
 }
 @PostMapping("/reservation/search")
 	public String SearchInfo(@RequestParam("reserveNo")String reserveNo,
-			Model model) {
+			Model model
+			,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage) {
 	Map<String,String> param = new HashMap<String,String>();
 	param.put("reserveNo", reserveNo);
-	List<Reservation>rList = rService.SearchInfo(param);
+	
+	int totalCount= rService.getTotalCount();
+	Pagination pn = new Pagination(totalCount,currentPage);
+	int limit = pn.getBoardLimit();
+	int offset=(currentPage-1)*limit;
+	RowBounds rowBounds =new RowBounds(offset,limit);
+	List<Reservation>rList = rService.SearchInfo(param,rowBounds);
 	model.addAttribute("rList",rList);
+	model.addAttribute("pn",pn);
 	model.addAttribute("reserveNo",reserveNo);
 	return "reservation/reservationlookup";
 }

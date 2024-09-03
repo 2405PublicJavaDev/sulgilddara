@@ -61,6 +61,15 @@
 							<td>[[${Reservation.userId}]]</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr align="center">
+							<td colspan="5">
+								<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
+								<a th:href="@{/notice/list(currentPage=${p})}" th:text="${p}"></a>
+								</th:block>
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>

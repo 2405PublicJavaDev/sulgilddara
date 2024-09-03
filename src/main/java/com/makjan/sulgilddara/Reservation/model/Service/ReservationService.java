@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 
 public interface ReservationService {
@@ -18,9 +20,10 @@ public interface ReservationService {
 /**
  * 예약 정보 조회하기 Service
  * @param param
+ * @param rowBounds 
  * @return List<Reservation>
  */
-List<Reservation> SearchInfo(Map<String, String> param);
+List<Reservation> SearchInfo(Map<String, String> param, RowBounds rowBounds);
 
 /**
  * 예약 정보 조회 리스트 Service
@@ -35,5 +38,11 @@ List<Reservation> SearchAllInfo(Reservation reservation);
  * @return List<Reservation>
  */
 List<Reservation> SearchreserveNo(Reservation reservation);
+
+/**
+ * 예약 조회 개수 Service
+ * @return int
+ */
+int getTotalCount();
 
 }

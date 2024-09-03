@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 
@@ -14,11 +15,13 @@ public interface ReservationMapper {
 
 	int RegisterInfo(Reservation reservation);
 
-	List<Reservation> SearchInfo(Map<String, String> param);
+	List<Reservation> SearchInfo(Map<String, String> param, RowBounds rowBounds);
 
 	List<Reservation> SearchAllInfo(Reservation reservation);
 
 	List<Reservation> SearchreserveNo(Reservation reservation);
+
+	int getTotalCount();
 
 
 

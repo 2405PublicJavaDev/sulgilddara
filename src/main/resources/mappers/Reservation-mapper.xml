@@ -38,4 +38,7 @@
  <select id="SearchreserveNo" resultMap="reserveResultMap">
  	SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
  </select>
+ <select id="getTotalCount" resultMap="reserveResultMap">
+ 	SELECT COUNT(*) FROM RESERVATION_TBL
+ </select>
  </mapper>
