@@ -30,38 +30,38 @@ public class LiquorController {
 		this.lService = lService;
 	}
 	
-	@GetMapping("/liquorAdd")
+	@GetMapping("/add")
 	public String showLiquorAddForm() {
 		return "liquor/liquorAdd";
 	}
 	
-	@PostMapping("/liquorAdd")
+	@PostMapping("/add")
 	public String liquorAdd(Model model, @ModelAttribute Liquor liquor) {
 		lService.addLiquor(liquor);
 		return "liquor/liquorList";
 	}
 	
-	@GetMapping("/liquorUpdate")
+	@GetMapping("/update")
 	public String showLiquorUpdateForm() {
 		return "liquor/liquorUpdate";
 	}
 	
-	@PostMapping("/liquorUpdate")
+	@PostMapping("/update")
 	public String updateLiquor() {
 		return "liquor/liquorDetail";
 	}
 	
-	@GetMapping("/liquorDelete")
+	@GetMapping("/delete")
 	public String deleteLiquor() {
 		return "liquor/liquorList";
 	}
 	
-	@GetMapping("/liquorDetail")
+	@GetMapping("/detail")
 	public String liquorDetail(@RequestParam String param) {
 		return "";
 	}
 	
-	@GetMapping("/liquorList")
+	@GetMapping("/list")
 	public String showLiquorList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model) {
 		int totalCount = lService.getTotalCount();
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);

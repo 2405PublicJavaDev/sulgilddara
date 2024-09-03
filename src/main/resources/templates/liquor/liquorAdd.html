@@ -8,7 +8,7 @@
 		<h1>주류정보 등록</h1>
 		<form action="/liquor/liquorAdd" method="post" enctype="multipart/form-data">
 			상품명 <input type="text" name="liquorName"> <br>
-			알콜도수 <input type="number" name="alcholContent"> <br>
+			알콜도수 <input type="number" step="0.01" name="alcholContent"> <br>
 			주종 
 			<select name="liquorType">
 				<option value="전통주">전통주</option>

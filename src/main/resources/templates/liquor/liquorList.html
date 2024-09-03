@@ -24,15 +24,15 @@
 			<tbody>
 				<tr th:each="liquor : ${lList }">
 <!-- 				간단하게 출력할 때 사용 -->
-					<td>[[${liquor.noticeNo }]]</td>
+					<td>[[${liquor.liquorId }]]</td>
 <!-- 				보안과 유지보수 측면에서 권장되는 방법 -->
-					<td>[[${liquor.liquorName]]
+					<td>[[${liquor.liquorName}]]
 <!-- 				쿼리스트링 방식 -->
 <!-- 				<a th:href="@{/notice/detail(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeSubject }"></a> -->
 <!-- 				PathVariable 방식 -->
 <!--					<a th:href="@{/liquor/detail/{liquorId}(liquorId=${liquor.liquorId})}" th:text="${liquor.liquorName }"></a>  -->
 					</td>
-					<td>[[${liquor.alcholContent]]</td>
+					<td>[[${liquor.alcholContent}]]</td>
 					<td>[[${liquor.liquorType }]]</td>
 					<td>[[${liquor.liquorPrice }]]</td>
 					<td>[[${liquor.liquorCapacity }]]</td>

@@ -13,7 +13,7 @@
 	<select id="getTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM LIQUOR_TBL
 	</select>
-	<select id="selectList" resultType="Liquor">
+	<select id="selectLiquorList" resultType="Liquor">
 		SELECT * FROM LIQUOR_TBL ORDER BY LIQUOR_ID DESC
 	</select>
 	
