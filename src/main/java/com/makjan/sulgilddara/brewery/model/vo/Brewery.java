@@ -15,21 +15,22 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class Brewery {
-	private Integer breweryId;
+	private Integer breweryNo;
 	private String breweryName;
 	private String breweryLocal;
 	private String breweryAddr;
-	private String breweryTime;
 	private String breweryPhone;
+	private String openTime;
+	private String closeTime;
 	private String breweryUrl;
 	private Timestamp bCreateDate;
 	private Timestamp bUpdateDate;
 	
-//	private String fileNo;
-//	private String fileName;
-//	private String fileRename;
-//	private String filePath;
-//	private Integer fileLength;
-//	
-//	private MultipartFile uploadFile;
+	private String fileNo;
+	private String fileName;
+	private String fileRename;
+	private String filePath;
+	private Integer fileLength;
+	
+	private MultipartFile uploadFile;
 }
