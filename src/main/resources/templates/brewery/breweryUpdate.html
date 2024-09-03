@@ -7,13 +7,15 @@
 	<body>
 		<h1>양조장 정보 변경</h1>
 		<form action="/brewery/update" method="post" th:object="${brewery}">
-            양조장명 <input type="text" name="breweryName" th:value="*{breweryName}">
-            지역 <input type="text" name="breweryLocal" th:value="*{breweryLocal}">
-            주소 <input type="text" name="breweryAddr" th:value="*{breweryAddr}">
-            오픈시간 <input type="text" name="openTime" th:value="*{openTime}">
-            마감시간 <input type="text" name="closeTime" th:value="*{closeTime}">
-            홈페이지 <input type="text" name="breweryUrl" th:value="*{breweryUrl}">
-            <input type="submit" value="변경">
+			<input type="hidden" name="breweryNo" th:value="*{breweryNo}">
+            양조장명 <input type="text" name="breweryName" th:value="*{breweryName}"> <br>
+            지역 <input type="text" name="breweryLocal" th:value="*{breweryLocal}"> <br>
+            주소 <input type="text" name="breweryAddr" th:value="*{breweryAddr}"> <br>
+            번호 <input type="text" name="breweryPhone" th:value="*{breweryPhone}"> <br>
+            오픈시간 <input type="time" name="openTime" th:value="*{openTime}"> <br>
+            마감시간 <input type="time" name="closeTime" th:value="*{closeTime}"> <br>
+            홈페이지 <input type="text" name="breweryUrl" th:value="*{breweryUrl}"> <br>
+            <input type="submit" value="변경"> <br>
 			체험 프로그램 <button th:onclick="goTourInsert();">등록</button>
         </form>
 	</body>
