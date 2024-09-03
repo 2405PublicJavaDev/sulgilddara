@@ -135,7 +135,7 @@ public class BoardController {
 			
 			try {
 				//실제 경로 
-				file.transferTo(new File("C:\\uploadFile\\board\\"+fileRename));
+				file.transferTo(new File("C:\\uploadFile\\board\\" + fileRename));
 				
 				// board객체 생성 -> db에 저장하기 위함. 사실 에디터 사용시 에디터가 정보 다갖고있음.
 				BoardFile boardFile = new BoardFile();
