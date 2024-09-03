@@ -1,4 +1,14 @@
-package com.makjan.sulgilddara.brewery.model.vo;
+package com.makjan.sulgilddara.model.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Pagination {
 	private int currentPage;
@@ -13,8 +23,6 @@ public class Pagination {
 	
 	private int prevPage;
 	private int nextPage;
-	
-	public Pagination() {}
 	
 	public Pagination(int totalCount, int currentPage) {
 		this.totalCount = totalCount;
