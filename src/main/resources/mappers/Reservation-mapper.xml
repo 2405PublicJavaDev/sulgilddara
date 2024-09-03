@@ -12,11 +12,30 @@
  	<result property="tourId" column="TOURID"/>
  	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
  	<result property="breweryName" column="BREWERY_NAME"/>
+ 	<result property="startDate" column="STARTDATE"/>
+ 	<result property="endDate" column="ENDDATE"/>
  </resultMap>
+
  <insert id="RegisterInfo">
  INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone},1)
  </insert>
- <select id="SearchInfo">
+ <select id="SearchInfo" resultMap="reserveResultMap">
  	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
+ </select>
+ <select id="SearchAllInfo">
+ 	SELECT * FROM RESERVATION_TBL 
+ 	<where>
+		<!-- (#{breweryName} IS NULL OR BREWERY_NAME=#{breweryName) AND ( #{userId} is NULL OR USERID LIKE CONCAT("%",#{userId},"%"))
+		AND (#{startDate} IS NULL OR #{endDate} IS NULL OR RESERVE_DATE #{startDate} AND #{endDate}) -->
+ 	<if test="breweryName = null">
+ 		USERID LIKE '%'|| #{userId}||'%'
+ 	</if>
+ 	<if test="userId = null">
+ 		BERWERY_NAME=#{breweryName} 
+ 	</if> 
+</where>
+ </select>
+ <select id="SearchreserveNo" resultMap="reserveResultMap">
+ 	SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
  </select>
  </mapper>

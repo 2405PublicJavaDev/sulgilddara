@@ -1,5 +1,6 @@
 package com.makjan.sulgilddara.Reservation.model.Service.Impl;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -29,4 +30,16 @@ public class ReservationServiceImpl implements ReservationService{
 		return rList;
 	}
 
+
+	@Override
+	public List<Reservation> SearchAllInfo(Reservation reservation) {
+		List<Reservation> rList = rmapper.SearchAllInfo(reservation);
+		return rList;
+	}
+
+	@Override
+	public List<Reservation> SearchreserveNo(Reservation reservation) {
+		List<Reservation> rList = rmapper.SearchreserveNo(reservation);
+		return rList;
+	}
 }

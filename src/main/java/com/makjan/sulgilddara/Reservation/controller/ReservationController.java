@@ -3,12 +3,14 @@ package com.makjan.sulgilddara.Reservation.controller;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +21,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.Setter;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 
 public class ReservationController {
+    @Setter(onMethod_ = @Autowired)
+    private KakaoPayService kakaoPay;
+    
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private static SecureRandom random = new SecureRandom();
 
@@ -56,7 +64,7 @@ private static String generateRandomString(int length) {
 		reservation.setReserveNo(randomString);
 		reservation.setUserId("user2");
 		int result =rService.RegisterInfo(reservation);
-		return "reservation/reservationlookup"; //결제 페이지 
+		return "redirect:"+kakaoPay.kakaoPayReady(); //결제 페이지 
 }
 @GetMapping("/reservation/search")
 public String showListForm() {
@@ -71,7 +79,31 @@ public String showListForm() {
 	model.addAttribute("rList",rList);
 	model.addAttribute("reserveNo",reserveNo);
 	return "reservation/reservationlookup";
-	
 }
-
+@GetMapping("/reservation/searchadmin")
+	public String SearchAllInfo() {
+	return "reservation/reservationlookupadmin";
+}
+@PostMapping("/reservation/searchadmin")
+	public String SearchAllInfo(Reservation reservation,Model model
+//			@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+//		    @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+			) {
+	List<Reservation>rList = rService.SearchAllInfo(reservation);
+	model.addAttribute("rList",rList);
+//	model.addAttribute("startDate",startDate);
+//	model.addAttribute("endDate",endDate);
+	return "reservation/reservationlookupadmin";
+}
+@GetMapping("/reservation/reservationsuccess")
+public String SuccessInfo() {
+	return "reservation/reservationsuccess";
+}
+@PostMapping("/reservation/reservationsuccess")
+public String reserveSuccess(Reservation reservation, Model model) {
+	List<Reservation>rList = rService.SearchreserveNo(reservation);
+	System.out.println(reservation);
+	model.addAttribute("rList",rList);
+	return "reservation/reservationsuccess";
+}
 }

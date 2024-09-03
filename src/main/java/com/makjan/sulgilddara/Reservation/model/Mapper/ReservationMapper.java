@@ -1,5 +1,6 @@
 package com.makjan.sulgilddara.Reservation.model.Mapper;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -14,5 +15,11 @@ public interface ReservationMapper {
 	int RegisterInfo(Reservation reservation);
 
 	List<Reservation> SearchInfo(Map<String, String> param);
+
+	List<Reservation> SearchAllInfo(Reservation reservation);
+
+	List<Reservation> SearchreserveNo(Reservation reservation);
+
+
 
 }

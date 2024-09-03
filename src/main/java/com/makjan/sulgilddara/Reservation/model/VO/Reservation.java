@@ -1,6 +1,7 @@
 package com.makjan.sulgilddara.Reservation.model.VO;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,22 @@ public class Reservation {
 	private String tourId;
 	private int emergencyPhone;
 	private String breweryName;
+//	private LocalDate startDate;
+//	private LocalDate endDate;
+	
+	
+//	public LocalDate getStartDate() {
+//		return startDate;
+//	}
+//	public void setStartDate(LocalDate startDate) {
+//		this.startDate = startDate;
+//	}
+//	public LocalDate getEndDate() {
+//		return endDate;
+//	}
+//	public void setEndDate(LocalDate endDate) {
+//		this.endDate = endDate;
+//	}
 	public Reservation() {
 	}
 	public String getReserveNo() {
@@ -72,11 +89,7 @@ public class Reservation {
 				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + "]";
 	}
 
-//	public Reservation(String userId, String reserveTime) {
-//		super();
-//		this.userId = userId;
-//		this.reserveTime = reserveTime;
-//	}
+
 
 
 	
