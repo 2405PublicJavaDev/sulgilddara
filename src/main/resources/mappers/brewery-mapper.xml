@@ -8,7 +8,19 @@
 	  		SELECT SEQ_BREWERY_NO.NEXTVAL FROM DUAL
 	  	</selectKey>
 	  		INSERT INTO BREWERY_TBL
-	  		VALUES(#{breweryNo}, #{breweryName}, #{breweryLocal}, #{breweryAddr}, #{breweryPhone}, #{breweryUrl}, DEFAULT, DEFAULT, #{openTime}, #{closeTime})
+	  		VALUES(#{breweryNo}, 
+	  				#{breweryName}, 
+	  				#{breweryLocal}, 
+	  				#{breweryAddr}, 
+	  				#{breweryPhone}, 
+	  				#{breweryUrl}, 
+	  				DEFAULT, 
+	  				DEFAULT, 
+	  				#{openTime}, 
+	  				#{closeTime}, 
+	  				#{fileName}, 
+	  				#{fileRename}, 
+	  				#{filePath})
 	  </insert>
 	  <select id="selectAllList" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL
@@ -25,12 +37,32 @@
 	  		OPENTIME=#{openTime}, 
 	  		CLOSETIME=#{closeTime}, 
 	  		BREWERY_URL=#{breweryUrl},
-	  		B_UPDATE_DATE=DEFAULT
+	  		B_UPDATE_DATE=DEFAULT,
+	  		FILENAME=#{fileName},
+	  		FILERENAME=#{fileRename},
+	  		FILEPATH=#{filePath}
 	  		WHERE BREWERY_NO=#{breweryNo}
 	  </update>
 	  <delete id="deleteBrewery">
 	  		DELETE FROM BREWERY_TBL
 	  		WHERE BREWERY_NO=#{breweryNo}
 	  </delete>
+	  <select id="selectSearchList" resultType="Brewery">
+	  	SELECT * FROM BREWERY_TBL
+		<where>
+			<if test="searchCondition == 'all'">
+				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%' 
+				OR BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
+			</if>
+	<!-- 	양조장명으로 검색하는 쿼리문 -->
+			<if test="searchCondition == 'brewery'">
+				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+	<!-- 	지역명으로 검색하는 쿼리문 -->
+			<if test="searchCondition == 'local'">
+				BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</where>
+	  </select>
   </mapper>
   

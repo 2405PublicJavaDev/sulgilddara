@@ -18,45 +18,136 @@
 		<!-- 폴리필 (구버젼 브라우저 지원) -->
 		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />	
-				
-	    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css"/>
 		
-		<style type="text/css">
-			
-		</style>
+		<!-- font-awsome -->
+		<script src="https://kit.fontawesome.com/7d4169cb69.js" crossorigin="anonymous"></script>
+		
+		<!-- css파일들 -->
+		<link rel="stylesheet" href="/css/boardWritePage.css">
+		<link rel="stylesheet" href="/css/liquorSelectModal.css">
+		
 	</head>
 	<body>
 		<h1>공지사항 등록</h1>
 		<form action="/board/write" method="post" enctype="multipart/form-data">
 			제목 <input type="text" name="boardSubject"> <br>
-			별점선택 
-			<div>
-				<select name="boardPoint">
-					<option selected="selected" value="0" th:text="'별점 선택'">
-					
-					<option value="0.5"></option>
-					<option value="1" th:text="1"> 
-					<option value="1.5" th:text="1.5">
-					<option value="2" th:text="2">
-					<option value="2.5" th:text="2.5">
-					<option value="3" th:text="3">
-					<option value="3.5" th:text="3.5">
-					<option value="4" th:text="4">
-					<option value="4.5" th:text="4.5">
-					<option value="5" th:text="5">
-				</select>
+			<div id="liquorSelectBox">
+				상품선택
 			</div>
-			태그 <input type="text" name="boardTagName" placeholder="#해쉬태그"> <br>
+			<div id="modalWrap"> <!-- 모달 창을 감싸는 div -->
+		      <div id="modalBody">
+		        <span id="closeBtn">&times;</span> <!-- 모달을 닫는 X 버튼 -->
+		        
+		        <div id="liquorSearchBox">
+					<div>
+						<input type="text" name="" placeholder="검색어를 입력해주세요">
+						<button type="button" onclick="searchLiquor();">검색</button>
+					</div>
+		        </div>
+		      </div>
+		    </div>
+			<input type="hidden" list="liquorId" value="1">
+
+
+
+			<!-- 별점 드롭다운 메뉴 -->
+			<div class="select" data-role="selectBox">
+			<!-- 선택된 옵션 값이 출력되는 부분 -->
+		        <span date-value="optValue" class="selected-option"></span>
+
+
+		        <!-- 옵션 영역 -->
+		        <input type="hidden" value="" name="boardPoint">
+		        <ul class="hide">
+		            <li>
+		                <div>별점 선택</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">0.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">1</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">1.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">2</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">2.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">3</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">3.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">4</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">4.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">5</div>
+		            </li>
+		        </ul>
+		    </div>
+		    썸네일 <input type="file" name="uploadFile" placeholder="목록에서 보여지는 사진입니다.">
+		    
+			태그 <input type="text" name="boardTagName" placeholder="#태그"> <br>
 			내용 
 			<div class="post-form">
 				<textarea name="boardContent" id="summernote">
 				</textarea>
 			</div>
-			
-			<button>등록</button>
+			<button>등록</button> 
 		</form>
 		
 		<script>
+			/////////////////////////////////////// 태그 js
+			const input = document.querySelector('input[name=boardTagName]');
+		    let tagify = new Tagify(input); // Tagify 초기화
+		    
+		    // 태그가 추가되면 이벤트 발생
+		    tagify.on('add', function() {
+		      console.log(tagify.value); // 입력된 태그 정보 객체(배열)
+		      console.log(tagify.value[0].value) // 태그 배열 0번째 객체의 value값 -> 입력한 태그
+		    })
+		
+		
+			/////////////////////////////////////// 썸머노트 에디터 구현
 			$('#summernote').summernote({
 				  // 에디터 크기 설정
 				  height: 200,
@@ -96,19 +187,11 @@
 					}
 			  });
 			
-			// 태그 js
-			const input = document.querySelector('input[name=boardTagName]');
-		    let tagify = new Tagify(input); // Tagify 초기화
-		    
-		    // 태그가 추가되면 이벤트 발생
-		    tagify.on('add', function() {
-		      console.log(tagify.value); // 입력된 태그 정보 객체(배열)
-		      console.log(tagify.value[0].value) // 태그 배열 0번째 객체의 value값 -> 입력한 태그
-		    })
+			
 		
 		    
 		    
-		    // 파일 업로드 콜백 함수
+		    //////////////////////////////////////////// 파일 업로드 콜백 함수
 		    const imageUploader = (file, el) => {
 		    //	FormData()는 브라우저에서 제공하는 API이다.
 		    // 이 객체를 사용하면 파일과 같은 바이너리 데이터를 포함하여 다양한 형식의 데이터를 multipart/form-data 형식으로 서버에 전송할 수 있다.
@@ -147,7 +230,83 @@
 		    }
 		    
 		    
+			//////////////////////////// 별점 선택 드롭다운 js
+			
+		    const body = document.querySelector('body');
+	        const select = document.querySelector(`[data-role="selectBox"]`);
+	        const values = select.querySelector(`[date-value="optValue"]`);
+	        const option = select.querySelector('ul');
+	        const opts = option.querySelectorAll('li');
+	        const inputBoardPoint = document.querySelector('input[name="boardPoint"]');
+
+	        /* 셀렉트영역 클릭 시 옵션 숨기기, 보이기 */
+	        function selects(e){
+	            e.stopPropagation();
+	            option.setAttribute('style',`top:${select.offsetHeight}px`)
+	            if(option.classList.contains('hide')){
+	                option.classList.remove('hide');
+	                option.classList.add('show');
+	            }else{
+	                option.classList.add('hide');
+	                option.classList.remove('show');
+	            }
+	            selectOpt();
+	        }
+
+	        /* 옵션선택 */
+	        function selectOpt(){
+	            opts.forEach(opt=>{
+	                const innerValue = opt.innerHTML;
+	                function changeValue(){
+	                    values.innerHTML = innerValue;
+	                    inputBoardPoint.value = values.querySelector('div').innerText;
+	                    
+	                }
+	                opt.addEventListener('click',changeValue)
+	            });
+	        }
+
+	        /* 렌더링 시 옵션의 첫번째 항목 기본 선택 */
+	        function selectFirst(){
+	            const firstValue = opts[0].innerHTML;
+	            values.innerHTML = `${firstValue}`;
+	            
+	        }
+
+	        /* 옵션밖의 영역(=바디) 클릭 시 옵션 숨김 */
+	        function hideSelect(){
+	            if(option.classList.contains('show')){
+	                option.classList.add('hide');
+	                option.classList.remove('show');
+	            }
+	        }
+
+	        selectFirst();	// 초기상태 - 목록의 첫 요소 선택
+	        select.addEventListener('click',selects); // 클릭 시 selects콜백함수 호출
+	        body.addEventListener('click',hideSelect); // body 요소 클릭 시 창 닫힘
 		    
+	        ////////////////////////////////////////////////////////
+	       
+	        const liquorSelectBox = document.querySelector('#liquorSelectBox');
+	        const modal = document.getElementById("modalWrap");
+	        const closeBtn = document.getElementById("closeBtn");
+	        
+	        liquorSelectBox.addEventListener('click', ()=>{
+	        	modal.style.display = "block"; // 버튼을 클릭하면 모달을 보이게 함
+	        	
+	        });
+	        
+	        closeBtn.addEventListener('click', ()=>{
+	        	modal.style.display = "none"; // 모달을 닫는 버튼(X)을 클릭하면 모달을 숨김
+	        });
+	        
+	        
+	        // 모달 - 술 검색창
+	        function searchLiquor(){
+	        	
+	        	$.ajax({})
+	        }
+	        
 </script>
 	</body>
 </html>

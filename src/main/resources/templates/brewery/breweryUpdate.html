@@ -3,25 +3,86 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>양조장 정보 변경</title>
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+<!-- 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script> -->
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<h1>양조장 정보 변경</h1>
-		<form action="/brewery/update" method="post" th:object="${brewery}">
-			<input type="hidden" name="breweryNo" th:value="*{breweryNo}">
+		<form action="/brewery/update" method="post" th:object="${brewery}" enctype="multipart/form-data">
+		    <input type="hidden" name="breweryNo" th:value="*{breweryNo}">
+		    <input type="hidden" name="fileName" th:value="*{fileName}">
+		    <input type="hidden" name="fileRename" th:value="*{fileRename}">
+		    <input type="hidden" name="filePath" th:value="*{filePath}">
             양조장명 <input type="text" name="breweryName" th:value="*{breweryName}"> <br>
-            지역 <input type="text" name="breweryLocal" th:value="*{breweryLocal}"> <br>
+        	지역 
+			<select id="local" name="breweryLocal" th:value="*{breweryLocal}">
+				<option value="sudo">수도권</option>
+				<option value="gang">강원</option>
+				<option value="chung">충청</option>
+				<option value="gyeong">경상</option>
+				<option value="jeoll">전라</option>
+				<option value="jeju">제주</option>
+			</select> <br>
             주소 <input type="text" name="breweryAddr" th:value="*{breweryAddr}"> <br>
             번호 <input type="text" name="breweryPhone" th:value="*{breweryPhone}"> <br>
             오픈시간 <input type="time" name="openTime" th:value="*{openTime}"> <br>
             마감시간 <input type="time" name="closeTime" th:value="*{closeTime}"> <br>
             홈페이지 <input type="text" name="breweryUrl" th:value="*{breweryUrl}"> <br>
-            <input type="submit" value="변경"> <br>
-			체험 프로그램 <button th:onclick="goTourInsert();">등록</button>
+            양조장 사진 
+            		<th:block th:if="${brewery.fileRename != null}">
+					    <th:block th:if="${#strings.endsWith(brewery.fileRename, '.jpg') || #strings.endsWith(brewery.fileRename, '.png') || #strings.endsWith(brewery.fileRename, '.jpeg')}">
+					        <img id="previewImage" th:src="@{|${brewery.filePath}/${brewery.fileRename}|}" alt="미리보기 이미지" style="max-width: 300px; max-height: 300px;">
+					    </th:block>
+					</th:block> <br>
+					<th:block th:if="${brewery.fileRename == null}">
+						<span>사진 없음</span>
+					</th:block>
+					<input type="file" id="newFile" name="uploadFile"> <br>
+            <input type="submit" value="수정하기"> <br>
+            태그 <input type="text" name="breweryTagName" id="inputHashTag"> <br>
+			<div>
+			    <h2>체험 프로그램</h2>
+			    <div th:each="tour : ${tList}">
+			        <div>
+			        	<input type="hidden" name="tourNo" th:value="${tour.tourNo}">
+			        	<strong>프로그램명 : </strong> <span th:text="${tour.tourName}"></span> <br>
+			            <span th:text="${tour.tourContent}"></span> <br>
+			            <span th:text="${tour.timeTaken}"></span> <br>
+			            <span th:text="${tour.tourPrice}"></span> <br>
+			            <td><button type="button" th:onclick="modifyTour(/*[[${tour.tourNo}]]*/);">수정</button></td>
+	            		<td><button type="button" th:onclick="deleteTour(/*[[${brewery.breweryNo}]]*/, /*[[${tour.tourNo}]]*/);">삭제</button></td>
+			        </div>
+			    </div>
+			</div>
+			<button type="button" th:onclick="goTourInsert(/*[[${brewery.breweryNo}]]*/);">등록</button>
         </form>
 	</body>
 	<script th:inline="javascript">
-		function goTourInsert() {
-			loacation.href="@{/tour/insert/{breweryNo}}"
+		function goTourInsert(breweryNo) {
+			location.href="/tour/write/" + breweryNo;
 		}
+	    document.getElementById('newFile').addEventListener('change', function(event) {
+	        var file = event.target.files[0];
+	        if (file) {
+	            var reader = new FileReader();
+	            reader.onload = function(e) {
+	                var previewImage = document.getElementById('previewImage');
+	                previewImage.src = e.target.result;
+	                previewImage.style.display = 'block';
+	            };
+	            reader.readAsDataURL(file);
+	        }
+	    });
+	    function modifyTour(tourNo) {	
+	        location.href = "/tour/update/" + tourNo;
+	    }
+	    function deleteTour(breweryNo, tourNo) {
+	        if (confirm("정말 삭제하시겠습니까?")) {
+	            location.href = "/tour/delete/" + breweryNo + "/" + tourNo ;
+	        }
+	    }
+	    var input = document.querySelector('input[name=breweryTagName]');
+	    new Tagify(input);
 	</script>
 </html>

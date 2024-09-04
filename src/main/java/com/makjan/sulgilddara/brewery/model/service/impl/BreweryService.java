@@ -1,6 +1,8 @@
 package com.makjan.sulgilddara.brewery.model.service.impl;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,16 +16,21 @@ public interface BreweryService {
 	/**
 	 * 양조장 정보 입력
 	 * @param inputBrewery
+	 * @param multipartFile 
 	 * @return int
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
-	int insertBrewery(Brewery inputBrewery, MultipartFile uploadFile);
+	int insertBrewery(Brewery inputBrewery) throws IllegalStateException, IOException;
 	
 	/**
 	 * 양조장 정보 수정
 	 * @param Brewery
 	 * @return int
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
-	int updateBrewery(Brewery Brewery);
+	int updateBrewery(Brewery Brewery) throws IllegalStateException, IOException;
 	
 	/**
 	 * 양조장 정보 삭제
@@ -38,13 +45,6 @@ public interface BreweryService {
 	 * @return Brewery
 	 */
 	Brewery searchOneByNo(Integer breweryNo);
-	
-	/**
-	 * 양조장 리스트 조회
-	 * @param brewery
-	 * @return  List<Brewery>
-	 */
-	List<Brewery> searchList(Brewery brewery, Integer currentPage, RowBounds rowBoudns);
 	
 	/**
 	 * 양조장 랜덤 조회
@@ -76,4 +76,11 @@ public interface BreweryService {
 	 * @return List<Brewery>
 	 */
 	List<Brewery> selectAllList();
+
+	/**
+	 * 양조장 검색
+	 * @param paramMap
+	 * @return List<Brewery>
+	 */
+	List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap);
 }

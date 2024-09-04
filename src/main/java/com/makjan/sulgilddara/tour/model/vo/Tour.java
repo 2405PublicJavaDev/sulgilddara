@@ -1,5 +1,7 @@
 package com.makjan.sulgilddara.tour.model.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +13,17 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class Tour {
-	private Integer tourId;
+	private Integer tourNo;
 	private String tourName;
 	private String tourContent;
 	private String timeTaken;
-	private String tourPrice;
+	private Integer tourPrice;
+	
 	private String fileName;
 	private String fileRename;
-	private String fileLength;
 	private String filePath;
-	private Integer breweryId;
+	
+	private Integer breweryNo;
+	
+	private MultipartFile uploadFile;
 }

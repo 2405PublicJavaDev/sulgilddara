@@ -44,4 +44,50 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	// 로그인 Service
+	@Override
+	public User checkLogin(User user) {
+		User result = mapper.checkLogin(user);
+		return result;
+	}
+
+	// 아이디로 회원 찾기 Service
+	@Override
+	public User selectOneById(String userId) {
+		User user = mapper.selectOneById(userId);
+		System.out.println("userFile: " + user.getUserFile());
+		return user;
+	}
+
+	// 회원 정보 수정 Service
+	@Override
+	public int updateUser(User modifyUser, MultipartFile reloadFile) throws IllegalStateException, IOException {
+		int result = mapper.updateUser(modifyUser);
+		if(reloadFile != null && !reloadFile.isEmpty()) {
+			// reloadFile이 list 형식이기 때문에 !.isEmpty() 도 적어줘야 기존에 파일이 없을때도 새로 등록하여 수정이 가능하다.
+			String fileName = reloadFile.getOriginalFilename();
+			String fileRename = Util.fileRename(fileName);
+			String filePath = "/images/user/";
+			UserFile userFile = new UserFile();
+			userFile.setFileName(fileName);
+			userFile.setFileRename(fileRename);
+			userFile.setFilePath(filePath);
+			userFile.setUserId(modifyUser.getUserId());;
+			reloadFile.transferTo(new File("C:/uploadFile/user/"+ fileRename));	//파일이 실제로 저장되는 코드			
+			UserFile nFileOne = mapper.selectUserFile(modifyUser.getUserId()); 	//userId로 조회해서 해당 멤버의 프로필사진이 있는지 체크
+			// 만약 파일이 null 이 아니면 update
+			if(nFileOne != null) {
+				// 기존에 있던 file도 삭제해야함 (폴더 안에 있는 file)
+				File nFile = new File("C:/uploadFile/user/"+nFileOne.getFileRename());
+				nFile.delete(); // file의 메소드 delete를 이용하여 파일을 삭제한다. -> 해당 경로의 기존 file은 삭제됨
+				result = mapper.updateUserFile(userFile);
+			} else {
+			// 파일이 null 이면 insert 
+				result = mapper.registerUserFile(userFile);
+			}
+		}
+		return result;
+	}
+
+
 }
