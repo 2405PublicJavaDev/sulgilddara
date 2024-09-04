@@ -46,29 +46,31 @@ public class LiquorController {
 	 * @param liquor
 	 * @return liquorList.html로 이동
 	 */
-	@PostMapping("/add")
+	@PostMapping("/liquorAdd")
 	public String liquorAdd(Model model, @ModelAttribute Liquor liquor) {
 		lService.addLiquor(liquor);
-		return "liquor/liquorList";
+		return "redirect:/liquor/list";
 	}
 	
 	@GetMapping("/update/{liquorId}")
 	public String showLiquorUpdateForm(@PathVariable("liquorId") Integer liquorId,
 			Model model) {
 		Liquor liquor = lService.selectOneById(liquorId);
+		System.out.println(liquor.toString());
 		model.addAttribute("liquor", liquor);
 		return "liquor/liquorUpdate";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/liquorUpdate")
 	public String updateLiquor(Liquor liquor) {
 		int result = lService.updateLiquor(liquor);
-		return "liquor/liquorDetail";
+		return "redirect:/liquor/list";
 	}
 	
-	@GetMapping("/delete")
-	public String deleteLiquor() {
-		return "liquor/liquorList";
+	@GetMapping("/delete/{liquorId}")
+	public String deleteLiquor(@PathVariable("liquorId") Integer liquorId) {
+		int result = lService.deleteLiquor(liquorId);
+		return "redirect:/liquor/list";
 	}
 	
 	@GetMapping("/detail")

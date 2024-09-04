@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-		<title>공지사항 목록</title>
+		<title>주류정보 목록</title>
 		<link rel="stylesheet" href="/css/main.css">
 	</head>
 	<body>
@@ -33,8 +33,8 @@
 					<td>[[${liquor.lCreateDate }]]</td>
 					<td>[[${liquor.lUpdateDate }]]</td>
 					<td>[[${liquor.breweryId }]]</td>
-					<td><button th:href="@{/liquor/edit/{id}(id=${liquor.liquorId})}">수정</button></td>
-					<td><button th:onclick="'if(confirm('정말 삭제하시겠습니까?')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\';'">삭제</button></td>
+					<td><button onclick="location.href=this.getAttribute('data-href')" th:attr="data-href=@{/liquor/update/{id}(id=${liquor.liquorId})}">수정</button></td>
+					<td><button th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\''" type="button">삭제</button></td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -47,5 +47,6 @@
 				</tr>
 			</tfoot>
 		</table>
+		<button onclick="location.href='/liquor/add'">등록</button>
 	</body>
 </html>

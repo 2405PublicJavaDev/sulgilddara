@@ -31,20 +31,20 @@ public class LiquorServiceImpl implements LiquorService{
 
 	@Override
 	public int updateLiquor(Liquor liquor) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = mapper.updateLiquor(liquor);
+		return result;
 	}
 
 	@Override
 	public int deleteLiquor(int liquorId) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = mapper.deleteLiquor(liquorId);
+		return result;
 	}
 
 	@Override
 	public Liquor selectOneById(int liquorId) {
-		// TODO Auto-generated method stub
-		return null;
+		Liquor liquor = mapper.selectOneById(liquorId);
+		return liquor;
 	}
 
 	@Override
