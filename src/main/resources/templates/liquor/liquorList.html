@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>주류정보 목록</title>
+		<link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+		<h1>주류 목록</h1>
+		<table>
+			<!-- 테이블 헤드 영역 : 각 정보의 항목명이 표기됨 -->
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>제품명</th>
+					<th>알콜함량</th>
+					<th>주종</th>
+					<th>가격</th>
+					<th>병입용량</th>
+					<th>등록일시</th>
+					<th>수정일시</th>
+					<th>양조장ID</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="liquor : ${lList }">
+					<td>[[${liquor.liquorId }]]</td>
+					<td>[[${liquor.liquorName}]]</td>
+					<td>[[${liquor.alcholContent}]]</td>
+					<td>[[${liquor.liquorType }]]</td>
+					<td>[[${liquor.liquorPrice }]]</td>
+					<td>[[${liquor.liquorCapacity }]]</td>
+					<td>[[${liquor.lCreateDate }]]</td>
+					<td>[[${liquor.lUpdateDate }]]</td>
+					<td>[[${liquor.breweryId }]]</td>
+					<td><button onclick="location.href=this.getAttribute('data-href')" th:attr="data-href=@{/liquor/update/{id}(id=${liquor.liquorId})}">수정</button></td>
+					<td><button th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\''" type="button">삭제</button></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr align="center">
+					<td colspan="5">
+						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
+							<a th:href="@{/liquor/liquorList(cp=${p})}" th:text="${p}"></a>
+						</th:block>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<button onclick="location.href='/liquor/add'">등록</button>
+	</body>
+</html>

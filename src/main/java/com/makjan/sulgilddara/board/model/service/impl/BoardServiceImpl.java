@@ -1,6 +1,8 @@
 package com.makjan.sulgilddara.board.model.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
+import com.makjan.sulgilddara.model.vo.Pagination;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -29,13 +32,21 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<Board> selectList(Integer currentPage, RowBounds rowBounds) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> selectBoardList(Integer currentPage) {
+		int totalCount = bMapper.getTotalCount();
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1) * limit ;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Board> bList = bMapper.selectBoardList(rowBounds);
+		Map<String, Object> map = new HashMap<>();
+		map.put("bList", bList);
+		map.put("pn", pn);
+		return map;
 	}
 
 	@Override
-	public int insertBoard(Board board, MultipartFile uploadFile) {
+	public int insertBoard(Board board) {
 		int result = bMapper.insertBoard(board);
 		return result;
 	}
@@ -70,16 +81,18 @@ public class BoardServiceImpl implements BoardService{
 		return 0;
 	}
 
-	@Override
-	public int getTotalCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int insertBoardFile(BoardFile boardFile) {
 		int result = bMapper.insertBoardFile(boardFile);
 		return result;
+	}
+
+	
+	@Override
+	public List<BoardTag> selectBoardTagList() {
+		List<BoardTag> bTagList = bMapper.selectBoardTagList();
+		return bTagList;
 	}
 	
 	
