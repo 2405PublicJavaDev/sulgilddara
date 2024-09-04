@@ -6,8 +6,9 @@
 		<title>주류정보 업데이트</title>
 	</head>
 	<body>
-		<h1>주류정보 등록</h1>
+		<h1>주류정보 업데이트</h1>
 		<form action="/liquor/update" method="post" th:object=${liquor} enctype="multipart/form-data">
+			<input type="hidden" name="liquorId" th:value="*{liquorId}">
 			상품명 <input type="text" name="liquorName" th:value="*{liquorName}"> <br>
 			알콜도수 <input type="number" step="0.01" name="alcholContent" th:value="*{alcholContent}"> <br>
 			주종 

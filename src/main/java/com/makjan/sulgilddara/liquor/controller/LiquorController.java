@@ -61,8 +61,9 @@ public class LiquorController {
 		return "liquor/liquorUpdate";
 	}
 	
-	@PostMapping("/liquorUpdate")
+	@PostMapping("/update")
 	public String updateLiquor(Liquor liquor) {
+		System.out.println(liquor.toString());
 		int result = lService.updateLiquor(liquor);
 		return "redirect:/liquor/list";
 	}
