@@ -55,8 +55,8 @@
 							<td colspan="5">
 								<th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
 									<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
-									<a th:href="@{/reservation/searchadmin(currentPage=${p})}" th:text="${p}"></a>
-									</th:block>
+										<a th:href="@{/reservation/searchadmin(currentPage=${p})}" th:text="${p}"></a>
+									</th:block> 
 								</th:block>
 							</td>
 						</tr>
