@@ -90,6 +90,40 @@ public class UserController {
         }		
 	}
 	
+	// 회원탈퇴 form
+	@GetMapping("/delete")
+	public String showDeleteForm(HttpSession session, Model model) {
+			String userId = (String)session.getAttribute("userId");
+			User user = uService.selectOneById(userId);
+			if(user != null) {
+				model.addAttribute("user", user);
+				return "user/userDelete";
+			} else {
+				return "user/userLogin"; 
+			}	
+	}
+	
+	// 회원탈퇴 메소드
+	@PostMapping("/delete")
+	public String deleteUser(@RequestParam("userPw") String userPw , HttpSession session) {
+		String userId = (String)session.getAttribute("userId");
+		User user = uService.selectOneById(userId);
+		   // 비밀번호가 일치하는지 확인
+	    if (user != null && user.getUserPw().equals(userPw)) {
+	        int result = uService.deleteUser(userId);
+	        if (result > 0) {
+	            // 탈퇴 성공시 로그아웃 처리
+	            return "redirect:/user/logout";
+	        } else {
+	            return "user/userDelete";
+	        }
+	    } else {
+	        // 비밀번호가 일치하지 않을 때 처리
+	        return "user/userDelete";
+	    }
+	}
+	
+		
 	// 로그인 form 
 	@GetMapping("/login")
 	public String showLoginForm(@ModelAttribute User user) {
@@ -112,4 +146,15 @@ public class UserController {
 			return "user/userJoin";
 		}		
 	}
+	
+	// 로그아웃
+	@GetMapping("/logout")
+	public String checkLogout(Model model, HttpSession session) {
+			if(session != null) {
+				session.invalidate();
+				return "user/userLogin";
+			} else {
+				return "user/userLogin";
+			}
+		} 
 }

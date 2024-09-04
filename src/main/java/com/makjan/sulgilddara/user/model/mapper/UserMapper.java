@@ -57,4 +57,18 @@ public interface UserMapper {
 	 * @return int
 	 */
 	int updateUserFile(UserFile userFile);
+
+	/**
+	 * 회원 탈퇴 Mapper
+	 * @param userId
+	 * @return
+	 */
+	int deleteUser(String userId);
+
+	/**
+	 * 회원 프로필 사진 삭제 Mapper
+	 * @param userId
+	 * @return int
+	 */
+	int deleteUserFile(String userId);
 }

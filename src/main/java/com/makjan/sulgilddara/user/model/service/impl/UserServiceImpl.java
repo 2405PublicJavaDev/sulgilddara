@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 		if(uploadFile != null && !uploadFile.isEmpty()) {
 			String fileName = uploadFile.getOriginalFilename();
 			String fileRename = Util.fileRename(fileName);
-			String filePath="/images/user/";
+			String filePath="/user-images";
 			uploadFile.transferTo(new File("C:/uploadFile/user/"+ fileRename));
 			UserFile userFile = new UserFile();
 			userFile.setFileName(fileName);
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 			// reloadFile이 list 형식이기 때문에 !.isEmpty() 도 적어줘야 기존에 파일이 없을때도 새로 등록하여 수정이 가능하다.
 			String fileName = reloadFile.getOriginalFilename();
 			String fileRename = Util.fileRename(fileName);
-			String filePath = "/images/user/";
+			String filePath = "/user-images";
 			UserFile userFile = new UserFile();
 			userFile.setFileName(fileName);
 			userFile.setFileRename(fileRename);
@@ -85,6 +85,19 @@ public class UserServiceImpl implements UserService {
 			// 파일이 null 이면 insert 
 				result = mapper.registerUserFile(userFile);
 			}
+		}
+		return result;
+	}
+
+	// 회원 탈퇴 Service
+	@Override
+	public int deleteUser(String userId) {
+		int result = mapper.deleteUser(userId);
+		UserFile userFile = mapper.selectUserFile(userId);
+		if(userFile != null) {
+			File nFile = new File("C:/uploadFile/user/"+userFile.getFileRename());	// 해당경로의 해당file을 File객체 nFile에 넣음
+			nFile.delete();	// file의 메소드 delete를 이용하여 파일을 삭제한다. -> 해당 경로의 file은 삭제됨
+			result = mapper.deleteUserFile(userId);
 		}
 		return result;
 	}
