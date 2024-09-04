@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class BreweryTag {
-	private Integer breweryTagId;
+	private Integer breweryTagNo;
 	private String breweryTagName;
-	private Integer breweryId;
+	private Integer breweryNo;
 }

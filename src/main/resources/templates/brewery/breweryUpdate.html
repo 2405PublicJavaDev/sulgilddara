@@ -3,6 +3,9 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>양조장 정보 변경</title>
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+<!-- 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script> -->
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<h1>양조장 정보 변경</h1>
@@ -15,11 +18,11 @@
         	지역 
 			<select id="local" name="breweryLocal" th:value="*{breweryLocal}">
 				<option value="sudo">수도권</option>
-				<option value="sudo">강원</option>
-				<option value="sudo">충청</option>
-				<option value="sudo">경상</option>
-				<option value="sudo">전라</option>
-				<option value="sudo">제주</option>
+				<option value="gang">강원</option>
+				<option value="chung">충청</option>
+				<option value="gyeong">경상</option>
+				<option value="jeoll">전라</option>
+				<option value="jeju">제주</option>
 			</select> <br>
             주소 <input type="text" name="breweryAddr" th:value="*{breweryAddr}"> <br>
             번호 <input type="text" name="breweryPhone" th:value="*{breweryPhone}"> <br>
@@ -37,6 +40,7 @@
 					</th:block>
 					<input type="file" id="newFile" name="uploadFile"> <br>
             <input type="submit" value="수정하기"> <br>
+            태그 <input type="text" name="breweryTagName" id="inputHashTag"> <br>
 			<div>
 			    <h2>체험 프로그램</h2>
 			    <div th:each="tour : ${tList}">
@@ -78,5 +82,7 @@
 	            location.href = "/tour/delete/" + breweryNo + "/" + tourNo ;
 	        }
 	    }
+	    var input = document.querySelector('input[name=breweryTagName]');
+	    new Tagify(input);
 	</script>
 </html>

@@ -2,6 +2,7 @@ package com.makjan.sulgilddara.brewery.model.service.impl;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,13 +47,6 @@ public interface BreweryService {
 	Brewery searchOneByNo(Integer breweryNo);
 	
 	/**
-	 * 양조장 리스트 조회
-	 * @param brewery
-	 * @return  List<Brewery>
-	 */
-	List<Brewery> searchList(Brewery brewery, Integer currentPage, RowBounds rowBoudns);
-	
-	/**
 	 * 양조장 랜덤 조회
 	 * @return List<Brewery>
 	 */
@@ -77,4 +71,11 @@ public interface BreweryService {
 	 * @return List<Brewery>
 	 */
 	List<Brewery> selectAllList();
+
+	/**
+	 * 양조장 검색
+	 * @param paramMap
+	 * @return List<Brewery>
+	 */
+	List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap);
 }

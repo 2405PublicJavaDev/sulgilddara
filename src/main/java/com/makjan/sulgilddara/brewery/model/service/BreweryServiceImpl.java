@@ -3,6 +3,7 @@ package com.makjan.sulgilddara.brewery.model.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,12 +78,6 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public List<Brewery> searchList(Brewery brewery, Integer currentPage, RowBounds rowBoudns) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Brewery> selectRandom() {
 		// TODO Auto-generated method stub
 		return null;
@@ -104,6 +99,15 @@ public class BreweryServiceImpl implements BreweryService{
 	public List<Brewery> selectAllList() {
 		List<Brewery> bList = mapper.selectAllList();
 		return bList;
+	}
+
+	@Override
+	public List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap) {
+		List<Brewery> searchList = mapper.selectSearchList(paramMap);
+		if(searchList.size() == 0) {
+			searchList = null;
+		}
+		return searchList;
 	}
 	
 }
