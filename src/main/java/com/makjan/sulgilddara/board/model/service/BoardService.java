@@ -1,11 +1,12 @@
 package com.makjan.sulgilddara.board.model.service;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 
 public interface BoardService {
@@ -22,7 +23,7 @@ public interface BoardService {
 	 * @param rowBounds
 	 * @return
 	 */
-	List<Board> selectList(Integer currentPage, RowBounds rowBounds);
+	Map<String, Object> selectBoardList(Integer currentPage);
 	
 	/**
 	 * 게시글 등록
@@ -30,7 +31,7 @@ public interface BoardService {
 	 * @param uploadFile
 	 * @return
 	 */
-	int insertBoard(Board board, MultipartFile uploadFile);
+	int insertBoard(Board board);
 	
 	/**
 	 * 게시글 수정
@@ -68,9 +69,18 @@ public interface BoardService {
 	 */
 	int deleteTag(List<String> tags);
 	
+	
+
 	/**
-	 * 게시글 전체 개수 조회
+	 * 게시글 파일 업로드
+	 * @param boardFile
 	 * @return
 	 */
-	int getTotalCount();
+	int insertBoardFile(BoardFile boardFile);
+
+	/**
+	 * 게시글 태그 전체 조회
+	 * @return
+	 */
+	List<BoardTag> selectBoardTagList();
 }

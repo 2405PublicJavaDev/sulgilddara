@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>투어 정보 등록</title>
-</head>
-<body>
-    <h1>투어 등록</h1>
-    <form action="/tour/insert" method="post" th:object="${tour}">
-        
-    </form>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>투어 정보 등록</title>
+	</head>
+	<body>
+	    <h1>투어 등록</h1>
+	    <form action="/tour/write" method="post" enctype="multipart/form-data">
+	        체험 프로그램 <br>
+	        <input type="hidden" name="breweryNo" th:value="${breweryNo}">
+	        <input type="text" placeholder="프로그램명 입력" name="tourName"> <br>
+			첨부파일 <input type="file" name="uploadFile"> <br>
+			<textarea placeholder="프로그램 소개 입력" name=tourContent></textarea> <br>
+			<input type="text" placeholder="소요시간 입력" name="timeTaken"> <br>
+			<input type="text" placeholder="금액 입력" name="tourPrice"> <br>
+			<input type="submit" value="등록">
+	    </form>
+	</body>
 </html>

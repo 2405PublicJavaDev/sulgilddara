@@ -1,6 +1,6 @@
 package com.makjan.sulgilddara.board.model.vo;
 
-import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +18,6 @@ public class BoardFile {
 	private String filePath;
 	private Integer boardNo;
 	
-	private MultipartFile uploadFile;
+//	private MultipartFile uploadFile;
 	
 }

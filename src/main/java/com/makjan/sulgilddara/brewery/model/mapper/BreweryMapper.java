@@ -3,6 +3,7 @@ package com.makjan.sulgilddara.brewery.model.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 

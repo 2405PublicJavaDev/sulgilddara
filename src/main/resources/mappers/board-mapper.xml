@@ -8,12 +8,33 @@
 		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
 			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, 1, 1, 1, 1)
+		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, 1, #{boardPoint}, #{liquorId}, 1)
   	</insert>
   
   	
   	<insert id="insertTag">
   		INSERT INTO BOARD_TAG_TBL VALUES(SEQ_BOARD_TAG_NO.NEXTVAL, #{boardTagName}, #{boardNo})
   	</insert>
+  	
+  	<insert id="insertBoardFile">
+  		INSERT INTO BOARD_FILE_TBL VALUES(SEQ_BOARD_FILE_NO.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{boardNo})
+  	</insert>
+  	
+  	<update id="updateBoardFile">
+<!--   	where 조건으로 무엇을 넣어야 할까?? -->
+<!--   		UPDATE BOARD_FILE_TBL SET BOARD_NO = #{boardNo} WHERE  --> 
+  	</update>
+  	
+  	<select id="selectBoardList" resultType="Board">
+  		SELECT * FROM BOARD_TBL ORDER BY BOARD_NO DESC
+  	</select>
+  	
+  	<select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_TBL
+	</select>
+	
+	<select id="selectBoardTagList" resultType="BoardTag">
+		SELECT * FROM BOARD_TAG_TBL
+	</select>
   </mapper>
   

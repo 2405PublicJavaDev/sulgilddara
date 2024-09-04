@@ -18,22 +18,136 @@
 		<!-- 폴리필 (구버젼 브라우저 지원) -->
 		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />	
+		
+		<!-- font-awsome -->
+		<script src="https://kit.fontawesome.com/7d4169cb69.js" crossorigin="anonymous"></script>
+		
+		<!-- css파일들 -->
+		<link rel="stylesheet" href="/css/boardWritePage.css">
+		<link rel="stylesheet" href="/css/liquorSelectModal.css">
+		
 	</head>
 	<body>
 		<h1>공지사항 등록</h1>
 		<form action="/board/write" method="post" enctype="multipart/form-data">
 			제목 <input type="text" name="boardSubject"> <br>
-			태그 <input type="text" name="boardTagName" placeholder="#해쉬태그"> <br>
+			<div id="liquorSelectBox">
+				상품선택
+			</div>
+			<div id="modalWrap"> <!-- 모달 창을 감싸는 div -->
+		      <div id="modalBody">
+		        <span id="closeBtn">&times;</span> <!-- 모달을 닫는 X 버튼 -->
+		        
+		        <div id="liquorSearchBox">
+					<div>
+						<input type="text" name="" placeholder="검색어를 입력해주세요">
+						<button type="button" onclick="searchLiquor();">검색</button>
+					</div>
+		        </div>
+		      </div>
+		    </div>
+			<input type="hidden" list="liquorId" value="1">
+
+
+
+			<!-- 별점 드롭다운 메뉴 -->
+			<div class="select" data-role="selectBox">
+			<!-- 선택된 옵션 값이 출력되는 부분 -->
+		        <span date-value="optValue" class="selected-option"></span>
+
+
+		        <!-- 옵션 영역 -->
+		        <input type="hidden" value="" name="boardPoint">
+		        <ul class="hide">
+		            <li>
+		                <div>별점 선택</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">0.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">1</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">1.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">2</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">2.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">3</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">3.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">4</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">4.5</div>
+		            </li>
+		            <li>
+		                <span class="starContainer">
+		                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+		                </span>
+		                <div style="text-align: end; padding-right: 8px;">5</div>
+		            </li>
+		        </ul>
+		    </div>
+		    썸네일 <input type="file" name="uploadFile" placeholder="목록에서 보여지는 사진입니다.">
+		    
+			태그 <input type="text" name="boardTagName" placeholder="#태그"> <br>
 			내용 
 			<div class="post-form">
 				<textarea name="boardContent" id="summernote">
 				</textarea>
 			</div>
-<!-- 			첨부파일 <input type="file" name="uploadFile"> <br> -->
-			<button>등록</button>
+			<button>등록</button> 
 		</form>
 		
 		<script>
+			/////////////////////////////////////// 태그 js
+			const input = document.querySelector('input[name=boardTagName]');
+		    let tagify = new Tagify(input); // Tagify 초기화
+		    
+		    // 태그가 추가되면 이벤트 발생
+		    tagify.on('add', function() {
+		      console.log(tagify.value); // 입력된 태그 정보 객체(배열)
+		      console.log(tagify.value[0].value) // 태그 배열 0번째 객체의 value값 -> 입력한 태그
+		    })
+		
+		
+			/////////////////////////////////////// 썸머노트 에디터 구현
 			$('#summernote').summernote({
 				  // 에디터 크기 설정
 				  height: 200,
@@ -64,7 +178,7 @@
 					focus : false,
 			        // callbacks은 이미지 업로드 처리입니다.
 					callbacks : {                                                    
-						onImageUpload : function(files, editor, welEditable) {   
+						onImageUpload : function(files, editor) {   // 매개변수 welEditable 제외시킴.
 			                // 다중 이미지 처리를 위해 for문을 사용했습니다.
 							for (var i = 0; i < files.length; i++) {
 								imageUploader(files[i], this);
@@ -73,16 +187,126 @@
 					}
 			  });
 			
-			// 태그 js
-			const input = document.querySelector('input[name=boardTagName]');
-		    let tagify = new Tagify(input); // Tagify 초기화
-		    
-		    // 태그가 추가되면 이벤트 발생
-		    tagify.on('add', function() {
-		      console.log(tagify.value); // 입력된 태그 정보 객체(배열)
-		      console.log(tagify.value[0].value) // 태그 배열 0번째 객체의 value값 -> 입력한 태그
-		    })
+			
 		
+		    
+		    
+		    //////////////////////////////////////////// 파일 업로드 콜백 함수
+		    const imageUploader = (file, el) => {
+		    //	FormData()는 브라우저에서 제공하는 API이다.
+		    // 이 객체를 사용하면 파일과 같은 바이너리 데이터를 포함하여 다양한 형식의 데이터를 multipart/form-data 형식으로 서버에 전송할 수 있다.
+		    	let formData = new FormData();
+		    // formData 객체에 데이터를 추가하는 코드이다. append 메서드를 사용하여 키-값 쌍을 FormData 객체에 추가한다.
+		    	formData.append('file', file);
+		    
+		    	$.ajax({
+		    		data : formData,
+		    		type : "POST",
+		    		
+		    		// url은 이미지 업로드 컨트롤러 메소드 경로
+		    		url : "/board/uploadImage",
+		    		
+		    		// jQuery가 Content-Type 헤더를 자동으로 설정하지 않게 된다.
+		    		// 일반적으로 FormData를 사용해 파일을 업로드할 때는 브라우저가 자동으로 multipart/form-data로 설정하므로 false로 설정한다.
+		    		contentType : false,
+		    		
+		    		// processData 속성을 false로 설정하면 jQuery가 데이터를 쿼리 문자열로 자동으로 변환하지 않는다. 
+		    		// FormData 객체를 전송할 때는 processData: false로 설정해야 한다.
+		    		processData : false,
+		    		
+		    		// 인코딩 타입을 multipart/form-data으로 지정해준다. 파일 업로드 시 타입을 이처럼 지정해줘야 한다.
+		    		enctype : 'multipart/form-data',
+		    		
+		    		// 요청이 성공적으로 완료되었을 때 호출되는 콜백 함수이다.
+		    		// 서버에서 반환된 데이터를 data 파라미터로 받아 처리할 수 있다.
+		    		success : function(data){
+		    			console.log(data);
+		    			$(el).summernote('insertImage', data, function($image){
+		    				$image.css('width', "50%");
+		    			});
+		    		}
+		    		
+		    	});
+		    }
+		    
+		    
+			//////////////////////////// 별점 선택 드롭다운 js
+			
+		    const body = document.querySelector('body');
+	        const select = document.querySelector(`[data-role="selectBox"]`);
+	        const values = select.querySelector(`[date-value="optValue"]`);
+	        const option = select.querySelector('ul');
+	        const opts = option.querySelectorAll('li');
+	        const inputBoardPoint = document.querySelector('input[name="boardPoint"]');
+
+	        /* 셀렉트영역 클릭 시 옵션 숨기기, 보이기 */
+	        function selects(e){
+	            e.stopPropagation();
+	            option.setAttribute('style',`top:${select.offsetHeight}px`)
+	            if(option.classList.contains('hide')){
+	                option.classList.remove('hide');
+	                option.classList.add('show');
+	            }else{
+	                option.classList.add('hide');
+	                option.classList.remove('show');
+	            }
+	            selectOpt();
+	        }
+
+	        /* 옵션선택 */
+	        function selectOpt(){
+	            opts.forEach(opt=>{
+	                const innerValue = opt.innerHTML;
+	                function changeValue(){
+	                    values.innerHTML = innerValue;
+	                    inputBoardPoint.value = values.querySelector('div').innerText;
+	                    
+	                }
+	                opt.addEventListener('click',changeValue)
+	            });
+	        }
+
+	        /* 렌더링 시 옵션의 첫번째 항목 기본 선택 */
+	        function selectFirst(){
+	            const firstValue = opts[0].innerHTML;
+	            values.innerHTML = `${firstValue}`;
+	            
+	        }
+
+	        /* 옵션밖의 영역(=바디) 클릭 시 옵션 숨김 */
+	        function hideSelect(){
+	            if(option.classList.contains('show')){
+	                option.classList.add('hide');
+	                option.classList.remove('show');
+	            }
+	        }
+
+	        selectFirst();	// 초기상태 - 목록의 첫 요소 선택
+	        select.addEventListener('click',selects); // 클릭 시 selects콜백함수 호출
+	        body.addEventListener('click',hideSelect); // body 요소 클릭 시 창 닫힘
+		    
+	        ////////////////////////////////////////////////////////
+	       
+	        const liquorSelectBox = document.querySelector('#liquorSelectBox');
+	        const modal = document.getElementById("modalWrap");
+	        const closeBtn = document.getElementById("closeBtn");
+	        
+	        liquorSelectBox.addEventListener('click', ()=>{
+	        	modal.style.display = "block"; // 버튼을 클릭하면 모달을 보이게 함
+	        	
+	        });
+	        
+	        closeBtn.addEventListener('click', ()=>{
+	        	modal.style.display = "none"; // 모달을 닫는 버튼(X)을 클릭하면 모달을 숨김
+	        });
+	        
+	        
+	        // 모달 - 술 검색창
+	        function searchLiquor(){
+	        	
+	        	$.ajax({})
+	        }
+	        
 </script>
 	</body>
 </html>

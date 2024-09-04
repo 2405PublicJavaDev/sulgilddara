@@ -4,26 +4,48 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper">
 	  <insert id="insertBrewery">
-	  	<selectKey order="BEFORE" resultType="_int" keyProperty="breweryId">
+	  	<selectKey order="BEFORE" resultType="_int" keyProperty="breweryNo">
 	  		SELECT SEQ_BREWERY_NO.NEXTVAL FROM DUAL
 	  	</selectKey>
 	  		INSERT INTO BREWERY_TBL
-	  		VALUES(#{breweryNo}, #{breweryName}, #{breweryLocal}, #{breweryAddr}, #{breweryPhone}, #{breweryUrl}, DEFAULT, DEFAULT, #{openTime}, #{closeTime})
+	  		VALUES(#{breweryNo}, 
+	  				#{breweryName}, 
+	  				#{breweryLocal}, 
+	  				#{breweryAddr}, 
+	  				#{breweryPhone}, 
+	  				#{breweryUrl}, 
+	  				DEFAULT, 
+	  				DEFAULT, 
+	  				#{openTime}, 
+	  				#{closeTime}, 
+	  				#{fileName}, 
+	  				#{fileRename}, 
+	  				#{filePath})
 	  </insert>
 	  <select id="selectAllList" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL
 	  </select>
 	  <select id="searchOneByNo" resultType="Brewery">
-	  		SELECT * FROM BREWERY_TBL WEHRE BREWERY_NO=#{breweryNo}
+	  		SELECT * FROM BREWERY_TBL WHERE BREWERY_NO=#{breweryNo}
 	  </select>
 	  <update id="updateBrewery">
 	  		UPDATE BREWERY_TBL
-	  		SET BREWERY_NAME=#{brewryName}, BREWERY_LOCAL=#{breweryLocal}, BREWERY_ADDR=#{breweryAddr}, BREWERY_PHONE=#{breweryPhone}, OPENTIME=#{openTime}, CLOSETIME=#{closeTime}, bUpdateDate=DEFAULT
+	  		SET BREWERY_NAME=#{breweryName}, 
+	  		BREWERY_LOCAL=#{breweryLocal}, 
+	  		BREWERY_ADDR=#{breweryAddr}, 
+	  		BREWERY_PHONE=#{breweryPhone}, 
+	  		OPENTIME=#{openTime}, 
+	  		CLOSETIME=#{closeTime}, 
+	  		BREWERY_URL=#{breweryUrl},
+	  		B_UPDATE_DATE=DEFAULT,
+	  		FILENAME=#{fileName},
+	  		FILERENAME=#{fileRename},
+	  		FILEPATH=#{filePath}
 	  		WHERE BREWERY_NO=#{breweryNo}
 	  </update>
 	  <delete id="deleteBrewery">
 	  		DELETE FROM BREWERY_TBL
-	  		WEHRE BREWERY_NO=#{breweryNo}
+	  		WHERE BREWERY_NO=#{breweryNo}
 	  </delete>
   </mapper>
   

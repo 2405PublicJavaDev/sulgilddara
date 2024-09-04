@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>양조장 전체 리스트</title>
-</head>
-<body>
-	<h1>양조장 목록</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>양조장명</th>
-                <th>지역</th>
-                <th>수정일시</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="brewery : ${bList}">
-                <td th:text="${brewery.breweryName}"></td>
-                <td th:text="${brewery.breweryLocal}"></td>
-                <td th:text="${brewery.bUpdateDate}"></td>
-                <button th:onclick="modifyBrewery();">수정하기</button>
-                <button th:onclick="deleteBrewery();">삭제하기</button>
-            </tr>
-        </tbody>
-    </table>
-</body>
-<script th:inline="javascript">
-    function modifyBrewery() {
-        location.href="@{/brewery/update/{breweryNo}(breweryNo=${brewery.breweryNo}"
-    }
-    function deleteBrewery() {
-        loacation.href="@{/brewery/delete/{breweryNo}(breweryNo=${brewery.breweryNo}"
-    }
-</script>
+	<head>
+		<meta charset="UTF-8">
+		<title>양조장 전체 리스트</title>
+	</head>
+	<body>
+		<h1>양조장 목록</h1>
+	    <table>
+	        <thead>
+	            <tr>
+	            	<th>번호</th>
+	                <th>양조장명</th>
+	                <th>지역</th>
+	                <th>수정일시</th>
+	                <th>수정</th>
+	                <th>삭제</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="brewery : ${bList}">
+	            	<td th:text="${brewery.breweryNo}"></td>
+	                <td th:text="${brewery.breweryName}"></td>
+	                <td th:text="${brewery.breweryLocal}"></td>
+	                <td th:text="${brewery.bUpdateDate}"></td>
+		      	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
+	            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
+	        	</tr>
+	    	</tbody>
+		</table>
+	<button type="button" th:onclick="goInsert()">양조장 등록</button>
+	</body>
+	<script th:inline="javascript">
+	    function modifyBrewery(breweryNo) {
+	        console.log(breweryNo);
+	        location.href = "/brewery/update/" + breweryNo;
+	    }
+	    function deleteBrewery(breweryNo) {
+	        console.log(breweryNo);
+	        if (confirm("정말 삭제하시겠습니까?")) {
+	            location.href = "/brewery/delete/" + breweryNo;
+	        }
+	    }
+	    function goInsert() {
+	    	location.href = "/brewery/write";
+	    }
+	</script>
 </html>
