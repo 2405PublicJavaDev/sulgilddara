@@ -15,7 +15,7 @@ public interface BreweryMapper {
 	 * @param inputBrewery
 	 * @return int
 	 */
-	int insertBrewery(Brewery inputBrewery, MultipartFile uploadFile);
+	int insertBrewery(Brewery inputBrewery);
 	
 	/**
 	 * 양조장 리스트 전체 조회

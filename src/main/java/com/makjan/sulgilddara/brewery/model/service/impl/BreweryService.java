@@ -1,5 +1,6 @@
 package com.makjan.sulgilddara.brewery.model.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -14,16 +15,21 @@ public interface BreweryService {
 	/**
 	 * 양조장 정보 입력
 	 * @param inputBrewery
+	 * @param multipartFile 
 	 * @return int
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
-	int insertBrewery(Brewery inputBrewery, MultipartFile uploadFile);
+	int insertBrewery(Brewery inputBrewery) throws IllegalStateException, IOException;
 	
 	/**
 	 * 양조장 정보 수정
 	 * @param Brewery
 	 * @return int
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
-	int updateBrewery(Brewery Brewery);
+	int updateBrewery(Brewery Brewery) throws IllegalStateException, IOException;
 	
 	/**
 	 * 양조장 정보 삭제

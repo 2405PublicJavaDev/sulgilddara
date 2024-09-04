@@ -8,7 +8,19 @@
 	  		SELECT SEQ_BREWERY_NO.NEXTVAL FROM DUAL
 	  	</selectKey>
 	  		INSERT INTO BREWERY_TBL
-	  		VALUES(#{breweryNo}, #{breweryName}, #{breweryLocal}, #{breweryAddr}, #{breweryPhone}, #{breweryUrl}, DEFAULT, DEFAULT, #{openTime}, #{closeTime})
+	  		VALUES(#{breweryNo}, 
+	  				#{breweryName}, 
+	  				#{breweryLocal}, 
+	  				#{breweryAddr}, 
+	  				#{breweryPhone}, 
+	  				#{breweryUrl}, 
+	  				DEFAULT, 
+	  				DEFAULT, 
+	  				#{openTime}, 
+	  				#{closeTime}, 
+	  				#{fileName}, 
+	  				#{fileRename}, 
+	  				#{filePath})
 	  </insert>
 	  <select id="selectAllList" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL
@@ -25,7 +37,10 @@
 	  		OPENTIME=#{openTime}, 
 	  		CLOSETIME=#{closeTime}, 
 	  		BREWERY_URL=#{breweryUrl},
-	  		B_UPDATE_DATE=DEFAULT
+	  		B_UPDATE_DATE=DEFAULT,
+	  		FILENAME=#{fileName},
+	  		FILERENAME=#{fileRename},
+	  		FILEPATH=#{filePath}
 	  		WHERE BREWERY_NO=#{breweryNo}
 	  </update>
 	  <delete id="deleteBrewery">
