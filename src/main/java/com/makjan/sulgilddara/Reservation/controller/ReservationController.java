@@ -1,23 +1,19 @@
 package com.makjan.sulgilddara.Reservation.controller;
 
 import java.security.SecureRandom;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
@@ -27,7 +23,7 @@ import com.makjan.sulgilddara.model.vo.Pagination;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
-import oracle.jdbc.proxy.annotation.Post;
+
 
 @Controller
 
@@ -64,7 +60,7 @@ private static String generateRandomString(int length) {
 //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
 	String randomString = generateRandomString(10);
 		reservation.setReserveNo(randomString);
-		reservation.setUserId("user2");
+		reservation.setUserId("user3");
 		int result =rService.RegisterInfo(reservation);
 		return "redirect:"+kakaoPay.kakaoPayReady(); //결제 페이지 
 }
@@ -75,18 +71,12 @@ public String showListForm() {
 @PostMapping("/reservation/search")
 	public String SearchInfo(@RequestParam("reserveNo")String reserveNo,
 			Model model
-			,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage) {
+			) {
 	Map<String,String> param = new HashMap<String,String>();
 	param.put("reserveNo", reserveNo);
 	
-	int totalCount= rService.getTotalCount();
-	Pagination pn = new Pagination(totalCount,currentPage);
-	int limit = pn.getBoardLimit();
-	int offset=(currentPage-1)*limit;
-	RowBounds rowBounds =new RowBounds(offset,limit);
-	List<Reservation>rList = rService.SearchInfo(param,rowBounds);
+	List<Reservation>rList = rService.SearchInfo(param);
 	model.addAttribute("rList",rList);
-	model.addAttribute("pn",pn);
 	model.addAttribute("reserveNo",reserveNo);
 	return "reservation/reservationlookup";
 }
@@ -95,14 +85,23 @@ public String showListForm() {
 	return "reservation/reservationlookupadmin";
 }
 @PostMapping("/reservation/searchadmin")
-	public String SearchAllInfo(Reservation reservation,Model model
-//			@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-//		    @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+	public String SearchAllInfo(Model model
+			,@RequestParam("userId")String userId
+			,@RequestParam("breweryName")String breweryName
+			,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
 			) {
-	List<Reservation>rList = rService.SearchAllInfo(reservation);
+	int totalCount= rService.getTotalCount();
+	Pagination pn = new Pagination(totalCount,currentPage);
+	int limit = pn.getBoardLimit();
+	int offset=(currentPage-1)*limit;
+	RowBounds rowBounds =new RowBounds(offset,limit);
+	Map<String,String>param = new HashMap<String,String>();
+	param.put("userId",userId);
+	param.put("breweryName",breweryName);
+	List<Reservation>rList = rService.SearchAllInfo(param,rowBounds);	
 	model.addAttribute("rList",rList);
-//	model.addAttribute("startDate",startDate);
-//	model.addAttribute("endDate",endDate);
+	model.addAttribute("pn",pn);
+
 	return "reservation/reservationlookupadmin";
 }
 @GetMapping("/reservation/reservationsuccess")

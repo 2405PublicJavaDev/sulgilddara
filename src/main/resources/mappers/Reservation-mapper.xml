@@ -12,8 +12,6 @@
  	<result property="tourId" column="TOURID"/>
  	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
  	<result property="breweryName" column="BREWERY_NAME"/>
- 	<result property="startDate" column="STARTDATE"/>
- 	<result property="endDate" column="ENDDATE"/>
  </resultMap>
 
  <insert id="RegisterInfo">
@@ -22,23 +20,26 @@
  <select id="SearchInfo" resultMap="reserveResultMap">
  	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
  </select>
- <select id="SearchAllInfo">
+ <select id="SearchAllInfo" resultMap="reserveResultMap">
  	SELECT * FROM RESERVATION_TBL 
- 	<where>
-		<!-- (#{breweryName} IS NULL OR BREWERY_NAME=#{breweryName) AND ( #{userId} is NULL OR USERID LIKE CONCAT("%",#{userId},"%"))
-		AND (#{startDate} IS NULL OR #{endDate} IS NULL OR RESERVE_DATE #{startDate} AND #{endDate}) -->
- 	<if test="breweryName = null">
- 		USERID LIKE '%'|| #{userId}||'%'
- 	</if>
- 	<if test="userId = null">
- 		BERWERY_NAME=#{breweryName} 
- 	</if> 
-</where>
+	<where>
+		<choose>
+			<when test="breweryName!= null and breweryName!= '' ">
+				BREWERY_NAME=#{breweryName}
+			</when>
+			<when test="userId != null and userId != ''">
+				USERID= #{userId}
+			</when>
+			<when test="breweryName!= null and breweryName != '' and userId!=null and userId!= '' ">
+				USERID= #{userId} AND BREWERY_NAME=#{breweryName}
+			</when>
+		</choose>
+	</where>
  </select>
  <select id="SearchreserveNo" resultMap="reserveResultMap">
  	SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
  </select>
- <select id="getTotalCount" resultMap="reserveResultMap">
+ <select id="getTotalCount" resultType="_int">
  	SELECT COUNT(*) FROM RESERVATION_TBL
  </select>
  </mapper>

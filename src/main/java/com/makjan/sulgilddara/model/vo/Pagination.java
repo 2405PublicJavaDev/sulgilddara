@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@ToString
 public class Pagination {
 	private int currentPage;
 	private int totalCount;
@@ -18,6 +19,7 @@ public class Pagination {
 	private int naviLimit = 10;
 	
 	private int maxPage;
+	
 	private int startNavi;
 	private int endNavi;
 	
@@ -40,4 +42,5 @@ public class Pagination {
 		if(endNavi == maxPage) nextPage = maxPage;
 		else nextPage = endNavi + 1;
 	}
+	
 }

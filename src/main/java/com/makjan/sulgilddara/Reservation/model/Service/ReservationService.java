@@ -20,17 +20,17 @@ public interface ReservationService {
 /**
  * 예약 정보 조회하기 Service
  * @param param
- * @param rowBounds 
  * @return List<Reservation>
  */
-List<Reservation> SearchInfo(Map<String, String> param, RowBounds rowBounds);
+List<Reservation> SearchInfo(Map<String, String> param);
 
 /**
  * 예약 정보 조회 리스트 Service
- * @param reservation 
+ * @param param 
+ * @param rowBounds 
  * @return List<Reservation>
  */
-List<Reservation> SearchAllInfo(Reservation reservation);
+List<Reservation> SearchAllInfo(Map<String, String> param, RowBounds rowBounds);
 
 /**
  * 예약 번호 조회 Service

@@ -19,11 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.makjan.sulgilddara.board.common.utility.Util;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
+import com.makjan.sulgilddara.common.utility.Util;
 
 import lombok.NoArgsConstructor;
 

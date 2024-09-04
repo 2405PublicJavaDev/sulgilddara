@@ -27,8 +27,8 @@ public class ReservationServiceImpl implements ReservationService{
 
 
 	@Override
-	public List<Reservation> SearchAllInfo(Reservation reservation) {
-		List<Reservation> rList = rmapper.SearchAllInfo(reservation);
+	public List<Reservation> SearchAllInfo(Map<String, String> param,RowBounds rowBounds) {
+		List<Reservation> rList = rmapper.SearchAllInfo(param,rowBounds);
 		return rList;
 	}
 
@@ -39,8 +39,8 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<Reservation> SearchInfo(Map<String, String> param, RowBounds rowBounds) {
-		List<Reservation> rList = rmapper.SearchInfo(param,rowBounds);
+	public List<Reservation> SearchInfo(Map<String, String> param) {
+		List<Reservation> rList = rmapper.SearchInfo(param);
 		return rList;
 	}
 
