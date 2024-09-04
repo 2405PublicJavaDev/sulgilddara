@@ -23,17 +23,15 @@
  <select id="SearchAllInfo" resultMap="reserveResultMap">
  	SELECT * FROM RESERVATION_TBL 
 	<where>
-		<choose>
-			<when test="breweryName!= null and breweryName!= '' ">
-				BREWERY_NAME=#{breweryName}
-			</when>
-			<when test="userId != null and userId != ''">
-				USERID= #{userId}
-			</when>
-			<when test="breweryName!= null and breweryName != '' and userId!=null and userId!= '' ">
-				USERID= #{userId} AND BREWERY_NAME=#{breweryName}
-			</when>
-		</choose>
+		<if test="breweryName!= '' ">
+			BREWERY_NAME=#{breweryName}
+		</if>
+		<if test="userId != ''">
+			USERID= #{userId}
+		</if>
+		<if test="breweryName != '' and userId!= '' ">
+			USERID= #{userId} AND BREWERY_NAME=#{breweryName}
+		</if>
 	</where>
  </select>
  <select id="SearchreserveNo" resultMap="reserveResultMap">

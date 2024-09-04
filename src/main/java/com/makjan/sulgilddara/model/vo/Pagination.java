@@ -34,13 +34,26 @@ public class Pagination {
 	
 	private void makePagination() {
 		maxPage = (int) Math.ceil((double) totalCount / boardLimit);
+	
 		startNavi = ((currentPage-1)/naviLimit)*naviLimit + 1;
+	
 		endNavi = (startNavi-1) + naviLimit;
+	
 		endNavi = (endNavi > maxPage) ? maxPage : endNavi;
+	
 		if(currentPage <= 10) prevPage = 1;
 		else prevPage = startNavi - 1;
+	
 		if(endNavi == maxPage) nextPage = maxPage;
 		else nextPage = endNavi + 1;
-	}
 	
-}
+	    // 로그 출력
+	    System.out.println("Pagination Info: maxPage=" + maxPage + 
+	                       ", startNavi=" + startNavi + 
+	                       ", endNavi=" + endNavi + 
+	                       ", prevPage=" + prevPage + 
+	                       ", nextPage=" + nextPage +
+	                       ", totalCount="+ totalCount);
+	}	
+	}
+    

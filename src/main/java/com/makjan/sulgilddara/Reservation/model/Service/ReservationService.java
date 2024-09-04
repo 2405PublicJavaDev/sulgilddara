@@ -30,7 +30,8 @@ List<Reservation> SearchInfo(Map<String, String> param);
  * @param rowBounds 
  * @return List<Reservation>
  */
-List<Reservation> SearchAllInfo(Map<String, String> param, RowBounds rowBounds);
+List<Reservation> SearchAllInfo(String userId, String breweryName, RowBounds rowBounds);
+
 
 /**
  * 예약 번호 조회 Service
@@ -41,8 +42,11 @@ List<Reservation> SearchreserveNo(Reservation reservation);
 
 /**
  * 예약 조회 개수 Service
+ * @param breweryName 
+ * @param userId 
  * @return int
  */
-int getTotalCount();
+int getTotalCount(String userId, String breweryName);
+
 
 }

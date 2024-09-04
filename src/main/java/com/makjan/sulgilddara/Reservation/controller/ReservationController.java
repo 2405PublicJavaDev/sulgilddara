@@ -90,16 +90,15 @@ public String showListForm() {
 			,@RequestParam("breweryName")String breweryName
 			,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
 			) {
-	int totalCount= rService.getTotalCount();
+	int totalCount= rService.getTotalCount(userId,breweryName);
+
 	Pagination pn = new Pagination(totalCount,currentPage);
 	int limit = pn.getBoardLimit();
 	int offset=(currentPage-1)*limit;
 	RowBounds rowBounds =new RowBounds(offset,limit);
-	Map<String,String>param = new HashMap<String,String>();
-	param.put("userId",userId);
-	param.put("breweryName",breweryName);
-	List<Reservation>rList = rService.SearchAllInfo(param,rowBounds);	
+	List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
 	model.addAttribute("rList",rList);
+	model.addAttribute("currentPage", currentPage);
 	model.addAttribute("pn",pn);
 
 	return "reservation/reservationlookupadmin";

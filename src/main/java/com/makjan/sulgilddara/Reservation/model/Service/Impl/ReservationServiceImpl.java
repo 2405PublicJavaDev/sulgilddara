@@ -2,6 +2,7 @@ package com.makjan.sulgilddara.Reservation.model.Service.Impl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.model.vo.Pagination;
 
 @Service
 public class ReservationServiceImpl implements ReservationService{
@@ -27,7 +29,11 @@ public class ReservationServiceImpl implements ReservationService{
 
 
 	@Override
-	public List<Reservation> SearchAllInfo(Map<String, String> param,RowBounds rowBounds) {
+	public List<Reservation> SearchAllInfo(String userId, String breweryName, RowBounds rowBounds) {
+		
+		Map<String,String>param = new HashMap<String,String>();
+		param.put("userId",userId);
+		param.put("breweryName",breweryName);
 		List<Reservation> rList = rmapper.SearchAllInfo(param,rowBounds);
 		return rList;
 	}
@@ -45,8 +51,12 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public int getTotalCount() {
+	public int getTotalCount(String breweryName,String userId) {
+		Map<String,String>param = new HashMap<String,String>();
+		param.put("userId",userId);
+		param.put("breweryName",breweryName);
 		int result = rmapper.getTotalCount();
 		return result;
 	}
+
 }
