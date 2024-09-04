@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 
+import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorSearchInfo;
 
 public interface LiquorService {
@@ -35,7 +38,7 @@ public interface LiquorService {
 	 * @param liquorId
 	 * @return int
 	 */
-	Liquor selectOneById(int liquorId);
+	LiquorDetail selectOneById(int liquorId);
 
 	/**
 	 * 전체 주류 수 Service
@@ -54,8 +57,15 @@ public interface LiquorService {
 	 * 주류 목록조회 Service
 	 * @param currentPage
 	 * @param rowBounds
-	 * @return
+	 * @return int
 	 */
 	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds);
+	
+	/**
+	 * 주류 이미지 등록 Service
+	 * @param image
+	 * @return int
+	 */
+	int insertLiquorImage(LiquorImage image);
 	
 }

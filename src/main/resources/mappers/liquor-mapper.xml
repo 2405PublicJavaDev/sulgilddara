@@ -24,8 +24,16 @@
 	<select id="selectLiquorList" resultType="Liquor">
 		SELECT * FROM LIQUOR_TBL ORDER BY LIQUOR_ID DESC
 	</select>
-	<select id="selectOneById" resultType="Liquor">
-		SELECT * FROM LIQUOR_TBL WHERE LIQUOR_ID LIKE #{liquorId}
+	<select id="selectOneById" resultType="LiquorDetail">
+		SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL 
+		FROM LIQUOR_TBL 
+		JOIN BREWERY_TBL 
+		ON LIQUOR_TBL.BREWERY_ID = BREWERY_TBL.BREWERY_NO 
+		WHERE LIQUOR_ID = #{liquorId}
 	</select>
 	
+	<insert id="insertLiquorImage">
+		INSERT INTO LIQUOR_IMAGE_TBL
+		VALUES(SEQ_LIQUOR_IMAGE_NO.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{noticeNo})
+	</insert>
 </mapper>

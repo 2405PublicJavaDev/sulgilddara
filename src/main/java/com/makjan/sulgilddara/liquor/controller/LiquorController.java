@@ -1,5 +1,10 @@
 package com.makjan.sulgilddara.liquor.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -12,9 +17,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.makjan.sulgilddara.common.utility.Util;
 import com.makjan.sulgilddara.liquor.model.service.LiquorService;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorPagination;
 
 
@@ -23,12 +32,14 @@ import com.makjan.sulgilddara.liquor.model.vo.LiquorPagination;
 public class LiquorController {
 
 	private LiquorService lService;
-
+	private String UPLOAD_DIR;
+	
 	public LiquorController() {}
 
 	@Autowired
 	public LiquorController(LiquorService lService) {
 		this.lService = lService;
+		this.UPLOAD_DIR = "C:/uploadFile/liquor/";
 	}
 	
 	/**
@@ -55,16 +66,41 @@ public class LiquorController {
 	@GetMapping("/update/{liquorId}")
 	public String showLiquorUpdateForm(@PathVariable("liquorId") Integer liquorId,
 			Model model) {
-		Liquor liquor = lService.selectOneById(liquorId);
-		System.out.println(liquor.toString());
+		LiquorDetail liquor = lService.selectOneById(liquorId);
 		model.addAttribute("liquor", liquor);
 		return "liquor/liquorUpdate";
 	}
 	
 	@PostMapping("/update")
-	public String updateLiquor(Liquor liquor) {
-		System.out.println(liquor.toString());
+	public String updateLiquor(Liquor liquor, @RequestParam("files") List<MultipartFile> files) {
 		int result = lService.updateLiquor(liquor);
+		System.out.println(files.size());
+		if(!files.isEmpty()){
+			System.out.println("ck01");
+			for(MultipartFile file : files) {
+				System.out.println("ck02");
+				try {
+					// 절대경로로 실제 파일 저장
+					String fileName = file.getOriginalFilename();
+					System.out.println(fileName);
+					String fileRename = Util.fileRename(fileName);
+					System.out.println(fileRename);
+					// web용 경로
+					String filePath = "/liquor-images/";
+					// 절대경로로 실제 파일 저장, 저장할때는 Rename파일명으로 저장
+					file.transferTo(new File(UPLOAD_DIR+fileRename));
+					LiquorImage image = new LiquorImage();
+					image.setFileName(fileName);
+					image.setFileRename(fileRename);
+					image.setFilePath(filePath);
+					image.setLiquirId(liquor.getLiquorId());
+					result = lService.insertLiquorImage(image);
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return "redirect:/liquor/list";
 	}
 	
@@ -74,8 +110,10 @@ public class LiquorController {
 		return "redirect:/liquor/list";
 	}
 	
-	@GetMapping("/detail")
-	public String liquorDetail(@RequestParam String param) {
+	@GetMapping("/detail/{liquorId}")
+	public String liquorDetail(@PathVariable("liquorId") Integer liquorId, Model model) {
+		LiquorDetail liquor = lService.selectOneById(liquorId);
+		model.addAttribute("liquor", liquor);
 		return "liquor/liquorDetail";
 	}
 	

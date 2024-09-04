@@ -25,7 +25,7 @@
 			<tbody>
 				<tr th:each="liquor : ${lList }">
 					<td>[[${liquor.liquorId }]]</td>
-					<td>[[${liquor.liquorName}]]</td>
+					<td><a th:href="@{/liquor/detail/{id}(id=${liquor.liquorId})}" th:text="${liquor.liquorName}"></a></td>
 					<td>[[${liquor.alcholContent}]]</td>
 					<td>[[${liquor.liquorType }]]</td>
 					<td>[[${liquor.liquorPrice }]]</td>

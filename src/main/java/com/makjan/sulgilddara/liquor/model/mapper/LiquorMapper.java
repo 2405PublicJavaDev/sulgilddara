@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorSearchInfo;
 
 @Mapper
@@ -37,7 +39,7 @@ public interface LiquorMapper {
 	 * @param liquorId
 	 * @return int
 	 */
-	Liquor selectOneById(int liquorId);
+	LiquorDetail selectOneById(int liquorId);
 
 	/**
 	 * 전체 주류 수 Mapper
@@ -56,7 +58,14 @@ public interface LiquorMapper {
 	 * 주류 목록조회 Mapper
 	 * @param currentPage
 	 * @param rowBounds
-	 * @return
+	 * @return int
 	 */
 	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds);
+
+	/**
+	 * 주류 이미지등록 Mapper
+	 * @param image
+	 * @return int
+	 */
+	int insertLiquorImage(LiquorImage image);
 }
