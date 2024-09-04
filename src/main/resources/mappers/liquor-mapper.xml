@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makjan.sulgilddara.liquor.model.mapper.LiquorMapper">
+	<insert id="addLiquor" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="liquorId">
+			SELECT SEQ_LIQUOR_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO LIQUOR_TBL
+		VALUES(#{liquorId} , #{liquorName} , #{alcholContent}, #{liquorType}, #{liquorPrice}, #{liquorCapacity}, DEFAULT, DEFAULT, #{breweryId})
+	</insert>
+	<update id="updateLiquor" useGeneratedKeys="true">
+		UPDATE LIQUOR_TBL
+		SET LIQUOR_NAME = #{liquorName} , ALCHOL_CONTENT = #{alcholContent}, LIQUOR_TYPE = #{liquorType}, LIQUOR_PRICE = #{liquorPrice}, LIQUOR_CAPACITY = #{liquorCapacity}, L_UPDATE_DATE = SYSTIMESTAMP, BREWERY_ID = #{breweryId} WHERE LIQUOR_ID LIKE #{liquorId}
+	</update>
+	<delete id="deleteLiquor">
+		DELETE FROM LIQUOR_TBL
+		WHERE LIQUOR_ID LIKE #{liquorId}
+	</delete>
+	<select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM LIQUOR_TBL
+	</select>
+	<select id="selectLiquorList" resultType="Liquor">
+		SELECT * FROM LIQUOR_TBL ORDER BY LIQUOR_ID DESC
+	</select>
+	<select id="selectOneById" resultType="Liquor">
+		SELECT * FROM LIQUOR_TBL WHERE LIQUOR_ID LIKE #{liquorId}
+	</select>
+	
+</mapper>
