@@ -13,8 +13,8 @@
                 <li>
                     <label>프로필 사진 변경</label>
                     <input type="file" name="reloadFile" id="profileImage" accept="image/*" onchange="previewImage(event)">
-                	<div>
-                        <img id="preview" th:src="@{${user.userFile.filePath}}" alt="미리보기 이미지" style="width: 150px; height: auto;">
+                	<div  th:if="${user.userFile != null}">
+                        <img id="preview" th:src="@{|${user.userFile.filePath}${user.userFile.fileRename}|}" alt="미리보기 이미지" style="width: 150px; height: auto;">
                     </div>
                 </li>
                  <li>
