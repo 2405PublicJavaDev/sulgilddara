@@ -48,7 +48,7 @@ public class BreweryController {
 			, @ModelAttribute("BreweryTag") BreweryTag breweryTag) throws IllegalStateException, IOException {
 		int result = bService.insertBrewery(inputBrewery);
 		List<String> tagNameArr = new ArrayList<String>();
-		String tagNameJson = b
+//		String tagNameJson = b
 		return "redirect:/brewery/list";
 	}
 	
