@@ -17,7 +17,7 @@ public interface ReservationMapper {
 
 	List<Reservation> SearchInfo(Map<String, String> param);
 
-	List<Reservation> SearchAllInfo(Map<String, String> param, RowBounds rowBounds);
+	List<Reservation> SearchAllInfo(Map<String, String> param,RowBounds rowbounds);
 
 	List<Reservation> SearchreserveNo(Reservation reservation);
 

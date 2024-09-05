@@ -26,6 +26,7 @@ List<Reservation> SearchInfo(Map<String, String> param);
 
 /**
  * 예약 정보 조회 리스트 Service
+ * @param rowBounds 
  * @param param 
  * @param rowBounds 
  * @return List<Reservation>

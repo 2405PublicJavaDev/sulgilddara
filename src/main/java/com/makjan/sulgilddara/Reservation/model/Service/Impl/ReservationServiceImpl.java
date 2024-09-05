@@ -15,7 +15,12 @@ import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.model.vo.Pagination;
 
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	ReservationMapper rmapper;
@@ -29,18 +34,20 @@ public class ReservationServiceImpl implements ReservationService{
 
 
 	@Override
-	public List<Reservation> SearchAllInfo(String userId, String breweryName, RowBounds rowBounds) {
+	public List<Reservation> SearchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
 		
 		Map<String,String>param = new HashMap<String,String>();
 		param.put("userId",userId);
 		param.put("breweryName",breweryName);
-		List<Reservation> rList = rmapper.SearchAllInfo(param,rowBounds);
+		List<Reservation> rList = rmapper.SearchAllInfo(param,rowbounds);
 		return rList;
 	}
 
 	@Override
 	public List<Reservation> SearchreserveNo(Reservation reservation) {
 		List<Reservation> rList = rmapper.SearchreserveNo(reservation);
+		log.info("rList size: " + rList.size());
+		log.info("rList content: " + rList);
 		return rList;
 	}
 

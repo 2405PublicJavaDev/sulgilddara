@@ -53,7 +53,8 @@ public class Pagination {
 	                       ", endNavi=" + endNavi + 
 	                       ", prevPage=" + prevPage + 
 	                       ", nextPage=" + nextPage +
-	                       ", totalCount="+ totalCount);
+	                       ", totalCount="+ totalCount
+	                       );
 	}	
 	}
     

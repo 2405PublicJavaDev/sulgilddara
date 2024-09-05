@@ -15,25 +15,22 @@
  </resultMap>
 
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone},1)
+ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone},33)
  </insert>
  <select id="SearchInfo" resultMap="reserveResultMap">
  	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
  </select>
  <select id="SearchAllInfo" resultMap="reserveResultMap">
- 	SELECT * FROM RESERVATION_TBL 
-	<where>
-		<if test="breweryName!= '' ">
-			BREWERY_NAME=#{breweryName}
-		</if>
-		<if test="userId != ''">
-			USERID= #{userId}
-		</if>
-		<if test="breweryName != '' and userId!= '' ">
-			USERID= #{userId} AND BREWERY_NAME=#{breweryName}
-		</if>
-	</where>
- </select>
+ 	SELECT * FROM reservation_tbl
+    <where>
+        <if test="userId != null and userId != ''">
+            AND USERID = #{userId}
+        </if>
+        <if test="breweryName != null and breweryName != ''">
+            AND brewery_Name = #{breweryName}
+        </if>
+    </where>
+</select>
  <select id="SearchreserveNo" resultMap="reserveResultMap">
  	SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
  </select>
