@@ -5,13 +5,14 @@
  <mapper namespace="com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper">
  <resultMap type="Reservation" id="reserveResultMap">
  	<id property="reserveNo" column="RESERVE_NO"/>
- 	<result property="userId" column="USERID"/>
+ 	<result property="userId" column="USER_ID"/>
  	<result property="memberNum" column="MEMBER_NUM"/>
  	<result property="reserveDate" column="RESERVE_DATE"/>
  	<result property="reserveTime" column="RESERVE_TIME"/>
- 	<result property="tourId" column="TOURID"/>
  	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
  	<result property="breweryName" column="BREWERY_NAME"/>
+ 	<result property="reserveCompleteTime" column="RESERVE_COMPLETE_TIME"/>
+ 	<result property="tourName" column="TOUR_NAME"/>
  </resultMap>
  
 <resultMap type="User" id="userResultMap">
@@ -29,7 +30,7 @@
 </resultMap>
 
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone},33)
+ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone},33,DEFAULT,1)
  </insert>
  
  <select id="SearchInfo" resultMap="reserveResultMap">
@@ -40,7 +41,7 @@
  	SELECT * FROM reservation_tbl
     <where>
         <if test="userId != null and userId != ''">
-            AND USERID = #{userId}
+            AND USER_ID = #{userId}
         </if>
         <if test="breweryName != null and breweryName != ''">
             AND brewery_Name = #{breweryName}
@@ -55,7 +56,7 @@
  	SELECT COUNT(*) FROM reservation_tbl
     <where>
         <if test="userId != null and userId != ''">
-            AND USERID = #{userId}
+            AND USER_ID = #{userId}
         </if>
         <if test="breweryName != null and breweryName != ''">
             AND brewery_Name = #{breweryName}
@@ -67,7 +68,7 @@
  	SELECT COUNT(*) FROM reservation_tbl
     <where>
         <if test="userId != null and userId != ''">
-            AND USERID = #{userId}
+            AND USER_ID = #{userId}
         </if>
         <if test="breweryName != null and breweryName != ''">
             AND brewery_Name = #{breweryName}
@@ -76,7 +77,10 @@
  </select>
  
  <select id="selectOne" resultType="Reservation">
- 	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo}
+ 	<!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
+	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
+	join tour_tbl using(tour_name) join brewery_tbl using (brewery_name) 
+	WHERE RESERVE_NO=#{reserveNo};
  </select>
  <select id="selectInfo" resultMap="userResultMap">
  	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}

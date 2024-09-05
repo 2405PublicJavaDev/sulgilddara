@@ -1,12 +1,6 @@
 package com.makjan.sulgilddara.Reservation.model.VO;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-
-import com.makjan.sulgilddara.user.model.vo.User;
-
-import lombok.NoArgsConstructor;
 
 
 public class Reservation {
@@ -16,28 +10,59 @@ public class Reservation {
 	private int visitorNum;
 	private String reserveDate;
 	private String reserveTime;
-	private String tourId;
+	private String tourName;
 	private int emergencyPhone;
 	private String breweryName;
+	private String reserveCompleteTime;
+	private String totalPrice;
+	// User
 	private String email;
 	private String address;
 	private Timestamp joinDate;
 	private String phone;
-//	private User email;
-//	private User address;
-//	private User joinDate;
-//	private User phone;
-//	private LocalDate startDate;
-//	private LocalDate endDate;
-	
+	// Brewery
+	private String filename;
+	private int tourPrice;
 
+	
 	public Reservation() {
 	}
 
+	public String getReserveCompleteTime() {
+		return reserveCompleteTime;
+	}
 
+	public void setReserveCompleteTime(String reserveCompleteTime) {
+		this.reserveCompleteTime = reserveCompleteTime;
+	}
 
+	public String getFilename() {
+		return filename;
+	}
 
-public String getEmail() {
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	
+
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public int getTourPrice() {
+		return tourPrice;
+	}
+
+	public void setTourPrice(int tourPrice) {
+		this.tourPrice = tourPrice;
+	}
+
+	public String getEmail() {
 		return email;
 	}
 
@@ -53,16 +78,13 @@ public String getEmail() {
 		this.address = address;
 	}
 
-
 	public Timestamp getJoinDate() {
 		return joinDate;
 	}
 
-
 	public void setJoinDate(Timestamp joinDate) {
 		this.joinDate = joinDate;
 	}
-
 
 	public String getPhone() {
 		return phone;
@@ -72,7 +94,7 @@ public String getEmail() {
 		this.phone = phone;
 	}
 
-	//	public User getPhone() {
+	// public User getPhone() {
 //		return phone;
 //	}
 //	public void setPhone(User phone) {
@@ -97,79 +119,91 @@ public String getEmail() {
 //		this.joinDate = joinDate;
 //	}
 	public Reservation(String userId) {
-	super();
-	this.userId = userId;
-}
-
-	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
-		this.reserveNo=reserveNo;
-		this.joinDate=joinDate;
-		this.email=email;
-		this.phone=phone;
+		super();
+		this.userId = userId;
 	}
 
-
-
+	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
+		this.reserveNo = reserveNo;
+		this.joinDate = joinDate;
+		this.email = email;
+		this.phone = phone;
+	}
 
 	public String getReserveNo() {
 		return reserveNo;
 	}
+
 	public void setReserveNo(String reserveNo) {
 		this.reserveNo = reserveNo;
 	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public int getVisitorNum() {
 		return visitorNum;
 	}
+
 	public void setVisitorNum(int visitorNum) {
 		this.visitorNum = visitorNum;
 	}
+
 	public String getReserveDate() {
 		return reserveDate;
 	}
+
 	public void setReserveDate(String reserveDate) {
 		this.reserveDate = reserveDate;
 	}
+
 	public String getReserveTime() {
 		return reserveTime;
 	}
+
 	public void setReserveTime(String reserveTime) {
 		this.reserveTime = reserveTime;
 	}
-	public String getTourId() {
-		return tourId;
+
+
+
+	public String getTourName() {
+		return tourName;
 	}
-	public void setTourId(String tourId) {
-		this.tourId = tourId;
+
+	public void setTourName(String tourName) {
+		this.tourName = tourName;
 	}
+
 	public int getEmergencyPhone() {
 		return emergencyPhone;
 	}
+
 	public void setEmergencyPhone(int emergencyPhone) {
 		this.emergencyPhone = emergencyPhone;
 	}
+
 	public String getBreweryName() {
 		return breweryName;
 	}
+
 	public void setBreweryName(String breweryName) {
 		this.breweryName = breweryName;
 	}
+
 	@Override
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", visitorNum=" + visitorNum
-				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourId=" + tourId
-				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", email=" + email
-				+ ", address=" + address + ", joinDate=" + joinDate + ", phone=" + phone + "]";
+				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourName=" + tourName
+				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", reserveCompleteTime="
+				+ reserveCompleteTime + ", totalPrice=" + totalPrice + ", email=" + email + ", address=" + address
+				+ ", joinDate=" + joinDate + ", phone=" + phone + ", filename=" + filename + ", tourPrice=" + tourPrice
+				+ "]";
 	}
 
-
-
-
-	
 }
-
