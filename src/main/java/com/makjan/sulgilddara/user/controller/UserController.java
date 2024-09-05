@@ -26,13 +26,13 @@ public class UserController {
 	@Autowired
 	private UserService uService;
 	
-	// 회원가입 form 
+	// 회원가입 form (get)
 	@GetMapping("/register")
 	public String showRegisterForm(@ModelAttribute User user) {
 		return "user/userJoin";
 	}
 	
-	// 회원가입 메소드 (GET)
+	// 회원가입 메소드 (POST)
 	@PostMapping("/register")
 	public String registerUser(@Validated @ModelAttribute User inputUser
 			, BindingResult bindingResult

@@ -1,8 +1,11 @@
 package com.makjan.sulgilddara.brewery.controller;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
+=======
+>>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+<<<<<<< HEAD
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
+=======
+>>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
@@ -44,8 +50,12 @@ public class BreweryController {
 	}
 	
 	@PostMapping("/write")
+<<<<<<< HEAD
 	public String insertBrewery(Brewery inputBrewery
 			, @ModelAttribute("BreweryTag") BreweryTag breweryTag) throws IllegalStateException, IOException {
+=======
+	public String insertBrewery(Brewery inputBrewery) throws IllegalStateException, IOException {
+>>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 		int result = bService.insertBrewery(inputBrewery);
 		List<String> tagNameArr = new ArrayList<String>();
 //		String tagNameJson = b

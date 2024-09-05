@@ -41,4 +41,12 @@ public interface UserService {
 	 * @return user
 	 */
 	User selectOneById(String userId);
+
+	/**
+	 * 회원 탈퇴 Service
+	 * @param userId
+	 * @return int
+	 */
+	int deleteUser(String userId);
+
 }
