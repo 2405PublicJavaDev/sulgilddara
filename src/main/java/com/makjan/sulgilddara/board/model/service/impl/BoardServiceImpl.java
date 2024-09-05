@@ -30,17 +30,39 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	// selectBoardList 오버로딩 - 키워드검색
 	@Override
-	public Map<String, Object> selectBoardList(Integer currentPage) {
-		int totalCount = bMapper.getTotalCount();
+	public Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition) {
+		
+		System.out.println("seacrhCondition : "+searchCondition);
+		System.out.println("searchKeyword : "+searchKeyword);
+		
+		int totalCount = bMapper.getTotalCount(searchCondition, searchKeyword);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1) * limit ;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Board> bList = bMapper.selectBoardList(rowBounds);
+		List<Board> bList = bMapper.selectBoardList(searchCondition, searchKeyword, rowBounds);
 		Map<String, Object> map = new HashMap<>();
 		map.put("bList", bList);
+		map.put("pn", pn);
+		return map;
+	}
+	
+	// selectBoardList 오버로딩 - 간편(태그)검색
+	@Override
+	public Map<String, Object> selectBoardList(Integer currentPage, String[] tagList) {
+		
+		int totalCount = bMapper.getTotalCountTag(tagList);
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1) * limit ;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Board> bList = bMapper.selectBoardListTag(tagList, rowBounds);
+		Map<String, Object> map = new HashMap<>();
+		map.put("bList", bList);
+		System.out.println(bList);
 		map.put("pn", pn);
 		return map;
 	}
@@ -93,6 +115,12 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardTag> selectBoardTagList() {
 		List<BoardTag> bTagList = bMapper.selectBoardTagList();
 		return bTagList;
+	}
+
+	@Override
+	public List<BoardFile> selectBoardFileList() {
+		List<BoardFile> bFileList = bMapper.selectBoardFileList();
+		return bFileList;
 	}
 	
 	

@@ -17,7 +17,7 @@
   	</insert>
   	
   	<insert id="insertBoardFile">
-  		INSERT INTO BOARD_FILE_TBL VALUES(SEQ_BOARD_FILE_NO.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{boardNo})
+  		INSERT INTO BOARD_FILE_TBL VALUES(SEQ_BOARD_FILE_NO.NEXTVAL, #{boardFileName}, #{boardFileRename}, #{boardFilePath}, #{boardNo})
   	</insert>
   	
   	<update id="updateBoardFile">
@@ -25,16 +25,122 @@
 <!--   		UPDATE BOARD_FILE_TBL SET BOARD_NO = #{boardNo} WHERE  --> 
   	</update>
   	
+<!--   	게시글 키워드 검색 -->
   	<select id="selectBoardList" resultType="Board">
-  		SELECT * FROM BOARD_TBL ORDER BY BOARD_NO DESC
+  		SELECT * FROM BOARD_TBL
+  		<where>
+  			<if test="searchCondition == 'all' and searchKeyword != null">
+  				BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+  				OR BOARD_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+  				OR BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  			<if test="searchCondition == 'boardWriter' and searchKeyword != null">
+  				BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  			<if test="searchCondition == 'boardSubject' and searchKeyword != null">
+  				BOARD_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  			<if test="searchCondition == 'boardContent' and searchKeyword != null">
+  				BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+<!--   			<if test="boardSubject != null and boardSubject != ''"> -->
+<!-- 		  		BOARD_SUBJECT LIKE '%'||#{boardSubject}||'%' -->
+<!--   			</if> -->
+  		</where>
+  		ORDER BY BOARD_NO DESC
   	</select>
   	
+<!--   	게시글 간편(태그) 검색 -->
+	<select id="selectBoardListTag" parameterType="list" resultType="BoardTag">
+		
+	    
+<!-- 	    <if test="tagList.length > 1"> -->
+<!-- 		    SELECT * -->
+<!-- 		    FROM ( -->
+<!-- 		        SELECT * -->
+<!-- 		        FROM BOARD_TBL -->
+<!-- 		        JOIN BOARD_TAG_TBL -->
+<!-- 		        USING(BOARD_NO) -->
+<!-- 		        WHERE BOARD_TAG_NAME IN -->
+<!-- 		        <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
+<!-- 		            #{tag} -->
+<!-- 		        </foreach> -->
+<!-- 		        AND BOARD_NO IN ( -->
+<!-- 		            SELECT BOARD_NO -->
+<!-- 		            FROM BOARD_TAG_TBL -->
+<!-- 		            WHERE BOARD_TAG_NAME IN -->
+<!-- 		            <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
+<!-- 		                #{tag} -->
+<!-- 		            </foreach> -->
+<!-- 		            GROUP BY BOARD_NO -->
+<!-- 		            HAVING COUNT(*) > 1 -->
+<!-- 		        ) -->
+<!-- 		        ORDER BY BOARD_NO -->
+<!-- 		    ) -->
+<!-- <!-- 		    WHERE ROWNUM = 1 --> -->
+<!-- 	    </if> -->
+<!-- 	    <if test="tagList.length == 1"> -->
+<!-- 	    	SELECT * -->
+<!-- 		    FROM ( -->
+<!-- 		        SELECT * -->
+<!-- 		        FROM BOARD_TBL -->
+<!-- 		        JOIN BOARD_TAG_TBL -->
+<!-- 		        USING(BOARD_NO) -->
+<!-- 		        WHERE BOARD_TAG_NAME IN -->
+<!-- 		        <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
+<!-- 		            #{tag} -->
+<!-- 		        </foreach> -->
+<!-- 		        AND BOARD_NO IN ( -->
+<!-- 		            SELECT BOARD_NO -->
+<!-- 		            FROM BOARD_TAG_TBL -->
+<!-- 		            WHERE BOARD_TAG_NAME IN -->
+<!-- 		            <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
+<!-- 		                #{tag} -->
+<!-- 		            </foreach> -->
+<!-- 		            GROUP BY BOARD_NO -->
+<!-- 		            HAVING COUNT(*) = 1 -->
+<!-- 		        ) -->
+<!-- 		        ORDER BY BOARD_NO -->
+<!-- 		    ) -->
+<!-- 		    WHERE ROWNUM = 1 -->
+<!-- 	    </if> -->
+	    
+	</select>
+ 
+
+  	
   	<select id="getTotalCount" resultType="_int">
-		SELECT COUNT(*) FROM BOARD_TBL
+		SELECT COUNT(*) FROM BOARD_TBL 
+		<where>
+			<if test="searchCondition == 'all' and searchKeyword != null">
+				BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+				OR BOARD_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+				OR BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'boardWriter' and searchKeyword != null">
+				BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'boardSubject' and searchKeyword != null">
+				BOARD_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'boardContent' and searchKeyword != null">
+				BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalCountTag" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_TBL JOIN BOARD_TAG_TBL USING(BOARD_NO)
 	</select>
 	
 	<select id="selectBoardTagList" resultType="BoardTag">
-		SELECT * FROM BOARD_TAG_TBL
+		SELECT DISTINCT BOARD_TAG_NAME FROM BOARD_TAG_TBL
 	</select>
+	
+	<select id="selectBoardFileList" resultType="BoardFile">
+		SELECT * FROM BOARD_FILE_TBL
+	</select>
+	
+	
   </mapper>
   
