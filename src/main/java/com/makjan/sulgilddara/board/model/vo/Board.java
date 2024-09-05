@@ -19,8 +19,8 @@ public class Board {
 	private Timestamp boardDate;
 	private Timestamp updateDate;
 	private Integer viewCount;
-	private Integer boardPoint;
-	private Integer liquirId;
+	private Double boardPoint;
+	private Integer liquorId;
 	private Integer userId;
 	
 	private BoardFile boardFile;
