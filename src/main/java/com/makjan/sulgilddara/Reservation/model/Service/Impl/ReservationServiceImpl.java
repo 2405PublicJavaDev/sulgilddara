@@ -14,6 +14,7 @@ import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.user.model.vo.User;
 
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
@@ -24,14 +25,21 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	ReservationMapper rmapper;
-
+@Autowired
+	User user;
 	@Override
 	public int RegisterInfo(Reservation reservation) {
 		System.out.println(reservation);
 		int result = rmapper.RegisterInfo(reservation); 
 		return result;
 	}
-
+//
+//	@Override
+//	public int RegisterInfo(Reservation reservation, String userId) {
+//		System.out.println(reservation);
+//		int result = rmapper.RegisterInfo(reservation,userId); 
+//		return result;
+//	}
 
 	@Override
 	public List<Reservation> SearchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
@@ -46,8 +54,6 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public List<Reservation> SearchreserveNo(Reservation reservation) {
 		List<Reservation> rList = rmapper.SearchreserveNo(reservation);
-		log.info("rList size: " + rList.size());
-		log.info("rList content: " + rList);
 		return rList;
 	}
 
@@ -75,5 +81,26 @@ public class ReservationServiceImpl implements ReservationService{
 		int result = rmapper.getTotalCountWithConditiion(param);
 		return result;
 	}
+
+//
+//	@Override
+//	public List<Reservation> selectOne(String reserveNo) {
+//		List<Reservation>rList = rmapper.selectOne(reserveNo);
+//		return rList;
+//	}
+
+	@Override
+	public List<User> selectInfo(User user) {
+		List<User>uList = rmapper.selectInfo(user);
+		return uList;
+	}
+
+	@Override
+	public List<Reservation> selectOne(String userId) {
+		List<Reservation>rList = rmapper.selectOne(userId);
+		return rList;
+	}
+
+
 
 }

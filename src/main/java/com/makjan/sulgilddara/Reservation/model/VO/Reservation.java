@@ -1,7 +1,10 @@
 package com.makjan.sulgilddara.Reservation.model.VO;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+
+import com.makjan.sulgilddara.user.model.vo.User;
 
 import lombok.NoArgsConstructor;
 
@@ -16,24 +19,98 @@ public class Reservation {
 	private String tourId;
 	private int emergencyPhone;
 	private String breweryName;
+	private String email;
+	private String address;
+	private Timestamp joinDate;
+	private String phone;
+//	private User email;
+//	private User address;
+//	private User joinDate;
+//	private User phone;
 //	private LocalDate startDate;
 //	private LocalDate endDate;
 	
-	
-//	public LocalDate getStartDate() {
-//		return startDate;
-//	}
-//	public void setStartDate(LocalDate startDate) {
-//		this.startDate = startDate;
-//	}
-//	public LocalDate getEndDate() {
-//		return endDate;
-//	}
-//	public void setEndDate(LocalDate endDate) {
-//		this.endDate = endDate;
-//	}
+
 	public Reservation() {
 	}
+
+
+
+
+public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public Timestamp getJoinDate() {
+		return joinDate;
+	}
+
+
+	public void setJoinDate(Timestamp joinDate) {
+		this.joinDate = joinDate;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	//	public User getPhone() {
+//		return phone;
+//	}
+//	public void setPhone(User phone) {
+//		this.phone = phone;
+//	}
+//	public User getEmail() {
+//		return email;
+//	}
+//	public void setEmail(User email) {
+//		this.email = email;
+//	}
+//	public User getAddress() {
+//		return address;
+//	}
+//	public void setAddress(User address) {
+//		this.address = address;
+//	}
+//	public User getJoinDate() {
+//		return joinDate;
+//	}
+//	public void setJoinDate(User joinDate) {
+//		this.joinDate = joinDate;
+//	}
+	public Reservation(String userId) {
+	super();
+	this.userId = userId;
+}
+
+	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
+		this.reserveNo=reserveNo;
+		this.joinDate=joinDate;
+		this.email=email;
+		this.phone=phone;
+	}
+
+
+
+
 	public String getReserveNo() {
 		return reserveNo;
 	}
@@ -86,7 +163,8 @@ public class Reservation {
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", visitorNum=" + visitorNum
 				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourId=" + tourId
-				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + "]";
+				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", email=" + email
+				+ ", address=" + address + ", joinDate=" + joinDate + ", phone=" + phone + "]";
 	}
 
 

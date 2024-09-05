@@ -9,11 +9,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.user.model.vo.User;
 
 @Mapper
 public interface ReservationMapper {
-
-	int RegisterInfo(Reservation reservation);
 
 	List<Reservation> SearchInfo(Map<String, String> param);
 
@@ -24,6 +23,12 @@ public interface ReservationMapper {
 	int getTotalCount();
 
 	int getTotalCountWithConditiion(Map<String, String> param);
+
+	List<Reservation> selectOne(String userId);
+
+	int RegisterInfo(Reservation reservation);
+
+	List<User> selectInfo(User user);
 
 
 

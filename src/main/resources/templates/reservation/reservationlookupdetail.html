@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="main">
+		<div class="main-top">
+			<div class="main-top-left">
+				<div class="Info">
+					<th:block th:each="Reservation: ${rList}">						
+							<h3>[[${Reservation.reserveNo}]]세부정보</h3>
+							 <div>
+								대충 결제 방식						 
+							 </div>
+							 <div>
+							 	<div class="Info-Div">
+							 		<div class="General">일반</div>
+							 		<div class="Info">정보</div>
+							 		<div class="state">상태</div>
+							 	</div>
+							 	<div class="detail-Info">
+							 		<div class="Info">
+								 		<div class="Info-title">생성날짜</div>
+								 		<div class="Info-title">이메일</div>
+								 		<div class="Info-title">예약 상태</div>
+							 		</div>
+							 		<div class="Info">
+								 		<div class="Info1">[[${Reservation.joinDate}]]</div>
+								 		<div class="Info2">[[${Reservation.email}]]</div>
+								 		<div class="Info3">완료/취소</div>
+							 		</div>
+							 		<div class="Info">
+								 		<div class="Info4">고객</div>
+								 		<div class="Info5">전화번호</div>
+							 		</div>
+							 		<div class="Info">
+								 		<div class="Info6">[[${Reservation.userId}]]</div>
+								 		<div class="Info7">[[${Reservation.phone}]]</div>
+							 		</div>
+							 	</div>
+							 </div>
+					</th:block>
+				</div>
+			</div>
+			<div class="main-top-right"></div>
+		</div>
+		<div class="main-bottom"></div>
+	</div>
+</body>
+</html>

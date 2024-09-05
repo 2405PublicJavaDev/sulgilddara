@@ -6,7 +6,7 @@
 	</head>
 	
 	<body>
-		<form th:action="@{/reservation/searchresultadminlist}" th:object= "${reservation}" method="POST">
+		<form th:action="@{/reservation/searchResultAdmin}" th:object= "${reservation}" method="POST">
 				<div class="searchArea">
 					<div class="searchDiv">
 						<div class="breweryNameSearch">
@@ -20,7 +20,7 @@
 				</div>
 			</form>
 		
-		<div class="reserveResult">
+		<div class="reserveResult" >
 			<div class="List">
 				목록
 			</div>
@@ -39,8 +39,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="Reservation: ${rList}" var="Reservation">						
-							<td>[[${Reservation.reserveNo}]]</td>
+						<tr th:if="${#lists.isEmpty(rList)}">
+							<td>NoData</td>
+						</tr>
+						<tr th:each="Reservation: ${rList}">						
+							<td>
+							<a th:href="@{/reservation/detail/{reserveNo}(reserveNo=${Reservation.reserveNo})}" th:text="${Reservation.reserveNo}"></a>
+							</td>
 							<td>[[${Reservation.breweryName}]]</td>
 							<td>[[${Reservation.tourId}]]</td>
 							<td>[[${Reservation.reserveDate}]]</td>
@@ -50,21 +55,21 @@
 							<td>[[${Reservation.userId}]]</td>
 						</tr>
 					</tbody>
-					<tfoot>
+					<tfoot th:unless="${#lists.isEmpty(rList)}">
 						 <tr align="center">
 							<td colspan="5">
 								<th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
-									<!-- <th:block th:if="${pn.startNavi > 1}">
-										<a th:href="@{/reservation/searchadmin(currentPage=${pn.prevPage})}">Previous</a>
-									</th:block> -->
+									<th:block th:if="${pn.startNavi > 1}">
+										<a th:href="@{/reservation/searchresultadminlist(currentPage=${pn.prevPage})}">Previous</a>
+									</th:block>
 									
 									<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
 										<a th:href="@{/reservation/searchresultadminlist(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" th:text="${p}"></a>
 									</th:block> 
 									
-									<!-- <th:block th:if="${pn.endNavi < pn.maxPage}">
-										<a th:href="@{/reservation/searchadmin(currentPage=${pn.nextPage})}">Next</a>
-									</th:block> -->
+								 <th:block th:if="${pn.endNavi < pn.maxPage}">
+										<a th:href="@{/reservation/searchresultadminlist(currentPage=${pn.nextPage})}">Next</a>
+									</th:block>
 								</th:block>
 							</td>
 						</tr>

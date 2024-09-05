@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.user.model.vo.User;
 
 public interface ReservationService {
 /**
@@ -56,6 +57,19 @@ int getTotalCount(String userId, String breweryName);
  * @return int
  */
 int getTotalCountWithConditiion(String userId, String breweryName);
+
+/**
+ * 예약 조회 세부 사항 
+ * @param userId
+ * @return Reservation
+ */
+List<Reservation> selectOne(String userId);
+/**
+ * 유저 정보 가져오기
+ * @param user
+ * @return List<User>
+ */
+List<User> selectInfo(User user);
 
 
 }

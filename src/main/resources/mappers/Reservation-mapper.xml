@@ -13,6 +13,20 @@
  	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
  	<result property="breweryName" column="BREWERY_NAME"/>
  </resultMap>
+ 
+<resultMap type="User" id="userResultMap">
+	<id property="userId" column="USER_ID"/>
+	<result property="userPw" column="USER_PW"/>
+	<result property="userName" column="USER_NAME"/>
+	<result property="email" column="EMAIL"/>
+	<result property="isAdmin" column="IS_ADMIN"/>
+	<result property="loginType" column="LOGIN_TYPE"/>
+	<result property="gender" column="GEMDER"/>
+	<result property="phone" column="PHONE"/>
+	<result property="address" column="ADDRESS"/>
+	<result property="joinDate" column="JOIN_DATE"/>
+	<result property="updateDate" column="UPDATE_DATE"/>
+</resultMap>
 
  <insert id="RegisterInfo">
  INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, 1, #{emergencyPhone},33)
@@ -59,5 +73,12 @@
             AND brewery_Name = #{breweryName}
         </if>
     </where>
+ </select>
+ 
+ <select id="selectOne" resultType="Reservation">
+ 	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo}
+ </select>
+ <select id="selectInfo" resultMap="userResultMap">
+ 	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
  </select>
  </mapper>
