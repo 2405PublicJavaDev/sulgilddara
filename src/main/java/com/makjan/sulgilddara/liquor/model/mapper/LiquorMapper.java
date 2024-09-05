@@ -1,8 +1,10 @@
 package com.makjan.sulgilddara.liquor.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
@@ -68,4 +70,12 @@ public interface LiquorMapper {
 	 * @return int
 	 */
 	int insertLiquorImage(LiquorImage image);
+	
+	/**
+	 * 주류 검색 Mapper
+	 * @param sInfo
+	 * @param tags
+	 * @return List<Liquor>
+	 */
+	List<Liquor> liquorSearch(Map<String, Object> searchMap);
 }

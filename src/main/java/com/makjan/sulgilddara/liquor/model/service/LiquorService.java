@@ -1,6 +1,7 @@
 package com.makjan.sulgilddara.liquor.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
@@ -67,5 +68,13 @@ public interface LiquorService {
 	 * @return int
 	 */
 	int insertLiquorImage(LiquorImage image);
+
+	/**
+	 * 주류 상세검색 Service
+	 * @param sInfo
+	 * @param tags
+	 * @return List<Liquor>
+	 */
+	List<Liquor> liquorSearch(Map<String, Object> searchMap);
 	
 }

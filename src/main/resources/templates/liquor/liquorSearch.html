@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>술길따라</title>
+    <link rel="stylesheet" href="/css/liquor/liquorSearch.css">
+    <!-- 태그 라이브러리 다운-->
+		<!-- 소스 다운 -->
+		<script src="https://unpkg.com/@yaireo/tagify"></script>
+		<!-- 폴리필 (구버젼 브라우저 지원) -->
+		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>술길따라</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">술길따라 이야기</a></li>
+                    <li><a href="#">양조장 탐방</a></li>
+                    <li><a href="#">술 도감</a></li>
+                    <li><a href="#">투어 예약</a></li>
+                    <li><a href="#">술 이야기</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="content-wrapper">
+            <main class="main-content">
+                <div class="filter-bar">
+                    <button class="active">술이름검색</button>
+                    <button>양조장</button>
+                    <button>지역</button>
+                    <button>주종별</button>
+                    <button>기타</button>
+                </div>
+                
+                <div class="liquor-grid">
+                    <!-- Thymeleaf로 반복 처리 -->
+                    <div th:each="item, iterStat : ${liquorItems}" class="liquor-item">
+                        <div class="liquor-image"></div>
+                        <div class="liquor-info">
+                            <div class="rating" th:text="${item.rating}">5.0</div>
+                            <h3 th:text="${item.name}">술이름</h3>
+                            <div class="type" th:text="${item.type}">주종</div>
+                            <p class="tags" th:text="${item.tags}">태그1, 태그2, 태그3, 태그4, 태그5 ...</p>
+                            <div class="stats">
+                                <span class="likes" th:text="${item.likes}">♥좋아요수</span>
+                                <span class="reviews" th:text="${item.reviews}">★리뷰수</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pagination">
+                    <button class="prev">&lt;</button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                    <button>10</button>
+                    <button class="next">&gt;</button>
+                </div>
+            </main>
+            
+            <aside class="sidebar">
+                <form action="/liquor/search" method="post">
+                    <div class="search-bar">
+                        <input type="text" name="keyword" placeholder="검색">
+                        <button>검색</button>
+                    </div>
+                    <div class="filter-section">
+                        <h4>주종</h4>
+                        <select name="liquorType">
+                            <option value=null>전체</option>
+                            <option value="전통주">전통주</option>
+                            <option value="막걸리">막걸리</option>
+                            <option value="청주">청주</option>
+                            <option value="소주">소주</option>
+                            <option value="와인">와인</option>
+                            <option value="위스키">위스키</option>
+                            <option value="맥주">맥주</option>
+                            <option value="리큐르">리큐르</option>
+                        </select>
+                        <h4>생산지</h4>
+                        <select id="local" name="breweryLocal">
+                            <option value=null>전체</option>
+                            <option value="sudo">수도권</option>
+                            <option value="gang">강원</option>
+                            <option value="chung">충청</option>
+                            <option value="gyeong">경상</option>
+                            <option value="jeoll">전라</option>
+                            <option value="jeju">제주</option>
+                        </select>
+                        <h4>도수</h4>
+                        <input type="number" step="0.01" name="alcholMin" placeholder="최소">&nbsp;~&nbsp;
+                        <input type="number" step="0.01" name="alcholMax" placeholder="최대">
+                        <h4>가격대</h4>
+                        <input type="number" step="0.01" name="priceMin" placeholder="최소">&nbsp;~&nbsp;
+                        <input type="number" step="0.01" name="priceMax" placeholder="최대">
+
+                        <h4>태그</h4>
+                        <input type="text" name="tags" placeholder="태그는 ,로 구분"> <br>
+
+                        <script>
+                            /////////////////////////////////////// 태그 js
+                            const input = document.querySelector('input[name=tags]');
+                            let tagify = new Tagify(input); // Tagify 초기화
+                            
+                            // 태그가 추가되면 이벤트 발생
+                            tagify.on('add', function() {
+                            console.log(tagify.value); // 입력된 태그 정보 객체(배열)
+                            console.log(tagify.value[0].value) // 태그 배열 0번째 객체의 value값 -> 입력한 태그
+                            })
+                        </script>
+
+                    </div>
+                </form>
+            </aside>
+        </div>
+        
+        <footer class="footer">
+            <nav>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">사이트맵</a></li>
+                </ul>
+            </nav>
+            <div class="company-info">
+                <p>상호 : 술길따라 | 대표이사 : 김정욱 | 설립일 : 2024년 8월 26일 | 개인정보관리책임자 : 홍예은</p>
+                <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
+            </div>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><div class="icon facebook"></div></a>
+                <a href="#" aria-label="Instagram"><div class="icon instagram"></div></a>
+            </div>
+            <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
+        </footer>
+    </div>
+</body>
+</html>

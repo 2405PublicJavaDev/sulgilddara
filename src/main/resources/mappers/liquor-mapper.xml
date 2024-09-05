@@ -31,9 +31,59 @@
 		ON LIQUOR_TBL.BREWERY_ID = BREWERY_TBL.BREWERY_NO 
 		WHERE LIQUOR_ID = #{liquorId}
 	</select>
+	<select id="liquorSearch" parameterType="map" resultType="LiquorDetail">
+		SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL
+		FROM LIQUOR_TBL
+		LEFT OUTER JOIN BREWERY_TBL
+			ON LIQUOR_TBL.BREWERY_ID = BREWERY_TBL.BREWERY_NO
+		<where>
+		
+				<if test="sInfo.keyword != null and sInfo.keyword !=''">
+					AND LIQUOR_NAME LIKE CONCAT('%',#{sInfo.keyword},'%')
+				</if>
+
+				<if test="sInfo.liquorType != null">
+					AND LIQUOR_TYPE = #{sInfo.liquorType}
+				</if>
+				<if test="sInfo.alcholMin != null">
+					AND ALCHOL_CONTENT &gt;= #{sInfo.alcholMin}
+				</if>
+				<if test="sInfo.alcholMax != null">
+					AND ALCHOL_CONTENT &lt;= #{sInfo.alcholMax}
+				</if>
+				<if test="sInfo.priceMin != null">
+					AND LIQUOR_PRICE &gt;= #{sInfo.priceMin}
+				</if>
+				<if test="sInfo.priceMax != null">
+					AND LIQUOR_PRICE &lt;= #{sInfo.priceMax}
+				</if>
+			<if test="tags != null and tags.length > 0">
+		
+				AND LIQUOR_ID IN
+				(SELECT LIQUOR_ID
+				FROM LIQUOR_TBL L
+				LEFT OUTER JOIN (
+					SELECT BOARD_TAG_NAME, LIQUOR_ID
+					FROM BOARD_TAG_TBL
+					LEFT OUTER JOIN BOARD_TBL
+					USING(BOARD_NO)
+				) T
+				USING(LIQUOR_ID)
+				WHERE
+						T.BOARD_TAG_NAME IN
+						<foreach item="tag" collection="tags" open="(" separator="," close=")">
+							#{tag}
+						</foreach>
+				
+				GROUP BY LIQUOR_ID
+					HAVING COUNT(BOARD_TAG_NAME) >= #{tags.length}
+				)
+			</if>
+		</where>
+	</select>
 	
 	<insert id="insertLiquorImage">
 		INSERT INTO LIQUOR_IMAGE_TBL
-		VALUES(SEQ_LIQUOR_IMAGE_NO.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{noticeNo})
+		VALUES(SEQ_LIQUOR_IMAGE_NO.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{liquorId})
 	</insert>
 </mapper>

@@ -2,10 +2,9 @@ package com.makjan.sulgilddara.liquor.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makjan.sulgilddara.common.utility.Util;
 import com.makjan.sulgilddara.liquor.model.service.LiquorService;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorPagination;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorSearchInfo;
 
 
 @Controller
@@ -43,6 +46,45 @@ public class LiquorController {
 	}
 	
 	/**
+	 * 주류정보 검색 페이지로 이동
+	 * @return liquorSearch.html로 이동
+	 */
+	@GetMapping("/search")
+	public String showLiquorSearchPage() {
+		return "liquor/liquorSearch";
+	}
+	
+	@PostMapping("/search")
+	public String liquorSearch(Model model, @ModelAttribute LiquorSearchInfo sInfo) {
+		System.out.println(sInfo);
+		Map<String, Object> searchMap = new HashMap<>();
+		String[] tags = null;
+		if(sInfo.getTags()!=null && sInfo.getTags()!="") {
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				Map<String, String>[] objectArray = mapper.readValue(sInfo.getTags(), Map[].class);
+				tags = new String[objectArray.length];
+				for(int i=0; i<objectArray.length; i++) {
+					tags[i] = objectArray[i].get("value");
+				}
+				for(String tag : tags) {
+					System.out.println(tag);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		searchMap.put("sInfo", sInfo);
+		searchMap.put("tags", tags);
+		System.out.println("sInfo: " + sInfo);
+		System.out.println("tags: " + tags);
+		System.out.println(((LiquorSearchInfo) searchMap.get("sInfo")).getLiquorType());
+		List<Liquor> lList = lService.liquorSearch(searchMap);
+		System.out.println(lList.size());
+		return "liquor/liquorSearch";
+	}
+	
+	/**
 	 * 주류정보 추가를 위한 정보 입력 페이지로 이동
 	 * @return liquorAdd.html로 이동
 	 */
@@ -58,8 +100,33 @@ public class LiquorController {
 	 * @return liquorList.html로 이동
 	 */
 	@PostMapping("/liquorAdd")
-	public String liquorAdd(Model model, @ModelAttribute Liquor liquor) {
+	public String liquorAdd(Model model, @ModelAttribute Liquor liquor, @RequestParam("files") MultipartFile[] files) {
 		lService.addLiquor(liquor);
+		System.out.println(liquor.getLiquorId());
+		if(files.length != 0){
+//			for(MultipartFile file : files) {
+			for(int i=0; i< files.length; i++) {
+				try {
+					MultipartFile file = files[i];
+					// 절대경로로 실제 파일 저장
+					String fileName = file.getOriginalFilename();
+					String fileRename = Util.fileRename(fileName, i);
+					// web용 경로
+					String filePath = "/liquor-images/";
+					// 절대경로로 실제 파일 저장, 저장할때는 Rename파일명으로 저장
+					file.transferTo(new File(UPLOAD_DIR+fileRename));
+					LiquorImage image = new LiquorImage();
+					image.setFileName(fileName);
+					image.setFileRename(fileRename);
+					image.setFilePath(filePath);
+					image.setLiquorId(liquor.getLiquorId());
+					lService.insertLiquorImage(image);
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return "redirect:/liquor/list";
 	}
 	
@@ -72,19 +139,16 @@ public class LiquorController {
 	}
 	
 	@PostMapping("/update")
-	public String updateLiquor(Liquor liquor, @RequestParam("files") List<MultipartFile> files) {
+	public String updateLiquor(Liquor liquor, @RequestParam("files") MultipartFile[] files) {
 		int result = lService.updateLiquor(liquor);
-		System.out.println(files.size());
-		if(!files.isEmpty()){
-			System.out.println("ck01");
-			for(MultipartFile file : files) {
-				System.out.println("ck02");
+		if(files.length != 0){
+//			for(MultipartFile file : files) {
+			for(int i=0; i< files.length; i++) {
 				try {
+					MultipartFile file = files[i];
 					// 절대경로로 실제 파일 저장
 					String fileName = file.getOriginalFilename();
-					System.out.println(fileName);
-					String fileRename = Util.fileRename(fileName);
-					System.out.println(fileRename);
+					String fileRename = Util.fileRename(fileName, i);
 					// web용 경로
 					String filePath = "/liquor-images/";
 					// 절대경로로 실제 파일 저장, 저장할때는 Rename파일명으로 저장
@@ -93,7 +157,7 @@ public class LiquorController {
 					image.setFileName(fileName);
 					image.setFileRename(fileRename);
 					image.setFilePath(filePath);
-					image.setLiquirId(liquor.getLiquorId());
+					image.setLiquorId(liquor.getLiquorId());
 					result = lService.insertLiquorImage(image);
 					
 				} catch (IOException e) {

@@ -1,6 +1,7 @@
 package com.makjan.sulgilddara.liquor.model.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,12 @@ public class LiquorServiceImpl implements LiquorService{
 	public int insertLiquorImage(LiquorImage image) {
 		int result = mapper.insertLiquorImage(image);
 		return result;
+	}
+
+	@Override
+	public List<Liquor> liquorSearch(Map<String, Object> searchMap) {
+		List<Liquor> lList = mapper.liquorSearch(searchMap);
+		return lList;
 	}
 
 }

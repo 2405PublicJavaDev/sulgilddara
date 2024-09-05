@@ -19,7 +19,7 @@ public class LiquorImage {
 	private String filePath;
 	private Integer fileSize;
 	private Timestamp uploadTime;
-	private Integer liquirId;
+	private Integer liquorId;
 	
 	private MultipartFile uploadFile;
 }
