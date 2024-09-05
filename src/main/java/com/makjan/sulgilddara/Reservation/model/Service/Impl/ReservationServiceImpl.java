@@ -66,4 +66,14 @@ public class ReservationServiceImpl implements ReservationService{
 		return result;
 	}
 
+
+	@Override
+	public int getTotalCountWithConditiion(String userId, String breweryName) {
+		Map<String,String>param = new HashMap<String,String>();
+		param.put("userId",userId);
+		param.put("breweryName",breweryName);
+		int result = rmapper.getTotalCountWithConditiion(param);
+		return result;
+	}
+
 }

@@ -75,21 +75,19 @@ public String showListForm() {
 			) {
 	Map<String,String> param = new HashMap<String,String>();
 	param.put("reserveNo", reserveNo);
-	
 	List<Reservation>rList = rService.SearchInfo(param);
 	model.addAttribute("rList",rList);
 	model.addAttribute("reserveNo",reserveNo);
 	return "reservation/reservationlookup";
 }
 
-
-@PostMapping("/reservation/searchadminlist")
-public String SearchAllInfo2(Model model
+@GetMapping("/reservation/searchresultadminlist")
+public String SearchAllInfo3(Model model
 		,@RequestParam(value="userId",required=false)String userId
 		,@RequestParam(value="breweryName",required=false)String breweryName
 		,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
 		) {
-int totalCount= rService.getTotalCount(userId,breweryName);
+int totalCount= rService.getTotalCountWithConditiion(userId,breweryName);
 System.out.println(currentPage);
 Pagination pn = new Pagination(totalCount,currentPage);
 int limit = pn.getBoardLimit();
@@ -98,16 +96,37 @@ System.out.println(limit);
 System.out.println(offset);
 RowBounds rowBounds =new RowBounds(offset,limit);
 List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
-log.info("rList size: " + rList.size());
-log.info("rList content: " + rList);
 model.addAttribute("rList",rList);
 model.addAttribute("currentPage", currentPage);
 model.addAttribute("pn",pn);
-
 model.addAttribute("breweryName",breweryName);
 model.addAttribute("userId",userId);
 
-return "reservation/reservationlookupadmin";
+return "reservation/reservationSearchResultAdmin";
+}
+
+@PostMapping("/reservation/searchresultadminlist")
+public String SearchAllInfo2(Model model
+		,@RequestParam(value="userId",required=false)String userId
+		,@RequestParam(value="breweryName",required=false)String breweryName
+		,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
+		) {
+int totalCount= rService.getTotalCountWithConditiion(userId,breweryName);
+System.out.println(currentPage);
+Pagination pn = new Pagination(totalCount,currentPage);
+int limit = pn.getBoardLimit();
+int offset=(currentPage-1)*limit;
+System.out.println(limit);
+System.out.println(offset);
+RowBounds rowBounds =new RowBounds(offset,limit);
+List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
+model.addAttribute("rList",rList);
+model.addAttribute("currentPage", currentPage);
+model.addAttribute("pn",pn);
+model.addAttribute("breweryName",breweryName);
+model.addAttribute("userId",userId);
+
+return "reservation/reservationSearchResultAdmin";
 }
 
 @GetMapping("/reservation/searchadminlist")

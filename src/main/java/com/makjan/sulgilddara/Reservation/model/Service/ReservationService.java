@@ -49,5 +49,13 @@ List<Reservation> SearchreserveNo(Reservation reservation);
  */
 int getTotalCount(String userId, String breweryName);
 
+/**
+ * 예약 조회 조건 전체 리스트
+ * @param userId
+ * @param breweryName
+ * @return int
+ */
+int getTotalCountWithConditiion(String userId, String breweryName);
+
 
 }

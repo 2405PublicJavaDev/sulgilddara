@@ -6,14 +6,14 @@
 	</head>
 	
 	<body>
-		<form th:action="@{/reservation/searchadmin}" th:object= "${Reservation}" method="POST">
+		<form th:action="@{/reservation/searchresultadminlist}" th:object= "${reservation}" method="POST">
 				<div class="searchArea">
 					<div class="searchDiv">
 						<div class="breweryNameSearch">
-							<input type="text" name="breweryName">
+							<input type="text" name="breweryName" th:value="${breweryName}">
 						</div>
 						<div class="userId">
-							<input type="text" name="userId">
+							<input type="text" name="userId" th:value="${userId}">
 						</div>
 					</div>
 						<button type="submit">조회</button>
@@ -50,25 +50,25 @@
 							<td>[[${Reservation.userId}]]</td>
 						</tr>
 					</tbody>
-					<!-- <tfoot>
+					<tfoot>
 						 <tr align="center">
 							<td colspan="5">
 								<th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
-									<th:block th:if="${pn.startNavi > 1}">
+									<!-- <th:block th:if="${pn.startNavi > 1}">
 										<a th:href="@{/reservation/searchadmin(currentPage=${pn.prevPage})}">Previous</a>
-									</th:block>
+									</th:block> -->
 									
 									<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
-										<a th:href="@{/reservation/searchadmin(currentPage=${p})}" th:text="${p}"></a>
+										<a th:href="@{/reservation/searchresultadminlist(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" th:text="${p}"></a>
 									</th:block> 
 									
-									<th:block th:if="${pn.endNavi < pn.maxPage}">
+									<!-- <th:block th:if="${pn.endNavi < pn.maxPage}">
 										<a th:href="@{/reservation/searchadmin(currentPage=${pn.nextPage})}">Next</a>
-									</th:block>
+									</th:block> -->
 								</th:block>
 							</td>
 						</tr>
-					</tfoot> -->
+					</tfoot>
 				</table>
 				<pre th:text="${pn}"></pre>
 			</div>

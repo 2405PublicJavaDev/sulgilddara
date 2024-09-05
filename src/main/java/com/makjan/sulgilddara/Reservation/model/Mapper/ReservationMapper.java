@@ -23,6 +23,8 @@ public interface ReservationMapper {
 
 	int getTotalCount();
 
+	int getTotalCountWithConditiion(Map<String, String> param);
+
 
 
 }
