@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.user.model.vo.User;
+
 public interface UserService {
 
 	/**
@@ -48,5 +49,28 @@ public interface UserService {
 	 * @return int
 	 */
 	int deleteUser(String userId);
+
+	/**
+	 * 아이디 찾기 Service
+	 * @param userName
+	 * @param email
+	 * @return string
+	 */
+	String searchId(String userName, String email);
+
+	/**
+	 * 입력한 아이디와 이메일 check Service
+	 * @param userId
+	 * @param email
+	 * @return boolean
+	 */
+	boolean checkEmail(String userId, String email);
+
+	/**
+	 * 비밀번호 이메일로 전송 Service
+	 * @param userId
+	 * @param email
+	 */
+	void sendTemporaryPassword(String userId, String email);
 
 }

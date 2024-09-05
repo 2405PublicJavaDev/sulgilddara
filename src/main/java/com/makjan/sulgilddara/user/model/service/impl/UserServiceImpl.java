@@ -2,14 +2,18 @@ package com.makjan.sulgilddara.user.model.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.common.utility.Util;
+import com.makjan.sulgilddara.user.common.mail.SendEmailService;
 import com.makjan.sulgilddara.user.model.mapper.UserMapper;
 import com.makjan.sulgilddara.user.model.service.UserService;
+import com.makjan.sulgilddara.user.model.vo.Mail;
 import com.makjan.sulgilddara.user.model.vo.User;
 import com.makjan.sulgilddara.user.model.vo.UserFile;
 
@@ -24,7 +28,10 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl(UserMapper mapper) {
 		this.mapper = mapper;
 	}
-
+	
+	@Autowired
+    private SendEmailService sendEmailService;
+	
 	// 회원가입 Service
 	@Override
 	public int registerUser(User inputUser, MultipartFile uploadFile) throws IllegalStateException, IOException {
@@ -55,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User selectOneById(String userId) {
 		User user = mapper.selectOneById(userId);
-		System.out.println("userFile: " + user.getUserFile());
+//		System.out.println("userFile: " + user.getUserFile());
 		return user;
 	}
 
@@ -102,5 +109,48 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	// 아이디 찾기 Service
+	@Override
+	public String searchId(String userName, String email) {
+		String findId = mapper.searchId(userName, email);
+		return findId;
+	}
 
+	// 입력한 아이디와 이메일 check Service
+	@Override
+    public boolean checkEmail(String userId, String email) {
+        User user = mapper.selectOneById(userId);
+        // 해당 id의 user이 있고, 그 user의 email과 입력한 email이 동일하면 true 아니면 false
+        if (user != null && user.getEmail().equals(email)) {
+            System.out.println("Email and ID match."); // 로그 출력
+            return true;
+        } else {
+            System.out.println("Email and ID do not match."); // 로그 출력
+            return false;
+        }
+    }
+
+	// 비밀번호 이메일로 전송 Service
+    @Override
+    public void sendTemporaryPassword(String userId, String email) {
+        String tempPassword = generateTempPassword();
+        mapper.updatePassword(userId, tempPassword); // userId와 새로운 password 넘겨줘서 pw 업데이트
+        Mail mail = new Mail();
+        mail.setAddress(email);
+        mail.setTitle("술길따라 임시 비밀번호 안내");
+        mail.setMessage("안녕하세요. 술길따라 임시 비밀번호는 " + tempPassword + "입니다. "
+        		+ "새로운 비밀번호로 로그인 부탁드립니다!");
+        sendEmailService.sendMail(mail);
+    }
+
+    // 새로운 임시 비밀번호 생성 Service
+    private String generateTempPassword() {
+        char[] charSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            sb.append(charSet[random.nextInt(charSet.length)]);
+        }
+        return sb.toString();
+    }
 }

@@ -71,4 +71,19 @@ public interface UserMapper {
 	 * @return int
 	 */
 	int deleteUserFile(String userId);
+
+	/**
+	 * 아이디 찾기 Mapper
+	 * @param userName
+	 * @param email
+	 * @return user
+	 */
+	String searchId(@Param("userName") String userName, @Param("email") String email);
+
+	/**
+	 * 임시 비밀번호로 수정 Mapper
+	 * @param userId
+	 * @param password
+	 */
+	void updatePassword(@Param("userId")String userId, @Param("password") String password);
 }
