@@ -53,12 +53,16 @@ public class BreweryController {
 	
 	@PostMapping("/write")
 	public String insertBrewery(Brewery inputBrewery
+<<<<<<< HEAD
 			, @ModelAttribute("BreweryTag") BreweryTag breweryTag
 			, @RequestParam(value = "facilities", required = false) String[] facilities)  throws IllegalStateException, IOException {
 	    if (facilities != null && facilities.length > 0) {
 	        String facilitiesJson = new ObjectMapper().writeValueAsString(facilities);
 	        inputBrewery.setFacilities(facilitiesJson); 
 	    }
+=======
+			, @ModelAttribute("BreweryTag") BreweryTag breweryTag ) throws IllegalStateException, IOException {
+>>>>>>> yehong
 		int result = bService.insertBrewery(inputBrewery);
 		if(breweryTag != null && breweryTag.getBreweryTagName() != null && !breweryTag.getBreweryTagName().isEmpty()) {
 			List<String> tagNameArr = new ArrayList<String>();

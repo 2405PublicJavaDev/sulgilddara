@@ -1,9 +1,12 @@
 package com.makjan.sulgilddara.user.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.user.model.service.UserService;
+import com.makjan.sulgilddara.user.model.vo.Mail;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,16 +28,17 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
 	@Autowired
 	private UserService uService;
 	
-	// 회원가입 form 
+	// 회원가입 form (get)
 	@GetMapping("/register")
 	public String showRegisterForm(@ModelAttribute User user) {
 		return "user/userJoin";
 	}
 	
-	// 회원가입 메소드 (GET)
+	// 회원가입 메소드 (POST)
 	@PostMapping("/register")
 	public String registerUser(@Validated @ModelAttribute User inputUser
 			, BindingResult bindingResult
@@ -90,6 +96,39 @@ public class UserController {
         }		
 	}
 	
+	// 회원탈퇴 form
+	@GetMapping("/delete")
+	public String showDeleteForm(HttpSession session, Model model) {
+		String userId = (String)session.getAttribute("userId");
+		User user = uService.selectOneById(userId);
+		if(user != null) {
+			model.addAttribute("user", user);
+			return "user/userDelete";
+		} else {
+				return "user/userLogin"; 
+			}	
+	}
+
+	// 회원탈퇴 메소드
+	@PostMapping("/delete")
+	public String deleteUser(@RequestParam("userPw") String userPw , HttpSession session) {
+		String userId = (String)session.getAttribute("userId");
+		User user = uService.selectOneById(userId);
+		   // 비밀번호가 일치하는지 확인
+	    if (user != null && user.getUserPw().equals(userPw)) {
+	        int result = uService.deleteUser(userId);
+	        if (result > 0) {
+	            // 탈퇴 성공시 로그아웃 처리
+	            return "redirect:/user/logout";
+	        } else {
+	            return "user/userDelete";
+	        }
+	    } else {
+	        // 비밀번호가 일치하지 않을 때 처리
+	        return "user/userDelete";
+	    }
+	}
+	
 	// 로그인 form 
 	@GetMapping("/login")
 	public String showLoginForm(@ModelAttribute User user) {
@@ -112,4 +151,54 @@ public class UserController {
 			return "user/userJoin";
 		}		
 	}
+	
+	// 로그아웃
+	@GetMapping("/logout")
+	public String checkLogout(Model model, HttpSession session) {
+			if(session != null) {
+				session.invalidate();
+				return "user/userLogin";
+			} else {
+				return "user/userLogin";
+			}
+		} 
+	
+	// 아이디 찾기 form
+	@GetMapping("/findId")
+	public String showSearchIdForm(@ModelAttribute User user) {
+		return "user/userFindId";
+	}
+	
+	// 아이디 찾기
+	@PostMapping("/findId")
+	public String searchId(@RequestParam("userName") String userName, @RequestParam("email") String email, Model model) {
+		// 해당 이름과 이메일과 매치되는 아이디 찾기
+		String findId = uService.searchId(userName, email);
+	    if (findId != null ) {
+	    	model.addAttribute("findId", findId);
+	    } else {
+	    	model.addAttribute("findId", null);
+	    }
+	    return "user/userFindId";
+	}
+	
+	// 비밀번호 찾기 form
+    @GetMapping("/findPw")
+    public String showSearchPwForm(@ModelAttribute User user) {
+        return "user/userFindPw";
+    }
+
+    // 비밀번호 찾기 
+    @PostMapping("/findPw")
+    public @ResponseBody Map<String, Object> findPw(@RequestParam("userId") String userId,
+                                                     @RequestParam("email") String email) {
+        boolean isValid = uService.checkEmail(userId, email);
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", isValid);
+        if (isValid) {
+            uService.sendTemporaryPassword(userId, email);
+       }
+        return response;
+    }
 }
+	

@@ -6,6 +6,7 @@
 	</head>
 	<body>
 		<h1>양조장 목록</h1>
+<<<<<<< HEAD
 		<form action="/brewery/search" method="post">
 		<table>
         <tr>
@@ -39,6 +40,8 @@
             </td>
         </tr>
     </table>
+=======
+>>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 	    <table>
 	        <thead>
 	            <tr>
@@ -54,7 +57,11 @@
 	            <tr th:each="brewery : ${bList}">
 	            	<td th:text="${brewery.breweryNo}"></td>
 	                <td th:text="${brewery.breweryName}"></td>
+<<<<<<< HEAD
 	                <td th:text="${brewery.breweryLocal == 'sudo' ? '수도권' : brewery.breweryLocal == 'gang' ? '강원' : brewery.breweryLocal == 'chung' ? '충청' : brewery.breweryLocal == 'gyeong' ? '경상' : brewery.breweryLocal == 'jeoll' ? '전라' : brewery.breweryLocal == 'jeju' ? '제주' : brewery.breweryLocal}"></td>
+=======
+	                <td th:text="${brewery.breweryLocal}"></td>
+>>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 	                <td th:text="${brewery.bUpdateDate}"></td>
 		      	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
 	            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>

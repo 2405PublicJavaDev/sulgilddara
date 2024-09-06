@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>술길따라 비밀번호 찾기</title>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	</head>
+	<body>
+		<h1>비밀번호 찾기</h1>
+		<form action="/user/findPwForm" method="post" id="formId">
+			아이디 <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요"> <br />
+			이메일 <input type="text" name="email" id="email" placeholder="이메일을 입력해주세요"> <br />
+			<button type="button" id="checkEmail">비밀번호 찾기</button>
+			<div id="checkMsg" style="color: red;"></div>
+		</form>
+    <script>
+        $("#checkEmail").click(function () {
+            let userId = $("#userId").val();
+            let email = $("#email").val();
+            $.ajax({
+                type: "POST",
+                url: "/user/findPw",
+                data: {
+                    userId: userId,
+                    email: email
+                },
+                success: function (response) {
+                	console.log(response);
+                    if (response.success) {
+                    	console.log("Success: " + response.success); // 성공 시 로그
+                    	alert("발송 완료! 입력하신 이메일로 임시비밀번호가 발송되었습니다.");
+                        window.location = "/user/login";
+                       
+                    } else {
+                    	console.log("Error: Information does not match."); // 실패 시 로그
+                        $('#checkMsg').html('<p style="color:red">일치하는 정보가 없습니다.</p>');
+                    }
+                },
+                error: function () {
+                    $('#checkMsg').html('<p style="color:red">서버 오류가 발생했습니다.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
