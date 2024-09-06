@@ -232,6 +232,13 @@ public class BoardController {
 				System.out.println("tags : "+tags);
 				String[] tagList = tags.split(",");
 				
+				for(String tag : tagList) {
+					bService.selectBoardList(currentPage, tagList);
+				}
+				
+				
+				
+				
 				// 서비스에서 Pagination 객체, 조회된 bList 객체 매핑해서 반환
 				Map<String, Object> map = bService.selectBoardList(currentPage, tagList);
 
