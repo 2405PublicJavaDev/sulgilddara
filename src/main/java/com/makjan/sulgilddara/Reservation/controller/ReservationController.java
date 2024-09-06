@@ -57,16 +57,16 @@ private static String generateRandomString(int length) {
     }
     return builder.toString();
 }
-@PostMapping("/reservation/register")
+@PostMapping("/reservation/register/{breweryNo}")
 	public String RegisterInfo(@ModelAttribute Reservation reservation, Model model, HttpSession session
-			) {
+			,@PathVariable("breweryNo")Integer breweryNo) {
 		String userId = (String) session.getAttribute("userId");
 //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
 		String randomString = generateRandomString(10);
 		reservation.setUserId(userId);
 		reservation.setReserveNo(randomString);
 	//	reservation.setUserId("user3");
-		int result =rService.RegisterInfo(reservation);
+		int result =rService.RegisterInfo(reservation,breweryNo);
 		return "redirect:"+kakaoPay.kakaoPayReady(); //결제 페이지 
 }
 @GetMapping("/reservation/search")
@@ -159,13 +159,21 @@ public String reserveSuccess(Reservation reservation, Model model) {
 	model.addAttribute("rList",rList);
 	return "reservation/reservationsuccess";
 }
-@GetMapping("reservation/detail/{reserveNo}")
-	public String showReservationDetail(@PathVariable("reserveNo")String reserveNo
-			,HttpSession session
-			,Model model
-			) {
-	List<Reservation>rList = rService.selectOne(reserveNo);
-	model.addAttribute("rList",rList);
-	return "reservation/reservationlookupdetail";
-}
+@GetMapping("/reservation/detail/{reserveNo}")
+	public String showReservationDetail(@PathVariable("reserveNo") String reserveNo, Model model) {
+
+		List<Reservation> rList = rService.selectOne(reserveNo);
+		if (!rList.isEmpty()) {
+		Reservation reservation = rList.get(0);
+		model.addAttribute("rList", rList);
+		System.out.println("ControllerrList:" + rList);
+	// Brewery 이미지 경로 설정
+		String imagePath = reservation.getFilePath() + "/" + reservation.getFileRename();
+		System.out.println(imagePath);
+			model.addAttribute("ImagePath", imagePath);
+} else {
+			// 예약이 없을 경우 처리
+		}
+		return "reservation/reservationlookupdetail";
+	}
 }

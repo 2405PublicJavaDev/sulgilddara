@@ -69,14 +69,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>[[${Reservation.fileRename}]]</td>
+					<tr th:object="${reservation}">
+						<td><img th:src="@{${ImagePath}}" alt="Brewery Image"/></td>
 						<td>[[${Reservation.breweryName}]]</td>
 						<td>[[${Reservation.tourName}]]</td>
 						<td>[[${Reservation.tourPrice}]]</td>
 						<td>[[${Reservation.visitorNum}]]</td>
 						<td>[[${Reservation.tourPrice*Reservation.visitorNum}]]</td>
-					</tr>
+					</tr>		
 				</tbody>
 			</table>
 		</div>

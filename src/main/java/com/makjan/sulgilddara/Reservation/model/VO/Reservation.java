@@ -21,10 +21,19 @@ public class Reservation {
 	private Timestamp joinDate;
 	private String phone;
 	// Brewery
+	private String filePath;
 	private String fileRename;
 	private int tourPrice;
 
 	
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
 	public Reservation() {
 	}
 
@@ -36,8 +45,6 @@ public class Reservation {
 		this.reserveCompleteTime = reserveCompleteTime;
 	}
 
-
-	
 
 	public String getFileRename() {
 		return fileRename;
@@ -203,8 +210,8 @@ public class Reservation {
 				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourName=" + tourName
 				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", reserveCompleteTime="
 				+ reserveCompleteTime + ", totalPrice=" + totalPrice + ", email=" + email + ", address=" + address
-				+ ", joinDate=" + joinDate + ", phone=" + phone + ", fileRename=" + fileRename + ", tourPrice="
-				+ tourPrice + "]";
+				+ ", joinDate=" + joinDate + ", phone=" + phone + ", filePath=" + filePath + ", fileRename="
+				+ fileRename + ", tourPrice=" + tourPrice + "]";
 	}
 
 }
