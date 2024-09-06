@@ -114,10 +114,17 @@ public class ReservationServiceImpl implements ReservationService{
 		return result;
 	}
 	@Override
-	public List<Tour> selectSearchList(Integer currentPage, Map<String, String> param,RowBounds rowBounds) {
-		List<Tour>tList = rmapper.selectSearchList(currentPage,param,rowBounds);
+	public List<Tour> selectSearchList(String TourName,RowBounds rowBounds) {
+		List<Tour>tList = rmapper.selectSearchList(TourName,rowBounds);
 		return tList;
 	}
+
+	@Override
+	public List<Tour> showTourList(String tourName , RowBounds rowBounds) {
+	List<Tour>tList = rmapper.showTourList(tourName,rowBounds);
+		return tList;
+	}
+
 
 
 

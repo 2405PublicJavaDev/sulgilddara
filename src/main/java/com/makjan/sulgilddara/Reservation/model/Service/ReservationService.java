@@ -92,7 +92,21 @@ int getListTotalCount(String tourName);
  * @param rowBounds 
  * @return List<Tour>
  */
-List<Tour> selectSearchList(Integer currentPage, Map<String, String> param, RowBounds rowBounds);
+List<Tour> selectSearchList(String TourName, RowBounds rowBounds);
+
+
+/**
+ * 투어 리스트 출력
+ * @param tourName
+ * @param rowBounds
+ * @return
+ */
+
+List<Tour> showTourList(String tourName, RowBounds rowBounds);
+
+
+
+
 
 
 }

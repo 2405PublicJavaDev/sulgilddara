@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +47,58 @@ public class ReservationController {
 		this.rService = rService;
 	}
 
+@GetMapping("/reservation/list")
+	public String showTourList(Model model
+			,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage,
+			@RequestParam(value="tourName",required=false)String tourName) {
+	int totalCount=rService.getListTotalCount(tourName);
+	Pagination pn = new Pagination(totalCount,currentPage);
+	int limit = pn.getBoardLimit();
+	int offset=(currentPage-1)*limit;
+	RowBounds rowBounds =new RowBounds(offset,limit);
+	List<Tour>tList = rService.showTourList(tourName,rowBounds);
+	if (!tList.isEmpty()) {
+		Tour tour = tList.get(0);
+		model.addAttribute("tList", tList);
+		System.out.println("ControllerTList:" + tList);
+	// Tour 이미지 경로 설정
+		String tourfilePath= tour.getFilePath();
+		String imagePath = tourfilePath + "/" + tour.getFileRename();
+		System.out.println(imagePath);
+			model.addAttribute("ImagePath", imagePath);
+} else {
+			// 예약이 없을 경우 처리
+		}
+	model.addAttribute("pn",pn);
+	model.addAttribute("tourName",tourName);
+	return "reservation/tourList";
+}
+@PostMapping("/reservation/listSearchResult")
+	public String showAllTourList(Model model ,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage,
+			@RequestParam(value="tourName",required=false)String tourName) {
+	int totalCount=rService.getListTotalCount(tourName);
+	Pagination pn = new Pagination(totalCount,currentPage);
+	int limit = pn.getBoardLimit();
+	int offset=(currentPage-1)*limit;
+	RowBounds rowBounds =new RowBounds(offset,limit);
+	List<Tour>tList = rService.selectSearchList(tourName,rowBounds);
+	if (!tList.isEmpty()) {
+		Tour tour = tList.get(0);
+		model.addAttribute("tList", tList);
+		System.out.println("ControllerTList:" + tList);
+	// Brewery 이미지 경로 설정
+		String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
+		System.out.println(imagePath);
+			model.addAttribute("ImagePath", imagePath);
+} else {
+			// 예약이 없을 경우 처리
+		}
+	model.addAttribute("pn",pn);
+	model.addAttribute("tourName",tourName);
+	return "reservation/tourSearchResultList";
+}
+	
+	
 @GetMapping("/reservation/register")
 	public String showRegisterForm() {
 		return "reservation/registerPage";
@@ -57,16 +111,16 @@ private static String generateRandomString(int length) {
     }
     return builder.toString();
 }
-@PostMapping("/reservation/register/{breweryNo}")
+@PostMapping("/reservation/register/{tourNo}")
 	public String RegisterInfo(@ModelAttribute Reservation reservation, Model model, HttpSession session
-			,@PathVariable("breweryNo")Integer breweryNo) {
+			,@PathVariable("tourNo")Integer tourNo) {
 		String userId = (String) session.getAttribute("userId");
 //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
 		String randomString = generateRandomString(10);
 		reservation.setUserId(userId);
 		reservation.setReserveNo(randomString);
 	//	reservation.setUserId("user3");
-		int result =rService.RegisterInfo(reservation,breweryNo);
+		int result =rService.RegisterInfo(reservation,tourNo);
 		return "redirect:"+kakaoPay.kakaoPayReady(); //결제 페이지 
 }
 @GetMapping("/reservation/search")
@@ -169,7 +223,7 @@ public String reserveSuccess(Reservation reservation, Model model) {
 		System.out.println("ControllerrList:" + rList);
 	// Brewery 이미지 경로 설정
 		String imagePath = reservation.getFilePath() + "/" + reservation.getFileRename();
-		System.out.println(imagePath);
+		System.out.println("detailimagePath"+imagePath);
 			model.addAttribute("ImagePath", imagePath);
 } else {
 			// 예약이 없을 경우 처리

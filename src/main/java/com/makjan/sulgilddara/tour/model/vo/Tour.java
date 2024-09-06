@@ -23,7 +23,8 @@ public class Tour {
 	private String fileRename;
 	private String filePath;
 	
+	//brewery
 	private Integer breweryNo;
-	
+	private String breweryName;
 	private MultipartFile uploadFile;
 }

@@ -36,7 +36,13 @@ public interface ReservationMapper {
 
 	int getListTotalCount(String tourName);
 
-	List<Tour> selectSearchList(Integer currentPage, Map<String, String> param, RowBounds rowBounds);
+//	List<Tour> selectSearchList(Integer currentPage, Map<String, String> param, RowBounds rowBounds);
+
+	List<Tour> showTourList(Map<String, String> param);
+
+	List<Tour> selectSearchList(String tourName, RowBounds rowBounds);
+
+	List<Tour> showTourList(String tourName, RowBounds rowBounds);
 
 
 

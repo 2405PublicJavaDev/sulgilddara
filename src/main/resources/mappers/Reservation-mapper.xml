@@ -41,14 +41,14 @@
  
  <select id="SearchAllInfo" resultMap="reserveResultMap">
  	SELECT * FROM reservation_tbl
-    <where>
+    <!--<where>
         <if test="userId != null and userId != ''">
             AND USER_ID = #{userId}
         </if>
         <if test="breweryName != null and breweryName != ''">
             AND brewery_Name = #{breweryName}
         </if>
-    </where>
+    </where>-->
 </select>
 
  <select id="SearchreserveNo" resultMap="reserveResultMap">
@@ -79,9 +79,29 @@
  </select>
  
  <select id="selectOne" resultType="Reservation">
-	select * from reservation_tbl join User_TBL using (user_ID) join tour_tbl using (tour_no) where reserve_no =#{reserveNo}
+	select * from reservation_tbl join User_TBL using (user_ID)join brewery_tbl using(brewery_no) join tour_tbl using (tour_no) where reserve_no =#{reserveNo}
  </select>
  <select id="selectInfo" resultMap="userResultMap">
  	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
  </select>
+ <!-- 투어리스트 총 게시글 검색 -->
+	  <select id="getListTotalCount" resultType="_int">
+	  	select count(*) from TOUR_TBL
+	  	<where>
+	  		<if test="tourName!=null and tourName!=''">
+	  			AND TOUR_NAME=#{tourName}
+	  		</if>
+	  	</where>
+	  </select>
+<!-- 투어 리스트 페이지 검색에 따라 결과 출력 쿼리-->
+	  <select id="selectSearchList" resultType="Tour">
+	    SELECT brewery_tbl.brewery_name,tour_tbl.filerename,tour_tbl.tour_name,
+	    tour_tbl.time_taken,tour_tbl.tour_content,tour_tbl.tour_price 
+	    FROM TOUR_TBL join brewery_tbl using(brewery_no) WHERE TOUR_NAME = #{tourName}
+	  </select>
+	  <!--투어 리스트(투어번호) - 양조장 리스트(양조장번호) 합치기 -->
+	  <select id="showTourList" resultType="Tour">
+	  	select tour_tbl.tour_name,tour_tbl.tour_content,tour_tbl.time_taken,tour_tbl.tour_price,brewery_tbl.filerename
+	  	,brewery_tbl.brewery_name from brewery_tbl join tour_tbl using(brewery_no)
+	  </select>
  </mapper>
