@@ -19,6 +19,7 @@
                 <!-- 검색 조건에 따라 적절한 입력 필드 표시 -->
                 <div th:if="${searchCondition == 'local'}">
                     <select name="searchKeyword">
+                    	<option value="">전체</option>
                         <option value="sudo">수도권</option>
                         <option value="gang">강원</option>
                         <option value="chung">충청</option>
@@ -49,23 +50,31 @@
 	            </tr>
 	        </thead>
 	        <tbody>
-	            <tr th:each="brewery : ${sList}">
-	            	<td th:text="${brewery.breweryNo}"></td>
-	                <td th:text="${brewery.breweryName}"></td>
-	                <td th:text="${brewery.breweryLocal == 'sudo' ? '수도권' : brewery.breweryLocal == 'gang' ? '강원' : brewery.breweryLocal == 'chung' ? '충청' : brewery.breweryLocal == 'gyeong' ? '경상' : brewery.breweryLocal == 'jeoll' ? '전라' : brewery.breweryLocal == 'jeju' ? '제주' : brewery.breweryLocal}"></td>
-	                <td th:text="${brewery.bUpdateDate}"></td>
-		      	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
-	            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
-	        	</tr>
-	    	</tbody>
-	    	<tfoot>
-				<tr align="center">
-					<td colspan="5">
-						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
-							<a th:href="@{/brewery/search(cp=${p})}" th:text="${p}"></a>						
-						</th:block>
-					</td>
+			    <tr th:each="brewery : ${sList}" th:unless="${#lists.isEmpty(sList)}">
+			    	<td th:text="${brewery.breweryNo}"></td>
+			        <td th:text="${brewery.breweryName}"></td>
+			        <td th:text="${brewery.breweryLocal == 'sudo' ? '수도권' : brewery.breweryLocal == 'gang' ? '강원' : brewery.breweryLocal == 'chung' ? '충청' : brewery.breweryLocal == 'gyeong' ? '경상' : brewery.breweryLocal == 'jeoll' ? '전라' : brewery.breweryLocal == 'jeju' ? '제주' : brewery.breweryLocal}"></td>
+			        <td th:text="${brewery.bUpdateDate}"></td>
+			  	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
+			    	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
+			    </tr>
+			</tbody>
+			<tfoot th:if="${pn.totalCount > 0}">
+			    <tr align="center">
+			        <td colspan="5">
+			            <th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
+			                <a th:href="@{/brewery/search(cp=${p}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}" th:text="${p}"></a>						
+			            </th:block>
+			        </td>
+			    </tr>
 			</tfoot>
+			<th:block th:if="${pn.totalCount == 0}">
+			    <tr align="center">
+			        <td colspan="5">
+			            검색 결과가 없습니다.
+			        </td>
+			    </tr>
+			</th:block>
 		</table>
 	</form>
 	</body>
@@ -83,11 +92,6 @@
 	    function goInsert() {
 	    	location.href = "/brewery/write";
 	    }
-        var searchCondition = "/*[[${searchCondition}]]*/";
-        document.querySelectorAll('#searchCondition option').forEach(function(option) {
-            if (option.value === searchCondition) {
-                option.selected = true;
-            }
-        });
+        
 	</script>
 </html>

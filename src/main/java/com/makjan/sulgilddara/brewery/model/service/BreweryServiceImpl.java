@@ -103,7 +103,7 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap, RowBounds rowBounds) {
+	public List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap, RowBounds rowBounds, Integer currentPage) {
 		List<Brewery> searchList = mapper.selectSearchList(paramMap, rowBounds);
 		if(searchList.size() == 0) {
 			searchList = null;
@@ -130,9 +130,22 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
+	public int getTotalCount(String searchCondition, String searchKeyword) {
+		int result = mapper.getTotalCount(searchCondition, searchKeyword);
+		return result;
+	}
+
+	@Override
 	public int getTotalCount() {
 		int result = mapper.getTotalCount();
 		return result;
 	}
+
+	@Override
+	public List<Brewery> searchBreweryByLocal(String local) {
+		List<Brewery> localList = mapper.selectLocalList(local);
+		return localList;
+	}
+	
 	
 }

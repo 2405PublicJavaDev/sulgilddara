@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,8 +79,23 @@ public interface BreweryMapper {
 	int deleteTag(BreweryTag breweryTag);
 
 	/**
+	 * 양조장 검색 개수 조회
+	 * @param searchKeyword 
+	 * @param searchCondition 
+	 * @return int
+	 */
+	int getTotalCount(@Param("searchCondition") String searchCondition, @Param("searchKeyword") String searchKeyword);
+
+	/**
 	 * 양조장 전체 개수 조회
 	 * @return int
 	 */
 	int getTotalCount();
+
+	/**
+	 * 지역별 양조장 리스트 조회
+	 * @param local
+	 * @return
+	 */
+	List<Brewery> selectLocalList(String local);
 }

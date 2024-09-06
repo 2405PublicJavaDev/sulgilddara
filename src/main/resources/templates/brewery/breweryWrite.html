@@ -6,50 +6,50 @@
 		<script src="https://unpkg.com/@yaireo/tagify"></script>
 <!-- 		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script> -->
 		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-	<style>
-		.tagify {
-		    display: inline-flex;
-		    flex-wrap: wrap;
-		    padding: 0;
-		    margin: 0;
-		    border: 1px solid black;
-		    height: 30px;
-		}
-		
-		.tagify__tag {
-		    display: inline-flex;
-		    align-items: center;
-		    margin: 0.2em;
-		    background: none;   /* 배경 제거 */
-		    border: none;       /* 테두리 제거 */
-		    border-radius: 3px;
-		}
-		
-		.tagify__tag__removeBtn {
-		    margin-left: 0.3em;
-		    cursor: pointer;
-		    background: none;   /* 배경 제거 */
-		    border: none;       /* 테두리 제거 */
-		    color: inherit;     /* 색상 상속 */
-		}
-		
-		.tagify__input {
-		    border: none;       /* 테두리 제거 */
-		    margin: 0;
-		    padding: 0;         /* 여백 제거 */
-		    outline: none;      /* 포커스 스타일 제거 */
-		    flex-grow: 1;
-		    min-width: 120px;   /* 최소 너비 */
-		}
-		.tagify__tag > div {
-		    padding: 0;
-		}
-		.tagify--focus {
-		    --tags-border-color: black !important;  /* 또는 원하는 색상 */
-		    transition: none !important;  /* 애니메이션 효과 제거 */
-		    height: 30px;
-		}
-	</style>
+		<style>
+			.tagify {
+			    display: inline-flex;
+			    flex-wrap: wrap;
+			    padding: 0;
+			    margin: 0;
+			    border: 1px solid black;
+			    height: 30px;
+			}
+			
+			.tagify__tag {
+			    display: inline-flex;
+			    align-items: center;
+			    margin: 0.2em;
+			    background: none;   /* 배경 제거 */
+			    border: none;       /* 테두리 제거 */
+			    border-radius: 3px;
+			}
+			
+			.tagify__tag__removeBtn {
+			    margin-left: 0.3em;
+			    cursor: pointer;
+			    background: none;   /* 배경 제거 */
+			    border: none;       /* 테두리 제거 */
+			    color: inherit;     /* 색상 상속 */
+			}
+			
+			.tagify__input {
+			    border: none;       /* 테두리 제거 */
+			    margin: 0;
+			    padding: 0;         /* 여백 제거 */
+			    outline: none;      /* 포커스 스타일 제거 */
+			    flex-grow: 1;
+			    min-width: 120px;   /* 최소 너비 */
+			}
+			.tagify__tag > div {
+			    padding: 0;
+			}
+			.tagify--focus {
+			    --tags-border-color: black !important;  /* 또는 원하는 색상 */
+			    transition: none !important;  /* 애니메이션 효과 제거 */
+			    height: 30px;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>양조장 등록</h1>

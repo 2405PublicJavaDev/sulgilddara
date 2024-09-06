@@ -72,9 +72,10 @@ public interface BreweryService {
 	 * 양조장 검색
 	 * @param paramMap
 	 * @param rowBounds 
+	 * @param currentPage 
 	 * @return List<Brewery>
 	 */
-	List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap, RowBounds rowBounds);
+	List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap, RowBounds rowBounds, Integer currentPage);
 
 	/**
 	 * 양조장 별 해시태그 입력
@@ -98,9 +99,24 @@ public interface BreweryService {
 	int deleteTag(BreweryTag breweryTag);
 
 	/**
+	 * 양조장 검색 개수 조회
+	 * @param searchKeyword 
+	 * @param searchCondition 
+	 * @return int
+	 */
+	int getTotalCount(String searchCondition, String searchKeyword);
+
+	/**
 	 * 양조장 전체 개수 조회
 	 * @return int
 	 */
 	int getTotalCount();
+
+	/**
+	 * 지역별 양조장 리스트 조회
+	 * @param local
+	 * @return List<Brewery>
+	 */
+	List<Brewery> searchBreweryByLocal(String local);
 
 }

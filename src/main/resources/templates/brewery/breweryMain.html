@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>양조장 페이지</title>
+        <link rel="stylesheet" href="../../css/breweryMain.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head>
+    <body>
+        <div id="header"></div>
+        <div id="body">
+            <div class="map-inner">
+                <div class="mapLink">
+					<a class="area sudo" id="001" style="cursor: pointer;" onclick="getBreweryList('sudo');"></a>
+					<a class="area gang" id="002" style="cursor: pointer;" onclick="getBreweryList('gang');"></a>
+					<a class="area chung" id="003" style="cursor: pointer;" onclick="getBreweryList('chung');"></a>
+					<a class="area jeoll" id="004" style="cursor: pointer;" onclick="getBreweryList('jeoll');"></a>
+					<a class="area gyeong" id="005" style="cursor: pointer;" onclick="getBreweryList('gyeong');"></a>
+					<a class="area jeju" id="006" style="cursor: pointer;" onclick="getBreweryList('jeju');"></a>
+                </div>
+                <div class="mapImg">
+                    <img src="../img/map_all.jpg" class="all">
+                    <img src="../img/map_sudo.jpg" class="sudo">
+                    <img src="../img/map_gang.jpg" class="gang">
+                    <img src="../img/map_chung.jpg" class="chung">
+                    <img src="../img/map_jeoll.jpg" class="jeoll">
+                    <img src="../img/map_gyeong.jpg" class="gyeong">
+                    <img src="../img/map_jeju.jpg" class="jeju">
+                </div>
+            </div>
+			<div id="list-box">
+				<div id="mapTag" class="mapTag">
+					<p id="selected-local"></p>
+				</div>
+				<ul class="list">
+					<li>
+						<div id="detail"></div>
+					</li>
+				</ul>
+				<div class="paging"></div>
+			</div>
+        </div>
+        <div id="footer"></div>
+    </body>
+    <script>
+    document.querySelectorAll('.mapLink .area').forEach(area => {
+        area.addEventListener('mouseover', function() {
+            let areaClass = this.classList[1];
+            document.querySelectorAll('.mapImg img').forEach(img => {
+                img.style.display = 'none';
+            });
+            document.querySelector(`.mapImg .${areaClass}`).style.display = 'block';
+        });
+
+        area.addEventListener('mouseout', function() {
+            document.querySelectorAll('.mapImg img').forEach(img => {
+                img.style.display = 'none';
+            });
+            document.querySelector('.mapImg .all').style.display = 'block';
+        });
+    });
+    function getBreweryList(local) {
+		$.ajax({
+			url : "/brewery/localList",
+			data : { "local" : local },
+			type : "GET",
+			success : function(data) {
+				console.log(data);
+				document.querySelector("#selected-local").innerHTML = 
+					local == 'sudo' ? '수도권' : 
+					local == 'gang' ? '강원' : 
+					local == 'chung' ? '충청' : 
+					local == 'gyeong' ? '경상' : 
+					local == 'jeoll' ? '전라' : 
+					local == 'jeju' ? '제주' : local;
+	            var detail = document.querySelector("#detail");
+	            detail.innerHTML = '';
+	            if (data.length > 0) {
+	                for (let i = 0; i < data.length; i++) {
+	                    detail.innerHTML += `<p>${data[i].breweryName}</p>`;
+	                }
+	            }
+			},
+			error : function() {
+				alert("전송 실패");    			
+			}
+		})
+    }
+    </script>
+</html>

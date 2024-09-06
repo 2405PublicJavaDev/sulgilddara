@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +45,10 @@ public class BreweryController {
 	public BreweryController(BreweryService bService, TourService tService) {
 		this.bService = bService;
 		this.tService = tService;
+	}
+	@GetMapping("/")
+	public String showMain() {
+		return "brewery/breweryMain";
 	}
 	
 	@GetMapping("/write")
@@ -151,11 +156,12 @@ public class BreweryController {
 		return "redirect:/brewery/list";
 	}
 	@PostMapping("/search")
-	public String showSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
+	public String searchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
 			, Model model
 			, @RequestParam("searchCondition") String searchCondition
 			, @RequestParam("searchKeyword") String searchKeyword) {
-		int totalCount = bService.getTotalCount();
+		System.out.println(searchCondition);
+		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;	
@@ -164,11 +170,39 @@ public class BreweryController {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchKeyword", searchKeyword);
-		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds);
+		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
 		model.addAttribute("sList", searchList);
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("searchCondition", searchCondition);
 		model.addAttribute("pn", pn);
 		return "brewery/brewerySearchList";
+	}
+	@GetMapping("/search")
+	public String showSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
+			, Model model
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchKeyword") String searchKeyword) {
+		System.out.println(searchCondition);
+		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage - 1) * limit;	
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchKeyword", searchKeyword);
+		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
+		model.addAttribute("sList", searchList);
+		model.addAttribute("searchKeyword", searchKeyword);
+		model.addAttribute("searchCondition", searchCondition);
+		model.addAttribute("pn", pn);
+		return "brewery/brewerySearchList";
+	}
+	@ResponseBody
+	@RequestMapping(value="/localList", produces="application/json;charset=UTF-8")
+	public List<Brewery> showLocalList(@RequestParam(value="local") String local) {
+		List<Brewery> bList = bService.searchBreweryByLocal(local);
+		return bList;
 	}
 }

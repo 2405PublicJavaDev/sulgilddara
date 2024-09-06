@@ -56,16 +56,16 @@
 	  <select id="selectSearchList" resultType="Brewery">
 	  	SELECT * FROM BREWERY_TBL
 		<where>
-			<if test="searchCondition == 'all'">
+			<if test="searchCondition == 'all' and searchKeyword != ''">
 				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%' 
 				OR BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
 			</if>
 	<!-- 	양조장명으로 검색하는 쿼리문 -->
-			<if test="searchCondition == 'brewery'">
+			<if test="searchCondition == 'brewery' and searchKeyword != ''">
 				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%'
 			</if>
 	<!-- 	지역명으로 검색하는 쿼리문 -->
-			<if test="searchCondition == 'local'">
+			<if test="searchCondition == 'local' and searchKeyword != ''">
 				BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
 			</if>
 		</where>
@@ -87,6 +87,23 @@
 	  </delete>
 	  <select id="getTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM BREWERY_TBL
+		<where>
+			<if test="searchCondition == 'all' and searchKeyword != ''">
+				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%' 
+				OR BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
+			</if>
+	<!-- 	양조장명으로 검색하는 쿼리문 -->
+			<if test="searchCondition == 'brewery' and searchKeyword != ''">
+				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+	<!-- 	지역명으로 검색하는 쿼리문 -->
+			<if test="searchCondition == 'local' and searchKeyword != ''">
+				BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</where>
+	  </select>
+	  <select id="selectLocalList" resultType="Brewery">
+	  	SELECT * FROM BREWERY_TBL WHERE BREWERY_LOCAL=#{breweryLocal}
 	  </select>
   </mapper>
   
