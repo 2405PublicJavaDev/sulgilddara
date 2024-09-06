@@ -23,14 +23,27 @@ public interface BoardService {
 	 * @param rowBounds
 	 * @return
 	 */
-	Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition);
+	Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition, String orderSelectBox);
+	
 	/**
-	 * 게시글 조회 - 간편(태그)검색
-	 * @param currentPage
-	 * @param rowBounds
+	 * 게시글태그 해당 boarNo 조회
+	 * @param params
 	 * @return
 	 */
-	Map<String, Object> selectBoardList(Integer currentPage, String[] tagList);
+	List<Integer> selectBoardNoByTags(Map<String, Object> params);
+	
+	/**
+	 * 태그조회로 추출한 boardNos로 조회한 board레코드
+	 */
+	Map<String, Object> selectBoardsByBoardNos(Integer currentPage, List<Integer> boardNos, String orderSelectBox);
+	
+//	/**
+//	 * 게시글 조회 - 간편(태그)검색
+//	 * @param currentPage
+//	 * @param rowBounds
+//	 * @return
+//	 */
+//	Map<String, Object> selectBoardList(Integer currentPage, String[] tagList);
 	
 	/**
 	 * 게시글 등록
@@ -90,10 +103,18 @@ public interface BoardService {
 	 * @return
 	 */
 	List<BoardTag> selectBoardTagList();
+	
+	/**
+	 * 게시글 태그 (중복X) 전체 조회
+	 * @return
+	 */
+	List<BoardTag> selectBoardTagListDistinct();
 
 	/**
 	 * 파일 전체 조회
 	 * @return
 	 */
 	List<BoardFile> selectBoardFileList();
+
+	
 }

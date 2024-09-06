@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	// selectBoardList 오버로딩 - 키워드검색
 	@Override
-	public Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition) {
+	public Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition, String orderSelectBox) {
 		
 		System.out.println("seacrhCondition : "+searchCondition);
 		System.out.println("searchKeyword : "+searchKeyword);
@@ -43,7 +43,7 @@ public class BoardServiceImpl implements BoardService{
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1) * limit ;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Board> bList = bMapper.selectBoardList(searchCondition, searchKeyword, rowBounds);
+		List<Board> bList = bMapper.selectBoardList(searchCondition, searchKeyword, orderSelectBox ,rowBounds);
 		Map<String, Object> map = new HashMap<>();
 		map.put("bList", bList);
 		map.put("pn", pn);
@@ -51,21 +51,21 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	// selectBoardList 오버로딩 - 간편(태그)검색
-	@Override
-	public Map<String, Object> selectBoardList(Integer currentPage, String[] tagList) {
-		
-		int totalCount = bMapper.getTotalCountTag(tagList);
-		Pagination pn = new Pagination(totalCount, currentPage);
-		int limit = pn.getBoardLimit();
-		int offset = (currentPage-1) * limit ;
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Board> bList = bMapper.selectBoardListTag(tagList, rowBounds);
-		Map<String, Object> map = new HashMap<>();
-		map.put("bList", bList);
-		System.out.println(bList);
-		map.put("pn", pn);
-		return map;
-	}
+//	@Override
+//	public Map<String, Object> selectBoardList(Integer currentPage, String[] tagList) {
+//		
+//		int totalCount = bMapper.getTotalCountTag(tagList);
+//		Pagination pn = new Pagination(totalCount, currentPage);
+//		int limit = pn.getBoardLimit();
+//		int offset = (currentPage-1) * limit ;
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		List<Board> bList = bMapper.selectBoardListTag(tagList, rowBounds);
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("bList", bList);
+//		System.out.println(bList);
+//		map.put("pn", pn);
+//		return map;
+//	}
 
 	@Override
 	public int insertBoard(Board board) {
@@ -121,6 +121,37 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardFile> selectBoardFileList() {
 		List<BoardFile> bFileList = bMapper.selectBoardFileList();
 		return bFileList;
+	}
+
+	
+	// 게시글 NO 조회 - 태그 선택 ( 간편 검색 )
+	@Override
+	public List<Integer> selectBoardNoByTags(Map<String, Object> params) {
+		List<Integer> boardNos = bMapper.selectBoardByTags(params);
+		return boardNos;
+	}
+
+	// 태그선택 - No조회 후 No로 board검색 ( 간편 검색)
+	@Override
+	public Map<String, Object> selectBoardsByBoardNos(Integer currentPage, List<Integer> boardNos, String orderSelectBox) {
+		int totalCount = boardNos.size();
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1) * limit ;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Board> bList = bMapper.selectBoardsByBoardNos(boardNos, rowBounds, orderSelectBox);
+		Map<String, Object> map = new HashMap<>();
+		map.put("bList", bList);
+		map.put("pn", pn);
+		return map;
+		
+	}
+
+	// 태그 중복 X 전체 조회
+	@Override
+	public List<BoardTag> selectBoardTagListDistinct() {
+		List<BoardTag> bTagList = bMapper.selectBoardTagListDistinct();
+		return bTagList;
 	}
 	
 	

@@ -3,10 +3,11 @@ package com.makjan.sulgilddara.board.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +27,6 @@ import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 import com.makjan.sulgilddara.common.utility.Util;
-import com.makjan.sulgilddara.model.vo.Pagination;
 
 import lombok.NoArgsConstructor;
 
@@ -42,15 +43,19 @@ public class BoardController {
 	
 	// 페이지 이동(폼) 메소드
 	@PostMapping("/board/listCard")
-	public String searchBoardListCard(@RequestParam(name="searchKeyword", required = false) String searchKeyword,
+	public String searchBoardListCard(@RequestParam(name = "searchMethod", required = false, defaultValue = "keywordSearch") String searchMethod,
+			@RequestParam(name="searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name="searchCondition", required = false,  defaultValue = "all") String searchCondition,
+			@RequestParam(name="orderSelectBox", required = false, defaultValue = "latest") String orderSelectBox,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer currentPage,
 			Model model) {
 		
 		// 서비스에서 Pagination 객체, 조회된 bList 객체 매핑해서 반환
-		Map<String, Object> map = bService.selectBoardList(currentPage, searchKeyword, searchCondition);
+		Map<String, Object> map = bService.selectBoardList(currentPage, searchKeyword, searchCondition, orderSelectBox);
 		// 태그 전체 리스트 조회
 		List<BoardTag> bTagList = bService.selectBoardTagList();
+		// 태그 중복X 리스트 조회
+		List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
 		// 파일 전체 리스트 조회
 		List<BoardFile> bFileList = bService.selectBoardFileList(); 
 		
@@ -58,23 +63,34 @@ public class BoardController {
 		model.addAttribute("pn", map.get("pn"));
 		model.addAttribute("bFileList", bFileList);
 		model.addAttribute("bTagList", bTagList);
+		model.addAttribute("bTagListDistinct", bTagListDistinct);
+		
+		System.out.println(bTagList);
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("searchCondition", searchCondition);
+		model.addAttribute("orderSelectBox", orderSelectBox);
+		model.addAttribute("searchMethod", searchMethod);
+		
 		return "board/boardList_card";
 	}
 	
 	
 	
 	@GetMapping("/board/listCard")
-	public String showBoardListCard(@RequestParam(name="searchKeyword", required = false ) String searchKeyword,
+	public String showBoardListCard(@RequestParam(name = "searchMethod", required = false, defaultValue = "keywordSearch") String searchMethod,
+			@RequestParam(name="searchKeyword", required = false ) String searchKeyword,
 			@RequestParam(name="searchCondition", required = false, defaultValue = "all") String searchCondition,
+			@RequestParam(name="orderSelectBox", required = false, defaultValue = "latest") String orderSelectBox,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer currentPage,
 			Model model) {
 		
 		// 서비스에서 Pagination 객체, 조회된 bList 객체 매핑해서 반환
-		Map<String, Object> map = bService.selectBoardList(currentPage, searchKeyword, searchCondition);
+		Map<String, Object> map = bService.selectBoardList(currentPage, searchKeyword, searchCondition, orderSelectBox);
+		
 		// 태그 전체 리스트 조회
 		List<BoardTag> bTagList = bService.selectBoardTagList();
+		// 태그 중복X 리스트 조회
+		List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
 		// 파일 전체 리스트 조회
 		List<BoardFile> bFileList = bService.selectBoardFileList(); 
 		
@@ -82,8 +98,13 @@ public class BoardController {
 		model.addAttribute("pn", map.get("pn"));
 		model.addAttribute("bFileList", bFileList);
 		model.addAttribute("bTagList", bTagList);
+		model.addAttribute("bTagListDistinct", bTagListDistinct);
+		
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("searchCondition", searchCondition);
+		model.addAttribute("orderSelectBox", orderSelectBox);
+		model.addAttribute("searchMethod", searchMethod);
+		
 		return "board/boardList_card";
 	}
 	
@@ -147,6 +168,7 @@ public class BoardController {
 			List<String> tagNameArr = new ArrayList<String>();
 			
 			String tagNameJson = boardTag.getBoardTagName();
+			// jackson 객체
 			ObjectMapper objectMapper = new ObjectMapper();
 			try {
 				// JSON 문자열을 List<Map<String, String>> 형태로 변환
@@ -223,36 +245,103 @@ public class BoardController {
 	}
 	
 	@PostMapping("/board/searchTag_listCard")
-	public String searchTagListCard(
+	public String postSearchTagListCard(@RequestParam(name = "searchMethod", required = false, defaultValue = "tagSearch") String searchMethod,
+			@RequestParam(name = "orderSelectBox", required = false, defaultValue = "latest") String orderSelectBox, 
 			@RequestParam("tagName") String tags,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer currentPage,
+			
 			Model model) {
-		
-		
-				System.out.println("tags : "+tags);
+			System.out.println("orderSelectBox :  "+orderSelectBox);
+				
+				
 				String[] tagList = tags.split(",");
 				
-				for(String tag : tagList) {
-					bService.selectBoardList(currentPage, tagList);
+				// 서비스에서 Pagination 객체, 조회된 bList 객체 매핑해서 반환
+				Map<String, Object> params = new HashMap<>();
+				params.put("tags", tagList);
+				params.put("tagCount", tagList.length);
+				List<Integer> boardNos = bService.selectBoardNoByTags(params); // 해당 태그 boarNo -> 검색된 board 객체
+				
+				Map<String, Object> map = null;
+				if(!boardNos.isEmpty()) {
+					// 최종 간편 검색 결과 pn, bList 매핑
+					map = bService.selectBoardsByBoardNos(currentPage, boardNos, orderSelectBox);
 				}
 				
 				
 				
-				
-				// 서비스에서 Pagination 객체, 조회된 bList 객체 매핑해서 반환
-				Map<String, Object> map = bService.selectBoardList(currentPage, tagList);
-
 				// 태그 전체 리스트 조회
 				List<BoardTag> bTagList = bService.selectBoardTagList();
+				// 태그 중복X 리스트 조회
+				List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
 				// 파일 전체 리스트 조회
 				List<BoardFile> bFileList = bService.selectBoardFileList(); 
+				if(map != null) {
+					model.addAttribute("bList", map.get("bList"));
+					model.addAttribute("pn", map.get("pn"));					
+				}
 				model.addAttribute("bFileList", bFileList);
 				model.addAttribute("bTagList", bTagList);
-				model.addAttribute("bList", map.get("bList"));
-				model.addAttribute("pn", map.get("pn"));
+				model.addAttribute("bTagListDistinct", bTagListDistinct);
+				
+				// tagList는 배열이므로 List로 변환 -> html에서 contains 메소드 쓰기위함
+				List<String> selectedTags = Arrays.asList(tagList);
+				model.addAttribute("selectedTags", selectedTags);
+				model.addAttribute("orderSelectBox", orderSelectBox);
+				model.addAttribute("searchMethod", searchMethod);
+				
 				return "board/boardList_card";
 	}
-		
+	
+	
+	@GetMapping("/board/searchTag_listCard")
+	public String getSearchTagListCard(@RequestParam(name = "searchMethod", required = false, defaultValue = "tagSearch") String searchMethod,
+			@RequestParam(name = "orderSelectBox", required = false, defaultValue = "latest") String orderSelectBox, 
+			@RequestParam("tagName") String tags,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer currentPage,
+			
+			Model model) {
+			System.out.println("orderSelectBox :  "+orderSelectBox);
+				
+				
+				String[] tagList = tags.split(",");
+				
+				// 서비스에서 Pagination 객체, 조회된 bList 객체 매핑해서 반환
+				Map<String, Object> params = new HashMap<>();
+				params.put("tags", tagList);
+				params.put("tagCount", tagList.length);
+				List<Integer> boardNos = bService.selectBoardNoByTags(params); // 해당 태그 boarNo -> 검색된 board 객체
+				
+				Map<String, Object> map = null;
+				if(!boardNos.isEmpty()) {
+					// 최종 간편 검색 결과 pn, bList 매핑
+					map = bService.selectBoardsByBoardNos(currentPage, boardNos, orderSelectBox);
+				}
+				
+				
+				
+				// 태그 전체 리스트 조회
+				List<BoardTag> bTagList = bService.selectBoardTagList();
+				// 태그 중복X 리스트 조회
+				List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
+				// 파일 전체 리스트 조회
+				List<BoardFile> bFileList = bService.selectBoardFileList(); 
+				if(map != null) {
+					model.addAttribute("bList", map.get("bList"));
+					model.addAttribute("pn", map.get("pn"));					
+				}
+				model.addAttribute("bFileList", bFileList);
+				model.addAttribute("bTagList", bTagList);
+				model.addAttribute("bTagListDistinct", bTagListDistinct);
+				
+				// tagList는 배열이므로 List로 변환 -> html에서 contains 메소드 쓰기위함
+				List<String> selectedTags = Arrays.asList(tagList);
+				model.addAttribute("selectedTags", selectedTags);
+				model.addAttribute("orderSelectBox", orderSelectBox);
+				model.addAttribute("searchMethod", searchMethod);
+				
+				return "board/boardList_card";
+	}	
 	
 	
 }

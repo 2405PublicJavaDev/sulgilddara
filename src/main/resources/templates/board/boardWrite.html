@@ -136,6 +136,7 @@
 				</textarea>
 			</div>
 			<button>등록</button> 
+			<button type="button" onclick="goBack();">취소</button>
 		</form>
 		
 		<script>
@@ -308,6 +309,12 @@
 	        function searchLiquor(){
 	        	
 	        	$.ajax({})
+	        }
+	        
+	        
+	        //취소 - 뒤로가기
+	        function goBack(){
+	        	history.go(-1);
 	        }
 	        
 </script>

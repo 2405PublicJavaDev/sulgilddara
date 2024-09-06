@@ -1,6 +1,7 @@
 package com.makjan.sulgilddara.board.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -39,7 +40,9 @@ public interface BoardMapper {
 	 */
 	List<Board> selectBoardList(
 			@Param("searchCondition") String searchCondition, 
-			@Param("searchKeyword")String searchKeyword, RowBounds rowBounds);
+			@Param("searchKeyword") String searchKeyword, 
+			@Param("orderSelectBox") String orderSelectBox ,
+			RowBounds rowBounds);
 	
 	/**
 	 * 게시글 조회 - 태그 검색
@@ -66,12 +69,32 @@ public interface BoardMapper {
 	 * @return
 	 */
 	List<BoardTag> selectBoardTagList();
+	/**
+	 * 게시글 태그 (중복 X)전체 조회
+	 * @return
+	 */
+	List<BoardTag> selectBoardTagListDistinct();
 
 	/**
 	 * 게시글 파일 전체 조회
 	 * @return
 	 */
 	List<BoardFile> selectBoardFileList();
+
+	/**
+	 * 게시글 No 조회 - 태그 검색
+	 * @param params
+	 * @return
+	 */
+	List<Integer> selectBoardByTags(Map<String, Object> params);
+
+	/**
+	 * // 태그선택 - No조회 후 No로 board검색 ( 간편 검색)
+	 * @param currentPage
+	 * @param boardNos
+	 * @return
+	 */
+	List<Board> selectBoardsByBoardNos(@Param("boardNos") List<Integer> boardNos, RowBounds rowBounds, @Param("orderSelectBox") String orderSelectBox);
 
 	
 
