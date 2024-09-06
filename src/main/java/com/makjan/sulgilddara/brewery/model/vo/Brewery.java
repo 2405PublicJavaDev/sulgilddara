@@ -9,12 +9,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@ToString
 public class Brewery {
 	private Integer breweryNo;
 	private String breweryName;
@@ -30,6 +31,10 @@ public class Brewery {
 	private String fileName;
 	private String fileRename;
 	private String filePath;
+	
+	private String facilities;
+	private String kidsZone;
+	private String disFriendly;
 	
 	private MultipartFile uploadFile;
 }

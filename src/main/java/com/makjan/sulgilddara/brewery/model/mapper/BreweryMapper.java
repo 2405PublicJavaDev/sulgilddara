@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 
 @Mapper
 public interface BreweryMapper {
@@ -22,7 +24,7 @@ public interface BreweryMapper {
 	 * 양조장 리스트 전체 조회
 	 * @return List<Brewery>
 	 */
-	List<Brewery> selectAllList();
+	List<Brewery> selectAllList(Integer currentPage, RowBounds rowBounds);
 	
 	/**
 	 * 양조장 리스트 한개 조회
@@ -48,7 +50,36 @@ public interface BreweryMapper {
 	/**
 	 * 양조장 검색
 	 * @param paramMap
+	 * @param rowBounds 
+	 * @param currentPage 
 	 * @return List<Brewery>
 	 */
-	List<Brewery> selectSearchList(Map<String, String> paramMap);
+	List<Brewery> selectSearchList(Map<String, String> paramMap, RowBounds rowBounds);
+
+	/**
+	 * 양조장 별 해시태그 입력
+	 * @param breweryTag
+	 * @return int
+	 */
+	int insertTag(BreweryTag breweryTag);
+
+	/**
+	 * 양조장 별 해시태그 출력
+	 * @param breweryNo
+	 * @return List<BreweryTag>
+	 */
+	List<BreweryTag> showTagByBrwNo(Integer breweryNo);
+
+	/**
+	 * 양조장 별 해시태그 삭제
+	 * @param breweryTag
+	 * @return
+	 */
+	int deleteTag(BreweryTag breweryTag);
+
+	/**
+	 * 양조장 전체 개수 조회
+	 * @return int
+	 */
+	int getTotalCount();
 }

@@ -20,7 +20,6 @@
                 <!-- 검색 조건에 따라 적절한 입력 필드 표시 -->
                 <div th:if="${searchCondition == 'local'}">
                     <select name="searchKeyword">
-                        <option value="">선택하세요</option>
                         <option value="sudo">수도권</option>
                         <option value="gang">강원</option>
                         <option value="chung">충청</option>
@@ -36,6 +35,7 @@
             <td>
                 <!-- 검색 버튼 -->
                 <input type="submit" value="검색">
+				<button type="button" th:onclick="goInsert()">양조장 등록</button>
             </td>
         </tr>
     </table>
@@ -60,8 +60,16 @@
 	            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
 	        	</tr>
 	    	</tbody>
+			<tfoot>
+				<tr align="center">
+					<td colspan="5">
+						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
+							<a th:href="@{/brewery/list(cp=${p})}" th:text="${p}"></a>						
+						</th:block>
+					</td>
+			</tfoot>
 		</table>
-	<button type="button" th:onclick="goInsert()">양조장 등록</button>
+	</form>
 	</body>
 	<script th:inline="javascript">
 	    function modifyBrewery(breweryNo) {
