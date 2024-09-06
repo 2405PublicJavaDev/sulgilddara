@@ -24,7 +24,7 @@
 			<input type="hidden" name="searchMethod" value="tagSearch">
 			<div th:each="tag : ${bTagListDistinct}">
 				<label th:for="${tag.boardTagName}">[[${tag.boardTagName}]]</label>		
-				<input type="checkbox" th:class="tagCheckBox" name="tagName" th:value="${tag.boardTagName}" th:id="${tag.boardTagName}" type="checkbox" th:checked="${selectedTags != null && #strings.contains(selectedTags, tag.boardTagName)}">
+				<input type="checkbox" th:class="tagCheckBox" name="tagName" th:value="${tag.boardTagName}" th:id="${tag.boardTagName}" th:checked="${selectedTags != null && #strings.contains(selectedTags, tag.boardTagName)}">
 			</div>
 <!-- 			체크하지 않았을땐 비활성화(default) -->
 			<button type="submit" id="searchButton" disabled>간편검색</button>
