@@ -11,6 +11,7 @@ import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorSearchInfo;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorTagInfo;
 
 @Mapper
 public interface LiquorMapper {
@@ -77,5 +78,12 @@ public interface LiquorMapper {
 	 * @param tags
 	 * @return List<Liquor>
 	 */
-	List<Liquor> liquorSearch(Map<String, Object> searchMap);
+	List<LiquorDetail> liquorSearch(Map<String, Object> searchMap);
+
+	/**
+	 * 주류ID로 태그검색 Mapper
+	 * @param liquorId
+	 * @return List<LiquorTagInfo>
+	 */
+	List<LiquorTagInfo> searchTagsByLiquorId(int liquorId);
 }

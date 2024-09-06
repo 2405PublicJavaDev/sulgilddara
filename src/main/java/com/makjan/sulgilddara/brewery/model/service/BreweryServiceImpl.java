@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,7 +103,7 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap) {
+	public List<Brewery> searchBreweryByKeyword(@Param(value = "paramMap") Map<String, String> paramMap) {
 		List<Brewery> searchList = mapper.selectSearchList(paramMap);
 		if(searchList.size() == 0) {
 			searchList = null;

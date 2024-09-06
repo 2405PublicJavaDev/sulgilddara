@@ -14,6 +14,8 @@ public class LiquorSearchInfo {
 	private String liquorType;
 	private Integer alcholMin;
 	private Integer alcholMax;
+	private Integer capacityMin;
+	private Integer capacityMax;
 	private Integer priceMin;
 	private Integer priceMax;
 	private String tags;

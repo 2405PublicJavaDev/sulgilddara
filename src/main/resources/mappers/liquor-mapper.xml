@@ -32,17 +32,19 @@
 		WHERE LIQUOR_ID = #{liquorId}
 	</select>
 	<select id="liquorSearch" parameterType="map" resultType="LiquorDetail">
-		SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL
+		SELECT * FROM
+		(SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL
 		FROM LIQUOR_TBL
 		LEFT OUTER JOIN BREWERY_TBL
 			ON LIQUOR_TBL.BREWERY_ID = BREWERY_TBL.BREWERY_NO
 		<where>
-		
 				<if test="sInfo.keyword != null and sInfo.keyword !=''">
-					AND LIQUOR_NAME LIKE CONCAT('%',#{sInfo.keyword},'%')
+					AND LIQUOR_NAME LIKE '%'||#{sInfo.keyword}||'%'
 				</if>
-
-				<if test="sInfo.liquorType != null">
+				<if test="sInfo.breweryLocal != 'all'">
+					AND BREWERY_LOCAL = #{sInfo.breweryLocal}
+				</if>
+				<if test="sInfo.liquorType != 'all'">
 					AND LIQUOR_TYPE = #{sInfo.liquorType}
 				</if>
 				<if test="sInfo.alcholMin != null">
@@ -51,14 +53,19 @@
 				<if test="sInfo.alcholMax != null">
 					AND ALCHOL_CONTENT &lt;= #{sInfo.alcholMax}
 				</if>
+				<if test="sInfo.capacityMin != null">
+					AND LIQUOR_CAPACITY &gt;= #{sInfo.capacityMin}
+				</if>
+				<if test="sInfo.capacityMax != null">
+					AND LIQUOR_CAPACITY &lt;= #{sInfo.capacityMax}
+				</if>
 				<if test="sInfo.priceMin != null">
 					AND LIQUOR_PRICE &gt;= #{sInfo.priceMin}
 				</if>
 				<if test="sInfo.priceMax != null">
 					AND LIQUOR_PRICE &lt;= #{sInfo.priceMax}
 				</if>
-			<if test="tags != null and tags.length > 0">
-		
+			<if test="tags != null">
 				AND LIQUOR_ID IN
 				(SELECT LIQUOR_ID
 				FROM LIQUOR_TBL L
@@ -74,12 +81,26 @@
 						<foreach item="tag" collection="tags" open="(" separator="," close=")">
 							#{tag}
 						</foreach>
-				
 				GROUP BY LIQUOR_ID
-					HAVING COUNT(BOARD_TAG_NAME) >= #{tags.length}
+					HAVING COUNT(BOARD_TAG_NAME) >= #{tagLength}
 				)
 			</if>
 		</where>
+		) A
+		LEFT OUTER JOIN
+		(SELECT LIQUOR_ID, AVG(BOARD_POINT) AVG_POINT, COUNT(*) REVIEW_COUNT FROM BOARD_TBL GROUP BY LIQUOR_ID) B
+		USING(LIQUOR_ID)
+	</select>
+	
+	<select id="searchTagsByLiquorId" resultType="LiquorTagInfo">
+		SELECT BOARD_TAG_NAME TAG_NAME, COUNT(*) TAG_COUNT
+		FROM
+		(SELECT * FROM
+		BOARD_TBL
+		WHERE LIQUOR_ID = #{liquorId})
+		LEFT OUTER JOIN BOARD_TAG_TBL
+		USING (BOARD_NO)
+		GROUP BY BOARD_TAG_NAME
 	</select>
 	
 	<insert id="insertLiquorImage">

@@ -22,4 +22,6 @@ public class LiquorDetail {
 	private Integer breweryId;
 	private String breweryName;
 	private String breweryLocal;
+	private float avgPoint;
+	private int reviewCount;
 }

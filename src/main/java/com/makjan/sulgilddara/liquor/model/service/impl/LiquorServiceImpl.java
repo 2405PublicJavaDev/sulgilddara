@@ -13,6 +13,7 @@ import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorSearchInfo;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorTagInfo;
 
 @Service
 public class LiquorServiceImpl implements LiquorService{
@@ -75,9 +76,15 @@ public class LiquorServiceImpl implements LiquorService{
 	}
 
 	@Override
-	public List<Liquor> liquorSearch(Map<String, Object> searchMap) {
-		List<Liquor> lList = mapper.liquorSearch(searchMap);
+	public List<LiquorDetail> liquorSearch(Map<String, Object> searchMap) {
+		List<LiquorDetail> lList = mapper.liquorSearch(searchMap);
 		return lList;
+	}
+
+	@Override
+	public List<LiquorTagInfo> searchTagsByLiquorId(int liquorId) {
+		List<LiquorTagInfo> tList = mapper.searchTagsByLiquorId(liquorId);
+		return tList;
 	}
 
 }

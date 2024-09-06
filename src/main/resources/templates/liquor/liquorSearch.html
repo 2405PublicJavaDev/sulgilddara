@@ -79,7 +79,7 @@
                     <div class="filter-section">
                         <h4>주종</h4>
                         <select name="liquorType">
-                            <option value=null>전체</option>
+                            <option value="all">전체</option>
                             <option value="전통주">전통주</option>
                             <option value="막걸리">막걸리</option>
                             <option value="청주">청주</option>
@@ -91,7 +91,7 @@
                         </select>
                         <h4>생산지</h4>
                         <select id="local" name="breweryLocal">
-                            <option value=null>전체</option>
+                            <option value="all">전체</option>
                             <option value="sudo">수도권</option>
                             <option value="gang">강원</option>
                             <option value="chung">충청</option>
@@ -102,6 +102,9 @@
                         <h4>도수</h4>
                         <input type="number" step="0.01" name="alcholMin" placeholder="최소">&nbsp;~&nbsp;
                         <input type="number" step="0.01" name="alcholMax" placeholder="최대">
+                        <h4>용량</h4>
+                        <input type="number" step="0.01" name="capacityMin" placeholder="최소">&nbsp;~&nbsp;
+                        <input type="number" step="0.01" name="capacityMax" placeholder="최대">
                         <h4>가격대</h4>
                         <input type="number" step="0.01" name="priceMin" placeholder="최소">&nbsp;~&nbsp;
                         <input type="number" step="0.01" name="priceMax" placeholder="최대">
