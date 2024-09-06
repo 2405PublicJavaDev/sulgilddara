@@ -52,58 +52,7 @@
   	
 <!--   	게시글 간편(태그) 검색 -->
 	<select id="selectBoardListTag" parameterType="list" resultType="BoardTag">
-		
-	    
-<!-- 	    <if test="tagList.length > 1"> -->
-<!-- 		    SELECT * -->
-<!-- 		    FROM ( -->
-<!-- 		        SELECT * -->
-<!-- 		        FROM BOARD_TBL -->
-<!-- 		        JOIN BOARD_TAG_TBL -->
-<!-- 		        USING(BOARD_NO) -->
-<!-- 		        WHERE BOARD_TAG_NAME IN -->
-<!-- 		        <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
-<!-- 		            #{tag} -->
-<!-- 		        </foreach> -->
-<!-- 		        AND BOARD_NO IN ( -->
-<!-- 		            SELECT BOARD_NO -->
-<!-- 		            FROM BOARD_TAG_TBL -->
-<!-- 		            WHERE BOARD_TAG_NAME IN -->
-<!-- 		            <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
-<!-- 		                #{tag} -->
-<!-- 		            </foreach> -->
-<!-- 		            GROUP BY BOARD_NO -->
-<!-- 		            HAVING COUNT(*) > 1 -->
-<!-- 		        ) -->
-<!-- 		        ORDER BY BOARD_NO -->
-<!-- 		    ) -->
-<!-- <!-- 		    WHERE ROWNUM = 1 --> -->
-<!-- 	    </if> -->
-<!-- 	    <if test="tagList.length == 1"> -->
-<!-- 	    	SELECT * -->
-<!-- 		    FROM ( -->
-<!-- 		        SELECT * -->
-<!-- 		        FROM BOARD_TBL -->
-<!-- 		        JOIN BOARD_TAG_TBL -->
-<!-- 		        USING(BOARD_NO) -->
-<!-- 		        WHERE BOARD_TAG_NAME IN -->
-<!-- 		        <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
-<!-- 		            #{tag} -->
-<!-- 		        </foreach> -->
-<!-- 		        AND BOARD_NO IN ( -->
-<!-- 		            SELECT BOARD_NO -->
-<!-- 		            FROM BOARD_TAG_TBL -->
-<!-- 		            WHERE BOARD_TAG_NAME IN -->
-<!-- 		            <foreach item="tag" index="index" collection="tagList" open="(" separator="," close=")"> -->
-<!-- 		                #{tag} -->
-<!-- 		            </foreach> -->
-<!-- 		            GROUP BY BOARD_NO -->
-<!-- 		            HAVING COUNT(*) = 1 -->
-<!-- 		        ) -->
-<!-- 		        ORDER BY BOARD_NO -->
-<!-- 		    ) -->
-<!-- 		    WHERE ROWNUM = 1 -->
-<!-- 	    </if> -->
+
 	    
 	</select>
  
