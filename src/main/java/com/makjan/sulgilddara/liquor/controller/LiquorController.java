@@ -135,7 +135,7 @@ public class LiquorController {
 		searchMap.put("searchCondition", "brewery");
 		
 		//business logic 수행하여 breweryName 조건이 맞는 양조장 정보 리턴
-		List<Brewery> breweries = bService.searchBreweryByKeyword(searchMap);
+		List<Brewery> breweries = bService.searchBreweryByKeyword(searchMap, new RowBounds(), 1);
 		
 		//@ResponseBody 어노테이션에 의해 자동으로 JSON으로 변환하여 페이지로 데이터 전송
 		return breweries;
