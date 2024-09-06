@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<title>관리자 조회 검색 결과</title>
+	</head>
+	
+	<body>
+		<form th:action="@{/reservation/searchResultAdmin}" th:object= "${reservation}" method="POST">
+				<div class="searchArea">
+					<div class="searchDiv">
+						<div class="breweryNameSearch">
+							<input type="text" name="breweryName" th:value="${breweryName}">
+						</div>
+						<div class="userId">
+							<input type="text" name="userId" th:value="${userId}">
+						</div>
+					</div>
+						<button type="submit">조회</button>
+				</div>
+			</form>
+		
+		<div class="reserveResult" >
+			<div class="List">
+				목록
+			</div>
+			<div class="searchResult">
+				<table>
+					<thead>
+						<tr>
+							<th>예약 번호</th>
+							<th>양조장 명</th>
+							<th>체험 프로그램</th>
+							<th>예약 날짜</th>
+							<th>예약 인원</th>
+							<th>예약 시간</th>
+							<th>비상 연락처</th>
+							<th>예약자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.isEmpty(rList)}">
+							<td>NoData</td>
+						</tr>
+						<tr th:each="Reservation: ${rList}">						
+							<td>
+							<a th:href="@{/reservation/detail/{reserveNo}(reserveNo=${Reservation.reserveNo})}" th:text="${Reservation.reserveNo}"></a>
+							</td>
+							<td>[[${Reservation.breweryName}]]</td>
+							<td>[[${Reservation.tourName}]]</td>
+							<td>[[${Reservation.reserveDate}]]</td>
+							<td>[[${Reservation.visitorNum}]]</td>
+							<td>[[${Reservation.reserveTime}]]</td>
+							<td>[[${Reservation.emergencyPhone}]]</td>
+							<td>[[${Reservation.userId}]]</td>
+						</tr>
+					</tbody>
+					<tfoot th:unless="${#lists.isEmpty(rList)}">
+						 <tr align="center">
+							<td colspan="5">
+								<th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
+									<th:block th:if="${pn.startNavi > 1}">
+										<a th:href="@{/reservation/searchResultAdmin(currentPage=${pn.prevPage})}">Previous</a>
+									</th:block>
+									
+									<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
+										<a th:href="@{/reservation/searchResultAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" th:text="${p}"></a>
+									</th:block> 
+									
+								 <th:block th:if="${pn.endNavi < pn.maxPage}">
+										<a th:href="@{/reservation/searchResultAdmin(currentPage=${pn.nextPage})}">Next</a>
+									</th:block>
+								</th:block>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<pre th:text="${pn}"></pre>
+			</div>
+		</div>
+	</body>
+</html>
