@@ -14,6 +14,7 @@ import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 import lombok.extern.java.Log;
@@ -105,6 +106,17 @@ public class ReservationServiceImpl implements ReservationService{
 	public List<Reservation> selectTourInfo(String tourNo) {
 		List<Reservation>rList = rmapper.selectTourInfo(tourNo);
 		return rList;
+	}
+
+	@Override
+	public int getListTotalCount(String tourName) {
+		int result = rmapper.getListTotalCount(tourName);
+		return result;
+	}
+	@Override
+	public List<Tour> selectSearchList(Integer currentPage, Map<String, String> param,RowBounds rowBounds) {
+		List<Tour>tList = rmapper.selectSearchList(currentPage,param,rowBounds);
+		return tList;
 	}
 
 

@@ -23,6 +23,7 @@ import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.brewery.common.config.BreweryFileConfig;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -49,7 +50,21 @@ public class ReservationController {
 	
 	}
 
-	@GetMapping("reservation/detail/{reserveNo}")
+	@GetMapping("/reservation/list")
+	public String showTourList(@RequestParam(value = "currentPage", required = false, defaultValue = "1")Integer currentPage
+			,@RequestParam("tourName")String tourName){
+		int totalCount = rService.getListTotalCount(tourName);
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		Map<String,String>param = new HashMap<String,String>();
+		param.put("tourName", tourName);
+		List<Tour>tList = rService.selectSearchList(currentPage,param,rowBounds);
+		return "reservation/tourList";
+		
+	}
+	@GetMapping("/reservation/detail/{reserveNo}")
 	public String showReservationDetail(@PathVariable("reserveNo") String reserveNo, Model model) {
 
 		List<Reservation> rList = rService.selectOne(reserveNo);

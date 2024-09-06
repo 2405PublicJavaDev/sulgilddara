@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 public interface ReservationService {
@@ -78,6 +79,20 @@ List<User> selectInfo(User user);
  * @return List<Reservation>
  */
 List<Reservation> selectTourInfo(String tourNo);
+/**
+ * 투어리스트 검색 조건 검색 내용
+ * @param searchCondition
+ * @return int
+ */
+int getListTotalCount(String tourName);
+/**
+ * 투어리스트 검색 결과 
+ * @param currentPage
+ * @param param
+ * @param rowBounds 
+ * @return List<Tour>
+ */
+List<Tour> selectSearchList(Integer currentPage, Map<String, String> param, RowBounds rowBounds);
 
 
 }
