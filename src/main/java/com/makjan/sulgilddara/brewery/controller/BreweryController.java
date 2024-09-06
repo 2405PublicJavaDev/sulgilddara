@@ -64,6 +64,7 @@ public class BreweryController {
 	        String facilitiesJson = new ObjectMapper().writeValueAsString(facilities);
 	        inputBrewery.setFacilities(facilitiesJson); 
 	    }
+	    
 		int result = bService.insertBrewery(inputBrewery);
 		if(breweryTag != null && breweryTag.getBreweryTagName() != null && !breweryTag.getBreweryTagName().isEmpty()) {
 			List<String> tagNameArr = new ArrayList<String>();
