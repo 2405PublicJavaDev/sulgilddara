@@ -39,4 +39,18 @@
 	  	DELETE FROM TOUR_TBL
 	  	WHERE TOUR_NO=#{tourNo}
 	  </delete>
+	  
+	  <!-- 투어리스트 총 게시글 검색 -->
+	  <select id="getListTotalCount" resultType="_int">
+	  	select count(*) from TOUR_TBL
+	  	<where>
+	  		<if test="tourName!=null and tourName!='' ">
+	  			AND TOUR_NAME=#{tourName}
+	  		</if>
+	  	</where>
+	  </select>
+	  <!-- 투어 리스트 페이지 검색에 따라 결과 출력 쿼리-->
+	  <select id="selectSearchList" resultType="Tour">
+	  SELECT * FROM TOUR_TBL WHERE TOUR_NAME=#{tourName}
+	  </select>
   </mapper>

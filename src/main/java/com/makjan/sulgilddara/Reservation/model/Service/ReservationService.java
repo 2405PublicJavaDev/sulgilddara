@@ -8,15 +8,17 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 public interface ReservationService {
 /**
  * 예약 정보 등록하기 Service
  * @param reservation
+ * @param breweryNo 
  * @return Int
  */
-	int RegisterInfo(Reservation reservation);
+	int RegisterInfo(Reservation reservation, Integer breweryNo);
 
 /**
  * 예약 정보 조회하기 Service
@@ -63,13 +65,34 @@ int getTotalCountWithConditiion(String userId, String breweryName);
  * @param userId
  * @return Reservation
  */
-List<Reservation> selectOne(String userId);
+List<Reservation> selectOne(String reserveNo);
 /**
  * 유저 정보 가져오기
  * @param user
  * @return List<User>
  */
 List<User> selectInfo(User user);
+
+/**
+ * 결제 페이지
+ * @param tourName
+ * @return List<Reservation>
+ */
+List<Reservation> selectTourInfo(String tourNo);
+/**
+ * 투어리스트 검색 조건 검색 내용
+ * @param searchCondition
+ * @return int
+ */
+int getListTotalCount(String tourName);
+/**
+ * 투어리스트 검색 결과 
+ * @param currentPage
+ * @param param
+ * @param rowBounds 
+ * @return List<Tour>
+ */
+List<Tour> selectSearchList(Integer currentPage, Map<String, String> param, RowBounds rowBounds);
 
 
 }

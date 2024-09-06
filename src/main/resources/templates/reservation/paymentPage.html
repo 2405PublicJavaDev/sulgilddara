@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<title>결제 정보 창</title>
+	</head>
+	<body>
+		<h2>결제 정보</h2>
+		<div class="main" th:each="Reservation: ${rList}">
+			<div class="main-left">
+				<div class="paymentMethod">
+					<input type="radio" name="kakaoPay">
+					<input type="radio" name="DepositwithoutBankbook">
+				</div>
+				<div class="kakaoPayInfo">
+					<img alt="./reservationImg/kakaoPay.png" src="">
+					카카오페이
+					<span>[[${Reservation.email]]</span>
+				</div>
+				<div class="DepositwithoutBankbook">
+					<div>
+						00은행 : 0000-00-0000 예금주명
+					</div>
+					<div class="depositName">
+						<input type="text" placeholder="입금자명(미 입력시 주문자명)">
+					</div>
+				</div>
+			</div>
+			<div class="main-right">
+				총 결제 금액
+				<span>[[${Reservation.tourPrice}]]</span>
+				<hr>
+				<div class="paymentInfo1">
+					<span>상품금액</span>
+					<span>[[${Reservation.tourPrice}]]</span>
+				</div>
+				<div class="paymentInfo2">
+					<span>VAT</span>
+					<span>[[${Reservation.tourPrice} % 10]]</span>
+				</div>
+			</div>
+			<form method="post" th:action="@{/kakaoPay}">
+				<button>결제 하기</button>
+			</form>
+		</div>
+	</body>
+</html>

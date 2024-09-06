@@ -14,6 +14,7 @@ import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 import lombok.extern.java.Log;
@@ -28,9 +29,8 @@ public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	User user;
 	@Override
-	public int RegisterInfo(Reservation reservation) {
-		System.out.println(reservation);
-		int result = rmapper.RegisterInfo(reservation); 
+	public int RegisterInfo(Reservation reservation,Integer breweryNo) {
+		int result = rmapper.RegisterInfo(reservation,breweryNo); 
 		return result;
 	}
 //
@@ -96,9 +96,27 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<Reservation> selectOne(String userId) {
-		List<Reservation>rList = rmapper.selectOne(userId);
+	public List<Reservation> selectOne(String reserveNo) {
+		List<Reservation>rList = rmapper.selectOne(reserveNo);
+		System.out.println("ServiceRList"+rList);
 		return rList;
+	}
+
+	@Override
+	public List<Reservation> selectTourInfo(String tourNo) {
+		List<Reservation>rList = rmapper.selectTourInfo(tourNo);
+		return rList;
+	}
+
+	@Override
+	public int getListTotalCount(String tourName) {
+		int result = rmapper.getListTotalCount(tourName);
+		return result;
+	}
+	@Override
+	public List<Tour> selectSearchList(Integer currentPage, Map<String, String> param,RowBounds rowBounds) {
+		List<Tour>tList = rmapper.selectSearchList(currentPage,param,rowBounds);
+		return tList;
 	}
 
 
