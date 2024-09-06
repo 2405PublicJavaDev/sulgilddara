@@ -12,10 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class BoardFile {
-	private Integer fileNo;
-	private String fileName;
-	private String fileRename;
-	private String filePath;
+	private Integer boardFileNo;
+	private String boardFileName;
+	private String boardFileRename;
+	private String boardFilePath;
 	private Integer boardNo;
 	
 //	private MultipartFile uploadFile;

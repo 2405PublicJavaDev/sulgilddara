@@ -33,7 +33,7 @@ public interface TourService {
 	
 	/**
 	 * 각 양조장 별 체험 정보 출력
-	 * @return List
+	 * @return List<Tour>
 	 */
 	List<Tour> showTourByBrwNo(Integer breweryNo);
 	

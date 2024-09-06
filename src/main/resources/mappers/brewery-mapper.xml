@@ -20,7 +20,10 @@
 	  				#{closeTime}, 
 	  				#{fileName}, 
 	  				#{fileRename}, 
-	  				#{filePath})
+	  				#{filePath},
+	  				#{facilities},
+	  				#{kidsZone},
+	  				#{disFriendly})
 	  </insert>
 	  <select id="selectAllList" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL
@@ -40,7 +43,10 @@
 	  		B_UPDATE_DATE=DEFAULT,
 	  		FILENAME=#{fileName},
 	  		FILERENAME=#{fileRename},
-	  		FILEPATH=#{filePath}
+	  		FILEPATH=#{filePath},
+	  		FACILITIES=#{facilities},
+	  		KIDSZONE=#{kidsZone},
+	  		DISFRIENDLY=#{disFriendly}
 	  		WHERE BREWERY_NO=#{breweryNo}
 	  </update>
 	  <delete id="deleteBrewery">
@@ -50,19 +56,54 @@
 	  <select id="selectSearchList" resultType="Brewery">
 	  	SELECT * FROM BREWERY_TBL
 		<where>
-			<if test="searchCondition == 'all'">
+			<if test="searchCondition == 'all' and searchKeyword != ''">
 				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%' 
 				OR BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
 			</if>
 	<!-- 	양조장명으로 검색하는 쿼리문 -->
-			<if test="searchCondition == 'brewery'">
+			<if test="searchCondition == 'brewery' and searchKeyword != ''">
 				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%'
 			</if>
 	<!-- 	지역명으로 검색하는 쿼리문 -->
-			<if test="searchCondition == 'local'">
+			<if test="searchCondition == 'local' and searchKeyword != ''">
 				BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
 			</if>
 		</where>
+	  </select>
+	  <insert id="insertTag">
+		  <selectKey order="BEFORE" resultType="_int" keyProperty="breweryTagNo">
+		  		SELECT SEQ_TAG_NO.NEXTVAL FROM DUAL
+		  </selectKey>
+	  	INSERT INTO BREWERY_TAG_TBL
+	  	VALUES(#{breweryTagNo}, #{breweryTagName}, #{breweryNo})
+	  </insert>
+	  <select id="showTagByBrwNo" resultType="BreweryTag">
+	  	SELECT * FROM BREWERY_TAG_TBL
+	  	WHERE BREWERY_NO=#{breweryNo}
+	  </select>
+	  <delete id="deleteTag">
+	  	DELETE FROM BREWERY_TAG_TBL
+	  	WHERE BREWERY_NO=#{breweryNo}
+	  </delete>
+	  <select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM BREWERY_TBL
+		<where>
+			<if test="searchCondition == 'all' and searchKeyword != ''">
+				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%' 
+				OR BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
+			</if>
+	<!-- 	양조장명으로 검색하는 쿼리문 -->
+			<if test="searchCondition == 'brewery' and searchKeyword != ''">
+				BREWERY_NAME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+	<!-- 	지역명으로 검색하는 쿼리문 -->
+			<if test="searchCondition == 'local' and searchKeyword != ''">
+				BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</where>
+	  </select>
+	  <select id="selectLocalList" resultType="Brewery">
+	  	SELECT * FROM BREWERY_TBL WHERE BREWERY_LOCAL=#{breweryLocal}
 	  </select>
   </mapper>
   

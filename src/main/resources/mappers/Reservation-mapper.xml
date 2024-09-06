@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper">
+ <resultMap type="Reservation" id="reserveResultMap">
+ 	<id property="reserveNo" column="RESERVE_NO"/>
+ 	<result property="userId" column="USER_ID"/>
+ 	<result property="memberNum" column="MEMBER_NUM"/>
+ 	<result property="reserveDate" column="RESERVE_DATE"/>
+ 	<result property="reserveTime" column="RESERVE_TIME"/>
+ 	<result property="emergencyPhone" column="EMERGENCY_PHONE"/>
+ 	<result property="breweryName" column="BREWERY_NAME"/>
+ 	<result property="reserveCompleteTime" column="RESERVE_COMPLETE_TIME"/>
+ 	<result property="tourName" column="TOUR_NAME"/>
+ </resultMap>
+ 
+<resultMap type="User" id="userResultMap">
+	<id property="userId" column="USER_ID"/>
+	<result property="userPw" column="USER_PW"/>
+	<result property="userName" column="USER_NAME"/>
+	<result property="email" column="EMAIL"/>
+	<result property="isAdmin" column="IS_ADMIN"/>
+	<result property="loginType" column="LOGIN_TYPE"/>
+	<result property="gender" column="GEMDER"/>
+	<result property="phone" column="PHONE"/>
+	<result property="address" column="ADDRESS"/>
+	<result property="joinDate" column="JOIN_DATE"/>
+	<result property="updateDate" column="UPDATE_DATE"/>
+</resultMap>
+
+ <insert id="RegisterInfo">
+ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone},33,DEFAULT,1)
+ </insert>
+ 
+ <select id="SearchInfo" resultMap="reserveResultMap">
+ 	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
+ </select>
+ 
+ <select id="SearchAllInfo" resultMap="reserveResultMap">
+ 	SELECT * FROM reservation_tbl
+    <where>
+        <if test="userId != null and userId != ''">
+            AND USER_ID = #{userId}
+        </if>
+        <if test="breweryName != null and breweryName != ''">
+            AND brewery_Name = #{breweryName}
+        </if>
+    </where>
+</select>
+
+ <select id="SearchreserveNo" resultMap="reserveResultMap">
+ 	SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
+ </select>
+ <select id="getTotalCount" resultType="_int">
+ 	SELECT COUNT(*) FROM reservation_tbl
+    <where>
+        <if test="userId != null and userId != ''">
+            AND USER_ID = #{userId}
+        </if>
+        <if test="breweryName != null and breweryName != ''">
+            AND brewery_Name = #{breweryName}
+        </if>
+    </where>
+ </select>
+ 
+ <select id="getTotalCountWithConditiion" resultType="_int">
+ 	SELECT COUNT(*) FROM reservation_tbl
+    <where>
+        <if test="userId != null and userId != ''">
+            AND USER_ID = #{userId}
+        </if>
+        <if test="breweryName != null and breweryName != ''">
+            AND brewery_Name = #{breweryName}
+        </if>
+    </where>
+ </select>
+ 
+ <select id="selectOne" resultType="Reservation">
+ 	<!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
+	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
+	join tour_tbl using(tour_name) join brewery_tbl using (brewery_name) 
+	WHERE RESERVE_NO=#{reserveNo};
+ </select>
+ <select id="selectInfo" resultMap="userResultMap">
+ 	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
+ </select>
+ </mapper>

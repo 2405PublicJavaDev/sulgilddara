@@ -19,6 +19,8 @@
 		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />	
 		
+		
+		
 		<!-- font-awsome -->
 		<script src="https://kit.fontawesome.com/7d4169cb69.js" crossorigin="anonymous"></script>
 		
@@ -29,6 +31,7 @@
 	</head>
 	<body>
 		<h1>공지사항 등록</h1>
+		
 		<form action="/board/write" method="post" enctype="multipart/form-data">
 			제목 <input type="text" name="boardSubject"> <br>
 			<div id="liquorSelectBox">
@@ -46,7 +49,7 @@
 		        </div>
 		      </div>
 		    </div>
-			<input type="hidden" list="liquorId" value="1">
+			<input type="hidden" name="liquorId" value="1">
 
 
 
@@ -124,7 +127,7 @@
 		            </li>
 		        </ul>
 		    </div>
-		    썸네일 <input type="file" name="uploadFile" placeholder="목록에서 보여지는 사진입니다.">
+		    썸네일 <input type="file" name="uploadFile">
 		    
 			태그 <input type="text" name="boardTagName" placeholder="#태그"> <br>
 			내용 
