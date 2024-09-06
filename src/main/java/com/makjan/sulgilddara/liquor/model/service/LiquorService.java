@@ -1,11 +1,16 @@
 package com.makjan.sulgilddara.liquor.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
+import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorSearchInfo;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorTagInfo;
 
 public interface LiquorService {
 
@@ -35,7 +40,7 @@ public interface LiquorService {
 	 * @param liquorId
 	 * @return int
 	 */
-	Liquor selectOneById(int liquorId);
+	LiquorDetail selectOneById(int liquorId);
 
 	/**
 	 * 전체 주류 수 Service
@@ -54,8 +59,30 @@ public interface LiquorService {
 	 * 주류 목록조회 Service
 	 * @param currentPage
 	 * @param rowBounds
-	 * @return
+	 * @return int
 	 */
 	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds);
+	
+	/**
+	 * 주류 이미지 등록 Service
+	 * @param image
+	 * @return int
+	 */
+	int insertLiquorImage(LiquorImage image);
+
+	/**
+	 * 주류 상세검색 Service
+	 * @param sInfo
+	 * @param tags
+	 * @return List<Liquor>
+	 */
+	List<LiquorDetail> liquorSearch(Map<String, Object> searchMap);
+
+	/**
+	 * 주류ID로 태그검색 Service
+	 * @param liquorId
+	 * @return List<LiquorTagInfo>
+	 */
+	List<LiquorTagInfo> searchTagsByLiquorId(int liquorId);
 	
 }
