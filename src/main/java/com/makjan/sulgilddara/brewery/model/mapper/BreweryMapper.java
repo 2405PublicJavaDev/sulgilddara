@@ -1,6 +1,7 @@
 package com.makjan.sulgilddara.brewery.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,4 +44,11 @@ public interface BreweryMapper {
 	 * @return int
 	 */
 	int deleteBrewery(Integer breweryNo);
+
+	/**
+	 * 양조장 검색
+	 * @param paramMap
+	 * @return List<Brewery>
+	 */
+	List<Brewery> selectSearchList(Map<String, String> paramMap);
 }

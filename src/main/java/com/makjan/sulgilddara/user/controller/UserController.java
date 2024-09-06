@@ -32,7 +32,7 @@ public class UserController {
 		return "user/userJoin";
 	}
 	
-	// 회원가입 메소드 (POST)
+	// 회원가입 메소드 (GET)
 	@PostMapping("/register")
 	public String registerUser(@Validated @ModelAttribute User inputUser
 			, BindingResult bindingResult
