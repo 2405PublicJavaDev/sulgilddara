@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>술길따라 아이디 찾기</title>
+	</head>
+	<body>
+		<h1>아이디 찾기</h1>
+		<form action="/user/findId" method="post" th:if="${findId == null}">
+			 이름 <input type="text" name="userName" placeholder="이름을 입력해주세요"> <br />
+			 이메일 <input type="text" name="email" placeholder="이메일을 입력해주세요"> <br />
+			 <input type="submit" value="아이디 찾기">
+		</form>
+		
+		<div th:if="${findId != null}">
+        	<h2>찾으신 아이디는 <span th:text="${findId}">-</span> 입니다.</h2>
+    		<a href="/user/login">로그인</a>
+    	</div>
+	</body>
+</html>

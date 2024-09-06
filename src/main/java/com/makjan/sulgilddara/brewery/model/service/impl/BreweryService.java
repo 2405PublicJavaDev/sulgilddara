@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.model.vo.Pagination;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
@@ -60,26 +61,62 @@ public interface BreweryService {
 	Liquor selectLiquirListById(Integer breweryId);
 	
 	/**
-	 * 양조장 별 투어리스트 조회
-	 * @param breweryId
-	 * @return Tour
-	 */
-	Tour selectTourListById(Integer breweryId);
-	/**
-	 * 양조장 리스트 검색
-=======
-	
-	/**
 	 * 양조장 전체 조회 
->>>>>>> main
+	 * @param rowBounds 
+	 * @param currentPage 
 	 * @return List<Brewery>
 	 */
-	List<Brewery> selectAllList();
+	List<Brewery> selectAllList(Integer currentPage, RowBounds rowBounds);
 
 	/**
 	 * 양조장 검색
 	 * @param paramMap
+	 * @param rowBounds 
+	 * @param currentPage 
 	 * @return List<Brewery>
 	 */
-	List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap);
+	List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap, RowBounds rowBounds, Integer currentPage);
+
+	/**
+	 * 양조장 별 해시태그 입력
+	 * @param breweryTag
+	 * @return int
+	 */
+	int insertTag(BreweryTag breweryTag);
+
+	/**
+	 * 양조장 별 해시태그 조회
+	 * @param breweryNo
+	 * @return List<BreweryTag>
+	 */
+	List<BreweryTag> showTagByBrwNo(Integer breweryNo);
+
+	/**
+	 * 양조장 별 해시태그 삭제
+	 * @param breweryTag
+	 * @return
+	 */
+	int deleteTag(BreweryTag breweryTag);
+
+	/**
+	 * 양조장 검색 개수 조회
+	 * @param searchKeyword 
+	 * @param searchCondition 
+	 * @return int
+	 */
+	int getTotalCount(String searchCondition, String searchKeyword);
+
+	/**
+	 * 양조장 전체 개수 조회
+	 * @return int
+	 */
+	int getTotalCount();
+
+	/**
+	 * 지역별 양조장 리스트 조회
+	 * @param local
+	 * @return List<Brewery>
+	 */
+	List<Brewery> searchBreweryByLocal(String local);
+
 }

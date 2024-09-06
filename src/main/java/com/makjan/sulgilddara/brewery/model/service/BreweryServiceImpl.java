@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 import com.makjan.sulgilddara.common.utility.Util;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
@@ -32,18 +33,24 @@ public class BreweryServiceImpl implements BreweryService{
 
 	@Override
 	public int insertBrewery(Brewery inputBrewery) throws IllegalStateException, IOException {
-		MultipartFile uploadFile = inputBrewery.getUploadFile();
-		if(uploadFile != null) {
-			String fileName = uploadFile.getOriginalFilename();
-			String fileRename = Util.fileRename(fileName);
-			String filePath = "/brewery-images";
-			uploadFile.transferTo(new File("C:/uploadFile/brewery/"+fileRename));
-			inputBrewery.setFileName(fileName);
-			inputBrewery.setFileRename(fileRename);
-			inputBrewery.setFilePath(filePath);
-		}
-		int result = mapper.insertBrewery(inputBrewery);
-		return result;
+	    MultipartFile uploadFile = inputBrewery.getUploadFile();
+	    if (uploadFile != null && !uploadFile.isEmpty()) {
+	        String fileName = uploadFile.getOriginalFilename();
+	        String fileRename = Util.fileRename(fileName);
+	        String filePath = "C:/uploadFile/brewery/";
+	        File directory = new File(filePath);
+	        if (!directory.exists()) {
+	            directory.mkdirs();
+	        }
+	        File file = new File(filePath + fileRename);
+	        uploadFile.transferTo(file);
+	        inputBrewery.setFileName(fileName);
+	        inputBrewery.setFileRename(fileRename);
+	        inputBrewery.setFilePath("/brewery-images/" + fileRename); // Adjust the path if necessary
+	    }
+
+	    int result = mapper.insertBrewery(inputBrewery);
+	    return result;
 	}
 
 	@Override
@@ -84,30 +91,61 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public Tour selectTourListById(Integer breweryId) {
+	public Liquor selectLiquirListById(Integer breweryNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Liquor selectLiquirListById(Integer breweryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Brewery> selectAllList() {
-		List<Brewery> bList = mapper.selectAllList();
+	public List<Brewery> selectAllList(Integer currentPage, RowBounds rowBounds) {
+		List<Brewery> bList = mapper.selectAllList(currentPage, rowBounds);
 		return bList;
 	}
 
 	@Override
-	public List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap) {
-		List<Brewery> searchList = mapper.selectSearchList(paramMap);
+	public List<Brewery> searchBreweryByKeyword(Map<String, String> paramMap, RowBounds rowBounds, Integer currentPage) {
+		List<Brewery> searchList = mapper.selectSearchList(paramMap, rowBounds);
 		if(searchList.size() == 0) {
 			searchList = null;
 		}
 		return searchList;
 	}
+
+	@Override
+	public int insertTag(BreweryTag breweryTag) {
+		int result = mapper.insertTag(breweryTag);
+		return result;
+	}
+
+	@Override
+	public List<BreweryTag> showTagByBrwNo(Integer breweryNo) {
+		List<BreweryTag> tagList = mapper.showTagByBrwNo(breweryNo);
+		return tagList;
+	}
+
+	@Override
+	public int deleteTag(BreweryTag breweryTag) {
+		int result = mapper.deleteTag(breweryTag);
+		return result;
+	}
+
+	@Override
+	public int getTotalCount(String searchCondition, String searchKeyword) {
+		int result = mapper.getTotalCount(searchCondition, searchKeyword);
+		return result;
+	}
+
+	@Override
+	public int getTotalCount() {
+		int result = mapper.getTotalCount();
+		return result;
+	}
+
+	@Override
+	public List<Brewery> searchBreweryByLocal(String local) {
+		List<Brewery> localList = mapper.selectLocalList(local);
+		return localList;
+	}
+	
 	
 }
