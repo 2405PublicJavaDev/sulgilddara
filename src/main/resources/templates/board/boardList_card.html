@@ -6,6 +6,7 @@
 	</head>
 	<body>
 		<h1>술 이야기 메인 - 카드</h1>
+		<div>캐러셀 자리</div>
 		<a th:href="@{/board/writePage}" th:text="게시글작성"></a>
 	<form action="/board/listCard" method="post">
 		<input type="hidden" name="searchMethod" value="keywordSearch">
@@ -24,7 +25,7 @@
 			<input type="hidden" name="searchMethod" value="tagSearch">
 			<div th:each="tag : ${bTagListDistinct}">
 				<label th:for="${tag.boardTagName}">[[${tag.boardTagName}]]</label>		
-				<input type="checkbox" th:class="tagCheckBox" name="tagName" th:value="${tag.boardTagName}" th:id="${tag.boardTagName}" th:checked="${selectedTags != null && #strings.contains(selectedTags, tag.boardTagName)}">
+				<input type="checkbox" th:class="tagCheckBox" th:name="tagName" th:value="${tag.boardTagName}" th:id="${tag.boardTagName}" th:checked="${selectedTags != null && #strings.contains(selectedTags, tag.boardTagName)}">
 			</div>
 <!-- 			체크하지 않았을땐 비활성화(default) -->
 			<button type="submit" id="searchButton" disabled>간편검색</button>
@@ -99,8 +100,10 @@
 <!-- 	간편검색 - 페이징네비 -->
 	<div th:unless="${#lists.isEmpty(bList)}" th:if="${searchMethod == 'tagSearch'}">
 		<div>
-			<a th:if="${pn.currentPage != 1}"  th:href="@{/board/searchTag_listCard(cp=1, searchMethod=${searchMethod}, tagName=${tagName} ,orderSelectBox=${orderSelectBox})}">처음으로</a>
-			<a th:if="${pn.getStartNavi() != 1}"  th:href="@{/board/searchTag_listCard(cp=${pn.prevPage}, searchMethod=${searchMethod}, tagName=${tagName} ,orderSelectBox=${orderSelectBox})}">이전페이지</a>
+			<a th:if="${pn.currentPage != 1}"  href="javascript:void(0)" th:text="처음으로" th:onclick="navigateWithTags(1)"></a>
+			<a th:if="${pn.getStartNavi() != 1}"  href="javascript:void(0)" th:text="이전페이지" th:onclick="navigateWithTags([[${pn.prevPage}]])"></a>
+			
+			
 			<div th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
 				<div th:if="${p == pn.currentPage}">
 					<div>
@@ -108,17 +111,17 @@
 					</div>
 				</div>
 				<div th:if="${p != pn.currentPage}">
-					<a th:href="@{/board/searchTag_listCard(cp=${p}, searchMethod='tagSearch', tagName=1 ,orderSelectBox=${orderSelectBox})}" th:text="${p}"></a>			
+					<a href="javascript:void(0)" th:text="${p}" th:onclick="navigateWithTags([[${p}]])"></a>
 				</div>
 			</div>
-			<a th:if="${pn.getEndNavi() != pn.getMaxPage()}" th:href="@{/board/searchTag_listCard(cp=${pn.nextPage}, searchMethod=${searchMethod}, tagName=${tagName} ,orderSelectBox=${orderSelectBox})}">다음페이지</a>
-			<a th:if="${pn.currentPage != pn.maxPage}"  th:href="@{/board/searchTag_listCard(cp=${pn.maxPage}, searchMethod=${searchMethod}, tagName=${tagName} ,orderSelectBox=${orderSelectBox})}">마지막으로</a>
+			<a th:if="${pn.getEndNavi() != pn.MaxPage}"  href="javascript:void(0)" th:text="다음페이지" th:onclick="navigateWithTags([[${pn.nextPage}]])"></a>
+			<a th:if="${pn.currentPage != pn.maxPage}"  href="javascript:void(0)" th:text="마지막으로" th:onclick="navigateWithTags([[${pn.maxPage}]])"></a>
 			
 		</div>
 	</div>
 		
 	</body>
-	<script>
+	<script th:inline="javascript">
 		document.addEventListener("DOMContentLoaded", function() {
 			
 	        let contentDivText = document.querySelectorAll(".contentDiv-text");
@@ -169,7 +172,26 @@
 		
 		updateHiddenValue();
 		
-		
+		function navigateWithTags(page) {
+		    const selectedTags = [];
+		    // 체크된 체크박스의 값을 배열에 추가
+		    document.querySelectorAll('input[name="tagName"]:checked').forEach((checkbox) => {
+		        selectedTags.push(checkbox.value);
+		    });
+		    // orderSelectBox 값을 가져오기
+		    const orderSelectBox = document.getElementById('orderSelectBox').value;
+		    
+		    // URL 생성
+		    let url = `/board/searchTag_listCard?cp=${page}&searchMethod=tagSearch&orderSelectBox=${orderSelectBox}`;
+		    // 선택된 태그들을 URL에 추가
+		    if (selectedTags.length > 0) {
+		        url += '&tagName=' + selectedTags.join(',');
+		    }
+		    
+		    // 페이지 이동
+		    window.location.href = url;
+		}
+
 		
 		
 		</script>
