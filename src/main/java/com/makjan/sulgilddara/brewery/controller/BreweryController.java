@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.makjan.sulgilddara.brewery.common.config.BreweryFileConfig;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
@@ -30,7 +29,6 @@ public class BreweryController {
 	
 	private BreweryService bService;
 	private TourService tService;
-	private BreweryFileConfig bConfig;
 	
 	public BreweryController() {}
 	
