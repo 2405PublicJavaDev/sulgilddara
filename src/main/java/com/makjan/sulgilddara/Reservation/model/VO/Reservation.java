@@ -2,7 +2,9 @@ package com.makjan.sulgilddara.Reservation.model.VO;
 
 import java.sql.Timestamp;
 
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class Reservation {
 //	private Date reserveDate;
 	private String reserveNo;
@@ -13,19 +15,40 @@ public class Reservation {
 	private String tourName;
 	private int emergencyPhone;
 	private String breweryName;
+	private Integer breweryNo;
 	private String reserveCompleteTime;
-	private String totalPrice;
+//	private String totalPrice;
+	private String paymentMethod;
 	// User
 	private String email;
 	private String address;
 	private Timestamp joinDate;
 	private String phone;
 	// Brewery
-	private String filename;
+	private String fileRename;
 	private int tourPrice;
+	private String filePath;
 
-	
+	public Integer getBreweryNo() {
+		return breweryNo;
+	}
+	public void setBreweryNo(Integer breweryNo) {
+		this.breweryNo = breweryNo;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 	public Reservation() {
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	public String getReserveCompleteTime() {
@@ -36,23 +59,22 @@ public class Reservation {
 		this.reserveCompleteTime = reserveCompleteTime;
 	}
 
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
 
 	
 
-	public String getTotalPrice() {
-		return totalPrice;
+	public String getFileRename() {
+		return fileRename;
 	}
-
-	public void setTotalPrice(String totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setFileRename(String fileRename) {
+		this.fileRename = fileRename;
 	}
+//	public String getTotalPrice() {
+//		return totalPrice;
+//	}
+//
+//	public void setTotalPrice(String totalPrice) {
+//		this.totalPrice = totalPrice;
+//	}
 
 	public int getTourPrice() {
 		return tourPrice;
@@ -200,10 +222,10 @@ public class Reservation {
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", visitorNum=" + visitorNum
 				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourName=" + tourName
-				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", reserveCompleteTime="
-				+ reserveCompleteTime + ", totalPrice=" + totalPrice + ", email=" + email + ", address=" + address
-				+ ", joinDate=" + joinDate + ", phone=" + phone + ", filename=" + filename + ", tourPrice=" + tourPrice
-				+ "]";
+				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", breweryNo=" + breweryNo
+				+ ", reserveCompleteTime=" + reserveCompleteTime  + ", paymentMethod="
+				+ paymentMethod + ", email=" + email + ", address=" + address + ", joinDate=" + joinDate + ", phone="
+				+ phone + ", fileRename=" + fileRename + ", tourPrice=" + tourPrice + ", filePath=" + filePath + "]";
 	}
 
 }

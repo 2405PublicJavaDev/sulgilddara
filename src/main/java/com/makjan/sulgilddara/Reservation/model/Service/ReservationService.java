@@ -14,9 +14,10 @@ public interface ReservationService {
 /**
  * 예약 정보 등록하기 Service
  * @param reservation
+ * @param breweryNo 
  * @return Int
  */
-	int RegisterInfo(Reservation reservation);
+	int RegisterInfo(Reservation reservation, Integer breweryNo);
 
 /**
  * 예약 정보 조회하기 Service
@@ -63,13 +64,20 @@ int getTotalCountWithConditiion(String userId, String breweryName);
  * @param userId
  * @return Reservation
  */
-List<Reservation> selectOne(String userId);
+List<Reservation> selectOne(String reserveNo);
 /**
  * 유저 정보 가져오기
  * @param user
  * @return List<User>
  */
 List<User> selectInfo(User user);
+
+/**
+ * 결제 페이지
+ * @param tourName
+ * @return List<Reservation>
+ */
+List<Reservation> selectTourInfo(String tourNo);
 
 
 }

@@ -30,7 +30,9 @@
 </resultMap>
 
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone},33,DEFAULT,1)
+ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo},#{userId},#{visitorNum},#{reserveDate},#{reserveTime},#{emergencyPhone}
+ (SELECT BREWERY_NAME FROM BREWERY_TBL WHERE BREWERY_NO = #{breweryNo})
+ ,DEFAULT,15000,1,#{breweryNo});
  </insert>
  
  <select id="SearchInfo" resultMap="reserveResultMap">
@@ -77,12 +79,17 @@
  </select>
  
  <select id="selectOne" resultType="Reservation">
- 	<!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
-	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
-	join tour_tbl using(tour_name) join brewery_tbl using (brewery_name) 
-	WHERE RESERVE_NO=#{reserveNo};
+ 	 <!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
+	select * from reservation_tbl join user_tbl using(user_Id) 
+	join brewery_tbl using (brewery_no) 
+	join tour_tbl using(tour_no) where RESERVE_NO=#{reserveNo}
  </select>
+ 
  <select id="selectInfo" resultMap="userResultMap">
  	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
+ </select>
+ 
+ <select id="selectTourInfo" resultType="Reservation">
+ 	SELECT * FROM RESERVATION_TBL JOIN TOUR_TBL USING (TOUR_No) WHERE TOUR_NAME=#{tourName} 
  </select>
  </mapper>

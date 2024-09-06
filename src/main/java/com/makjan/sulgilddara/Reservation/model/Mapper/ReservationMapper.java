@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
@@ -24,11 +25,13 @@ public interface ReservationMapper {
 
 	int getTotalCountWithConditiion(Map<String, String> param);
 
-	List<Reservation> selectOne(String userId);
+	List<Reservation> selectOne(@Param("reserveNo") String reserveNo);
 
-	int RegisterInfo(Reservation reservation);
+	int RegisterInfo(Reservation reservation, Integer breweryNo);
 
 	List<User> selectInfo(User user);
+
+	List<Reservation> selectTourInfo(String tourNo);
 
 
 

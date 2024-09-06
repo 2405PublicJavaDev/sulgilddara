@@ -28,9 +28,8 @@ public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	User user;
 	@Override
-	public int RegisterInfo(Reservation reservation) {
-		System.out.println(reservation);
-		int result = rmapper.RegisterInfo(reservation); 
+	public int RegisterInfo(Reservation reservation,Integer breweryNo) {
+		int result = rmapper.RegisterInfo(reservation,breweryNo); 
 		return result;
 	}
 //
@@ -96,8 +95,15 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<Reservation> selectOne(String userId) {
-		List<Reservation>rList = rmapper.selectOne(userId);
+	public List<Reservation> selectOne(String reserveNo) {
+		List<Reservation>rList = rmapper.selectOne(reserveNo);
+		System.out.println("ServiceRList"+rList);
+		return rList;
+	}
+
+	@Override
+	public List<Reservation> selectTourInfo(String tourNo) {
+		List<Reservation>rList = rmapper.selectTourInfo(tourNo);
 		return rList;
 	}
 
