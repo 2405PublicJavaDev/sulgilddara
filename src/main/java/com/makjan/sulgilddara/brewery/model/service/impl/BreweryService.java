@@ -65,9 +65,13 @@ public interface BreweryService {
 	 * @return Tour
 	 */
 	Tour selectTourListById(Integer breweryId);
+	/**
+	 * 양조장 리스트 검색
+=======
 	
 	/**
 	 * 양조장 전체 조회 
+>>>>>>> main
 	 * @return List<Brewery>
 	 */
 	List<Brewery> selectAllList();

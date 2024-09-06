@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class FileConfig implements WebMvcConfigurer{
+public class BoardFileConfig implements WebMvcConfigurer{
 	private String webPath = "/board-images/**";
 	private String realPath = "file:C:/uploadFile/board/";
 

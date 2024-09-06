@@ -18,12 +18,19 @@ public interface BoardService {
 	Board selectOne(Integer boardNo);
 	
 	/**
-	 * 게시글 전체조회
+	 * 게시글 조회 - 키워드검색
 	 * @param currentPage
 	 * @param rowBounds
 	 * @return
 	 */
-	Map<String, Object> selectBoardList(Integer currentPage);
+	Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition);
+	/**
+	 * 게시글 조회 - 간편(태그)검색
+	 * @param currentPage
+	 * @param rowBounds
+	 * @return
+	 */
+	Map<String, Object> selectBoardList(Integer currentPage, String[] tagList);
 	
 	/**
 	 * 게시글 등록
@@ -83,4 +90,10 @@ public interface BoardService {
 	 * @return
 	 */
 	List<BoardTag> selectBoardTagList();
+
+	/**
+	 * 파일 전체 조회
+	 * @return
+	 */
+	List<BoardFile> selectBoardFileList();
 }
