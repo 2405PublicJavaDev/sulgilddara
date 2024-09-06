@@ -31,16 +31,19 @@ public class SendEmailService {
         sendMail(mail);
     }
 
+    // 새로운 임시비밀번호 생성
+    // 숫자, 대문자로 이루어진 랜덤의 10글자 임시비밀번호 생성
     private String generateTempPassword() {
         char[] charSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        for (int i = 0; i < 8; i++) { // 원하는 길이로 조정
+        for (int i = 0; i < 10; i++) { 
             sb.append(charSet[random.nextInt(charSet.length)]);
         }
         return sb.toString();
     }
 
+    // 메일 생성 - 주소/ 타이틀/ 내용 설정
     private Mail createMail(String userId, String email, String tempPassword) {
         Mail mail = new Mail();
         mail.setAddress(email);
@@ -52,16 +55,17 @@ public class SendEmailService {
         return mail;
     }
 
+    // 임시비밀번호를 해당 유저의 비밀번호로 업데이트
     private void updatePassword(String userId, String tempPassword) {
-        String encryptedPassword = EncryptionUtils.encryptMD5(tempPassword);
         User user = mapper.selectOneById(userId);
         if (user != null) {
-            user.setUserPw(encryptedPassword);
+            user.setUserPw(tempPassword);
             mapper.updateUser(user);
         }
     }
 
-    public void sendMail(Mail mail) {
+    // 위에서 설정한 메일을 전송
+    private void sendMail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail.getAddress());
         message.setFrom(FROM_ADDRESS);
