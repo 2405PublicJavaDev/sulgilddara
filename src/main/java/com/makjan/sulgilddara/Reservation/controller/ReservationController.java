@@ -140,8 +140,6 @@ return "reservation/reservationSearchResultAdmin";
 	Pagination pn = new Pagination(totalCount,currentPage);
 	int limit = pn.getBoardLimit();
 	int offset=(currentPage-1)*limit;
-	System.out.println(limit);
-	System.out.println(offset);
 	RowBounds rowBounds =new RowBounds(offset,limit);
 	List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
 	model.addAttribute("rList",rList);
@@ -158,7 +156,6 @@ public String SuccessInfo() {
 @PostMapping("/reservation/reservationsuccess")
 public String reserveSuccess(Reservation reservation, Model model) {
 	List<Reservation>rList = rService.SearchreserveNo(reservation);
-	System.out.println(reservation);
 	model.addAttribute("rList",rList);
 	return "reservation/reservationsuccess";
 }
@@ -169,7 +166,6 @@ public String reserveSuccess(Reservation reservation, Model model) {
 			) {
 	List<Reservation>rList = rService.selectOne(reserveNo);
 	model.addAttribute("rList",rList);
-	System.out.println(rList);
 	return "reservation/reservationlookupdetail";
 }
 }

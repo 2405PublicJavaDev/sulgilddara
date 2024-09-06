@@ -77,10 +77,10 @@
  </select>
  
  <select id="selectOne" resultType="Reservation">
- 	<!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
-	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
+ 	<!----> SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} 
+<!--	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
 	join tour_tbl using(tour_name) join brewery_tbl using (brewery_name) 
-	WHERE RESERVE_NO=#{reserveNo};
+	WHERE RESERVE_NO=#{reserveNo};-->
  </select>
  <select id="selectInfo" resultMap="userResultMap">
  	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
