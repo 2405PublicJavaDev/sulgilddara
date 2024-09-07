@@ -29,7 +29,7 @@ public interface ReservationMapper {
 
 	List<Reservation> selectOne(@Param("reserveNo") String reserveNo);
 
-	int RegisterInfo(Reservation reservation, Tour tour, Brewery brewery);
+	int RegisterInfo(@Param("reservation")Reservation reservation,@Param("tour")Tour tour, @Param("brwery")Brewery brewery);
 
 	List<User> selectInfo(User user);
 

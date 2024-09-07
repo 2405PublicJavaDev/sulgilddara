@@ -41,7 +41,6 @@
 	  </delete>
 	  <select id="searchByNo" resultType="Tour">
 	  SELECT * FROM TOUR_TBL join brewery_tbl using(brewery_no)
-	  join reservation_tbl using(tour_no) 
 	  WHERE TOUR_NO=#{tourNo}
 	  </select>
 	  

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
 import com.makjan.sulgilddara.model.vo.Pagination;
@@ -44,36 +45,24 @@ public class ReservationController {
 
 	private ReservationService rService;
 	private TourService tService;
-
+	private BreweryService bService;
 	@Autowired
-	public ReservationController(ReservationService rService, TourService tService) {
+	public ReservationController(ReservationService rService, TourService tService,BreweryService bService) {
 		this.rService = rService;
 		this.tService = tService;
+		this.bService = bService;
 	}
 
-	@GetMapping("/reservation/register/{breweryNo}/{tourNo}")
-	public String showRegisterForm(Model model,@PathVariable("tourNo"
-			)Integer tourNo
-			,@PathVariable("breweryNo")Integer breweryNo
-			,@ModelAttribute Reservation reservation
-			,@ModelAttribute Tour tour
-			,@ModelAttribute Brewery brewery
-			,HttpSession session) {
-		String userId = (String) session.getAttribute("userId");
-//		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
-		String randomString = generateRandomString(10);
-		reservation.setUserId(userId);
-		reservation.setReserveNo(randomString);
-		reservation.setTourNo(tourNo);
-		reservation.setBreweryNo(breweryNo);
-		System.out.println("tourNo : "+ tourNo);
-		System.out.println("breweryNo: "+ breweryNo);
-		// reservation.setUserId("user3");
-		int result = rService.RegisterInfo(reservation,tour,brewery);
-		System.out.println("result"+result);
-		List<Tour>tList = tService.ShowInfoByNo(tourNo,breweryNo);
-		return "reservation/registerPage";
-}
+	@PostMapping("/reservation/initate/{breweryNo}/{tourNo}")
+	public String initateRegister(Model model, HttpSession session,
+			@PathVariable("tourNo") Integer tourNo
+			,@PathVariable("breweryNo")Integer breweryNo) {
+		Tour tour = tService.searchByNo(tourNo);
+//		Brewery brewery = bService.searchOneByNo(breweryNo);
+		session.setAttribute("tour", tour);
+//		session.setAttribute("brewery", brewery);
+		return "redirect:/reservation/register";
+	}
 
 	private static String generateRandomString(int length) {
 		StringBuilder builder = new StringBuilder();
@@ -84,33 +73,41 @@ public class ReservationController {
 		return builder.toString();
 	} 
 
-	@PostMapping("/reservation/register/{breweryNo}/{tourNo}")
-	public String RegisterInfo(
-			@ModelAttribute Tour tour,
-			@ModelAttribute Brewery brewery,
-			@ModelAttribute Reservation reservation, 
+	@GetMapping("/reservation/register")
+	public String showRegisterForm(Model model ,HttpSession session
+			,@ModelAttribute Reservation reservation) {
+		Tour tour = (Tour)session.getAttribute("tour");
+		if(tour == null) {
+			return "redirect:/reservation/tourList";
+		}
+		model.addAttribute("tour",tour);
+		model.addAttribute("reservation",reservation);
+		return "reservation/registerPage";
+	}
+	@PostMapping("/reservation/register")
+	public String RegisterInfo( 
 			Model model, HttpSession session,
-			@PathVariable("tourNo") Integer tourNo
-			,@PathVariable("breweryNo")Integer breweryNo
+			@ModelAttribute Reservation reservation,
+			@ModelAttribute Tour tour,
+			@ModelAttribute Brewery brewery
 			) {
 		String userId = (String) session.getAttribute("userId");
 //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
-		String randomString = generateRandomString(10);
+
 		reservation.setUserId(userId);
-		reservation.setReserveNo(randomString);
-		reservation.setTourNo(tourNo);
-		reservation.setBreweryNo(breweryNo);
+//		reservation.setTourNo(tourNo);
+//		reservation.setBreweryNo(breweryNo);
 		System.out.println("Reservaton: "+ reservation);
-		// reservation.setUserId("user3");
-		try {
-	        int result = rService.RegisterInfo(reservation,tour,brewery);
-	        System.out.println("result: " + result);
-	        model.addAttribute("reservation",reservation);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        // Handle the exception and maybe return an error view or message
-	    }
-		return "reservation/registerPage";
+		Tour sessionTour = (Tour) session.getAttribute("tour");
+		tour = tService.searchByNo(sessionTour.getTourNo());
+		String randomString = generateRandomString(10);
+		reservation.setReserveNo(randomString);
+        int result = rService.RegisterInfo(reservation,tour,brewery);
+        System.out.println("result: " + result);
+        model.addAttribute("reservation",reservation);
+        model.addAttribute("tour",tour);
+ 
+		return "reservation/paymentPage";
 	}
 //redirect:" + kakaoPay.kakaoPayReady(); // 결제 페이지
 

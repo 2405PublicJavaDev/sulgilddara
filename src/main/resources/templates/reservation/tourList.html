@@ -32,7 +32,7 @@
 				</div>
 			</div>
 		</div>
-	<form th:action="@{/reservation/register/{breweryNo}/{tourNo}(breweryNo=${Tour.breweryNo},tourNo=${Tour.tourNo})}" method="POST">
+	<form th:action="@{/reservation/initate/{breweryNo}/{tourNo}(breweryNo=${Tour.breweryNo},tourNo=${Tour.tourNo})}" method="POST">
 			<input type="hidden" name="tourNo" th:value="${Tour.tourNo}">
 			<input type="hidden" name="breweryNo" th:value="${Tour.breweryNo}">
 			<button>예약하기</button>
