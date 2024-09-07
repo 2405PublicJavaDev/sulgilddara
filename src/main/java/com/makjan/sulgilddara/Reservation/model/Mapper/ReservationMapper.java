@@ -45,6 +45,10 @@ public interface ReservationMapper {
 
 	List<Tour> showTourList(String tourName, RowBounds rowBounds);
 
+//	List<Reservation> SearchPaymentInfo(@Param("reserveNo")String reserveNo);
+
+	List<Reservation> SearchPaymentInfo(@Param("reservation")Reservation reservation, @Param("tour")Tour tour);
+
 
 
 }

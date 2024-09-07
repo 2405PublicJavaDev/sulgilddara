@@ -111,4 +111,9 @@ INSERT INTO reservation_tbl VALUES (
 	  	select tour_tbl.tour_name,tour_tbl.tour_content,tour_tbl.time_taken,tour_tbl.tour_price,brewery_tbl.filerename
 	  	,brewery_tbl.brewery_name,tour_tbl.tour_no,brewery_No from brewery_tbl join tour_tbl using(brewery_no)
 	  </select>
+	  
+	  <select id="SearchPaymentInfo" resultType="reservation">
+	  	SELECT * FROM RESERVATION_TBL JOIN USER_TBL USING(USER_ID) JOIN TOUR_TBL USING (TOUR_NO) WHERE RESERVE_NO=#{reservation.reserveNo}
+	  </select>
+	  
  </mapper>

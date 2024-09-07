@@ -32,6 +32,7 @@ import com.makjan.sulgilddara.user.model.vo.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Slf4j
 @Controller
@@ -89,7 +90,8 @@ public class ReservationController {
 			Model model, HttpSession session,
 			@ModelAttribute Reservation reservation,
 			@ModelAttribute Tour tour,
-			@ModelAttribute Brewery brewery
+			@ModelAttribute Brewery brewery,
+			@ModelAttribute User user
 			) {
 		String userId = (String) session.getAttribute("userId");
 //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
@@ -107,9 +109,28 @@ public class ReservationController {
         model.addAttribute("reservation",reservation);
         model.addAttribute("tour",tour);
  
+		return "redirect:/reservation/payment?reserveNo=" + reservation.getReserveNo();
+	}
+	@GetMapping("/reservation/payment")
+	public String showPaymentForm(Model model
+//			,@RequestParam("reserveNo")String reserveNo
+			,@ModelAttribute Reservation reservation
+			,@ModelAttribute Tour tour) {
+		System.out.println("paymentController: "+reservation);
+		List<Reservation>rList = rService.SearchPaymentInfo(reservation,tour);
+		model.addAttribute("rList",rList);
+		model.addAttribute("reservation",reservation);
 		return "reservation/paymentPage";
 	}
-//redirect:" + kakaoPay.kakaoPayReady(); // 결제 페이지
+//	@PostMapping
+//	public String PayToKakao(Model model
+//			,@ModelAttribute Reservation reservation) {
+//		
+//		
+//		return "redirect:" + kakaoPay.kakaoPayReady(reservation); // 결제 페이지
+//	}
+	
+	
 
 	@GetMapping("/reservation/list")
 	public String showTourList(Model model,

@@ -105,6 +105,14 @@ List<Tour> selectSearchList(String TourName, RowBounds rowBounds);
  */
 
 List<Tour> showTourList(String tourName, RowBounds rowBounds);
+/**
+ * 결제 정보 검색
+ * @param reserveNo 
+ * @return List<Reservation>
+ */
+List<Reservation> SearchPaymentInfo(Reservation reservation, Tour tour);
+//List<Reservation> SearchPaymentInfo(String reserveNo);
+
 
 
 

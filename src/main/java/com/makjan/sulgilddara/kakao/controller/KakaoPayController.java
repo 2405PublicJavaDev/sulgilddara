@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -35,16 +38,24 @@ import lombok.extern.java.Log;
 	    }
 
 	    @PostMapping("/kakaoPay")
-	    public  String kakaoPay(){
+	    public  String kakaoPay(@ModelAttribute Reservation reservation,HttpSession session){
 	        log.info("kakaoPay post.....................");
-
-	        return "redirect:" + kakaoPay.kakaoPayReady();
+	        log.info("Controller reservatoin {} "+ reservation);
+	        System.out.println("Controller reservation: " + reservation);
+	        session.setAttribute("reservation", reservation);
+	        return "redirect:/kakao/ready"; 
 	    }
-
-	    @GetMapping("/kakaoPaySuccess")
-	    public void kakaoPaySuccess(@RequestParam("pg_token")String pg_token, Model model) {
-	        log.info("kakaoPay Success get................");
-	        log.info("kakaoPaySuccess pg_token : " + pg_token);
-	        model.addAttribute("info", kakaoPay.kakaoPayInfo(pg_token));
+	    
+	    @GetMapping("/kakao/ready")
+	    public String kakaoPayReady(HttpSession session) {
+	        Reservation reservation = (Reservation) session.getAttribute("reservation");
+	        log.info("Controller reservatoin {} "+ reservation);
+	        return "redirect:" + kakaoPay.kakaoPayReady(reservation);
 	    }
+//	    @GetMapping("/kakaoPaySuccess")
+//	    public void kakaoPaySuccess(@RequestParam("pg_token")String pg_token, Model model) {
+//	        log.info("kakaoPay Success get................");
+//	        log.info("kakaoPaySuccess pg_token : " + pg_token);
+//	        model.addAttribute("info", kakaoPay.kakaoPayInfo(pg_token));
+//	    }
 }

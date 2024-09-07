@@ -135,6 +135,12 @@ public class ReservationServiceImpl implements ReservationService{
 		return tList;
 	}
 
+	@Override
+	public List<Reservation> SearchPaymentInfo(Reservation reservation , Tour tour) {
+		List<Reservation>rList = rmapper.SearchPaymentInfo(reservation ,tour);
+		return rList;
+	}
+
 
 
 
