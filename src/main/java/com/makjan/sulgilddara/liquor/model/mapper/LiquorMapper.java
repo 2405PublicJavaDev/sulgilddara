@@ -86,4 +86,11 @@ public interface LiquorMapper {
 	 * @return List<LiquorTagInfo>
 	 */
 	List<LiquorTagInfo> searchTagsByLiquorId(int liquorId);
+
+	/**
+	 * 주류ID로 이미지검색 Mapper
+	 * @param liquorId
+	 * @return List<LiquorImage>
+	 */
+	List<LiquorImage> searchImageByLiquorId(int liquorId);
 }

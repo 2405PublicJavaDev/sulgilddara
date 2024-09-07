@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class LiquorFileConfig implements WebMvcConfigurer {
-	private String webPath = "/images/liquor/**"; 			 // /images/**
+	private String webPath = "/liquor-images/**"; 			 // /images/**
 	private String realPath = "file:C:/uploadFile/liquor/"; // file:C:/uploadFile/notice
 	
 	@Override

@@ -84,5 +84,12 @@ public interface LiquorService {
 	 * @return List<LiquorTagInfo>
 	 */
 	List<LiquorTagInfo> searchTagsByLiquorId(int liquorId);
+
+	/**
+	 * 주류ID로 이미지검색 Service
+	 * @param liquorId
+	 * @return List<LiquorImage>
+	 */
+	List<LiquorImage> searchImageByLiquorId(int liquorId);
 	
 }

@@ -13,12 +13,10 @@ import lombok.ToString;
 @ToString
 public class LiquorImage {
 
-	private Integer imageId;
+	private Integer fileNo;
 	private String fileName;
 	private String fileRename;
 	private String filePath;
-	private Integer fileSize;
-	private Timestamp uploadTime;
 	private Integer liquorId;
 	
 	private MultipartFile uploadFile;

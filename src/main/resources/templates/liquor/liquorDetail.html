@@ -65,18 +65,24 @@
             	</table>
             </div>
             <div class="product-image">
-                <img src="product-image.jpg" alt="술 이미지">
+                <img th:src="${#lists.isEmpty(images) ? 'default-image.jpg' : images[0].filePath+images[0].fileRename}" alt="술 이미지">
             </div>
         </section>
 
         <section class="reviews">
-            <h3>N건의 평가</h3>
+            <h3 th:text="${liquor.reviewCount}+'건의 평가'"></h3>
             <div class="rating">
-                <p>4점 ★★★★☆</p>
+				<p th:with="score=${liquor.avgPoint}, 
+				             stars=${score < 0.5 ? '☆☆☆☆☆' : 
+				                    score < 1.5 ? '★☆☆☆☆' :
+				                    score < 2.5 ? '★★☆☆☆' :
+				                    score < 3.5 ? '★★★☆☆' :
+				                    score < 4.5 ? '★★★★☆' : '★★★★★'}">
+				  <span th:text="${score}">0.0</span>점 
+				  <span th:text="${stars}">☆☆☆☆☆</span>
+				</p> <br>
                 <ul class="tags">
-                    <li>태그1(n)</li>
-                    <li>태그2(n)</li>
-                    <li>태그3(n)</li>
+					<li th:each="tag : ${tags}" th:text="${tag.tagName}+'('+${tag.tagCount}+')'"></li>
                 </ul>
             </div>
             <div class="rating-distribution">

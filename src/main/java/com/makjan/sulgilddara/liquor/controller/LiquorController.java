@@ -70,6 +70,7 @@ public class LiquorController {
 		Map<String, Object> searchMap = new HashMap<>();	//검색조건 VO객체와 태그리스트를 담기위한 Map
 		List<LiquorDetail> liquorList = null;				//LiquorDetail VO객체를 담기위한 List
 		List<List<LiquorTagInfo>> tagList = new ArrayList<List<LiquorTagInfo>>();	//List<LiquorTagInfo> 를 담기위한 List
+		List<List<LiquorImage>> imgList = new ArrayList<List<LiquorImage>>();		//List<LiquorImage> 를 담기위한 List
 		String[] tags = null;								//검색을 위한 태그명 배열
 		
 		//검색조건 VO객체에 태그리스트 정보가 존재하는 경우
@@ -96,19 +97,22 @@ public class LiquorController {
 		liquorList = lService.liquorSearch(searchMap);
 		System.out.println("list.size(): "+liquorList.size());
 		
-		//조회된 리스트 항목 각각의 태그정보를 받기위한 반복문
+		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
 		for(int i=0; i<liquorList.size(); i++) {
 			System.out.println(liquorList.get(i).toString());
 			
 			//liquorId값을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 			int liquorId = liquorList.get(i).getLiquorId();
 			tagList.add(lService.searchTagsByLiquorId(liquorId));
+			imgList.add(lService.searchImageByLiquorId(liquorId));
 			
 			//결과값을 확인 하기 위한 임시 코드(추후 삭제 예정)
 			if(tagList.get(i)!=null && !tagList.get(i).isEmpty()) {
 				System.out.println("tList.size(): "+tagList.get(i).size());
 				for(LiquorTagInfo tInfo : tagList.get(i))
 					System.out.println("tInfo: "+tInfo.toString());
+				for(LiquorImage image : imgList.get(i))
+					System.out.println("image : "+image.toString());
 			}//(추후 삭제 예정
 		}
 		
@@ -234,7 +238,14 @@ public class LiquorController {
 	@GetMapping("/detail/{liquorId}")
 	public String liquorDetail(@PathVariable("liquorId") Integer liquorId, Model model) {
 		LiquorDetail liquor = lService.selectOneById(liquorId);
+		List<LiquorTagInfo> tags = lService.searchTagsByLiquorId(liquorId);
+		List<LiquorImage> images = lService.searchImageByLiquorId(liquorId);
+		System.out.println(liquor.toString());
+		for(LiquorTagInfo tag : tags)
+			System.out.println(tag.toString());
 		model.addAttribute("liquor", liquor);
+		model.addAttribute("images", images);
+		model.addAttribute("tags", tags);
 		return "liquor/liquorDetail";
 	}
 	

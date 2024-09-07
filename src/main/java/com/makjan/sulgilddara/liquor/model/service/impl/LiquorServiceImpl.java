@@ -87,4 +87,10 @@ public class LiquorServiceImpl implements LiquorService{
 		return tList;
 	}
 
+	@Override
+	public List<LiquorImage> searchImageByLiquorId(int liquorId) {
+		List<LiquorImage> iList = mapper.searchImageByLiquorId(liquorId);
+		return iList;
+	}
+
 }
