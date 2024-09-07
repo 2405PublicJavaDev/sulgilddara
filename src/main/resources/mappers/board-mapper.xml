@@ -13,17 +13,24 @@
   
   	
   	<insert id="insertTag">
-  		INSERT INTO BOARD_TAG_TBL VALUES(SEQ_BOARD_TAG_NO.NEXTVAL, #{boardTagName}, #{boardNo})
+  		INSERT INTO BOARD_TAG_TBL VALUES(SEQ_BOARD_TAG_NO.NEXTVAL, #{boardTagName}, ${boardNo})
   	</insert>
   	
   	<insert id="insertBoardFile">
   		INSERT INTO BOARD_FILE_TBL VALUES(SEQ_BOARD_FILE_NO.NEXTVAL, #{boardFileName}, #{boardFileRename}, #{boardFilePath}, #{boardNo})
   	</insert>
   	
-  	<update id="updateBoardFile">
-<!--   	where 조건으로 무엇을 넣어야 할까?? -->
-<!--   		UPDATE BOARD_FILE_TBL SET BOARD_NO = #{boardNo} WHERE  --> 
+  	<update id="updateBoard">
+		UPDATE BOARD_TBL SET BOARD_SUBJECT=#{boardSubject}, BOARD_CONTENT=#{boardContent}, UPDATE_DATE=DEFAULT, BOARD_POINT=#{boardPoint}, LIQUOR_ID=#{liquorId} WHERE BOARD_NO=#{boardNo}
   	</update>
+  	
+  	<update id="updateBoardFile">
+  		UPDATE BOARD_FILE_TBL SET BOARD_FILE_NAME = #{boardFileName}, BOARD_FILE_RENAME = #{boardFileRename}, BOARD_FILE_PATH = #{boardFilePath} WHERE BOARD_NO = #{boardNo}
+  	</update>
+  	
+  	<select id="selectBoardOne" resultType="Board">
+  		SELECT * FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
+  	</select>
   	
 <!--   	게시글 키워드 검색 -->
   	<select id="selectBoardList" resultType="Board">
@@ -143,6 +150,8 @@
 		SELECT * FROM BOARD_FILE_TBL
 	</select>
 	
-	
+	<delete id="deleteTag">
+		DELETE FROM BOARD_TAG_TBL WHERE BOARD_NO=#{boardNo}
+	</delete>
   </mapper>
   

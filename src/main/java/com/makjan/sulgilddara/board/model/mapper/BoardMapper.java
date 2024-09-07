@@ -95,6 +95,34 @@ public interface BoardMapper {
 	 * @return
 	 */
 	List<Board> selectBoardsByBoardNos(@Param("boardNos") List<Integer> boardNos, RowBounds rowBounds, @Param("orderSelectBox") String orderSelectBox);
+	
+	/**
+	 * 게시글 상세조회
+	 * @param boardNo
+	 * @return
+	 */
+	Board selectBoardOne(Integer boardNo);
+
+	/**
+	 * 게시글 수정
+	 * @param board
+	 * @return
+	 */
+	int updateBoard(Board board);
+
+	/**
+	 * 게시글 첨부파일 수정
+	 * @param boardFile
+	 * @return
+	 */
+	int updateBoardFile(BoardFile boardFile);
+
+	/**
+	 * 태그 삭제
+	 * @param boardNo
+	 * @return
+	 */
+	int deleteTag(Integer boardNo);
 
 	
 

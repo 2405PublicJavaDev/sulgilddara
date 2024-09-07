@@ -2,6 +2,9 @@ package com.makjan.sulgilddara.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -115,8 +119,39 @@ public class BoardController {
 		return "board/boardList_table";
 	}
 	
-	@GetMapping("/board/detailPage")
-	public String showBoardOne() {
+	@GetMapping("/board/detailPage/{boardNo}")
+	public String showBoardOne(@PathVariable("boardNo") Integer boardNo,
+			Model model) {
+		// board 
+		Board board = bService.selectOne(boardNo);
+		Board prevBoard = null;
+		Board nextBoard = null;
+		// 이전글 찾기
+		while(true) {
+			int prevBoardNo = boardNo-1;
+			prevBoard = bService.selectOne(prevBoardNo);
+			if(prevBoard != null) break;
+		}
+		// 다음글 찾기
+		while(true) {
+			int nextBoardNo = boardNo+1;
+			nextBoard = bService.selectOne(nextBoardNo);
+			if(nextBoard != null) break;
+		}
+		
+		// board_file
+		List<BoardFile> bFileList = bService.selectBoardFileList();
+		
+		// board_tag
+		List<BoardTag> bTagList = bService.selectBoardTagList();
+		
+		
+		model.addAttribute("board", board);
+		model.addAttribute("prevBoard", prevBoard);
+		model.addAttribute("nextBoard", nextBoard);
+		
+		model.addAttribute("bFileList", bFileList);
+		model.addAttribute("bTagList", bTagList);
 		return "board/boardDetail";
 	}
 	
@@ -125,8 +160,21 @@ public class BoardController {
 		return "board/boardWrite";
 	}
 	
-	@GetMapping("/board/modifyPage")
-	public String showModifyForm() {
+	@GetMapping("/board/modifyPage/{boardNo}")
+	public String showModifyForm(@PathVariable("boardNo") Integer boardNo, Model model) {
+		// board 
+		Board board = bService.selectOne(boardNo);
+		// board_file
+		List<BoardFile> bFileList = bService.selectBoardFileList();
+		
+		// board_tag
+		List<BoardTag> bTagList = bService.selectBoardTagList();
+			
+			
+		model.addAttribute("board", board);
+		model.addAttribute("bFileList", bFileList);
+		model.addAttribute("bTagList", bTagList);
+		
 		return "board/boardModify";
 	}
 	
@@ -195,8 +243,71 @@ public class BoardController {
 	
 	
 	@PostMapping("/board/modify")
-	public String boardModify(){
-		return "board/boardDetail";
+	public String boardModify(@ModelAttribute("Board") Board board,
+			@ModelAttribute("BoardTag") BoardTag boardTag,
+			@RequestParam(name="reloadFile", required = false) MultipartFile reloadFile,
+			@RequestParam(name="uploadFileRename", required = false) String uploadFileRename,
+			Model model) throws IllegalStateException, IOException {
+		
+		board.setBoardWriter("임시작성자이름");
+		int boardResult = bService.updateBoard(board);
+		if(reloadFile != null && !"".equals(reloadFile.getOriginalFilename())) { // null체크시 실제 저장된 이름이 있는지도 체크해줘야 함.
+			
+			String fileName = reloadFile.getOriginalFilename();
+			String fileRename = Util.fileRename(fileName);
+			
+			// Web용 경로
+			String filePath = "/board-images/"; // 이 경로가 fileConfig에 의해 실제 C드라이브 경로로 매핑됨.
+			
+			reloadFile.transferTo(new File("C:\\uploadFile\\board\\" + fileRename));
+			
+			BoardFile boardFile = new BoardFile();
+			boardFile.setBoardFileName(fileName);
+			boardFile.setBoardFileRename(fileRename);
+			boardFile.setBoardFilePath(filePath); // 경로에 복사
+			
+			boardFile.setBoardNo(board.getBoardNo());
+			
+			int boardFileResult = bService.updateBoardFile(boardFile);	
+			
+			// 실제 파일 삭제
+			Path uploadFilePath = Paths.get("C:\\uploadFile\\board\\", uploadFileRename);
+			Files.deleteIfExists(uploadFilePath);
+		}
+		
+		// boardTagName엔 배열 문자열이 저장이 된다.
+		// json형식의 문자열을 파싱해주고 배열에 저장
+		
+		if(!boardTag.getBoardTagName().equals("")) {
+			List<String> tagNameArr = new ArrayList<String>();
+			
+			String tagNameJson = boardTag.getBoardTagName();
+			// jackson 객체
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				// JSON 문자열을 List<Map<String, String>> 형태로 변환
+				List<Map<String, String>> list = objectMapper.readValue(tagNameJson, new TypeReference<List<Map<String, String>>>(){});
+				
+				// value 필드만 추출하여 List로 변환
+				tagNameArr = list.stream().map(map -> map.get("value"))
+						.toList();
+				
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			int dResult = bService.deleteTag(board.getBoardNo());
+			// 각 배열의 값을 하나씩 table에 insert 시켜주기
+			for(String tagName : tagNameArr) {
+				boardTag.setBoardTagName(tagName);
+				boardTag.setBoardNo(board.getBoardNo());
+				int iResult = bService.insertTag(boardTag);			
+			}
+		}
+		
+		
+		
+		return "redirect:/board/detailPage/"+board.getBoardNo();
 	}
 	
 	@PostMapping("/board/delete")

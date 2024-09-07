@@ -27,8 +27,8 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Board selectOne(Integer boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Board board = bMapper.selectBoardOne(boardNo);
+		return board;
 	}
 	
 	// selectBoardList 오버로딩 - 키워드검색
@@ -74,9 +74,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int updateBoard(Board board, MultipartFile uploadFile) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateBoard(Board board) {
+		int result = bMapper.updateBoard(board);
+		return result;
 	}
 
 	@Override
@@ -98,9 +98,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int deleteTag(List<String> tags) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteTag(Integer boardNo) {
+		int result = bMapper.deleteTag(boardNo);
+		return result;
 	}
 
 
@@ -152,6 +152,12 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardTag> selectBoardTagListDistinct() {
 		List<BoardTag> bTagList = bMapper.selectBoardTagListDistinct();
 		return bTagList;
+	}
+
+	@Override
+	public int updateBoardFile(BoardFile boardFile) {
+		int result = bMapper.updateBoardFile(boardFile);
+		return result;
 	}
 	
 	

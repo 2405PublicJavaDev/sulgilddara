@@ -5,6 +5,41 @@
 		<title>술 이야기 상세</title>
 	</head>
 	<body>
-	
+		<h1>술 이야기 상세</h1>
+		<button type="button" th:onclick="showModifyPage();">수정하기</button>
+		<button type="button" th:onclick="goBack();">뒤로가기</button>
+		<div><a href="#" th:text="${board.liquorId}"></a> <span th:text="${board.boardSubject}">게시글 제목</span></div>
+		태그
+		<a th:each="bTag : ${bTagList}" th:if="${bTag.boardNo == board.boardNo}" th:text="${bTag.boardTagName}" th:href="@{/board/searchTag_listCard(cp=1, searchMethod=tagSearch, orderSelectBox=latest, tagName=${bTag.boardTagName})}"></a>
+		
+		<div th:text="${board.boardDate}">작성일자</div>
+		
+		썸네일 이미지
+		<div th:each="bFile : ${bFileList}" th:if="${bFile.boardNo == board.boardNo}">
+			<a title="다운로드" th:text="${bFile.boardFileRename}" th:href="@{|${bFile.boardFilePath}${bFile.boardFileRename}|}"></a>
+		</div>
+		<div th:text="${board.boardWriter}"></div>
+		<div th:text="${board.viewCount}"></div>
+		<div th:text="${board.boardPoint}"></div>
+		<div th:utext=${board.boardContent}></div>
+		
+		<button type="button" onclick="location.replace('/board/listCard');">목록</button>
+		
+		<th:block th:if="prevBoard != null">
+			<a th:text="이전글" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a><a th:text="${prevBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a>
+		</th:block>
+		<th:block th:if="nextBoard != null">
+			<a th:text="다음글" th:href="@{/board/detailPage/{boardNo}(boardNo=${nextBoard.boardNo})}"></a><a th:text="${nextBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a>
+		</th:block>
+		
+		<script type="text/javascript">
+			function showModifyPage(){
+				location.href=location.pathname.replace("detail", "modify");
+			}
+			
+			function goBack(){
+				history.go(-1);
+			}
+		</script>
 	</body>
 </html>

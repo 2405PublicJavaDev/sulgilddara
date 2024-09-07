@@ -59,7 +59,7 @@ public interface BoardService {
 	 * @param uploadFile
 	 * @return
 	 */
-	int updateBoard(Board board, MultipartFile uploadFile);
+	int updateBoard(Board board);
 	
 	/**
 	 * 게시글 삭제
@@ -87,7 +87,7 @@ public interface BoardService {
 	 * @param tags
 	 * @return
 	 */
-	int deleteTag(List<String> tags);
+	int deleteTag(Integer boardNo);
 	
 	
 
@@ -115,6 +115,13 @@ public interface BoardService {
 	 * @return
 	 */
 	List<BoardFile> selectBoardFileList();
+
+	/**
+	 * 파일 정보 수정
+	 * @param boardFile
+	 * @return
+	 */
+	int updateBoardFile(BoardFile boardFile);
 
 	
 }

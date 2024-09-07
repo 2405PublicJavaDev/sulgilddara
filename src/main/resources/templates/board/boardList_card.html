@@ -7,6 +7,10 @@
 	<body>
 		<h1>술 이야기 메인 - 카드</h1>
 		<div>캐러셀 자리</div>
+		<div>
+			<span>카드형</span>
+			<a href="/board/listTable">목록형</a>
+		</div>
 		<a th:href="@{/board/writePage}" th:text="게시글작성"></a>
 	<form action="/board/listCard" method="post">
 		<input type="hidden" name="searchMethod" value="keywordSearch">
@@ -49,6 +53,7 @@
 		
 		<div class="boardOne">
 			<div>
+				<a th:href="@{/board/detailPage/{boardNo}(boardNo=${board.boardNo})}">게시글 상세</a>
 				<div>userId [[${board.userId}]]</div>
 				<div>boardPoint [[${board.boardPoint}]]</div>
 				<div>boardDate [[${board.boardDate}]]</div>
