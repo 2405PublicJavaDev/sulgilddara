@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
@@ -28,7 +29,7 @@ public interface ReservationMapper {
 
 	List<Reservation> selectOne(@Param("reserveNo") String reserveNo);
 
-	int RegisterInfo(Reservation reservation, Integer breweryNo);
+	int RegisterInfo(Reservation reservation, Tour tour, Brewery brewery);
 
 	List<User> selectInfo(User user);
 

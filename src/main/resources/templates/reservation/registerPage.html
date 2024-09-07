@@ -9,8 +9,8 @@
 	<div class="breweryInfo">
 		호랑이배꼽 양조장
 	</div>
-
-	<form action="/reservation/register" method="POST">
+	
+	<form th:action="@{/reservation/register/{breweryNo}/{tourNo}(breweryNo=${reservation.breweryNo},tourNo=${reservation.tourNo})}"  th:object=${reservation} method="POST">
 	<div class="reservationDate">
 		<h3>방문일자 선택</h3>
 		날짜*
@@ -45,6 +45,8 @@
 			</div>
 		</fieldset>
 		<button >예약하기</button>
+	<!--	<input type="hidden" name="tourNo" th:value="${Reservation.tourNo}">
+		<input type="hidden" name="breweryNo" th:value="${Reservation.breweryNo}">-->
 	</form>
 		<script>
 		

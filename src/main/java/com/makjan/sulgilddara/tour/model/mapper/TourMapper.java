@@ -47,4 +47,24 @@ public interface TourMapper {
 	 * @return
 	 */
 	Tour searchOneByNo(Integer tourNo);
+
+	/**
+	 * 체험 번호 기준 양조장 , 체험 정보 출력
+	 * @param tourNo
+	 * @param breweryNo 
+	 * @return Tour
+	 */
+	
+	Tour searchByNo(Integer tourNo);
+
+	/**
+	 * 투어 번호 , 양조장 번호로 정보 조회
+	 * @param tourNo
+	 * @param breweryNo
+	 * @return
+	 */
+	List<Tour> ShowInfoByNo(Integer tourNo, Integer breweryNo);
+
+
+		
 }

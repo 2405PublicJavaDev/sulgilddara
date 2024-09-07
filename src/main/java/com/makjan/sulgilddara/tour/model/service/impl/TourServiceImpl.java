@@ -80,4 +80,16 @@ public class TourServiceImpl implements TourService{
 		return tour;
 	}
 
+	@Override
+	public Tour searchByNo(Integer tourNo) {
+		Tour tour = mapper.searchByNo(tourNo);
+		return tour;
+	}
+
+	@Override
+	public List<Tour> ShowInfoByNo(Integer tourNo, Integer breweryNo) {
+		List<Tour>tList = mapper.ShowInfoByNo(tourNo,breweryNo);
+		return tList;
+	}
+
 }

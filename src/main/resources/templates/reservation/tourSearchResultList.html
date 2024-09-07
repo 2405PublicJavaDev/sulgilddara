@@ -25,9 +25,11 @@
 					</div>
 				</div>
 		</div>
+		<th:block th:each="Tour: ${tList}">
 		<form th:action="@{/reservation/register/{tourNo}(tourNo=${Tour.tourNo})}" method="POST">
 					<button>예약하기</button>
 		</form>
+		</th:block>
 			</div>
 			<th:block th:unless="${#lists.isEmpty(tList)}">
 				 <tr align="center">

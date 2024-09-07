@@ -10,9 +10,7 @@ public class Reservation {
 	private int visitorNum;
 	private String reserveDate;
 	private String reserveTime;
-	private String tourName;
 	private int emergencyPhone;
-	private String breweryName;
 	private String reserveCompleteTime;
 	private String totalPrice;
 	// User
@@ -23,9 +21,63 @@ public class Reservation {
 	// Brewery
 	private String filePath;
 	private String fileRename;
-	private int tourPrice;
+	private String breweryName;
+	private Integer breweryNo;
+	//tour
+	private Integer tourNo;	
+	private String tourName;
+	private String tourContent;
+	private String timeTaken;
+	private Integer tourPrice;
+	
+	
+	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
+		this.reserveNo = reserveNo;
+		this.joinDate = joinDate;
+		this.email = email;
+		this.phone = phone;
+	}
+	public String getTourContent() {
+		return tourContent;
+	}
+
+
+	public void setTourContent(String tourContent) {
+		this.tourContent = tourContent;
+	}
+
+
+	public String getTimeTaken() {
+		return timeTaken;
+	}
+
+
+	public void setTimeTaken(String timeTaken) {
+		this.timeTaken = timeTaken;
+	}
+
+
+	public void setTourPrice(Integer tourPrice) {
+		this.tourPrice = tourPrice;
+	}
 
 	
+	public Integer getBreweryNo() {
+		return breweryNo;
+	}
+
+	public void setBreweryNo(Integer breweryNo) {
+		this.breweryNo = breweryNo;
+	}
+
+	public Integer getTourNo() {
+		return tourNo;
+	}
+
+	public void setTourNo(Integer tourNo) {
+		this.tourNo = tourNo;
+	}
+
 	public String getFilePath() {
 		return filePath;
 	}
@@ -44,7 +96,6 @@ public class Reservation {
 	public void setReserveCompleteTime(String reserveCompleteTime) {
 		this.reserveCompleteTime = reserveCompleteTime;
 	}
-
 
 	public String getFileRename() {
 		return fileRename;
@@ -102,41 +153,11 @@ public class Reservation {
 		this.phone = phone;
 	}
 
-	// public User getPhone() {
-//		return phone;
-//	}
-//	public void setPhone(User phone) {
-//		this.phone = phone;
-//	}
-//	public User getEmail() {
-//		return email;
-//	}
-//	public void setEmail(User email) {
-//		this.email = email;
-//	}
-//	public User getAddress() {
-//		return address;
-//	}
-//	public void setAddress(User address) {
-//		this.address = address;
-//	}
-//	public User getJoinDate() {
-//		return joinDate;
-//	}
-//	public void setJoinDate(User joinDate) {
-//		this.joinDate = joinDate;
-//	}
 	public Reservation(String userId) {
 		super();
 		this.userId = userId;
 	}
 
-	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
-		this.reserveNo = reserveNo;
-		this.joinDate = joinDate;
-		this.email = email;
-		this.phone = phone;
-	}
 
 	public String getReserveNo() {
 		return reserveNo;
@@ -207,11 +228,12 @@ public class Reservation {
 	@Override
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", visitorNum=" + visitorNum
-				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourName=" + tourName
-				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", reserveCompleteTime="
-				+ reserveCompleteTime + ", totalPrice=" + totalPrice + ", email=" + email + ", address=" + address
-				+ ", joinDate=" + joinDate + ", phone=" + phone + ", filePath=" + filePath + ", fileRename="
-				+ fileRename + ", tourPrice=" + tourPrice + "]";
+				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", emergencyPhone=" + emergencyPhone
+				+ ", reserveCompleteTime=" + reserveCompleteTime + ", totalPrice=" + totalPrice + ", email=" + email
+				+ ", address=" + address + ", joinDate=" + joinDate + ", phone=" + phone + ", filePath=" + filePath
+				+ ", fileRename=" + fileRename + ", breweryName=" + breweryName + ", breweryNo=" + breweryNo
+				+ ", tourNo=" + tourNo + ", tourName=" + tourName + ", tourContent=" + tourContent + ", timeTaken="
+				+ timeTaken + ", tourPrice=" + tourPrice + "]";
 	}
 
 }

@@ -30,9 +30,16 @@
 </resultMap>
 
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone}
- (SELECT BREWERY_NAME FROM BREWERY_TBL WHERE BREWERY_NO = #{breweryNo})
- ,DEFAULT,1)
+<!-- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone}
+ (SELECT brewery_tbl.BREWERY_NAME FROM BREWERY_TBL join tour_tbl using (brewery_no) WHERE tour_NO =#{tourNo})
+ ,DEFAULT,#{select tour_price from tour_tbl where tour_no=#{tourNo}},#{tourNo},#{breweryNo})-->
+ 
+INSERT INTO reservation_tbl VALUES (
+    #{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone},
+    (SELECT brewery_name FROM brewery_tbl WHERE brewery_no = #{breweryNo}),DEFAULT,(SELECT TOUR_PRICE FROM TOUR_TBL WHERE TOUR_NO=#{tourNo}),
+    (SELECT tour_no FROM tour_tbl WHERE brewery_no = #{breweryNo}),#{breweryNo})
+
+
  </insert>
  
  <select id="SearchInfo" resultMap="reserveResultMap">
@@ -102,6 +109,6 @@
 	  <!--투어 리스트(투어번호) - 양조장 리스트(양조장번호) 합치기 -->
 	  <select id="showTourList" resultType="Tour">
 	  	select tour_tbl.tour_name,tour_tbl.tour_content,tour_tbl.time_taken,tour_tbl.tour_price,brewery_tbl.filerename
-	  	,brewery_tbl.brewery_name from brewery_tbl join tour_tbl using(brewery_no)
+	  	,brewery_tbl.brewery_name,tour_tbl.tour_no,brewery_No from brewery_tbl join tour_tbl using(brewery_no)
 	  </select>
  </mapper>

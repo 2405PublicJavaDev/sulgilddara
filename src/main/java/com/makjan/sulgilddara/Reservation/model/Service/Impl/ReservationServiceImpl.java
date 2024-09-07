@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper;
+import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.tour.model.mapper.TourMapper;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
@@ -26,11 +29,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	ReservationMapper rmapper;
-@Autowired
-	User user;
+//@Autowired
+//	private TourMapper tmapper;
+//@Autowired
+//	private BreweryMapper bmapper;
 	@Override
-	public int RegisterInfo(Reservation reservation,Integer breweryNo) {
-		int result = rmapper.RegisterInfo(reservation,breweryNo); 
+	public int RegisterInfo(Reservation reservation,Tour tour,Brewery brewery) {
+//		Tour tour = tmapper.searchByNo(reservation.getTourNo());
+//		System.out.println("tour"+ tour);
+//		Brewery brewery = bmapper.searchOneByNo(tour.getBreweryNo());
+//		System.out.println("brewery"+brewery);
+//		reservation.setBreweryNo(brewery.getBreweryNo());
+		int result = rmapper.RegisterInfo(reservation,tour,brewery); 
 		return result;
 	}
 //
@@ -124,6 +134,8 @@ public class ReservationServiceImpl implements ReservationService{
 	List<Tour>tList = rmapper.showTourList(tourName,rowBounds);
 		return tList;
 	}
+
+
 
 
 

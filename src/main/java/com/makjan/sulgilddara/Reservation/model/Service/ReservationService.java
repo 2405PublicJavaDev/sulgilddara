@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
@@ -15,10 +16,11 @@ public interface ReservationService {
 /**
  * 예약 정보 등록하기 Service
  * @param reservation
- * @param breweryNo 
+ * @param tour 
+ * @param brewery 
  * @return Int
  */
-	int RegisterInfo(Reservation reservation, Integer breweryNo);
+int RegisterInfo(Reservation reservation, Tour tour, Brewery brewery);
 
 /**
  * 예약 정보 조회하기 Service
@@ -103,6 +105,7 @@ List<Tour> selectSearchList(String TourName, RowBounds rowBounds);
  */
 
 List<Tour> showTourList(String tourName, RowBounds rowBounds);
+
 
 
 
