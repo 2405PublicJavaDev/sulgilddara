@@ -22,6 +22,7 @@ public class Tour {
 	private String fileName;
 	private String fileRename;
 	private String filePath;
+	private String imagePath;
 	
 	//brewery
 	private Integer breweryNo;

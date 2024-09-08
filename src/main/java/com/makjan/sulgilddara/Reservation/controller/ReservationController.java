@@ -144,14 +144,15 @@ public class ReservationController {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Tour> tList = rService.showTourList(tourName, rowBounds);
 		if (!tList.isEmpty()) {
-			Tour tour = tList.get(0);
-			model.addAttribute("tList", tList);
 			System.out.println("ControllerTList:" + tList);
 			// Tour 이미지 경로 설정
-			String tourfilePath = tour.getFilePath();
-			String imagePath = tourfilePath + "/" + tour.getFileRename();
-			System.out.println(imagePath);
-			model.addAttribute("ImagePath", imagePath);
+			for (Tour tour : tList) {
+	            String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
+	            tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
+	            System.out.println(imagePath);
+	        }
+			model.addAttribute("tList", tList);
+//			model.addAttribute("ImagePath", imagePath);
 		} else {
 			// 예약이 없을 경우 처리
 		}
@@ -283,7 +284,7 @@ public class ReservationController {
 			System.out.println("ControllerrList:" + rList);
 			// Brewery 이미지 경로 설정
 			String imagePath = reservation.getFilePath() + "/" + reservation.getFileRename();
-			System.out.println("detailimagePath" + imagePath);
+			System.out.println("detail imagePath: " + imagePath);
 			model.addAttribute("ImagePath", imagePath);
 		} else {
 			// 예약이 없을 경우 처리
