@@ -2,7 +2,9 @@ package com.makjan.sulgilddara.Reservation.model.VO;
 
 import java.sql.Timestamp;
 
+import lombok.extern.java.Log;
 
+@Log
 public class Reservation {
 //	private Date reserveDate;
 	private String reserveNo;
@@ -57,9 +59,9 @@ public class Reservation {
 	}
 
 
-	public void setTourPrice(Integer tourPrice) {
-		this.tourPrice = tourPrice;
-	}
+	 public void setTourPrice(String tourPrice) {
+         this.tourPrice = Integer.parseInt(tourPrice);
+}
 
 	
 	public Integer getBreweryNo() {

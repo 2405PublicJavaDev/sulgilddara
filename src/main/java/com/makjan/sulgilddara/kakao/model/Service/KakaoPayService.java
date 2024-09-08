@@ -35,8 +35,10 @@ public class KakaoPayService {
     private KakaoPayApproval kakaoPayApprovalVO;
 
     public String kakaoPayReady(
-    		@ModelAttribute Reservation reservation
+//    		@ModelAttribute Reservation reservation
+    		HttpSession session
     		) {
+    	Reservation reservation = (Reservation)session.getAttribute("reservation");
     	log.info("Reservation {}"+ reservation);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory()); // 정확한 에러 파악을 위해 생성
@@ -48,6 +50,7 @@ public class KakaoPayService {
         headers.add("Content-Type", "application/json");
 
         // Server Request Body : 서버 요청 본문
+      
         Map<String, Object> params = new HashMap<String, Object>();
         
         params.put("cid", "TC0ONETIME"); // 가맹점 코드 - 테스트용
@@ -57,9 +60,9 @@ public class KakaoPayService {
         params.put("quantity", reservation.getVisitorNum()); // 상품 수량
         params.put("total_amount", reservation.getTourPrice()); // 상품 가격
         params.put("tax_free_amount", "100"); // 상품 비과세 금액
-        params.put("approval_url", "https://127.0.0.1:8888"); // 성공시 url
-        params.put("fail_url", "https://127.0.0.1:8888"); 
-        params.put("cancel_url", "https://127.0.0.1:8888"); // 실패시 url
+        params.put("approval_url", "http://127.0.0.1:8888/success"); // 성공시 url
+        params.put("fail_url", "http://127.0.0.1:8888/fail"); 
+        params.put("cancel_url", "http://127.0.0.1:8888/cancel"); // 실패시 url
 
         // 헤더와 바디 붙이기
         HttpEntity<Map<String, Object>> body = new HttpEntity<Map<String, Object>>(params, headers);
@@ -74,37 +77,40 @@ public class KakaoPayService {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return "/pay";
+        return "/success" ;
     }
-//
-//	public KakaoPayApproval kakaoPayInfo(String pg_token) {
-//		RestTemplate restTemplate = new RestTemplate();
-//		// Server Request Header : 서버 요청 헤더
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Authorization","SECRET_KEY DEV63545E7C8981F4D5D292ABC6B715669F5DC1F"); // 어드민 키
+
+	public KakaoPayApproval kakaoPayInfo(String pg_token,HttpSession session
+			) {
+		Reservation reservation = (Reservation)session.getAttribute("reservation");
+		RestTemplate restTemplate = new RestTemplate();
+		// Server Request Header : 서버 요청 헤더
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization","SECRET_KEY DEV63545E7C8981F4D5D292ABC6B715669F5DC1F"); // 어드민 키
 //        headers.add("Accept", "application/json");
-//        headers.add("Content-Type", "application/json;charset=utf-8");
-//
-//        // Server Request Body : 서버 요청 본문
-//        Map<String, String> params = new HashMap<String, String>();
-//
-//        params.put("cid", "TC0ONETIME"); // 가맹점 코드 - 테스트용
-//        params.put("tid", kakaoPayDTO.getTid());
-//        params.put("partner_order_id", "1001"); // 주문 번호
-//        params.put("partner_user_id", reservation.getUserId()); // 회원 아이디
-//		params.put("total_amount", "2100");
-//		HttpEntity<Map<String, String>> body = new HttpEntity<Map<String, String>>(params, headers);
-//
-//        try {
-//            kakaoPayDTO = restTemplate.postForObject(new URI(Host + "/online/v1/payment/ready"), body, KakaoPay.class);
-//            log.info(""+ kakaoPayDTO);
-//            return kakaoPayApprovalVO;
-//
-//        } catch (RestClientException e) {
-//            e.printStackTrace();
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//	}
+        headers.add("Content-Type", "application/json;charset=utf-8");
+        System.out.println("kakaoPayinfo"+ reservation);
+        int totalAmount = reservation.getTourPrice() * reservation.getVisitorNum();
+        // Server Request Body : 서버 요청 본문
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("cid", "TC0ONETIME"); // 가맹점 코드 - 테스트용
+        params.put("tid", kakaoPayDTO.getTid());
+        params.put("partner_order_id", "1001"); // 주문 번호
+        params.put("partner_user_id",reservation.getUserId() ); // 회원 아이디
+		params.put("total_amount", String.valueOf(totalAmount));
+		HttpEntity<Map<String, String>> body = new HttpEntity<Map<String, String>>(params, headers);
+
+        try {
+            kakaoPayDTO = restTemplate.postForObject(new URI(Host + "/online/v1/payment/ready"), body, KakaoPay.class);
+            log.info(""+ kakaoPayDTO);
+            return kakaoPayApprovalVO;
+
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+	}
 }
