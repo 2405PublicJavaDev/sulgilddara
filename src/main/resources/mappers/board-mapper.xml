@@ -153,5 +153,25 @@
 	<delete id="deleteTag">
 		DELETE FROM BOARD_TAG_TBL WHERE BOARD_NO=#{boardNo}
 	</delete>
+	
+	<insert id="insertBoardReply">
+		INSERT INTO BOARD_REPLY_TBL VALUES(SEQ_BOARD_REPLY_NO.NEXTVAL, #{replyWriter}, #{replyContent}, DEFAULT, DEFAULT, #{likeCount}, #{boardNo}, #{userId})
+	</insert>
+	
+	<select id="selectBoardReplyList" resultType="BoardReply">
+		SELECT * FROM BOARD_REPLY_TBL WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<delete id="deleteReply">
+		DELETE FROM BOARD_REPLY_TBL WHERE REPLY_NO=#{replyNo}
+	</delete>
+	
+	<update id="updateReply">
+		UPDATE BOARD_REPLY_TBL SET REPLY_CONTENT=#{replyContent}, R_UPDATE_DATE=DEFAULT WHERE REPLY_NO=#{replyNo}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM BOARD_TBL WHERE BOARD_NO=#{boardNo}
+	</delete>
   </mapper>
   

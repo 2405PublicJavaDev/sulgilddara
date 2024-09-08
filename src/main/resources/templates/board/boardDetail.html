@@ -3,6 +3,24 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>술 이야기 상세</title>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<style type="text/css">
+			#replyAddContent.fail{
+				border-color: red;
+				animation: shake 0.5s; /* 흔들림 애니메이션 적용 */
+			}
+			#replyAddContent.fail::placeholder{
+				color:red;
+			}
+			
+			@keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+		</style>
 	</head>
 	<body>
 		<h1>술 이야기 상세</h1>
@@ -32,14 +50,167 @@
 			<a th:text="다음글" th:href="@{/board/detailPage/{boardNo}(boardNo=${nextBoard.boardNo})}"></a><a th:text="${nextBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a>
 		</th:block>
 		
-		<script type="text/javascript">
+		
+		<div id="replyAddContainer">
+			
+			<div>
+				<input type="text" placeholder="댓글을 작성하세요" id="replyAddContent" >
+			</div>
+			<button type="button" id="replyAddBtn">댓글 작성</button>
+		</div>
+		
+		<div id="replyListContainer">
+			<div id="replyTotalCount" th:text="${'총 '+replyTotalCount + '개의 댓글'}"></div>
+			<div th:if="${!replyList.isEmpty()}" id="replyOneContainer" th:each="reply : ${replyList}">
+				<div>
+<!-- 				boardNo는 ajax를 통해 호출된 컨트롤러에서 model로 전달되는 값 -> board.boardNo를 의미하고있음 -->
+					<div th:if="${userId == reply.userId}"> 
+						<button type="button" th:onclick="convertUpdateMode(/*[[${reply.replyNo}]]*/);">수정</button>
+						<button type="button" th:onclick="removeReply(/*[[${reply.replyNo}]]*/);">삭제</button>
+					</div>
+					<div th:text="프로필사진">프로필사진</div>
+					<div>
+						<div th:text="${reply.replyWriter}"></div>
+						<div th:text="${reply.rUpdateDate}"></div>
+					</div>
+				</div>
+				
+				<input th:id="'reply'+${reply.replyNo}" th:if="${userId == reply.userId}" th:value="${reply.replyContent}" disabled="disabled">
+				<div th:id="${reply.replyNo}" th:if="${userId != reply.userId}" th:text="${reply.replyContent}"></div>
+				
+			</div>
+			
+		</div>
+		
+		<script th:inline="javascript">
+			// 수정 페이지 이동 버튼
 			function showModifyPage(){
 				location.href=location.pathname.replace("detail", "modify");
 			}
-			
+			// 뒤로가기 버튼
 			function goBack(){
 				history.go(-1);
 			}
+			
+			// 댓글 등록
+			document.querySelector('#replyAddBtn').addEventListener('click', () => {
+				let boardNo = /*[[${board.boardNo}]]*/;
+				let replyAddContent = document.querySelector('#replyAddContent').value;
+				
+				$.ajax({
+					url : "/board/replyAdd",
+					data : {
+						"boardNo" : boardNo,
+						"replyContent" : replyAddContent
+					},
+					type : "POST",
+					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+						if(data == "success"){
+							// 리스트 초기화
+							getReplyList();
+							getReplyList();
+							// 댓글작성란 초기화
+							document.querySelector('#replyAddContent').value="";
+						}else if(data == "fail"){
+							addReplyFailAnimation();
+						}
+						
+					},
+					error : function(){
+						console.log("서버 전송 실패");
+					}
+				
+				});
+				
+			});
+			
+			// 내용 없을 시 댓글창 경고
+				function addReplyFailAnimation(){
+					let replyAddContent = document.querySelector('#replyAddContent');
+					
+					if(replyAddContent.value.trim() === ''){
+						replyAddContent.classList.add('fail');
+						setTimeout(()=>{
+							replyAddContent.classList.remove('fail');
+						}, 500);
+					}
+					
+				}	
+			
+			
+			
+			getReplyList();
+			// 댓글 리스트 초기화
+			function getReplyList(){
+				let boardNo = /*[[${board.boardNo}]]*/;
+				$.ajax({
+					url : "/board/replyList",
+					data : {
+						"boardNo" : boardNo
+					},
+					type : "POST",
+					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+						console.log('성공?');
+						$('#replyListContainer').replaceWith(data);
+						let totalCount = /*[[${replyTotalCount}]]*/;
+					},
+					error : function(){
+						console.log("서버 전송 실패");
+					}
+				
+				});
+			}
+			
+			function removeReply(replyNo){
+				$.ajax({
+					url : "/board/replyDelete",
+					data : {
+						"replyNo" : replyNo
+					},
+					type : "POST",
+					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+						if(data == "success"){
+							console.log("delete sucess");
+							getReplyList();
+						}
+						
+					},
+					error : function(){
+						console.log("서버 전송 실패");
+					}
+				});
+			}
+			
+			// 토글 변수
+			function convertUpdateMode(replyNo){
+				// update버튼 토글
+				let replyInput = document.querySelector('#reply'+replyNo);
+				replyInput.disabled = !replyInput.disabled;
+				if(replyInput.disabled){
+					
+					$.ajax({
+						url : "/board/replyUpdate",
+						data : {
+							"replyNo" : replyNo,
+							"replyContent" : replyInput.value
+						},
+						type : "POST",
+						success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+							if(data == "success"){
+								console.log("update sucess");
+								getReplyList();
+							}
+						},
+						error : function(){
+							console.log("서버 전송 실패");
+						}
+					});
+				}
+			}
+					
+				
+			
+			
 		</script>
 	</body>
 </html>

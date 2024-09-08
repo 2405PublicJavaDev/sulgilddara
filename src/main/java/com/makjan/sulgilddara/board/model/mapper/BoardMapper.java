@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
+import com.makjan.sulgilddara.board.model.vo.BoardReply;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 
 @Mapper
@@ -123,6 +124,42 @@ public interface BoardMapper {
 	 * @return
 	 */
 	int deleteTag(Integer boardNo);
+	
+	/**
+	 * 게시글 댓글 등록
+	 * @param boardNo
+	 * @param replyAddContent
+	 * @return
+	 */
+	int insertBoardReply(BoardReply boardReply);
+
+	/**
+	 * 게시글 댓글 전체 조회
+	 * @param boardNo
+	 * @return
+	 */
+	List<BoardReply> selectBoardReplyList(Integer boardNo);
+
+	/**
+	 * 게시글 댓글 삭제
+	 * @param replyNo
+	 * @return
+	 */
+	int deleteReply(Integer replyNo);
+
+	/**
+	 * 게시글 댓글 수정
+	 * @param replyNo
+	 * @return
+	 */
+	int updateReply(@Param("replyNo") Integer replyNo, @Param("replyContent")  String replyContent);
+
+	/**
+	 * 게시글 삭제
+	 * @param boardNo
+	 * @return
+	 */
+	int deleteBoard(Integer boardNo);
 
 	
 

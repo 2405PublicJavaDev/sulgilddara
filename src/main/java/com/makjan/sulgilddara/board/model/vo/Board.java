@@ -21,7 +21,7 @@ public class Board {
 	private Integer viewCount;
 	private Double boardPoint;
 	private Integer liquorId;
-	private Integer userId;
+	private String userId;
 	
 	private BoardFile boardFile;
 	

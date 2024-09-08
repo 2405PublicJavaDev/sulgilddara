@@ -133,7 +133,7 @@
 			<th:block th:if="*{!bFileList.isEmpty()}">
 				<div th:each="bFile : ${bFileList}" th:if="${bFile.boardNo == board.boardNo}">
 					<a title="다운로드" th:text="${bFile.boardFileRename}" th:href="@{|${bFile.boardFilePath}${bFile.boardFileRename}|}"></a>
-					<input type="hidden" name="uploadFileRename" th:value="${bFile.boardFileRename}">
+					<input id="uploadFileId" type="hidden" name="uploadFileRename" th:value="${bFile.boardFileRename}">
 				</div>
 			</th:block>		
 			<th:block th:if="*{bFileList.isEmpty()}">
@@ -153,6 +153,7 @@
 			</div>
 			<button>수정</button> 
 			<button type="button" onclick="goBack();">취소</button>
+			<button type="button" th:onclick="boardDelete(/*[[${board.boardNo}]]*/);">삭제하기</button>
 		</form>
 		
 		<script th:inline="javascript">
@@ -344,6 +345,13 @@
 	        	history.go(-1);
 	        }
 	        
+	        //삭제
+	        function boardDelete(boardNo){
+				if(confirm("정말 삭제하시겠습니까?")){
+					let rename = document.querySelector('#uploadFileId').value;
+					location.href=`/board/delete?boardNo=${boardNo}&uploadFileRename=${rename}`;
+				};
+	        }
 	        
 </script>
 	</body>

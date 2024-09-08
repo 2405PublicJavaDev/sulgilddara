@@ -28,10 +28,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
+import com.makjan.sulgilddara.board.model.vo.BoardReply;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 import com.makjan.sulgilddara.common.utility.Util;
 
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @NoArgsConstructor
 @Controller
@@ -179,6 +182,24 @@ public class BoardController {
 	}
 	
 	
+	@GetMapping("/board/delete")
+	public String boardDelete(@RequestParam("boardNo") Integer boardNo,
+			@RequestParam(name="uploadFileRename", required = false) String uploadFileRename,
+			Model model) throws IOException {
+		System.out.println("upload" + uploadFileRename);
+		int result = bService.deleteBoard(boardNo);
+		
+		// 실제 파일 삭제
+		if(uploadFileRename != null) {
+			Path uploadFilePath = Paths.get("C:\\uploadFile\\board\\", uploadFileRename);
+			Files.deleteIfExists(uploadFilePath);			
+		}
+		
+		return "redirect:/board/listCard";
+	}
+	
+	
+	
 //	@ModelAttribute() 안에 들어가는 이름은 내가 정해주면 됨. 단, 지어준 이름으로 뷰에서 접근가능함!
 	@PostMapping("/board/write")
 	public String boardWrite(
@@ -310,10 +331,7 @@ public class BoardController {
 		return "redirect:/board/detailPage/"+board.getBoardNo();
 	}
 	
-	@PostMapping("/board/delete")
-	public String boardDelete() {
-		return "board/boardList_card";
-	}
+	
 	
 	
 	
@@ -452,6 +470,57 @@ public class BoardController {
 				
 				return "board/boardList_card";
 	}	
+	
+	@ResponseBody
+	@PostMapping("/board/replyAdd")
+	public String addBoardReply(@ModelAttribute BoardReply boardReply) {
+		
+		if("".equals(boardReply.getReplyContent())) {
+			return "fail";
+		}
+		// userId, replyWriter,  =-> session으로 가져오기
+		boardReply.setReplyWriter("임시작성자");
+		boardReply.setUserId("user1");
+		System.out.println(boardReply);
+		
+		int result = bService.insertBoardReply(boardReply);
+		
+		return "success";
+	}
+	
+//	@ResponseBody		-> 단순 json을 전달하는 방식이 아니기 때문에 어노테이션 사용 X
+	@PostMapping("/board/replyList")
+	public String getReplyList(@RequestParam("boardNo") Integer boardNo, Model model) {
+		List<BoardReply> replyList = bService.selectBoardReplyList(boardNo);
+		System.out.println(replyList);
+		// session으로 전달해야함
+		String userId = "user1";
+		int replyTotalCount = replyList.size();
+		
+		model.addAttribute("replyList", replyList);
+		model.addAttribute("userId", userId);
+		model.addAttribute("replyTotalCount", replyTotalCount);
+		
+		return "board/boardDetail::#replyListContainer";
+	}
+	
+	@ResponseBody
+	@PostMapping("/board/replyDelete")
+	public String deleteReply(@RequestParam("replyNo") Integer replyNo) {
+		
+		int result = bService.deleteReply(replyNo);
+		
+		return "success";
+	}
+	
+	@ResponseBody
+	@PostMapping("/board/replyUpdate")
+	public String updateReply(@RequestParam("replyNo") Integer replyNo, @RequestParam("replyContent") String replyContent) {
+		
+		System.out.println(replyNo + " " + replyContent);
+		int result = bService.updateReply(replyNo, replyContent);
+		return "success";
+	}
 	
 	
 }

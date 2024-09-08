@@ -13,6 +13,7 @@ import com.makjan.sulgilddara.board.model.mapper.BoardMapper;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
+import com.makjan.sulgilddara.board.model.vo.BoardReply;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
 import com.makjan.sulgilddara.model.vo.Pagination;
 
@@ -81,8 +82,8 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int deleteBoard(Integer boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = bMapper.deleteBoard(boardNo);
+		return result;
 	}
 
 	@Override
@@ -159,6 +160,33 @@ public class BoardServiceImpl implements BoardService{
 		int result = bMapper.updateBoardFile(boardFile);
 		return result;
 	}
+
+	
+	@Override
+	public int insertBoardReply(BoardReply boardReply) {
+		int result = bMapper.insertBoardReply(boardReply);
+		return result;
+	}
+
+	@Override
+	public List<BoardReply> selectBoardReplyList(Integer boardNo) {
+		List<BoardReply> replyList = bMapper.selectBoardReplyList(boardNo);
+		return replyList;
+	}
+
+	@Override
+	public int deleteReply(Integer replyNo) {
+		int result = bMapper.deleteReply(replyNo);
+		return result;
+	}
+
+	@Override
+	public int updateReply(Integer replyNo, String replyContent) {
+		int result = bMapper.updateReply(replyNo, replyContent);
+		return result;
+	}
+
+	
 	
 	
 	
