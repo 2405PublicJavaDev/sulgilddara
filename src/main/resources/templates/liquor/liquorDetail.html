@@ -65,7 +65,7 @@
             	</table>
             </div>
             <div class="product-image">
-                <img th:src="${#lists.isEmpty(images) ? 'default-image.jpg' : images[0].filePath+images[0].fileRename}" alt="술 이미지">
+                <img th:src="${#lists.isEmpty(images) ? '/img/liquor/empty_bottle.png' : images[0].filePath+images[0].fileRename}" alt="술 이미지">
             </div>
         </section>
 
