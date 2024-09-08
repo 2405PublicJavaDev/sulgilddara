@@ -31,8 +31,42 @@ public class Reservation {
 	private String tourContent;
 	private String timeTaken;
 	private Integer tourPrice;
+	//Kakao
+	private String tid;
+	private String partner_order_id;
+	private String pg_token;
 	
 	
+	
+
+	public String getPg_token() {
+		return pg_token;
+	}
+	public void setPg_token(String pg_token) {
+		this.pg_token = pg_token;
+	}
+	public static java.util.logging.Logger getLog() {
+		return log;
+	}
+	public Integer getTourPrice() {
+		return tourPrice;
+	}
+		public String getTid() {
+		return tid;
+	}
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+	public String getPartner_order_id() {
+		return partner_order_id;
+	}
+	public void setPartner_order_id(String partner_order_id) {
+		this.partner_order_id = partner_order_id;
+	}
+
+	public void setTourPrice(Integer tourPrice) {
+		this.tourPrice = tourPrice;
+	}
 	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
 		this.reserveNo = reserveNo;
 		this.joinDate = joinDate;
@@ -59,9 +93,6 @@ public class Reservation {
 	}
 
 
-	 public void setTourPrice(String tourPrice) {
-         this.tourPrice = Integer.parseInt(tourPrice);
-}
 
 	
 	public Integer getBreweryNo() {
@@ -115,13 +146,6 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 	}
 
-	public int getTourPrice() {
-		return tourPrice;
-	}
-
-	public void setTourPrice(int tourPrice) {
-		this.tourPrice = tourPrice;
-	}
 
 	public String getEmail() {
 		return email;
@@ -201,8 +225,6 @@ public class Reservation {
 		this.reserveTime = reserveTime;
 	}
 
-
-
 	public String getTourName() {
 		return tourName;
 	}
@@ -235,7 +257,8 @@ public class Reservation {
 				+ ", address=" + address + ", joinDate=" + joinDate + ", phone=" + phone + ", filePath=" + filePath
 				+ ", fileRename=" + fileRename + ", breweryName=" + breweryName + ", breweryNo=" + breweryNo
 				+ ", tourNo=" + tourNo + ", tourName=" + tourName + ", tourContent=" + tourContent + ", timeTaken="
-				+ timeTaken + ", tourPrice=" + tourPrice + "]";
+				+ timeTaken + ", tourPrice=" + tourPrice + ", tid=" + tid + ", partner_order_id=" + partner_order_id
+				+ ", pg_token=" + pg_token + "]";
 	}
 
 }

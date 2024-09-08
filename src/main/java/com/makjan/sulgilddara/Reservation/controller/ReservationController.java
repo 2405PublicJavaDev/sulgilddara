@@ -59,6 +59,7 @@ public class ReservationController {
 			@PathVariable("tourNo") Integer tourNo
 			,@PathVariable("breweryNo")Integer breweryNo) {
 		Tour tour = tService.searchByNo(tourNo);
+		System.out.println("ReservationCOntroller: " + tour);
 //		Brewery brewery = bService.searchOneByNo(breweryNo);
 		session.setAttribute("tour", tour);
 //		session.setAttribute("brewery", brewery);

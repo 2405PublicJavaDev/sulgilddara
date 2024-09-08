@@ -80,16 +80,17 @@ public class KakaoPayService {
         return "/success" ;
     }
 
-	public KakaoPayApproval kakaoPayInfo(String pg_token,HttpSession session
+	public KakaoPayApproval kakaoPayInfo(String pg_token,Reservation reservation
 			) {
-		Reservation reservation = (Reservation)session.getAttribute("reservation");
+		
+//		Reservation reservation = (Reservation)reservation2.getAttribute("reservation");
 		RestTemplate restTemplate = new RestTemplate();
 		// Server Request Header : 서버 요청 헤더
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","SECRET_KEY DEV63545E7C8981F4D5D292ABC6B715669F5DC1F"); // 어드민 키
 //        headers.add("Accept", "application/json");
-        headers.add("Content-Type", "application/json;charset=utf-8");
-        System.out.println("kakaoPayinfo"+ reservation);
+        headers.add("Content-Type", "application/json");
+        System.out.println("kakaoPayinfo 메소드 "+ reservation);
         int totalAmount = reservation.getTourPrice() * reservation.getVisitorNum();
         // Server Request Body : 서버 요청 본문
         Map<String, String> params = new HashMap<String, String>();
@@ -97,20 +98,24 @@ public class KakaoPayService {
         params.put("cid", "TC0ONETIME"); // 가맹점 코드 - 테스트용
         params.put("tid", kakaoPayDTO.getTid());
         params.put("partner_order_id", "1001"); // 주문 번호
-        params.put("partner_user_id",reservation.getUserId() ); // 회원 아이디
+        params.put("partner_user_id",reservation.getUserId()); // 회원 아이디
+        params.put("pg_token", pg_token);
 		params.put("total_amount", String.valueOf(totalAmount));
 		HttpEntity<Map<String, String>> body = new HttpEntity<Map<String, String>>(params, headers);
 
         try {
-            kakaoPayDTO = restTemplate.postForObject(new URI(Host + "/online/v1/payment/ready"), body, KakaoPay.class);
+            kakaoPayDTO = restTemplate.postForObject(new URI(Host + "/online/v1/payment/approve"), body, KakaoPay.class);
             log.info(""+ kakaoPayDTO);
-            return kakaoPayApprovalVO;
-
+            if(kakaoPayDTO != null) {            	
+            	return kakaoPayApprovalVO;
+            }
         } catch (RestClientException e) {
             e.printStackTrace();
+            return null;
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+		return kakaoPayApprovalVO;
 	}
 }

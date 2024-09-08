@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
+import com.makjan.sulgilddara.kakao.model.domain.KakaoPayApproval;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ import lombok.extern.java.Log;
 	    @PostMapping("/kakaoPay")
 	    public  String kakaoPay(@ModelAttribute Reservation reservation,HttpSession session){
 	        log.info("kakaoPay post.....................");
-	        log.info("Controller reservatoin {} "+ reservation);
+	        log.info("Controller reservation {} "+ reservation);
 	        System.out.println("Controller reservation: " + reservation);
 	        session.setAttribute("reservation", reservation);
 	        return "redirect:/kakao/ready"; 
@@ -57,15 +58,22 @@ import lombok.extern.java.Log;
 	    public String kakaoPaySuccess(@RequestParam("pg_token")String pg_token, Model model,
 //	    		@ModelAttribute Reservation reservation,
 	    		HttpSession session) {
-	    	log.info("kakaoPay Success get................");
-	        log.info("kakaoPaySuccess pg_token : " + pg_token);
-	        model.addAttribute("info", kakaoPay.kakaoPayInfo(pg_token,session));
-	        return "kakaoPaySuccess";
-	    }
+//	    	Reservation reservation = (Reservation)session.getAttribute("reservation");
+//	    	log.info("kakaoPay Success get................");
+//	        log.info("kakaoPaySuccess pg_token : " + pg_token);
+//	    
+//	        
+//	            KakaoPayApproval kakaoPayInfo = kakaoPay.kakaoPayInfo(pg_token,reservation);
+//	            System.out.println("kakaoPayinfo이거 맞아요?:" + kakaoPayInfo);
+//	                model.addAttribute("info",kakaoPayInfo);
+	                return "kakaoPaySuccess";
+	
 	    
-	    @GetMapping("/kakaoPayCancel")
-	    public String kakaoPaycancel() {
-	    	return "kakaoPayCancel";
-	    }
+	    
+//	    @GetMapping("/kakaoPayCancel")
+//	    public String kakaoPaycancel() {
+//	    	return "kakaoPayCancel";
+//	    }
 
+}
 }
