@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.makjan.sulgilddara.liquor.model.vo.AiSearchInfo;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
@@ -93,4 +94,10 @@ public interface LiquorMapper {
 	 * @return List<LiquorImage>
 	 */
 	List<LiquorImage> searchImageByLiquorId(int liquorId);
+
+	/**
+	 * AI검색 구현을 위한 정보 조회 Mapper
+	 * @return
+	 */
+	List<AiSearchInfo> getAiSearchInfo();
 }

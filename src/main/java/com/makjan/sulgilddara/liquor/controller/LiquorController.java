@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +20,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.common.utility.Util;
+import com.makjan.sulgilddara.liquor.common.dto.ChatGPTRequest;
+import com.makjan.sulgilddara.liquor.common.dto.ChatGPTResponse;
 import com.makjan.sulgilddara.liquor.model.service.LiquorService;
+import com.makjan.sulgilddara.liquor.model.vo.AiSearchInfo;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
@@ -39,6 +42,14 @@ import com.makjan.sulgilddara.liquor.model.vo.LiquorTagInfo;
 @Controller
 @RequestMapping("/liquor")
 public class LiquorController {
+	
+	@Value("${openai.model}")
+	private String model;
+	
+	@Value("${openai.api.url}")
+	private String apiURL;
+	
+	private RestTemplate template;
 
 	private LiquorService lService;
 	private BreweryService bService;
@@ -47,10 +58,52 @@ public class LiquorController {
 	public LiquorController() {}
 
 	@Autowired
-	public LiquorController(LiquorService lService, BreweryService bService) {
+	public LiquorController(LiquorService lService, BreweryService bService, RestTemplate template) {
 		this.lService = lService;
 		this.bService = bService;
 		this.UPLOAD_DIR = "C:/uploadFile/liquor/";
+		this.template = template;
+	}
+	
+	/**
+	 * Get 메소드의 쿼리 스트링으로 prompt를 보내 OpenAI API로 답변을 받아옴
+	 * @param prompt
+	 * @return
+	 */
+	@GetMapping("/chat")
+    public String chat1(@RequestParam(name = "prompt")String prompt){
+        ChatGPTRequest request = new ChatGPTRequest(model, prompt);
+        ChatGPTResponse chatGPTResponse =  template.postForObject(apiURL, request, ChatGPTResponse.class);
+        System.out.println("답변 : "+chatGPTResponse.getChoices().get(0).getMessage().getContent());
+        return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+    }
+	
+	@ResponseBody
+	@PostMapping("/chat")
+	public String chat(@ModelAttribute LiquorSearchInfo sInfo){
+		List<AiSearchInfo> baseInfo = lService.getAiSearchInfo();
+		String baseString = new String();
+		for(AiSearchInfo info : baseInfo) {
+			baseString += "ID:"+info.getLiquorId()+", "+
+						"상품명:"+info.getLiquorName()+", "+
+						"종류:"+info.getLiquorType()+", "+
+						"도수:"+info.getAlcholContent()+", "+
+						"용량:"+info.getLiquorCapacity()+", "+
+						"가격:"+info.getLiquorPrice()+", "+
+						"태그:"+info.getTags()+"\n";
+		}
+		ChatGPTRequest request = new ChatGPTRequest(model, baseInfo+
+					"위의 목록에서 다음 조건에 가까운 항목을 고르고 선택한 이유를 설명해줘\n"+
+					"가급적이면 술의 종류는 liquorType 에서 골라줘"+
+					"그리고 추천 주류의 링크도 만들어서 보여주는데 링크 형식은 http://127.0.0.1:8888/liquor/detail/${liquorId} 형식이야.\n"+sInfo.getKeyword());
+		ChatGPTResponse chatGPTResponse =  template.postForObject(apiURL, request, ChatGPTResponse.class);
+		System.out.println("답변 : "+chatGPTResponse.getChoices().get(0).getMessage().getContent()+"[답변종료]");
+		return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+	}
+	
+	@GetMapping("/ai-search")
+	public String showAiSearchPage(Model model) {
+		return "liquor/liquorAiSearch";
 	}
 	
 	/**

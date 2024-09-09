@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+import com.makjan.sulgilddara.liquor.model.vo.AiSearchInfo;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
@@ -91,5 +92,11 @@ public interface LiquorService {
 	 * @return List<LiquorImage>
 	 */
 	List<LiquorImage> searchImageByLiquorId(int liquorId);
+
+	/**
+	 * AI검색 구현을 위한 정보 조회 Service
+	 * @return List<AiSearchInfo>
+	 */
+	List<AiSearchInfo> getAiSearchInfo();
 	
 }

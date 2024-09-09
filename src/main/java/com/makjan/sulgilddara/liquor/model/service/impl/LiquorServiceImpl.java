@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.makjan.sulgilddara.liquor.model.mapper.LiquorMapper;
 import com.makjan.sulgilddara.liquor.model.service.LiquorService;
+import com.makjan.sulgilddara.liquor.model.vo.AiSearchInfo;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
@@ -91,6 +92,12 @@ public class LiquorServiceImpl implements LiquorService{
 	public List<LiquorImage> searchImageByLiquorId(int liquorId) {
 		List<LiquorImage> iList = mapper.searchImageByLiquorId(liquorId);
 		return iList;
+	}
+
+	@Override
+	public List<AiSearchInfo> getAiSearchInfo() {
+		List<AiSearchInfo> baseInfo = mapper.getAiSearchInfo();
+		return baseInfo;
 	}
 
 }

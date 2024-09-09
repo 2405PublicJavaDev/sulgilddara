@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>술길따라</title>
+    <link rel="stylesheet" href="/css/liquor/liquorSearch.css">
+    <!-- 태그 라이브러리 다운-->
+		<!-- 소스 다운 -->
+		<script src="https://unpkg.com/@yaireo/tagify"></script>
+		<!-- 폴리필 (구버젼 브라우저 지원) -->
+		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>술길따라</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">술길따라 이야기</a></li>
+                    <li><a href="#">양조장 탐방</a></li>
+                    <li><a href="#">술 도감</a></li>
+                    <li><a href="#">투어 예약</a></li>
+                    <li><a href="#">술 이야기</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="content-wrapper">
+            <main class="main-content">
+                
+				<div class="liquor-grid">
+				    <!-- ai 답변 출력 -->
+				    <span id="ai-answer">
+						
+				    </span>
+				</div>
+                
+            </main>
+            
+            <aside class="sidebar">
+                <form action="/liquor/chat" method="post">
+                    <div class="search-bar">
+                        <input type="text" name="keyword" placeholder="검색">
+                        <button>검색</button>
+                    </div>
+                </form>
+            </aside>
+        </div>
+        
+        <script>
+        	document.addEventListener('DOMContentLoaded', function() {
+        	  const form = document.querySelector('form[action="/liquor/chat"]');
+        	  const aiAnswerElement = document.getElementById('ai-answer');
+
+        	  form.addEventListener('submit', function(e) {
+        	    e.preventDefault(); // Prevent the default form submission
+
+        	    const keyword = form.querySelector('input[name="keyword"]').value;
+        	    
+        	    fetch('/liquor/chat', {
+        	      method: 'POST',
+        	      headers: {
+        	        'Content-Type': 'application/x-www-form-urlencoded',
+        	      },
+        	      body: 'keyword=' + encodeURIComponent(keyword)
+        	    })
+        	    .then(response => response.text())
+        	    .then(data => {
+        	      aiAnswerElement.innerHTML = data;
+        	    })
+        	    .catch(error => {
+        	      console.error('Error:', error);
+        	      aiAnswerElement.innerHTML = 'An error occurred while fetching the response.';
+        	    });
+        	  });
+        	});
+        </script>
+        
+        <footer class="footer">
+            <nav>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">사이트맵</a></li>
+                </ul>
+            </nav>
+            <div class="company-info">
+                <p>상호 : 술길따라 | 대표이사 : 김정욱 | 설립일 : 2024년 8월 26일 | 개인정보관리책임자 : 홍예은</p>
+                <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
+            </div>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><div class="icon facebook"></div></a>
+                <a href="#" aria-label="Instagram"><div class="icon instagram"></div></a>
+            </div>
+            <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
+        </footer>
+    </div>
+</body>
+</html>
