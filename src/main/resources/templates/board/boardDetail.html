@@ -24,9 +24,9 @@
 	</head>
 	<body>
 		<h1>술 이야기 상세</h1>
-		<button type="button" th:onclick="showModifyPage();">수정하기</button>
+		<button type="button" th:onclick="showModifyPage(/*[[${board.boardNo}]]*/);">수정하기</button>
 		<button type="button" th:onclick="goBack();">뒤로가기</button>
-		<div><a href="#" th:text="${board.liquorId}"></a> <span th:text="${board.boardSubject}">게시글 제목</span></div>
+		<div><a href="#" th:text="${board.liquorName}"></a> <span th:text="${board.boardSubject}">게시글 제목</span></div>
 		태그
 		<a th:each="bTag : ${bTagList}" th:if="${bTag.boardNo == board.boardNo}" th:text="${bTag.boardTagName}" th:href="@{/board/searchTag_listCard(cp=1, searchMethod=tagSearch, orderSelectBox=latest, tagName=${bTag.boardTagName})}"></a>
 		
@@ -43,11 +43,11 @@
 		
 		<button type="button" onclick="location.replace('/board/listCard');">목록</button>
 		
-		<th:block th:if="prevBoard != null">
-			<a th:text="이전글" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a><a th:text="${prevBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a>
+		<th:block th:if="${prevBoard != null}">
+			<a th:text="이전글" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${prevBoard.boardNo}, viewStatus='yes')}"></a><a th:text="${prevBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${prevBoard.boardNo}, viewStatus='yes')}"></a>
 		</th:block>
-		<th:block th:if="nextBoard != null">
-			<a th:text="다음글" th:href="@{/board/detailPage/{boardNo}(boardNo=${nextBoard.boardNo})}"></a><a th:text="${nextBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}(boardNo=${prevBoard.boardNo})}"></a>
+		<th:block th:if="${nextBoard != null}">
+			<a th:text="다음글" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${nextBoard.boardNo}, viewStatus='yes')}"></a><a th:text="${nextBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${nextBoard.boardNo}, viewStatus='yes')}"></a>
 		</th:block>
 		
 		
@@ -61,22 +61,27 @@
 		
 		<div id="replyListContainer">
 			<div id="replyTotalCount" th:text="${'총 '+replyTotalCount + '개의 댓글'}"></div>
-			<div th:if="${!replyList.isEmpty()}" id="replyOneContainer" th:each="reply : ${replyList}">
+			<div th:if="${!boardReplyUserList.isEmpty()}" id="replyOneContainer" th:each="reply : ${boardReplyUserList}">
 				<div>
-<!-- 				boardNo는 ajax를 통해 호출된 컨트롤러에서 model로 전달되는 값 -> board.boardNo를 의미하고있음 -->
-					<div th:if="${userId == reply.userId}"> 
+<!-- 				userId는 ajax를 통해 호출된 컨트롤러에서 model로 전달되는 값 -> board.userId를 의미하고있음 -->
+					<div th:if="${loginUserId == reply.userId}">
 						<button type="button" th:onclick="convertUpdateMode(/*[[${reply.replyNo}]]*/);">수정</button>
-						<button type="button" th:onclick="removeReply(/*[[${reply.replyNo}]]*/);">삭제</button>
+						<button type="button" th:onclick="if(confirm('정말 삭제하시겠습니까?')) removeReply(/*[[${reply.replyNo}]]*/);">삭제</button>
 					</div>
-					<div th:text="프로필사진">프로필사진</div>
 					<div>
-						<div th:text="${reply.replyWriter}"></div>
+					<th:block  th:if="${reply.kakaoProfile == null and reply.userFileRename != null}">
+						<img alt="프로필" th:src="@{|${reply.userFilePath}/${reply.userFileRename}}|">
+					</th:block>
+						<img th:if="${reply.kakaoProfile != null}" alt="프로필" th:src="${reply.kakaoProfile}">
+					</div>
+					<div>
+						<div th:text="${reply.userName}"></div>
 						<div th:text="${reply.rUpdateDate}"></div>
 					</div>
 				</div>
 				
-				<input th:id="'reply'+${reply.replyNo}" th:if="${userId == reply.userId}" th:value="${reply.replyContent}" disabled="disabled">
-				<div th:id="${reply.replyNo}" th:if="${userId != reply.userId}" th:text="${reply.replyContent}"></div>
+				<input th:id="'reply'+${reply.replyNo}" th:if="${loginUserId == reply.userId}" th:value="${reply.replyContent}" disabled="disabled">
+				<div th:id="${reply.replyNo}" th:if="${loginUserId != reply.userId}" th:text="${reply.replyContent}"></div>
 				
 			</div>
 			
@@ -84,8 +89,8 @@
 		
 		<script th:inline="javascript">
 			// 수정 페이지 이동 버튼
-			function showModifyPage(){
-				location.href=location.pathname.replace("detail", "modify");
+			function showModifyPage(boardNo){
+				location.href="/board/modifyPage/"+boardNo;
 			}
 			// 뒤로가기 버튼
 			function goBack(){
@@ -107,7 +112,6 @@
 					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
 						if(data == "success"){
 							// 리스트 초기화
-							getReplyList();
 							getReplyList();
 							// 댓글작성란 초기화
 							document.querySelector('#replyAddContent').value="";
@@ -153,6 +157,7 @@
 						console.log('성공?');
 						$('#replyListContainer').replaceWith(data);
 						let totalCount = /*[[${replyTotalCount}]]*/;
+						console.log("성??공??")
 					},
 					error : function(){
 						console.log("서버 전송 실패");
@@ -161,6 +166,8 @@
 				});
 			}
 			
+			
+			// 댓글 삭제
 			function removeReply(replyNo){
 				$.ajax({
 					url : "/board/replyDelete",
@@ -173,7 +180,6 @@
 							console.log("delete sucess");
 							getReplyList();
 						}
-						
 					},
 					error : function(){
 						console.log("서버 전송 실패");
@@ -182,9 +188,12 @@
 			}
 			
 			// 토글 변수
+			
 			function convertUpdateMode(replyNo){
-				// update버튼 토글
+				console.log(replyNo);
 				let replyInput = document.querySelector('#reply'+replyNo);
+				// update버튼 토글
+				console.log(replyInput);
 				replyInput.disabled = !replyInput.disabled;
 				if(replyInput.disabled){
 					

@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardReply;
+import com.makjan.sulgilddara.board.model.vo.BoardReplyUser;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
+import com.makjan.sulgilddara.board.model.vo.SearchLiquor;
 
 public interface BoardService {
 	/**
@@ -158,6 +160,30 @@ public interface BoardService {
 	 * @return
 	 */
 	int increaseViewCount(Integer boardNo);
+
+	/**
+	 * 술 검색 
+	 * @return
+	 */
+	List<SearchLiquor> searchLiquorList(String liquorName);
+
+	/**
+	 * 최소 게시글 번호
+	 * @return
+	 */
+	int getMinBoardNo();
+
+	/**
+	 * 최개 게시글 번호
+	 * @return
+	 */
+	int getMaxBoardNo();
+
+	/**
+	 * 댓글 유저 정보 리스트 조회
+	 * @return
+	 */
+	List<BoardReplyUser> selectBoardReplyUser(Integer boardNo);
 
 	
 }

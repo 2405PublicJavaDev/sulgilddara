@@ -8,7 +8,7 @@
 		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
 			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, 1, #{boardPoint}, #{liquorId}, 1)
+		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, #{viewCount}, #{boardPoint}, #{liquorId}, #{userId}, #{liquorName})
   	</insert>
   
   	
@@ -21,7 +21,7 @@
   	</insert>
   	
   	<update id="updateBoard">
-		UPDATE BOARD_TBL SET BOARD_SUBJECT=#{boardSubject}, BOARD_CONTENT=#{boardContent}, UPDATE_DATE=DEFAULT, BOARD_POINT=#{boardPoint}, LIQUOR_ID=#{liquorId} WHERE BOARD_NO=#{boardNo}
+		UPDATE BOARD_TBL SET BOARD_SUBJECT=#{boardSubject}, BOARD_CONTENT=#{boardContent}, UPDATE_DATE=DEFAULT, BOARD_POINT=#{boardPoint}, LIQUOR_ID=#{liquorId}, LIQUOR_NAME=#{liquorName} WHERE BOARD_NO=#{boardNo}
   	</update>
   	
   	<update id="updateBoardFile">
@@ -177,5 +177,23 @@
 	<update id="increaseViewCount">
 		UPDATE BOARD_TBL SET VIEW_COUNT = VIEW_COUNT+1 WHERE BOARD_NO=#{boardNo}
 	</update>
+	
+	<select id="searchLiquorList" resultType="SearchLiquor">
+		SELECT * FROM LIQUOR_TBL JOIN LIQUOR_IMAGE_TBL USING(LIQUOR_ID) WHERE LIQUOR_NAME LIKE '%'||#{liquorName}||'%'
+	</select>
+	
+	<select id="getMinBoardNo" resultType="_int">
+		SELECT MIN(BOARD_NO) FROM BOARD_TBL
+	</select>
+	<select id="getMaxBoardNo" resultType="_int">
+		SELECT MAX(BOARD_NO) FROM BOARD_TBL
+	</select>
+	
+	<select id="selectBoardReplyUser" resultType="BoardReplyUser">
+		SELECT * FROM USER_TBL 
+		LEFT JOIN USER_FILE_TBL USING(USER_ID) 
+		LEFT JOIN BOARD_REPLY_TBL USING(USER_ID)
+		WHERE BOARD_NO=#{boardNo} ORDER BY R_UPDATE_DATE
+	</select>
   </mapper>
   

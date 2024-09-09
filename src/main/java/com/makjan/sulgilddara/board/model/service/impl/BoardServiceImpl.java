@@ -14,7 +14,9 @@ import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardReply;
+import com.makjan.sulgilddara.board.model.vo.BoardReplyUser;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
+import com.makjan.sulgilddara.board.model.vo.SearchLiquor;
 import com.makjan.sulgilddara.model.vo.Pagination;
 
 @Service
@@ -190,6 +192,30 @@ public class BoardServiceImpl implements BoardService{
 	public int increaseViewCount(Integer boardNo) {
 		int result = bMapper.increaseViewCount(boardNo);
 		return result;
+	}
+
+	@Override
+	public List<SearchLiquor> searchLiquorList(String liquorName) {
+		List<SearchLiquor> searchLiquorResult = bMapper.searchLiquorList(liquorName);
+		return searchLiquorResult;
+	}
+
+	@Override
+	public int getMinBoardNo() {
+		int minBoardNo = bMapper.getMinBoardNo();
+		return minBoardNo;
+	}
+
+	@Override
+	public int getMaxBoardNo() {
+		int maxBoardNo = bMapper.getMaxBoardNo();
+		return maxBoardNo;
+	}
+
+	@Override
+	public List<BoardReplyUser> selectBoardReplyUser(Integer boardNo) {
+		List<BoardReplyUser> boardReplyUserList = bMapper.selectBoardReplyUser(boardNo);
+		return boardReplyUserList;
 	}
 
 	

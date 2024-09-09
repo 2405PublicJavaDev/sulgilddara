@@ -10,7 +10,9 @@ import org.apache.ibatis.session.RowBounds;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.board.model.vo.BoardReply;
+import com.makjan.sulgilddara.board.model.vo.BoardReplyUser;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
+import com.makjan.sulgilddara.board.model.vo.SearchLiquor;
 
 @Mapper
 public interface BoardMapper {
@@ -166,6 +168,31 @@ public interface BoardMapper {
 	 * @return
 	 */
 	int increaseViewCount(Integer boardNo);
+
+	/**
+	 * 술 키워드 검색
+	 * @param liquorName
+	 * @return
+	 */
+	List<SearchLiquor> searchLiquorList(String liquorName);
+
+	/**
+	 * 최소 게시글 번호
+	 * @return
+	 */
+	int getMinBoardNo();
+
+	/**
+	 * 최대 게시글 번호
+	 * @return
+	 */
+	int getMaxBoardNo();
+
+	/**
+	 * 댓글 유저 정보 리스트 조회
+	 * @return
+	 */
+	List<BoardReplyUser> selectBoardReplyUser(Integer boardNo);
 
 	
 
