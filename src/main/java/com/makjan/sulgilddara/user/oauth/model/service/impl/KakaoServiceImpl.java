@@ -6,34 +6,24 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.makjan.sulgilddara.user.model.mapper.UserMapper;
 import com.makjan.sulgilddara.user.model.vo.User;
-import com.makjan.sulgilddara.user.oauth.model.rep.KakaoRepository;
 import com.makjan.sulgilddara.user.oauth.model.service.KakaoService;
-import com.makjan.sulgilddara.user.oauth.model.vo.Kakaouser;
+
 
 @Service
 public class KakaoServiceImpl implements KakaoService {
 
     @Autowired
-    // KakaoRepository kakaoRepository;
     private UserMapper mapper;
-
+    
     @Override
     public String getToken(String code) throws Exception {
         String access_Token = "";
@@ -41,7 +31,6 @@ public class KakaoServiceImpl implements KakaoService {
         final String requestUrl = "https://kauth.kakao.com/oauth/token";
 
         URL url = new URL(requestUrl);
-
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setDoOutput(true);
@@ -75,7 +64,7 @@ public class KakaoServiceImpl implements KakaoService {
     }
     
     @Override
-    public void handleUserInfo(String access_token) throws Exception {
+    public User handleUserInfo(String access_token) throws Exception {
         final String requestUrl = "https://kapi.kakao.com/v2/user/me";
 
         URL url = new URL(requestUrl);
@@ -97,11 +86,13 @@ public class KakaoServiceImpl implements KakaoService {
         JsonElement element = parser.parse(result);
 
         JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+        JsonObject profile = kakao_account != null ? kakao_account.getAsJsonObject("profile") : null;
 
         String name = kakao_account.getAsJsonObject().get("name").getAsString();
         String account_email = kakao_account.getAsJsonObject().get("email").getAsString();
-        //String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
+        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
         String phone_number = kakao_account.getAsJsonObject().get("phone_number").getAsString();
+        String profileImageUrl = profile != null ? profile.get("profile_image_url").getAsString() : null;
 
         // User 객체 생성
         User user = new User();
@@ -109,89 +100,65 @@ public class KakaoServiceImpl implements KakaoService {
         user.setUserPw("kakaouser!1234"); // 비밀번호는 기본값 설정, 필요시 추가 처리
         user.setUserName(name);
         user.setEmail(account_email);
-        //user.setGender(gender);
+        user.setGender(gender);
         user.setPhone(phone_number);
-        user.setAddress("제주특별자치도 제주시 첨단로 242"); // 필요시 주소를 추가하세요
+        user.setLoginType("KAKAO");
+        user.setKakaoProfile(profileImageUrl);
         
-     // 값을 로그로 출력하여 확인
         System.out.println("UserId: " + user.getUserId());
         System.out.println("UserPw: " + user.getUserPw());
         System.out.println("UserName: " + user.getUserName());
         System.out.println("Email: " + user.getEmail());
         System.out.println("Gender: " + user.getGender());
         System.out.println("Phone: " + user.getPhone());
-        System.out.println("Address: " + user.getAddress());
-
+        System.out.println("LoginType: " + user.getLoginType());
+        System.out.println("KakaoProfile: " + user.getKakaoProfile());
         
         // USER_TBL에 저장
         mapper.registerUser(user);
-        
+		return user;
+
     }
 
-    public void logout(String accessToken) throws Exception {
-        String url = "https://kapi.kakao.com/v1/user/logout";
+    @Override
+    public void unlink(String accessToken) throws Exception {
+        final String UNLINK_URL = "https://kapi.kakao.com/v1/user/unlink";
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
+        URL url = new URL(UNLINK_URL);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        // 타임아웃 설정 
+        con.setConnectTimeout(5000);
+        con.setReadTimeout(5000);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        // 응답 처리
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
 
-        if (response.getStatusCode() != HttpStatus.OK) {
-            throw new Exception("Failed to log out from Kakao");
+        } else {
+            BufferedReader errorIn = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            String errorLine;
+            StringBuilder errorResponse = new StringBuilder();
+            
+            while ((errorLine = errorIn.readLine()) != null) {
+                errorResponse.append(errorLine);
+            }
+            errorIn.close();
+//            System.out.println("Access Token: " + accessToken);
+//            System.out.println("Error Response: " + errorResponse.toString());
+//            throw new Exception("카카오 계정 연동 해제 실패. 응답 코드: " + responseCode);
         }
     }
 
-	
-    
-//    @Override
-//    public ArrayList<Object> getUserInfo(String access_token) throws Exception {
-//        ArrayList<Object> list = new ArrayList<>();
-//
-//        final String requestUrl = "https://kapi.kakao.com/v2/user/me";
-//
-//        URL url = new URL(requestUrl);
-//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//        con.setRequestMethod("GET");
-//        con.setRequestProperty("Authorization", "Bearer " + access_token);
-//
-//        BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//        String line;
-//        String result = "";
-//
-//        while ((line = bf.readLine()) != null) {
-//            result += line;
-//        }
-//
-//        System.out.println("카카오 유저 정보 응답: " + result);
-//
-//        JsonParser parser = new JsonParser();
-//        JsonElement element = parser.parse(result);
-//
-//        JsonObject jsonObject = element.getAsJsonObject();
-//        JsonObject properties = jsonObject.has("properties") ? jsonObject.get("properties").getAsJsonObject() : new JsonObject();
-//        JsonObject kakao_account = jsonObject.has("kakao_account") ? jsonObject.get("kakao_account").getAsJsonObject() : new JsonObject();
-//
-//        System.out.println("----------properties" + properties);
-//        System.out.println("----------kakao_account" + kakao_account);
-//
-//        String profile_image = properties.has("profile_image") ? properties.get("profile_image").getAsString() : "";
-//        String name = kakao_account.has("name") ? kakao_account.get("name").getAsString() : "";
-//        String account_email = kakao_account.has("email") ? kakao_account.get("email").getAsString() : "";
-//        String gender = kakao_account.has("gender") ? kakao_account.get("gender").getAsString() : "";
-//        String phone_number = kakao_account.has("phone_number") ? kakao_account.get("phone_number").getAsString() : "";
-//
-////        list.add(profile_image);
-////        list.add(name);
-////        list.add(account_email);
-////        list.add(gender);
-////        list.add(phone_number);
-////
-////        Kakaouser kakaouser = new Kakaouser(name, "1234", name, account_email, gender, phone_number);
-////        kakaoRepository.save(kakaouser);
-//
-//        return list;
-//    }
+
 }

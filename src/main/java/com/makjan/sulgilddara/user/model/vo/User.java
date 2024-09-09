@@ -36,8 +36,7 @@ public class User {
 	private String email;
 	private String isAdmin;
 	// 로그인타입 
-	private LoginType loginType;
-	private String providerId;
+	private String loginType;
 	private String gender;
 	private String phone;
 	private String address;
@@ -45,4 +44,6 @@ public class User {
 	private Timestamp updateDate;
 	// 프로필 사진
 	private UserFile userFile;
+	// 카카오톡 프로필 사진 URL 
+    private String kakaoProfile;
 }
