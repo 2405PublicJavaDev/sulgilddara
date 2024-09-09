@@ -29,17 +29,10 @@
         
         <div class="content-wrapper">
             <main class="main-content">
-                <div class="filter-bar">
-                    <button class="active">술이름검색</button>
-                    <button>양조장</button>
-                    <button>지역</button>
-                    <button>주종별</button>
-                    <button>기타</button>
-                </div>
                 
 				<div class="liquor-grid">
 				    <!-- Thymeleaf로 반복 처리 -->
-				    <div th:each="liquor, iterStat : ${liquorList}" class="liquor-item">
+				    <div th:each="liquor, iterStat : ${liquorList}" class="liquor-item" th:onclick="'window.location.href=\'' + @{/liquor/detail/{id}(id=${liquor.liquorId})} + '\''">
 						<div class="liquor-image" th:style="${'background-image: url(' + (#lists.isEmpty(imgList[iterStat.index]) ? 
 																							'/img/liquor/empty_bottle.png' : 
 																							(imgList[iterStat.index][0].filePath + imgList[iterStat.index][0].fileRename)) + 
@@ -49,8 +42,8 @@
 				            <div class="rating" th:text="${liquor.avgPoint}">5.0</div>
 				            <h3 th:text="${liquor.liquorName}">술이름</h3>
 				            <div class="type" th:text="${liquor.liquorType}">주종</div>
-							<ul class="tags">
-								<li th:each="tag : ${tagList[iterStat.index]}" th:text="${tag.tagName}+'('+${tag.tagCount}+')'"></li>
+							<ul class="tags tag-container">
+								<li th:each="tag : ${tagList[iterStat.index]}" th:text="${tag.tagName}+'('+${tag.tagCount}+')'" class="tag-item"></li>
 			                </ul>	
 				            <div class="stats">
 				                <span class="reviews" th:text="'★리뷰수 : '+${liquor.reviewCount}">★리뷰수</span>

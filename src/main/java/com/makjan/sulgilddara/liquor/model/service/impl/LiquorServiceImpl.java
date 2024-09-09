@@ -100,4 +100,10 @@ public class LiquorServiceImpl implements LiquorService{
 		return baseInfo;
 	}
 
+	@Override
+	public int detailSearchTotalCount(Map<String, Object> searchMap) {
+		int count = mapper.detailSearchTotalCount(searchMap);
+		return count;
+	}
+
 }

@@ -1,52 +1,108 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>주류정보 목록</title>
-		<link rel="stylesheet" href="/css/main.css">
-	</head>
-	<body>
-		<h1>주류 목록</h1>
-		<table>
-			<!-- 테이블 헤드 영역 : 각 정보의 항목명이 표기됨 -->
-			<thead>
-				<tr>
-					<th>ID</th>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>술길따라 - 주류 목록</title>
+    <link rel="stylesheet" th:href="@{/css/liquor/liquorList.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>술길따라</h1>
+            <div class="user-menu">
+                <div class="user-icon"></div>
+                <button class="menu-button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#">회원 목록</a></li>
+                <li><a href="#">양조장 정보</a></li>
+                <li><a href="#">술 정보</a></li>
+                <li><a href="#">투어 정보</a></li>
+                <li><a href="#">예약 정보</a></li>
+                <li><a href="#">리뷰리스트</a></li>
+            </ul>
+        </nav>
+
+        <div class="search-filters">
+            <input type="text" placeholder="양조장">
+            <input type="text" placeholder="술이름">
+            <select>
+                <option>지역</option>
+                <option>지역별목록</option>
+            </select>
+            <select>
+                <option>주종</option>
+                <option>주종별목록</option>
+            </select>
+            <button class="search-button">검색</button>
+        </div>
+
+        <table class="liquor-table">
+            <thead>
+                <tr>
+                    <th>이미지</th>
+                    <th>ID</th>
 					<th>제품명</th>
-					<th>알콜함량</th>
+					<th>도수</th>
 					<th>주종</th>
 					<th>가격</th>
-					<th>병입용량</th>
-					<th>등록일시</th>
-					<th>수정일시</th>
+					<th>용량</th>
 					<th>양조장ID</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="liquor : ${lList }">
-					<td>[[${liquor.liquorId }]]</td>
+					<th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="liquor, iterStat : ${lList}">
+                    <td><div class="liquor-image"  th:style="${'background-image: url(' + (#lists.isEmpty(imgList[iterStat.index]) ? 
+																							'/img/liquor/empty_bottle.png' : 
+																							(imgList[iterStat.index][0].filePath + imgList[iterStat.index][0].fileRename)) + 
+																							'); background-size: cover; background-position: center;'}"></div></td>
+					<td>[[${liquor.liquorId}]]</td>
 					<td><a th:href="@{/liquor/detail/{id}(id=${liquor.liquorId})}" th:text="${liquor.liquorName}"></a></td>
-					<td>[[${liquor.alcholContent}]]</td>
+                    <td>[[${liquor.alcholContent}]]</td>
 					<td>[[${liquor.liquorType }]]</td>
 					<td>[[${liquor.liquorPrice }]]</td>
 					<td>[[${liquor.liquorCapacity }]]</td>
-					<td>[[${liquor.lCreateDate }]]</td>
-					<td>[[${liquor.lUpdateDate }]]</td>
 					<td>[[${liquor.breweryId }]]</td>
-					<td><button onclick="location.href=this.getAttribute('data-href')" th:attr="data-href=@{/liquor/update/{id}(id=${liquor.liquorId})}">수정</button></td>
-					<td><button th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\''" type="button">삭제</button></td>
-				</tr>
-			</tbody>
-			<tfoot>
+                    <td>
+                        <button class="edit-button">수정</button>
+                        <button class="delete-button">삭제</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
 				<tr align="center">
-					<td colspan="5">
+					<td colspan="11" id="pagination">
 						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
-							<a th:href="@{/liquor/liquorList(cp=${p})}" th:text="${p}"></a>
+					        <span th:if="${p == cp}" th:text="${p}"></span>
+					        <a th:unless="${p == cp}" th:href="@{/liquor/list(cp=${p})}" th:text="${p}"></a>
 						</th:block>
 					</td>
 				</tr>
 			</tfoot>
-		</table>
-		<button onclick="location.href='/liquor/add'">등록</button>
-	</body>
+        </table>
+
+
+        <button class="register-button">등록</button>
+
+        <footer>
+            <p>이용약관 | 개인정보처리방침 | 사이트맵</p>
+            <p>상호 : 술길따라 | 대표이사 : 김정욱 | 설립일 : 2024년 8월 26일 | 개인정보관리책임자 : 홍예운</p>
+            <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
+            <div class="social-icons">
+                <a href="#" class="facebook-icon"></a>
+                <a href="#" class="instagram-icon"></a>
+            </div>
+            <p>Copyright 2024 Sulgildara Inc. | All Rights Reserved</p>
+        </footer>
+    </div>
+</body>
 </html>

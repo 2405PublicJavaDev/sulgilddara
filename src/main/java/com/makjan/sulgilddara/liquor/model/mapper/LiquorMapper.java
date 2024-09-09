@@ -100,4 +100,11 @@ public interface LiquorMapper {
 	 * @return
 	 */
 	List<AiSearchInfo> getAiSearchInfo();
+
+	/**
+	 * 상세검색 조회 수 Mapper
+	 * @param searchMap
+	 * @return
+	 */
+	int detailSearchTotalCount(Map<String, Object> searchMap);
 }

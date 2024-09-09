@@ -98,5 +98,12 @@ public interface LiquorService {
 	 * @return List<AiSearchInfo>
 	 */
 	List<AiSearchInfo> getAiSearchInfo();
+
+	/**
+	 * 상세검색 조회 수 Service
+	 * @param searchMap
+	 * @return
+	 */
+	int detailSearchTotalCount(Map<String, Object> searchMap);
 	
 }
