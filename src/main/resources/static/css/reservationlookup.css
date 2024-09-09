@@ -11,9 +11,11 @@ body, html {
 }
 
 main {
-	max-width: 1200px;
-	margin: 0 auto;
+	max-width: 500px;
+	max-height: 500px; 
+	margin : 0 auto;
 	padding: 20px;
+	margin: 0 auto;
 }
 
 header {
@@ -65,30 +67,38 @@ nav ul li a {
 	width: 30px;
 	height: 30px;
 }
-/* /*  */ */
-.searchArea {
-	background-color: #f0f0f0;
-	padding: 20px;
+/* /*  */
+* /
+.Title h1 {
+	text-align: center;
+}
+
+.content {
+	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
-.searchDiv {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 10px;
+.reserveNoInput {
+	margin: 10px 0;
+	height: 150px;
 }
 
-input[type="text"], select {
-	padding: 5px;
-	width: 200px;
+input[type="text"] {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	outline: none;
+	border-width: 0;
 }
 
 button {
-	padding: 5px 15px;
-	background-color: #4CAF50;
-	color: white;
-	border: none;
+	padding: 8px 15px;
+	margin-right: 10px;
 	cursor: pointer;
+}
+
+.reserveResult {
+	display: none;
 }
 
 table {
@@ -106,13 +116,14 @@ th {
 	background-color: #f2f2f2;
 }
 
-.pagination {
+.Title {
 	text-align: center;
-	margin-top: 20px;
 }
 
-.pagination a {
-	padding: 5px 10px;
-	text-decoration: none;
-	color: black;
+.button-container {
+	text-align: right;
+	margin-top: 20px;
+}
+#reserveNo{
+	font-size:15px;
 }

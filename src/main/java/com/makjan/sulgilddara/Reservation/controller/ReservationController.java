@@ -202,7 +202,7 @@ public class ReservationController {
 		List<Reservation> rList = rService.SearchInfo(param);
 		model.addAttribute("rList", rList);
 		model.addAttribute("reserveNo", reserveNo);
-		return "reservation/reservationlookup";
+		return "reservation/reservationlookupResult";
 	}
 
 	@GetMapping("/reservation/searchResultAdmin")

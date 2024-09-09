@@ -35,8 +35,10 @@
  ,DEFAULT,#{select tour_price from tour_tbl where tour_no=#{tourNo}},#{tourNo},#{breweryNo})-->
  
 INSERT INTO reservation_tbl VALUES (
-    #{reservation.reserveNo}, #{reservation.userId}, #{reservation.visitorNum}, #{reservation.reserveDate}, #{reservation.reserveTime}, #{reservation.emergencyPhone},
-    (SELECT brewery_name FROM brewery_tbl WHERE brewery_no = #{tour.breweryNo}),DEFAULT,(SELECT TOUR_PRICE FROM TOUR_TBL WHERE TOUR_NO=#{tour.tourNo}),
+    #{reservation.reserveNo}, #{reservation.userId}, #{reservation.visitorNum}, #{reservation.reserveDate},
+     #{reservation.reserveTime},#{reservation.emergencyPhone},
+    (SELECT brewery_name FROM brewery_tbl WHERE brewery_no = #{tour.breweryNo}),DEFAULT,
+    (SELECT TOUR_PRICE FROM TOUR_TBL WHERE TOUR_NO=#{tour.tourNo}),
     (SELECT tour_no FROM tour_tbl WHERE brewery_no = #{tour.breweryNo}),#{tour.breweryNo},#{tour.tourName})
 
 
