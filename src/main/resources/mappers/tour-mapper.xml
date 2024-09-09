@@ -22,7 +22,7 @@
 	  	SELECT * FROM TOUR_TBL WHERE BREWERY_NO=#{breweryNo}
 	  </select>
 	  <select id="searchOneByNo" resultType="Tour">
-	  	SELECT * FROM TOUR_TBL WHERE TOUR_NO=#{tourNo}
+	  SELECT * FROM TOUR_TBL join brewery_tbl using(brewery_no) WHERE TOUR_No=#{tourNo};
 	  </select>
 	  <update id="updateTour">
 	  	UPDATE TOUR_TBL
@@ -39,4 +39,16 @@
 	  	DELETE FROM TOUR_TBL
 	  	WHERE TOUR_NO=#{tourNo}
 	  </delete>
+	  <select id="searchByNo" resultType="Tour">
+	  SELECT * FROM TOUR_TBL join brewery_tbl using(brewery_no)
+	  WHERE TOUR_NO=#{tourNo}
+	  </select>
+	  
+	  <select id="ShowInfoByNo" resultType="Tour">
+	  	SELECT * FROM TOUR_TBL JOIN BREWERY_TBL USING(BREWERY_NO) WHERE TOUR_NO=#{tourNo} AND BREWERY_NO=#{breweryNo}
+	  </select>
+	  
+	  <select id="searchByInfo" resultType="Tour">
+	  	SELECT * FROM TOUR_TBL JOIN BREWERY_TBL USING(BREWERY_NO) WHERE TOUR_NO=#{tourNo} AND BREWERY_NO=#{breweryNo}
+	  </select>
   </mapper>

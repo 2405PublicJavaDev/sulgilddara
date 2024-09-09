@@ -91,9 +91,9 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public Liquor selectLiquirListById(Integer breweryNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Liquor> selectLiquorByNo(Integer breweryNo) {
+		List<Liquor> lList = mapper.searchLiquorByNo(breweryNo);
+		return lList;
 	}
 
 	@Override
@@ -145,6 +145,24 @@ public class BreweryServiceImpl implements BreweryService{
 	public List<Brewery> searchBreweryByLocal(String local) {
 		List<Brewery> localList = mapper.selectLocalList(local);
 		return localList;
+	}
+
+	@Override
+	public List<Brewery> selectThreeBrewery() {
+		List<Brewery> bList = mapper.selectThreeBrewery();
+		return bList;
+	}
+
+	@Override
+	public List<BreweryTag> showAllTag() {
+		List<BreweryTag> tList = mapper.selectAllTag();
+		return tList;
+	}
+
+	@Override
+	public List<Brewery> searchBreweryByTag(String tagName) {
+		List<Brewery> bList = mapper.selectTagList(tagName);
+		return bList;
 	}
 	
 	

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>양조장 전체 리스트</title>
+	</head>
+	<body>
+		<h1>양조장 목록</h1>
+		<form action="/brewery/admin/search" method="post">
+		<table>
+        <tr>
+            <td>
+                <!-- 검색 조건 선택 드롭다운 -->
+                <select name="searchCondition" onchange="this.form.submit()">
+                    <option value="brewery" th:selected="${searchCondition == 'brewery'}">양조장</option>
+                    <option value="local" th:selected="${searchCondition == 'local'}">지역</option>
+                </select>
+            </td>
+            <td>
+                <!-- 검색 조건에 따라 적절한 입력 필드 표시 -->
+                <div th:if="${searchCondition == 'local'}">
+                    <select name="searchKeyword">
+                        <option value="sudo">수도권</option>
+                        <option value="gang">강원</option>
+                        <option value="chung">충청</option>
+                        <option value="gyeong">경상</option>
+                        <option value="jeoll">전라</option>
+                        <option value="jeju">제주</option>
+                    </select>
+                </div>
+                <div th:if="${searchCondition != 'local'}">
+                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" th:value="${searchKeyword}">
+                </div>
+            </td>
+            <td>
+                <!-- 검색 버튼 -->
+                <input type="submit" value="검색">
+				<button type="button" th:onclick="goInsert()">양조장 등록</button>
+            </td>
+        </tr>
+    </table>
+	    <table>
+	        <thead>
+	            <tr>
+	            	<th>번호</th>
+	                <th>양조장명</th>
+	                <th>지역</th>
+	                <th>수정일시</th>
+	                <th>수정</th>
+	                <th>삭제</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="brewery : ${bList}">
+	            	<td th:text="${brewery.breweryNo}"></td>
+	                <td th:text="${brewery.breweryName}"></td>
+	                <td th:text="${brewery.breweryLocal == 'sudo' ? '수도권' : brewery.breweryLocal == 'gang' ? '강원' : brewery.breweryLocal == 'chung' ? '충청' : brewery.breweryLocal == 'gyeong' ? '경상' : brewery.breweryLocal == 'jeoll' ? '전라' : brewery.breweryLocal == 'jeju' ? '제주' : brewery.breweryLocal}"></td>
+	                <td th:text="${brewery.bUpdateDate}"></td>
+		      	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
+	            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
+	        	</tr>
+	    	</tbody>
+			<tfoot>
+				<tr align="center">
+					<td colspan="5">
+						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
+							<a th:href="@{/brewery/admin/list(cp=${p})}" th:text="${p}"></a>
+						</th:block>
+					</td>
+			</tfoot>
+		</table>
+	</form>
+	</body>
+	<script th:inline="javascript">
+	    function modifyBrewery(breweryNo) {
+	        console.log(breweryNo);
+	        location.href = "/brewery/admin/update/" + breweryNo;
+	    }
+	    function deleteBrewery(breweryNo) {
+	        console.log(breweryNo);
+	        if (confirm("정말 삭제하시겠습니까?")) {
+	            location.href = "/brewery/admin/delete/" + breweryNo;
+	        }
+	    }
+	    function goInsert() {
+	    	location.href = "/brewery/admin/write";
+	    }
+	</script>
+</html>

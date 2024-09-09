@@ -1,0 +1,153 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	background-color: white;
+	padding: 20px;
+}
+
+.header-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 90vw;
+	margin: 0 auto;
+	margin-bottom: 25px;
+}
+
+h1 {
+	font-size: 3rem;
+	font-weight: 800;
+}
+
+nav ul {
+	list-style-type: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	gap: 10px;
+}
+
+nav ul li a {
+	text-decoration: none;
+	color: black;
+	/* font-size: 1.2rem; */
+	font-size: 18px;
+}
+
+.user-actions {
+	display: flex;
+	/* gap: 20px; */
+}
+
+.icon-user, .icon-menu {
+	width: 50px;
+	height: 50px;
+	/* background-color: #D9D9D9; */
+}
+
+.user-actions img {
+	width: 30px;
+	height: 30px;
+}
+/* reservationlookupadmin.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.searchArea {
+    margin-bottom: 30px;
+}
+
+.searchDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.searchDiv input[type="text"] {
+    width: 200px;
+    padding: 8px;
+    margin-right: 10px;
+}
+
+.searchDiv button {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.reserveResult {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: black;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    margin: 0 4px;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+@media screen and (max-width: 768px) {
+    .searchDiv {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .searchDiv input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
