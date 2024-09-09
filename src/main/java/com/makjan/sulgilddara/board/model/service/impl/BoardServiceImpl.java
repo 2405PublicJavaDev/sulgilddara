@@ -186,6 +186,12 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	@Override
+	public int increaseViewCount(Integer boardNo) {
+		int result = bMapper.increaseViewCount(boardNo);
+		return result;
+	}
+
 	
 	
 	

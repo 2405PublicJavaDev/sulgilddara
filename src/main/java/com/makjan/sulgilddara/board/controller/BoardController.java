@@ -122,11 +122,21 @@ public class BoardController {
 		return "board/boardList_table";
 	}
 	
-	@GetMapping("/board/detailPage/{boardNo}")
+	@GetMapping("/board/detailPage/{boardNo}/{viewStatus}")
 	public String showBoardOne(@PathVariable("boardNo") Integer boardNo,
+			@PathVariable(name = "viewStatus") String viewStatus,
 			Model model) {
+		
+		
+		if("yes".equals(viewStatus)) {
+			// 조회수 증가
+			int result = bService.increaseViewCount(boardNo);
+			return "redirect:/board/detailPage/"+boardNo+"/no";
+		}
+		
 		// board 
 		Board board = bService.selectOne(boardNo);
+		System.out.println("조회수 : "+board.getViewCount());
 		Board prevBoard = null;
 		Board nextBoard = null;
 		// 이전글 찾기

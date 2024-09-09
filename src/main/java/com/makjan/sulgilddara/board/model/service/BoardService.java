@@ -153,5 +153,11 @@ public interface BoardService {
 	 */
 	int updateReply(Integer replyNo, String replyContent);
 
+	/**
+	 * 조회수 증가 
+	 * @return
+	 */
+	int increaseViewCount(Integer boardNo);
+
 	
 }

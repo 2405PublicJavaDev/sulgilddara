@@ -173,5 +173,9 @@
 	<delete id="deleteBoard">
 		DELETE FROM BOARD_TBL WHERE BOARD_NO=#{boardNo}
 	</delete>
+	
+	<update id="increaseViewCount">
+		UPDATE BOARD_TBL SET VIEW_COUNT = VIEW_COUNT+1 WHERE BOARD_NO=#{boardNo}
+	</update>
   </mapper>
   

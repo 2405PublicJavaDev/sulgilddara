@@ -53,7 +53,7 @@
 		
 		<div class="boardOne">
 			<div>
-				<a th:href="@{/board/detailPage/{boardNo}(boardNo=${board.boardNo})}">게시글 상세</a>
+				<a th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">게시글 상세</a>
 				<div>userId [[${board.userId}]]</div>
 				<div>boardPoint [[${board.boardPoint}]]</div>
 				<div>boardDate [[${board.boardDate}]]</div>

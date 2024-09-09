@@ -161,6 +161,12 @@ public interface BoardMapper {
 	 */
 	int deleteBoard(Integer boardNo);
 
+	/**
+	 * 게시글 조회수 증가
+	 * @return
+	 */
+	int increaseViewCount(Integer boardNo);
+
 	
 
 }
