@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
+import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.model.vo.Pagination;
 import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
@@ -51,12 +52,12 @@ public class BreweryController {
 		return "brewery/breweryMain";
 	}
 	
-	@GetMapping("/write")
+	@GetMapping("/admin/write")
 	public String showWriteForm() {
 		return "brewery/breweryWrite";
 	}
 	
-	@PostMapping("/write")
+	@PostMapping("/admin/write")
 	public String insertBrewery(Brewery inputBrewery
 			, @ModelAttribute("BreweryTag") BreweryTag breweryTag
 			, @RequestParam(value = "facilities", required = false) String[] facilities)  throws IllegalStateException, IOException {
@@ -83,10 +84,10 @@ public class BreweryController {
 	            System.out.println("No tags to process: " + e.getMessage());
 	        }
 	    }
-		return "redirect:/brewery/list";
+		return "redirect:/brewery/admin/list";
 	}
 	
-	@GetMapping("/list")
+	@GetMapping("/admin/list")
 	public String showBreweryList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
 			, Model model) {
 		int totalCount = bService.getTotalCount();
@@ -97,9 +98,9 @@ public class BreweryController {
 		List<Brewery>bList = bService.selectAllList(currentPage, rowBounds);
 		model.addAttribute("bList", bList);
 		model.addAttribute("pn", pn);
-		return "/brewery/breweryList";
+		return "/brewery/breweryListAdmin";
 	}
-	@GetMapping("/update/{breweryNo}")
+	@GetMapping("/admin/update/{breweryNo}")
 	public String showUpdateForm(@PathVariable("breweryNo") Integer breweryNo,
 			Model model) {
 		Brewery brewery = bService.searchOneByNo(breweryNo);
@@ -121,7 +122,7 @@ public class BreweryController {
 		model.addAttribute("brewery", brewery);
 		return "brewery/breweryUpdate";
 	}
-	@PostMapping("/update")
+	@PostMapping("/admin/update")
 	public String updateBrewery(Brewery updateBrewery
 			, @ModelAttribute("BreweryTag") BreweryTag breweryTag
 			, @RequestParam(value = "facilities", required = false) String[] facilities
@@ -149,14 +150,14 @@ public class BreweryController {
 	            System.out.println("No tags to process: " + e.getMessage());
 	        }
 	    }
-		return "redirect:/brewery/list";
+		return "redirect:/brewery/admin/list";
 	}
-	@GetMapping("/delete/{breweryNo}")
+	@GetMapping("/admin/delete/{breweryNo}")
 	public String deleteBrewery(@PathVariable("breweryNo") Integer breweryNo) {
 		int result = bService.deleteBrewery(breweryNo);
-		return "redirect:/brewery/list";
+		return "redirect:/brewery/admin/list";
 	}
-	@PostMapping("/search")
+	@PostMapping("/admin/search")
 	public String searchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
 			, Model model
 			, @RequestParam("searchCondition") String searchCondition
@@ -176,9 +177,9 @@ public class BreweryController {
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("searchCondition", searchCondition);
 		model.addAttribute("pn", pn);
-		return "brewery/brewerySearchList";
+		return "brewery/brewerySearchListAdmin";
 	}
-	@GetMapping("/search")
+	@GetMapping("/admin/search")
 	public String showSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
 			, Model model
 			, @RequestParam("searchCondition") String searchCondition
@@ -198,12 +199,49 @@ public class BreweryController {
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("searchCondition", searchCondition);
 		model.addAttribute("pn", pn);
-		return "brewery/brewerySearchList";
+		return "brewery/brewerySearchListAdmin";
 	}
 	@ResponseBody
 	@RequestMapping(value="/localList", produces="application/json;charset=UTF-8")
 	public List<Brewery> showLocalList(@RequestParam(value="local") String local) {
-		List<Brewery> bList = bService.searchBreweryByLocal(local);
+		List<Brewery> bList;
+		System.out.println(local);
+		if("all".equals(local)) {
+			bList = bService.selectThreeBrewery();
+		} else {
+			bList = bService.searchBreweryByLocal(local);			
+		}
 		return bList;
+	}
+	@ResponseBody
+	@RequestMapping(value="/taglist", produces="application/json;charset=UTF-8")
+	public Map<String, Object> showBreweryList(@RequestParam(value="hashTag", required=false) String hashTag) {
+		List<Brewery>sList = bService.searchBreweryByTag(hashTag);
+//		if("all".equals(hashTag)) {
+//			sList = bService.searchBreweryByTag(hashTag);
+//		}
+	    List<Map<String, Object>> breweryList = new ArrayList<>();
+	    for (Brewery brewery : sList) {
+	        Map<String, Object> breweryMap = new HashMap<>();
+	        breweryMap.put("brewery", brewery);
+	        
+	        List<Liquor> lList = bService.selectLiquorByNo(brewery.getBreweryNo());
+	        breweryMap.put("liquors", lList);
+	        
+	        List<BreweryTag> tList = bService.showTagByBrwNo(brewery.getBreweryNo());
+	        breweryMap.put("tags", tList);
+	        
+	        breweryList.add(breweryMap);
+	    }
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("sList", sList);
+	    response.put("breweryList", breweryList);
+		return response;
+	}
+	@GetMapping("/list")
+	public String showBreweryList(Model model) {
+		List<BreweryTag>tList = bService.showAllTag();
+		model.addAttribute("tList", tList);
+		return "brewery/breweryList";
 	}
 }

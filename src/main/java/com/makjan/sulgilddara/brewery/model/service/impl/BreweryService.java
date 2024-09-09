@@ -58,10 +58,10 @@ public interface BreweryService {
 	 * @param breweryId
 	 * @return Liquir
 	 */
-	Liquor selectLiquirListById(Integer breweryId);
+	List<Liquor> selectLiquorByNo(Integer breweryNo);
 	
 	/**
-	 * 양조장 전체 조회 
+	 * 양조장 전체 조회
 	 * @param rowBounds 
 	 * @param currentPage 
 	 * @return List<Brewery>
@@ -113,10 +113,28 @@ public interface BreweryService {
 	int getTotalCount();
 
 	/**
-	 * 지역별 양조장 리스트 조회
+	 * 지역별 양조장 리스트 중 3개만 조회
 	 * @param local
 	 * @return List<Brewery>
 	 */
 	List<Brewery> searchBreweryByLocal(String local);
 
+	/**
+	 * 양조장 전체 리스트 중 3개만 조회
+	 * @return
+	 */
+	List<Brewery> selectThreeBrewery();
+
+	/**
+	 * 전체 해시태그 조회
+	 * @return List<BreweryTag>
+	 */
+	List<BreweryTag> showAllTag();
+
+	/**
+	 * 해시태그 별 양조장 리스트 조회
+	 * @param local
+	 * @return
+	 */
+	List<Brewery> searchBreweryByTag(String tagName);
 }

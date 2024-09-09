@@ -53,29 +53,22 @@
 	</head>
 	<body>
 		<h1>양조장 정보 변경</h1>
-		<form action="/brewery/update" method="post" th:object="${brewery}" enctype="multipart/form-data">
+		<form action="/brewery/admin/update" method="post" th:object="${brewery}" enctype="multipart/form-data">
 		    <input type="hidden" name="breweryNo" th:value="*{breweryNo}">
 		    <input type="hidden" name="fileName" th:value="*{fileName}">
 		    <input type="hidden" name="fileRename" th:value="*{fileRename}">
 		    <input type="hidden" name="filePath" th:value="*{filePath}">
             양조장명 <input type="text" name="breweryName" th:value="*{breweryName}"> <br>
         	지역 
-			<select id="local" name="breweryLocal" th:value="*{breweryLocal}">
-				<option value="sudo">수도권</option>
-<<<<<<< HEAD
-				<option value="gang">강원</option>
-				<option value="chung">충청</option>
-				<option value="gyeong">경상</option>
-				<option value="jeoll">전라</option>
-				<option value="jeju">제주</option>
-=======
-				<option value="sudo">강원</option>
-				<option value="sudo">충청</option>
-				<option value="sudo">경상</option>
-				<option value="sudo">전라</option>
-				<option value="sudo">제주</option>
->>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
-			</select> <br>
+		    <select id="local" th:field="*{breweryLocal}">
+		        <option value="sudo">수도권</option>
+		        <option value="gang">강원</option>
+		        <option value="chung">충청</option>
+		        <option value="gyeong">경상</option>
+		        <option value="jeoll">전라</option>
+		        <option value="jeju">제주</option>
+		    </select>
+		    <br>
             주소 <input type="text" name="breweryAddr" th:value="*{breweryAddr}"> <br>
             번호 <input type="text" name="breweryPhone" th:value="*{breweryPhone}"> <br>
             오픈시간 <input type="time" name="openTime" th:value="*{openTime}"> <br>
@@ -91,7 +84,7 @@
 						<span>사진 없음</span>
 					</th:block>
 					<input type="file" id="newFile" name="uploadFile"> <br>
-           	해시태그 <input type="text" name="breweryTagName" id="inputHashTag1" th:value="${tagString}"> <br>
+           	해시태그 <input type="text" name="breweryTagName" id="inputHashTag" th:value="${tagString}"> <br>
             편의시설
             <div style="border: 1px solid black;">
 			    <label for="park">
@@ -140,13 +133,7 @@
 	            </label>
 	        </div>
             <input type="submit" value="수정하기"> <br>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            태그 <input type="text" name="breweryTagName" id="inputHashTag"> <br>
-=======
->>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
->>>>>>> yehong
+<!--             태그 <input type="text" name="breweryTagName" id="inputHashTag"> <br> -->
 			<div>
 			    <h2>체험 프로그램</h2>
 			    <div th:each="tour : ${tourList}">
@@ -188,16 +175,10 @@
 	            location.href = "/tour/delete/" + breweryNo + "/" + tourNo ;
 	        }
 	    }
-<<<<<<< HEAD
 	    var input = document.querySelector('input[name=breweryTagName]');
-<<<<<<< HEAD
 	    const tagify = new Tagify(input, {
 	    	
 	    });
-=======
 	    new Tagify(input);
-=======
->>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
->>>>>>> yehong
 	</script>
 </html>
