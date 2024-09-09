@@ -1,0 +1,19 @@
+diff a/src/main/resources/templates/reservation/reservationlookupdetail.html b/src/main/resources/templates/reservation/reservationlookupdetail.html	(rejected hunks)
+@@ -69,13 +69,13 @@
+ 					</tr>
+ 				</thead>
+ 				<tbody>
+-					<tr>
+-						<td>[[${Reservation.filename}]]</td>
++					<tr th:object="${reservation}">
++						<td><img th:src="@{${ImagePath}}" alt="Brewery Image"/></td>
+ 						<td>[[${Reservation.breweryName}]]</td>
+ 						<td>[[${Reservation.tourName}]]</td>
+ 						<td>[[${Reservation.tourPrice}]]</td>
+-						<td>[[${Reservation.visitNum]]</td>
+-						<td>[[${Reservation.tourPrice * Reservation.visitNum}]]</td>
++						<td>[[${Reservation.visitorNum}]]</td>
++						<td>[[${Reservation.tourPrice}*${Reservation.visitorNum}]]</td>
+ 					</tr>
+ 				</tbody>
+ 			</table>

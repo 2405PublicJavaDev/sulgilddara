@@ -1,0 +1,775 @@
+From fb39e229d287fb1b84e8b7a21f3a93b14efe1b89 Mon Sep 17 00:00:00 2001
+From: puer1111 <hongbinjo9981@gmail.com>
+Date: Fri, 6 Sep 2024 16:50:57 +0900
+Subject: [PATCH] =?UTF-8?q?[MODIFY]=20=EC=96=91=EC=A1=B0=EC=9E=A5=20?=
+ =?UTF-8?q?=EC=83=81=EC=84=B8=ED=8E=98=EC=9D=B4=EC=A7=80=EC=97=90=EC=84=9C?=
+ =?UTF-8?q?=20=EB=84=98=EC=96=B4=EC=98=A4=EB=8A=94=20=EB=8D=B0=EC=9D=B4?=
+ =?UTF-8?q?=ED=84=B0=20=EC=98=88=EC=95=BD=20=ED=8E=98=EC=9D=B4=EC=A7=80?=
+ =?UTF-8?q?=EC=99=80=20=ED=95=A9=EC=B9=98=EA=B8=B0=20=EC=A7=84=ED=96=89?=
+ =?UTF-8?q?=EC=A4=91?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ .../controller/ReservationController.java     | 256 ++++++++++--------
+ .../model/Mapper/ReservationMapper.java       |   7 +-
+ .../Service/Impl/ReservationServiceImpl.java  |  16 +-
+ .../model/Service/ReservationService.java     |  12 +-
+ .../Reservation/model/VO/Reservation.java     |  60 ++--
+ .../brewery/controller/BreweryController.java |   2 +
+ .../sulgilddara/model/vo/Pagination.java      |  16 +-
+ src/main/resources/application.properties     |   3 +-
+ .../resources/mappers/Reservation-mapper.xml  |  17 +-
+ .../templates/ReservationImg/kakaoPay.png     | Bin 0 -> 1619 bytes
+ src/main/resources/templates/kakaoPay.html    |   2 +-
+ .../templates/reservation/paymentPage.html    |  47 ++++
+ .../templates/reservation/registerPage.html   |   1 +
+ .../reservation/reservationlookupdetail.html  |   8 +-
+ 14 files changed, 280 insertions(+), 167 deletions(-)
+ create mode 100644 src/main/resources/templates/ReservationImg/kakaoPay.png
+ create mode 100644 src/main/resources/templates/reservation/paymentPage.html
+
+diff --git a/src/main/java/com/makjan/sulgilddara/Reservation/controller/ReservationController.java b/src/main/java/com/makjan/sulgilddara/Reservation/controller/ReservationController.java
+index 330f295..a829e4e 100644
+--- a/src/main/java/com/makjan/sulgilddara/Reservation/controller/ReservationController.java
++++ b/src/main/java/com/makjan/sulgilddara/Reservation/controller/ReservationController.java
+@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
+ 
+ import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
+ import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
++import com.makjan.sulgilddara.brewery.common.config.BreweryFileConfig;
+ import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
+ import com.makjan.sulgilddara.model.vo.Pagination;
+ import com.makjan.sulgilddara.user.model.vo.User;
+@@ -32,144 +33,159 @@ import lombok.extern.slf4j.Slf4j;
+ @Controller
+ 
+ public class ReservationController {
+-    @Setter(onMethod_ = @Autowired)
+-    private KakaoPayService kakaoPay;
+-    
++
++	@Setter(onMethod_ = @Autowired)
++	private KakaoPayService kakaoPay;
++
+ 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+ 	private static SecureRandom random = new SecureRandom();
+ 
+ 	private ReservationService rService;
+ 
++
+ 	@Autowired
+-	public ReservationController(ReservationService rService) {
++	public ReservationController(ReservationService rService, BreweryFileConfig bConfig) {
+ 		this.rService = rService;
++	
++	}
++
++	@GetMapping("reservation/detail/{reserveNo}")
++	public String showReservationDetail(@PathVariable("reserveNo") String reserveNo, Model model) {
++
++		List<Reservation> rList = rService.selectOne(reserveNo);
++		if (!rList.isEmpty()) {
++			Reservation reservation = rList.get(0);
++			model.addAttribute("rList", rList);
++
++			// Brewery 이미지 경로 설정
++			String imagePath = reservation.getFilePath() + "/" + reservation.getFileRename();
++			System.out.println(imagePath);
++			model.addAttribute("ImagePath", imagePath);
++		} else {
++			// 예약이 없을 경우 처리
++		}
++//	model.addAttribute("rList",rList);
++		return "reservation/reservationlookupdetail";
+ 	}
+ 
+-@GetMapping("/reservation/register")
++	@GetMapping("/reservation/register")
+ 	public String showRegisterForm() {
+ 		return "reservation/registerPage";
+-}
+-private static String generateRandomString(int length) {
+-    StringBuilder builder = new StringBuilder();
+-    for (int i = 0; i < length; i++) {
+-        int character = random.nextInt(ALPHA_NUMERIC_STRING.length());
+-        builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+-    }
+-    return builder.toString();
+-}
+-@PostMapping("/reservation/register")
++	}
++
++	private static String generateRandomString(int length) {
++		StringBuilder builder = new StringBuilder();
++		for (int i = 0; i < length; i++) {
++			int character = random.nextInt(ALPHA_NUMERIC_STRING.length());
++			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
++		}
++		return builder.toString();
++	}
++
++	@PostMapping("/reservation/register/{breweryNo}")
+ 	public String RegisterInfo(@ModelAttribute Reservation reservation, Model model, HttpSession session
+-			) {
++			,@PathVariable("breweryNo")Integer breweryNo) {
+ 		String userId = (String) session.getAttribute("userId");
+ //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
+ 		String randomString = generateRandomString(10);
+ 		reservation.setUserId(userId);
+ 		reservation.setReserveNo(randomString);
+-	//	reservation.setUserId("user3");
+-		int result =rService.RegisterInfo(reservation);
+-		return "redirect:"+kakaoPay.kakaoPayReady(); //결제 페이지 
+-}
+-@GetMapping("/reservation/search")
+-public String showListForm() {
+-	return "reservation/reservationlookup";
+-}
+-@PostMapping("/reservation/search")
+-	public String SearchInfo(@RequestParam("reserveNo")String reserveNo,
+-			Model model
+-			) {
+-	Map<String,String> param = new HashMap<String,String>();
+-	param.put("reserveNo", reserveNo);
+-	List<Reservation>rList = rService.SearchInfo(param);
+-	model.addAttribute("rList",rList);
+-	model.addAttribute("reserveNo",reserveNo);
+-	return "reservation/reservationlookup";
+-}
++		// reservation.setUserId("user3");
++		int result = rService.RegisterInfo(reservation,breweryNo);
++		return "redirect:" + kakaoPay.kakaoPayReady(); // 결제 페이지
++	}
+ 
+-@GetMapping("/reservation/searchResultAdmin")
+-public String SearchAllInfo3(Model model
+-		,@RequestParam(value="userId",required=false)String userId
+-		,@RequestParam(value="breweryName",required=false)String breweryName
+-		,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
+-		) {
+-int totalCount= rService.getTotalCountWithConditiion(userId,breweryName);
+-System.out.println(currentPage);
+-Pagination pn = new Pagination(totalCount,currentPage);
+-int limit = pn.getBoardLimit();
+-int offset=(currentPage-1)*limit;
+-RowBounds rowBounds =new RowBounds(offset,limit);
+-List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
+-model.addAttribute("rList",rList);
+-model.addAttribute("currentPage", currentPage);
+-model.addAttribute("pn",pn);
+-model.addAttribute("breweryName",breweryName);
+-model.addAttribute("userId",userId);
+-
+-return "reservation/reservationSearchResultAdmin";
+-}
++	@GetMapping("/reservation/search")
++	public String showListForm() {
++		return "reservation/reservationlookup";
++	}
+ 
+-@PostMapping("/reservation/searchResultAdmin")
+-public String SearchAllInfo2(Model model
+-		,@RequestParam(value="userId",required=false)String userId
+-		,@RequestParam(value="breweryName",required=false)String breweryName
+-		,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
+-		) {
+-int totalCount= rService.getTotalCountWithConditiion(userId,breweryName);
+-System.out.println(currentPage);
+-Pagination pn = new Pagination(totalCount,currentPage);
+-int limit = pn.getBoardLimit();
+-int offset=(currentPage-1)*limit;
+-RowBounds rowBounds =new RowBounds(offset,limit);
+-List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
+-model.addAttribute("rList",rList);
+-model.addAttribute("currentPage", currentPage);
+-model.addAttribute("pn",pn);
+-model.addAttribute("breweryName",breweryName);
+-model.addAttribute("userId",userId);
+-
+-return "reservation/reservationSearchResultAdmin";
+-}
++	@PostMapping("/reservation/search")
++	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model) {
++		Map<String, String> param = new HashMap<String, String>();
++		param.put("reserveNo", reserveNo);
++		List<Reservation> rList = rService.SearchInfo(param);
++		model.addAttribute("rList", rList);
++		model.addAttribute("reserveNo", reserveNo);
++		return "reservation/reservationlookup";
++	}
+ 
+-@GetMapping("/reservation/searchListAdmin")
+-	public String SearchAllInfo(Model model
+-			,@RequestParam(value="userId",required=false)String userId
+-			,@RequestParam(value="breweryName",required=false)String breweryName
+-			,@RequestParam(value="currentPage",required=false,defaultValue="1")Integer currentPage
+-			) {
+-	int totalCount= rService.getTotalCount(userId,breweryName);
+-	System.out.println(currentPage);
+-	Pagination pn = new Pagination(totalCount,currentPage);
+-	int limit = pn.getBoardLimit();
+-	int offset=(currentPage-1)*limit;
+-	System.out.println(limit);
+-	System.out.println(offset);
+-	RowBounds rowBounds =new RowBounds(offset,limit);
+-	List<Reservation>rList = rService.SearchAllInfo(userId,breweryName,rowBounds);	
+-	model.addAttribute("rList",rList);
+-	model.addAttribute("currentPage", currentPage);
+-	model.addAttribute("pn",pn);
+-	model.addAttribute("breweryName",breweryName);
+-	model.addAttribute("userId",userId);
+-	return "reservation/reservationlookupadmin";
+-}
+-@GetMapping("/reservation/reservationsuccess")
+-public String SuccessInfo() {
+-	return "reservation/reservationsuccess";
+-}
+-@PostMapping("/reservation/reservationsuccess")
+-public String reserveSuccess(Reservation reservation, Model model) {
+-	List<Reservation>rList = rService.SearchreserveNo(reservation);
+-	System.out.println(reservation);
+-	model.addAttribute("rList",rList);
+-	return "reservation/reservationsuccess";
+-}
+-@GetMapping("reservation/detail/{reserveNo}")
+-	public String showReservationDetail(@PathVariable("reserveNo")String reserveNo
+-			,HttpSession session
+-			,Model model
+-			) {
+-	List<Reservation>rList = rService.selectOne(reserveNo);
+-	model.addAttribute("rList",rList);
+-	System.out.println(rList);
+-	return "reservation/reservationlookupdetail";
+-}
++	@GetMapping("/reservation/searchResultAdmin")
++	public String SearchAllInfo3(Model model, @RequestParam(value = "userId", required = false) String userId,
++			@RequestParam(value = "breweryName", required = false) String breweryName,
++			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage) {
++		int totalCount = rService.getTotalCountWithConditiion(userId, breweryName);
++		System.out.println(currentPage);
++		Pagination pn = new Pagination(totalCount, currentPage);
++		int limit = pn.getBoardLimit();
++		int offset = (currentPage - 1) * limit;
++		RowBounds rowBounds = new RowBounds(offset, limit);
++		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
++		model.addAttribute("rList", rList);
++		model.addAttribute("currentPage", currentPage);
++		model.addAttribute("pn", pn);
++		model.addAttribute("breweryName", breweryName);
++		model.addAttribute("userId", userId);
++
++		return "reservation/reservationSearchResultAdmin";
++	}
++
++	@PostMapping("/reservation/searchResultAdmin")
++	public String SearchAllInfo2(Model model, @RequestParam(value = "userId", required = false) String userId,
++			@RequestParam(value = "breweryName", required = false) String breweryName,
++			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage) {
++		int totalCount = rService.getTotalCountWithConditiion(userId, breweryName);
++		System.out.println(currentPage);
++		Pagination pn = new Pagination(totalCount, currentPage);
++		int limit = pn.getBoardLimit();
++		int offset = (currentPage - 1) * limit;
++		RowBounds rowBounds = new RowBounds(offset, limit);
++		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
++		model.addAttribute("rList", rList);
++		model.addAttribute("currentPage", currentPage);
++		model.addAttribute("pn", pn);
++		model.addAttribute("breweryName", breweryName);
++		model.addAttribute("userId", userId);
++
++		return "reservation/reservationSearchResultAdmin";
++	}
++
++	@GetMapping("/reservation/searchListAdmin")
++	public String SearchAllInfo(Model model, @RequestParam(value = "userId", required = false) String userId,
++			@RequestParam(value = "breweryName", required = false) String breweryName,
++			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage) {
++		int totalCount = rService.getTotalCount(userId, breweryName);
++		Pagination pn = new Pagination(totalCount, currentPage);
++		int limit = pn.getBoardLimit();
++		int offset = (currentPage - 1) * limit;
++		RowBounds rowBounds = new RowBounds(offset, limit);
++		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
++		model.addAttribute("rList", rList);
++		model.addAttribute("currentPage", currentPage);
++		model.addAttribute("pn", pn);
++		model.addAttribute("breweryName", breweryName);
++		model.addAttribute("userId", userId);
++		return "reservation/reservationlookupadmin";
++	}
++
++	@GetMapping("/reservation/reservationsuccess")
++	public String SuccessInfo() {
++		return "reservation/reservationsuccess";
++	}
++
++	@PostMapping("/reservation/reservationsuccess")
++	public String reserveSuccess(Reservation reservation, Model model) {
++		List<Reservation> rList = rService.SearchreserveNo(reservation);
++		System.out.println(reservation);
++		model.addAttribute("rList", rList);
++		return "reservation/reservationsuccess";
++	}
++
++	@GetMapping("/reservation/payment/{tourName}")
++	public String showPaymentInfo(@PathVariable("tourNo") String tourNo, Model model) {
++
++		List<Reservation> rList = rService.selectTourInfo(tourNo);
++		model.addAttribute("rList", rList);
++		return "reservation/paymentPage";
++	}
+ }
+diff --git a/src/main/java/com/makjan/sulgilddara/Reservation/model/Mapper/ReservationMapper.java b/src/main/java/com/makjan/sulgilddara/Reservation/model/Mapper/ReservationMapper.java
+index 9219245..b44e493 100644
+--- a/src/main/java/com/makjan/sulgilddara/Reservation/model/Mapper/ReservationMapper.java
++++ b/src/main/java/com/makjan/sulgilddara/Reservation/model/Mapper/ReservationMapper.java
+@@ -6,6 +6,7 @@ import java.util.List;
+ import java.util.Map;
+ 
+ import org.apache.ibatis.annotations.Mapper;
++import org.apache.ibatis.annotations.Param;
+ import org.apache.ibatis.session.RowBounds;
+ 
+ import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+@@ -24,12 +25,14 @@ public interface ReservationMapper {
+ 
+ 	int getTotalCountWithConditiion(Map<String, String> param);
+ 
+-	List<Reservation> selectOne(String userId);
++	List<Reservation> selectOne(@Param("reserveNo") String reserveNo);
+ 
+-	int RegisterInfo(Reservation reservation);
++	int RegisterInfo(Reservation reservation, Integer breweryNo);
+ 
+ 	List<User> selectInfo(User user);
+ 
++	List<Reservation> selectTourInfo(String tourNo);
++
+ 
+ 
+ }
+diff --git a/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/Impl/ReservationServiceImpl.java b/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/Impl/ReservationServiceImpl.java
+index cbe1f6b..6091a60 100644
+--- a/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/Impl/ReservationServiceImpl.java
++++ b/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/Impl/ReservationServiceImpl.java
+@@ -28,9 +28,8 @@ public class ReservationServiceImpl implements ReservationService{
+ @Autowired
+ 	User user;
+ 	@Override
+-	public int RegisterInfo(Reservation reservation) {
+-		System.out.println(reservation);
+-		int result = rmapper.RegisterInfo(reservation); 
++	public int RegisterInfo(Reservation reservation,Integer breweryNo) {
++		int result = rmapper.RegisterInfo(reservation,breweryNo); 
+ 		return result;
+ 	}
+ //
+@@ -96,8 +95,15 @@ public class ReservationServiceImpl implements ReservationService{
+ 	}
+ 
+ 	@Override
+-	public List<Reservation> selectOne(String userId) {
+-		List<Reservation>rList = rmapper.selectOne(userId);
++	public List<Reservation> selectOne(String reserveNo) {
++		List<Reservation>rList = rmapper.selectOne(reserveNo);
++		System.out.println("ServiceRList"+rList);
++		return rList;
++	}
++
++	@Override
++	public List<Reservation> selectTourInfo(String tourNo) {
++		List<Reservation>rList = rmapper.selectTourInfo(tourNo);
+ 		return rList;
+ 	}
+ 
+diff --git a/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/ReservationService.java b/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/ReservationService.java
+index e594b49..c54b851 100644
+--- a/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/ReservationService.java
++++ b/src/main/java/com/makjan/sulgilddara/Reservation/model/Service/ReservationService.java
+@@ -14,9 +14,10 @@ public interface ReservationService {
+ /**
+  * 예약 정보 등록하기 Service
+  * @param reservation
++ * @param breweryNo 
+  * @return Int
+  */
+-	int RegisterInfo(Reservation reservation);
++	int RegisterInfo(Reservation reservation, Integer breweryNo);
+ 
+ /**
+  * 예약 정보 조회하기 Service
+@@ -63,7 +64,7 @@ int getTotalCountWithConditiion(String userId, String breweryName);
+  * @param userId
+  * @return Reservation
+  */
+-List<Reservation> selectOne(String userId);
++List<Reservation> selectOne(String reserveNo);
+ /**
+  * 유저 정보 가져오기
+  * @param user
+@@ -71,5 +72,12 @@ List<Reservation> selectOne(String userId);
+  */
+ List<User> selectInfo(User user);
+ 
++/**
++ * 결제 페이지
++ * @param tourName
++ * @return List<Reservation>
++ */
++List<Reservation> selectTourInfo(String tourNo);
++
+ 
+ }
+diff --git a/src/main/java/com/makjan/sulgilddara/Reservation/model/VO/Reservation.java b/src/main/java/com/makjan/sulgilddara/Reservation/model/VO/Reservation.java
+index 7860dfa..cabf23a 100644
+--- a/src/main/java/com/makjan/sulgilddara/Reservation/model/VO/Reservation.java
++++ b/src/main/java/com/makjan/sulgilddara/Reservation/model/VO/Reservation.java
+@@ -2,7 +2,9 @@ package com.makjan.sulgilddara.Reservation.model.VO;
+ 
+ import java.sql.Timestamp;
+ 
++import org.springframework.stereotype.Repository;
+ 
++@Repository
+ public class Reservation {
+ //	private Date reserveDate;
+ 	private String reserveNo;
+@@ -13,20 +15,41 @@ public class Reservation {
+ 	private String tourName;
+ 	private int emergencyPhone;
+ 	private String breweryName;
++	private Integer breweryNo;
+ 	private String reserveCompleteTime;
+-	private String totalPrice;
++//	private String totalPrice;
++	private String paymentMethod;
+ 	// User
+ 	private String email;
+ 	private String address;
+ 	private Timestamp joinDate;
+ 	private String phone;
+ 	// Brewery
+-	private String filename;
++	private String fileRename;
+ 	private int tourPrice;
++	private String filePath;
+ 
+-	
++	public Integer getBreweryNo() {
++		return breweryNo;
++	}
++	public void setBreweryNo(Integer breweryNo) {
++		this.breweryNo = breweryNo;
++	}
++	public String getFilePath() {
++		return filePath;
++	}
++	public void setFilePath(String filePath) {
++		this.filePath = filePath;
++	}
+ 	public Reservation() {
+ 	}
++	public String getPaymentMethod() {
++		return paymentMethod;
++	}
++
++	public void setPaymentMethod(String paymentMethod) {
++		this.paymentMethod = paymentMethod;
++	}
+ 
+ 	public String getReserveCompleteTime() {
+ 		return reserveCompleteTime;
+@@ -36,23 +59,22 @@ public class Reservation {
+ 		this.reserveCompleteTime = reserveCompleteTime;
+ 	}
+ 
+-	public String getFilename() {
+-		return filename;
+-	}
+-
+-	public void setFilename(String filename) {
+-		this.filename = filename;
+-	}
+ 
+ 	
+ 
+-	public String getTotalPrice() {
+-		return totalPrice;
++	public String getFileRename() {
++		return fileRename;
+ 	}
+-
+-	public void setTotalPrice(String totalPrice) {
+-		this.totalPrice = totalPrice;
++	public void setFileRename(String fileRename) {
++		this.fileRename = fileRename;
+ 	}
++//	public String getTotalPrice() {
++//		return totalPrice;
++//	}
++//
++//	public void setTotalPrice(String totalPrice) {
++//		this.totalPrice = totalPrice;
++//	}
+ 
+ 	public int getTourPrice() {
+ 		return tourPrice;
+@@ -200,10 +222,10 @@ public class Reservation {
+ 	public String toString() {
+ 		return "Reservation [reserveNo=" + reserveNo + ", userId=" + userId + ", visitorNum=" + visitorNum
+ 				+ ", reserveDate=" + reserveDate + ", reserveTime=" + reserveTime + ", tourName=" + tourName
+-				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", reserveCompleteTime="
+-				+ reserveCompleteTime + ", totalPrice=" + totalPrice + ", email=" + email + ", address=" + address
+-				+ ", joinDate=" + joinDate + ", phone=" + phone + ", filename=" + filename + ", tourPrice=" + tourPrice
+-				+ "]";
++				+ ", emergencyPhone=" + emergencyPhone + ", breweryName=" + breweryName + ", breweryNo=" + breweryNo
++				+ ", reserveCompleteTime=" + reserveCompleteTime  + ", paymentMethod="
++				+ paymentMethod + ", email=" + email + ", address=" + address + ", joinDate=" + joinDate + ", phone="
++				+ phone + ", fileRename=" + fileRename + ", tourPrice=" + tourPrice + ", filePath=" + filePath + "]";
+ 	}
+ 
+ }
+diff --git a/src/main/java/com/makjan/sulgilddara/brewery/controller/BreweryController.java b/src/main/java/com/makjan/sulgilddara/brewery/controller/BreweryController.java
+index c2aae97..17ab5b5 100644
+--- a/src/main/java/com/makjan/sulgilddara/brewery/controller/BreweryController.java
++++ b/src/main/java/com/makjan/sulgilddara/brewery/controller/BreweryController.java
+@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RequestParam;
+ import org.springframework.web.multipart.MultipartFile;
+ 
++import com.makjan.sulgilddara.brewery.common.config.BreweryFileConfig;
+ import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
+ import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+ import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
+@@ -29,6 +30,7 @@ public class BreweryController {
+ 	
+ 	private BreweryService bService;
+ 	private TourService tService;
++	private BreweryFileConfig bConfig;
+ 	
+ 	public BreweryController() {}
+ 	
+diff --git a/src/main/java/com/makjan/sulgilddara/model/vo/Pagination.java b/src/main/java/com/makjan/sulgilddara/model/vo/Pagination.java
+index c3576d6..3eafbca 100644
+--- a/src/main/java/com/makjan/sulgilddara/model/vo/Pagination.java
++++ b/src/main/java/com/makjan/sulgilddara/model/vo/Pagination.java
+@@ -47,14 +47,14 @@ public class Pagination {
+ 		if(endNavi == maxPage) nextPage = maxPage;
+ 		else nextPage = endNavi + 1;
+ 	
+-	    // 로그 출력
+-	    System.out.println("Pagination Info: maxPage=" + maxPage + 
+-	                       ", startNavi=" + startNavi + 
+-	                       ", endNavi=" + endNavi + 
+-	                       ", prevPage=" + prevPage + 
+-	                       ", nextPage=" + nextPage +
+-	                       ", totalCount="+ totalCount
+-	                       );
++//	    // 로그 출력
++//	    System.out.println("Pagination Info: maxPage=" + maxPage + 
++//	                       ", startNavi=" + startNavi + 
++//	                       ", endNavi=" + endNavi + 
++//	                       ", prevPage=" + prevPage + 
++//	                       ", nextPage=" + nextPage +
++//	                       ", totalCount="+ totalCount
++//	                       );
+ 	}	
+ 	}
+     
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+index 211ef42..09a30f3 100644
+--- a/src/main/resources/application.properties
++++ b/src/main/resources/application.properties
+@@ -26,4 +26,5 @@ spring.thymeleaf.check-template-location=true
+ spring.thymeleaf.prefix=classpath:/templates/
+ spring.thymeleaf.suffix=.html
+ #SQL Logging
+-logging.level.org.mybatis=DEBUG
+\ No newline at end of file
++logging.level.org.mybatis=DEBUG
++
+diff --git a/src/main/resources/mappers/Reservation-mapper.xml b/src/main/resources/mappers/Reservation-mapper.xml
+index 803da4a..e7433ec 100644
+--- a/src/main/resources/mappers/Reservation-mapper.xml
++++ b/src/main/resources/mappers/Reservation-mapper.xml
+@@ -30,7 +30,9 @@
+ </resultMap>
+ 
+  <insert id="RegisterInfo">
+- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone},33,DEFAULT,1)
++ INSERT INTO RESERVATION_TBL VALUES(#{reserveNo},#{userId},#{visitorNum},#{reserveDate},#{reserveTime},#{emergencyPhone}
++ (SELECT BREWERY_NAME FROM BREWERY_TBL WHERE BREWERY_NO = #{breweryNo})
++ ,DEFAULT,15000,1,#{breweryNo});
+  </insert>
+  
+  <select id="SearchInfo" resultMap="reserveResultMap">
+@@ -77,12 +79,17 @@
+  </select>
+  
+  <select id="selectOne" resultType="Reservation">
+- 	<!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
+-	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
+-	join tour_tbl using(tour_name) join brewery_tbl using (brewery_name) 
+-	WHERE RESERVE_NO=#{reserveNo};
++ 	 <!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
++	select * from reservation_tbl join user_tbl using(user_Id) 
++	join brewery_tbl using (brewery_no) 
++	join tour_tbl using(tour_no) where RESERVE_NO=#{reserveNo}
+  </select>
++ 
+  <select id="selectInfo" resultMap="userResultMap">
+  	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
+  </select>
++ 
++ <select id="selectTourInfo" resultType="Reservation">
++ 	SELECT * FROM RESERVATION_TBL JOIN TOUR_TBL USING (TOUR_No) WHERE TOUR_NAME=#{tourName} 
++ </select>
+  </mapper>
+\ No newline at end of file
+diff --git a/src/main/resources/templates/ReservationImg/kakaoPay.png b/src/main/resources/templates/ReservationImg/kakaoPay.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..4ed0ae7b251191ae27c08d5eba06ee0e831cdf38
+GIT binary patch
+literal 1619
+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
+ZLN71=)O9Q9-T(Iiq1=7k>RlqQ{s&e~0e=7h
+
+literal 0
+HcmV?d00001
+
+diff --git a/src/main/resources/templates/kakaoPay.html b/src/main/resources/templates/kakaoPay.html
+index 9d75618..2106cd8 100644
+--- a/src/main/resources/templates/kakaoPay.html
++++ b/src/main/resources/templates/kakaoPay.html
+@@ -8,6 +8,6 @@
+ 		<h1>카카오 페이 테스트</h1>
+ 		<form method="post" th:action="@{/kakaoPay}">
+ 		    <button type="submit">결제하기</button>
+-		</form>
++		<form method="post" th:action="@{/kakaoPay}">
+ 	</body>
+ </html>
+\ No newline at end of file
+diff --git a/src/main/resources/templates/reservation/paymentPage.html b/src/main/resources/templates/reservation/paymentPage.html
+new file mode 100644
+index 0000000..7d50d12
+--- /dev/null
++++ b/src/main/resources/templates/reservation/paymentPage.html
+@@ -0,0 +1,47 @@
++<!DOCTYPE html>
++<html xmlns:th="http://thymeleaf.org">
++	<head>
++	<meta charset="UTF-8">
++	<title>결제 정보 창</title>
++	</head>
++	<body>
++		<h2>결제 정보</h2>
++		<div class="main" th:each="Reservation: ${rList}">
++			<div class="main-left">
++				<div class="paymentMethod">
++					<input type="radio" name="kakaoPay">
++					<input type="radio" name="DepositwithoutBankbook">
++				</div>
++				<div class="kakaoPayInfo">
++					<img alt="./reservationImg/kakaoPay.png" src="">
++					카카오페이
++					<span>[[${Reservation.email]]</span>
++				</div>
++				<div class="DepositwithoutBankbook">
++					<div>
++						00은행 : 0000-00-0000 예금주명
++					</div>
++					<div class="depositName">
++						<input type="text" placeholder="입금자명(미 입력시 주문자명)">
++					</div>
++				</div>
++			</div>
++			<div class="main-right">
++				총 결제 금액
++				<span>[[${Reservation.tourPrice}]]</span>
++				<hr>
++				<div class="paymentInfo1">
++					<span>상품금액</span>
++					<span>[[${Reservation.tourPrice}]]</span>
++				</div>
++				<div class="paymentInfo2">
++					<span>VAT</span>
++					<span>[[${Reservation.tourPrice} % 10]]</span>
++				</div>
++			</div>
++			<form method="post" th:action="@{/kakaoPay}">
++				<button>결제 하기</button>
++			</form>
++		</div>
++	</body>
++</html>
+\ No newline at end of file
+diff --git a/src/main/resources/templates/reservation/registerPage.html b/src/main/resources/templates/reservation/registerPage.html
+index 1d2a73d..4677c95 100644
+--- a/src/main/resources/templates/reservation/registerPage.html
++++ b/src/main/resources/templates/reservation/registerPage.html
+@@ -41,6 +41,7 @@
+ 			</div>
+ 			<div class="emergency">
+ 				<input type="text" placeholder="비상 연락처를 입력해주세요" name="emergencyPhone">
++				<span>하이픈 제외하고 적어주세요</span>
+ 			</div>
+ 		</fieldset>
+ 		<button >예약하기</button>
+diff --git a/src/main/resources/templates/reservation/reservationlookupdetail.html b/src/main/resources/templates/reservation/reservationlookupdetail.html
+index c5d815d..16cc995 100644
+--- a/src/main/resources/templates/reservation/reservationlookupdetail.html
++++ b/src/main/resources/templates/reservation/reservationlookupdetail.html
+@@ -69,13 +69,13 @@
+ 					</tr>
+ 				</thead>
+ 				<tbody>
+-					<tr>
+-						<td>[[${Reservation.filename}]]</td>
++					<tr th:object="${reservation}">
++						<td><img th:src="@{${ImagePath}}" alt="Brewery Image"/></td>
+ 						<td>[[${Reservation.breweryName}]]</td>
+ 						<td>[[${Reservation.tourName}]]</td>
+ 						<td>[[${Reservation.tourPrice}]]</td>
+-						<td>[[${Reservation.visitNum]]</td>
+-						<td>[[${Reservation.tourPrice * Reservation.visitNum}]]</td>
++						<td>[[${Reservation.visitorNum}]]</td>
++						<td>[[${Reservation.tourPrice}*${Reservation.visitorNum}]]</td>
+ 					</tr>
+ 				</tbody>
+ 			</table>
+-- 
+2.46.0.windows.1
+
