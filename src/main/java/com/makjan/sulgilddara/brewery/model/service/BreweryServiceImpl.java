@@ -17,6 +17,7 @@ import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 import com.makjan.sulgilddara.common.utility.Util;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
 @Service
@@ -85,9 +86,9 @@ public class BreweryServiceImpl implements BreweryService{
 	}
 
 	@Override
-	public List<Brewery> selectRandom() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BreweryTag> selectRandomTag() {
+		List<BreweryTag> tList = mapper.selectRandomTag();
+		return tList;
 	}
 
 	@Override
@@ -163,6 +164,12 @@ public class BreweryServiceImpl implements BreweryService{
 	public List<Brewery> searchBreweryByTag(String tagName) {
 		List<Brewery> bList = mapper.selectTagList(tagName);
 		return bList;
+	}
+
+	@Override
+	public List<LiquorImage> selectLiquorImageByNo(Integer breweryNo) {
+		List<LiquorImage> iList = mapper.searchLiquorImageByNo(breweryNo);
+		return iList;
 	}
 	
 	

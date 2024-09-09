@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>양조장 리스트</title>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 		<link rel="stylesheet" href="../../css/breweryList.css">
 
@@ -73,20 +74,23 @@
 	        const liquors = breweryData.liquors;
 	        const tags = breweryData.tags;
 	        
-	        const liquorTypes = liquors.map(l => l.liquorType).join(", ");
+	        const liquorTypes = [...new Set(liquors.map(l => l.liquorType))].join(", ");
 	        const liquorNames = liquors.map(l => l.liquorName).join(", ");
 	        
 	        const hashTags = tags.map(t => t.breweryTagName).join(" ");
 	        
-	        breweryListHtml += `<div class="detail-div">
-	            <div class="img-div" style="background-image: url('${brewery.filePath}/${brewery.fileRename}');"></div>
+	        breweryListHtml += `<div class="detail-div" data-brewery-id="${brewery.breweryNo}">
+	            <div class="img-div" style="background-image: url('${brewery.filePath}/${brewery.fileRename}');" onclick="goToBreweryDetail(${brewery.breweryNo})""></div>
 	            <ul class="text-div">
-	                <li class="name">${brewery.breweryName}</li>
-	                <li>주소 | ${brewery.breweryAddr}</li>
-	                <li>주종 | ${liquorTypes}</li>
+	                <li class="name" onclick="goToBreweryDetail(${brewery.breweryNo})">${brewery.breweryName}</li>
+	                <li><b>주소</b> | ${brewery.breweryAddr}</li>
+	                <li><b>주종</b> | ${liquorTypes}</li>
 	                <li>${hashTags}</li>
 	            </ul>
 	        </div>`;
 	    });
 	    document.getElementById('breweryListContainer').innerHTML = breweryListHtml;
+	    function goToBreweryDetail(breweryNo) {
+	    	window.location.href = `/brewery/detail/${breweryNo}`;
+	    }
 	</script>

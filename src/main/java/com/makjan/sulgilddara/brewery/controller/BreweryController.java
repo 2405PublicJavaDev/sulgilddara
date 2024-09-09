@@ -1,6 +1,7 @@
 package com.makjan.sulgilddara.brewery.controller;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.hc.client5.http.ClientProtocolException;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,7 @@ import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.model.vo.Pagination;
 import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
@@ -48,7 +51,9 @@ public class BreweryController {
 		this.tService = tService;
 	}
 	@GetMapping("/")
-	public String showMain() {
+	public String showMain(Model model) {
+		List<BreweryTag> tList = bService.selectRandomTag();
+		model.addAttribute("tList", tList);
 		return "brewery/breweryMain";
 	}
 	
@@ -64,7 +69,7 @@ public class BreweryController {
 	    if (facilities != null && facilities.length > 0) {
 	        String facilitiesJson = new ObjectMapper().writeValueAsString(facilities);
 	        inputBrewery.setFacilities(facilitiesJson); 
-	    }
+	    }	
 	    
 		int result = bService.insertBrewery(inputBrewery);
 		if(breweryTag != null && breweryTag.getBreweryTagName() != null && !breweryTag.getBreweryTagName().isEmpty()) {
@@ -243,5 +248,42 @@ public class BreweryController {
 		List<BreweryTag>tList = bService.showAllTag();
 		model.addAttribute("tList", tList);
 		return "brewery/breweryList";
+	}
+	@GetMapping("/detail/{breweryNo}")
+	public String showBreweryDetail(@PathVariable ("breweryNo") Integer breweryNo,
+			Model model) {
+		Brewery brewery = bService.searchOneByNo(breweryNo);
+		String localName = brewery.getBreweryLocal();
+		localName = getLocalName(localName);
+		brewery.setBreweryLocal(localName);
+		model.addAttribute("brewery", brewery);
+		
+		List<Tour> tList = tService.showTourByBrwNo(breweryNo);
+		model.addAttribute("tList", tList);
+		
+		List<Map<String, Object>> liquorList = new ArrayList<>();
+		Map<String, Object> liquorMap = new HashMap<>(); 
+		
+		List<Liquor> lList = bService.selectLiquorByNo(breweryNo);
+		liquorMap.put("lList", lList);
+		
+		List<LiquorImage> iList = bService.selectLiquorImageByNo(breweryNo);
+		liquorMap.put("iList", iList);
+		
+		model.addAttribute("liquorMap", liquorMap);
+		
+		return "brewery/breweryDetail";	
+		
+	}
+	public String getLocalName(String local) {
+	    switch (local) {
+	        case "sudo": return "수도권";
+	        case "gang": return "강원";
+	        case "chung": return "충청";
+	        case "gyeong": return "경상";
+	        case "jeoll": return "전라";
+	        case "jeju": return "제주";
+	        default: return "알 수 없음";
+	    }
 	}
 }
