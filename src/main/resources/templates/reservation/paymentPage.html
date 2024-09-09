@@ -2,46 +2,50 @@
 <html xmlns:th="http://thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>결제 정보 창</title>
+<meta charset="UTF-8">
+<title>결제 정보 창</title>
+<link rel="stylesheet" href="/css/paymentPage.css">
 </head>
 
 <body>
 	<h2>결제 정보</h2>
 	<div class="main" th:each="Reservation: ${rList}">
 		<div class="main-left">
-			<div class="paymentMethod">
-				<input type="radio" name="kakaoPay" value="카카오페이">카카오페이
+			<div class="payment-box payment-method">
+				<h3>결제 수단</h3>
+				<label> <input type="radio" name="kakaoPay" value="카카오페이"
+					checked> 카카오페이
+				</label>
 			</div>
-			<div class="kakaoPayInfo">
-				<img alt="./reservationImg/kakaoPay.png" src="">
-				카카오페이
-				<span>[[${Reservation.email}]]</span>
-			</div>
-			<div class="DepositwithoutBankbook">
-				<div>
-					00은행 : 0000-00-0000 예금주명
+			<div class="payment-box kakao-pay-info">
+				<div class="kakaoPayImg">
+				<img alt="카카오페이" src="/img/kakaoPay.png"> 	
 				</div>
-				<div class="depositName">
-					<input type="text" placeholder="입금자명(미 입력시 주문자명)">
+				<div class="paymentMethod">
+				<span id="paymentMethod">카카오페이</span>
+				<span id="kakaoPayEmail" th:text="${Reservation.email}"></span>				
 				</div>
 			</div>
+			
 		</div>
 		<div class="main-right">
-			총 결제 금액
-			<span>[[${Reservation.tourPrice}]]</span>
-			<hr>
-			<div class="paymentInfo1">
-				<span>상품금액</span>
-				<span>[[${Reservation.tourPrice}]]</span>
+			<div class="payment-box">
+				<h3>총 결제금액</h3>
+				<div class="total-amount" th:text="${#numbers.formatDecimal(Reservation.tourPrice + (Reservation.tourPrice * 0.1), 0, 0)} + '원'"></div>
+				<hr>
+				<div class="payment-info">
+					<div class="tourPrice">
+						<span>상품금액</span>
+						<span th:text="${Reservation.tourPrice + '원'}"></span>
+					</div>
+					<div class="tourPrice">
+						<span id="productPrice">VAT</span>
+						 <span th:text="${#numbers.formatDecimal(Reservation.tourPrice * 0.1,0,0) + '원'}"></span>
+					</div>
+				</div>
 			</div>
-			<div class="paymentInfo2">
-				<span>VAT</span>
-				<span>[[${Reservation.tourPrice} % 10]]</span>
-			</div>
-		</div>
-		<form method="post" th:action="@{/kakaoPay}">
-			<button>결제 하기</button>
+			<form method="post" th:action="@{/kakaoPay}">
+				<button type="submit" class="pay-button">결제 하기</button>
 			<input type="hidden" name="email" th:value="${Reservation.email}">
 			<input type="hidden" name="tourPrice" th:value="${Reservation.tourPrice}">
 			<input type="hidden" name="userId" th:value="${Reservation.userId}">
@@ -50,9 +54,8 @@
 			<input type="hidden" name="breweryNo" th:value="${Reservation.breweryNo}">
 			<input type="hidden" name="tourContent" th:value="${Reservation.tourContent}">
 			<input type="hidden" name="visitorNum" th:value="${Reservation.visitorNum}">
-
-		</form>
+			</form>
+		</div>
 	</div>
 </body>
-
 </html>

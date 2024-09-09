@@ -92,4 +92,10 @@ public class TourServiceImpl implements TourService{
 		return tList;
 	}
 
+	@Override
+	public Tour searchByInfo(Integer tourNo, String tourName,Integer breweryNo) {
+		Tour tour = mapper.searchByInfo(tourNo,tourName,breweryNo);
+		return tour;
+	}
+
 }

@@ -1,0 +1,101 @@
+body {
+	font-family: Arial, sans-serif;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.logo {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.nav {
+	display: flex;
+	gap: 20px;
+}
+
+.nav a {
+	text-decoration: none;
+	color: #333;
+}
+
+.main {
+	display: flex;
+	gap: 20px;
+}
+
+.main-left {
+	flex: 2;
+}
+
+.main-right {
+	flex: 1;
+}
+
+.payment-box {
+	background-color: #f0f0f0;
+	padding: 15px;
+	margin-bottom: 15px;
+}
+
+.payment-method {
+	margin-bottom: 15px;
+}
+
+.kakao-pay-info {
+	display: flex; background-color : #f0f0f0;
+	padding: 10px;
+	margin-bottom: 15px;
+	background-color: #f0f0f0;
+}
+
+.deposit-info {
+	font-size: 14px;
+}
+
+.total-amount {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.pay-button {
+	background-color: #333;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	width: 100%;
+}
+
+#kakaoPayEmail {
+	position: relative;
+	top: 55px;
+	margin-left: 10px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#paymentMethod {
+	margin-left: 10px;
+	position: relative;
+	top: 35px;
+	font-size: 15px;
+	font-weight: bold;
+}
+.tourPrice{
+	display:flex;
+	margin-bottom:15px;
+	justify-content:space-between;
+}
+#productPrice{
+	position:relative;
+	top:3px;
+}

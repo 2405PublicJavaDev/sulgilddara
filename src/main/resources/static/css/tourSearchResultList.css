@@ -1,0 +1,94 @@
+/* tourList.css */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.search-form {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.search-form button {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.tour-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tour-item {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+}
+
+.tour-img {
+    width: 150px;
+    height: 100px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.tour-content {
+    flex: 1;
+}
+
+.tour-title {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.tour-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.tour-brewery {
+    font-weight: bold;
+}
+
+.tour-time-price {
+    font-size: 14px;
+    color: #666;
+}
+
+.reserve-button {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    float: right;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+}

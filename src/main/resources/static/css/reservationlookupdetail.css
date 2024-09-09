@@ -1,0 +1,108 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 20px;
+	background-color: #f0f0f0;
+}
+
+.main {
+	max-width: 1000px;
+	margin: 0 auto;
+	background-color: white;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-top {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.main-top-left{
+	flex:8;
+}
+.main-top-right{
+	flex:4;
+	
+}
+.main-top-left, .main-top-right {
+	background-color: #f9f9f9;
+	padding: 15px;
+	width: 48%;
+}
+
+.Info h3 {
+	margin-top: 0;
+}
+
+.Info-Div {
+	display: flex;
+	background-color: #e0e0e0;
+	padding: 10px 0;
+}
+
+.Info-Div div {
+	flex: 1;
+	text-align: center;
+	font-weight: bold;
+}
+
+.detail-Info {
+	display: flex;
+}
+
+.detail-Info .Info {
+	flex: 1;
+	padding: 10px;
+}
+
+.Info-title {
+	font-weight: bold;
+	margin-bottom: 5px;
+	text-align:center;
+}
+.info-content{
+	text-align:center;
+	width:100%;
+}
+
+.creditTitle h2 {
+	margin-top: 0;
+}
+
+.creditContent {
+	margin-bottom: 15px;
+}
+
+.creaditCancel button {
+	padding: 10px 20px;
+	background-color: #ff4444;
+	color: white;
+	border: none;
+	cursor: pointer;
+	width:100%;
+}
+
+.main-bottom table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.main-bottom th, .main-bottom td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: center;
+}
+
+.main-bottom th {
+	background-color: #f2f2f2;
+}
+
+.main-bottom img {
+	max-width: 100px;
+	max-height: 100px;
+}
+.paymentInfo{
+	margin-bottom:30px;
+}

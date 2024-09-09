@@ -56,6 +56,14 @@ public interface TourService {
 	 * @return
 	 */
 	List<Tour> ShowInfoByNo(Integer tourNo, Integer breweryNo);
+	/**
+	 * 번호와 체험명으로 조회
+	 * @param tourNo
+	 * @param tourName
+	 * @param breweryNo 
+	 * @return
+	 */
+	Tour searchByInfo(Integer tourNo, String tourName, Integer breweryNo);
 
 	
 }

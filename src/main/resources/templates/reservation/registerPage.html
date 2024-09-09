@@ -1,97 +1,130 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-	<meta charset="UTF-8">
-	<title>예약</title>
+<head>
+<meta charset="UTF-8">
+<title>예약</title>
+<link rel="stylesheet" href="/css/Reservationregister.css">
+</head>
+<body>
+	<div class="reservation-info">
+		<div class="breweryInfo" th:text="${tour.breweryName}"></div>
+		<div class="breweryInfo1" th:text="${tour.breweryAddr}"></div>
+		<div class="breweryInfo1" th:text="${tour.breweryPhone}"></div>
+	</div>
+	<form th:action="@{/reservation/register}" method="POST">
+		<div class="reservationDate">
+			<h3>방문일자 선택</h3>
+			날짜*
+			<div id="reserveDate">			
+			</div> 
+			<input id="reserveDateInput" type="hidden" name="reserveDate" value="111">
+			<div class="DateData"></div>
+		</div>
 
-	</head>
-	<body>
-	<div class="breweryInfo">
-		[[${tour.tourName}]]
-	</div>
-	
-	<form th:action="@{/reservation/register}"  method="POST">
-	<div class="reservationDate">
-		<h3>방문일자 선택</h3>
-		날짜*
-		<div class="DateData"></div>
-		<span id="reserveDate"></span>
-		<input id="reserveDateInput" type="hidden" name="reserveDate" value="111">
-	</div>
-		<h1>예약 정보 입력</h1>
-		<fieldset>
-			<legend>예약 정보</legend>
-			<h3>방문인원*</h3><p>해당 양조장의 최소~최대 인원은 10~36명입니다</p>
-			<div class="visitorNum">
-				<input type="text" name="visitorNum">
+		<div class="reservation-info">
+			<h2>예약자 정보</h2>
+
+			<div class="form-group">
+				<label for="visitorPhone">비상 연락처* (하이픈 제외하고 작성해주세요)</label> <input type="tel"
+					id="visitorPhone" name="visitorPhone"
+					placeholder="비상연락처를 입력해 주세요." required pattern="[0-9]{10,11}">
 			</div>
-			<div class="reservationTime">
-					<select name="reserveTime">
-						<option value="선택"></option>
-				        <option value="09:00">09:00 AM</option>
-				        <option value="10:00">10:00 AM</option>
-				        <option value="11:00">11:00 AM</option>
-				        <option value="12:00">12:00 PM</option>
-				        <option value="13:00">01:00 PM</option>
-				        <option value="14:00">02:00 PM</option>
-				        <option value="15:00">03:00 PM</option>
-				        <option value="16:00">04:00 PM</option>
-				        <option value="17:00">05:00 PM</option>
-				    </select>
+
+			<div class="form-group">
+				<label for="visitorNum">방문 인원*</label> <input type="number"
+					id="visitorNum" name="visitorNum" min="10" max="40" required>
+				<p class="info-text">해당 양조장의 최소~최대 인원은 10~40명 입니다.</p>
 			</div>
-			<div class="emergency">
-				<input type="text" placeholder="비상 연락처를 입력해주세요" name="emergencyPhone">
-				<span>하이픈 제외하고 적어주세요</span>
+
+			<div class="form-group">
+				<label for="reserveTime">방문 희망 시간*</label> <select id="reserveTime"
+					name="reserveTime" required>
+					<option value="">선택</option>
+					<option value="09:00">09:00 AM</option>
+					<option value="10:00">10:00 AM</option>
+					<option value="11:00">11:00 AM</option>
+					<option value="12:00">12:00 PM</option>
+					<option value="13:00">01:00 PM</option>
+					<option value="14:00">02:00 PM</option>
+					<option value="15:00">03:00 PM</option>
+					<option value="16:00">04:00 PM</option>
+					<option value="17:00">05:00 PM</option>
+				</select>
 			</div>
-		</fieldset>
-		<button >예약하기</button>
-		<input type="hidden" name="reserveNo" th:value="${reservation.reserveNo}">
-		<input type="hidden" name="tourNo" th:value="${reservation.tourNo}">
-		<input type="hidden" name="breweryNo" th:value="${reservation.breweryNo}">
+		</div>
+		<button type="submit" id="reserveButton">예약하기</button>
+		<input type="hidden" name="reserveNo"
+			th:value="${reservation.reserveNo}"> <input type="hidden"
+			name="tourNo" th:value="${reservation.tourNo}"> <input
+			type="hidden" name="breweryNo" th:value="${reservation.breweryNo}">
 	</form>
-		<script>
-		
-        function createCalendar(year, month) {
-            const date = new Date(year, month - 1);
-            const daysInMonth = new Date(year, month, 0).getDate();
-            const firstDay = new Date(year, month - 1, 1).getDay();
 
-            let html = '<table>';
-            html += '<tr class="header"><th colspan="7">' + year + '년 ' + month + '월</th></tr>';
-            html += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>';
+	<script>
+		let currentYear, currentMonth;
 
-            let day = 1;
-            for (let i = 0; i < 6; i++) {
-                html += '<tr>';
-                for (let j = 0; j < 7; j++) {
-                    if (i === 0 && j < firstDay) {
-                        html += '<td></td>';
-                    } else if (day > daysInMonth) {
-                        html += '<td></td>';
-                    } else {
-                        html += '<td onclick="selectDate(' + year + ',' + month + ',' + day + ')">' + day + '</td>';
-                        day++;
-                    }
-                }
-                html += '</tr>';
-                if (day > daysInMonth) {
-                    break;
-                }
-            }
-            html += '</table>';
+		function createCalendar(year, month) {
+			currentYear = year;
+			currentMonth = month;
+			const date = new Date(year, month - 1);
+			const daysInMonth = new Date(year, month, 0).getDate();
+			const firstDay = new Date(year, month - 1, 1).getDay();
 
-            document.querySelector('.DateData').innerHTML = html;
-        }
+			let html = '<table>';
+			html += '<tr class="header">';
+			html += '<th colspan="7">';
+			html += '<button onclick="changeMonth(-1)">&lt;</button>';
+			html += year + '년 ' + month + '월';
+			html += '<button onclick="changeMonth(1)">&gt;</button>';
+			html += '</th></tr>';
+			html += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>';
 
-        function selectDate(year, month, day) {
-            const selectedDate = year + '년 ' + month + '월 ' + day + '일';
-            document.getElementById('reserveDate').textContent = selectedDate;
-            document.querySelector("#reserveDateInput").value = selectedDate;
-        }
+			let day = 1;
+			for (let i = 0; i < 6; i++) {
+				html += '<tr>';
+				for (let j = 0; j < 7; j++) {
+					if (i === 0 && j < firstDay) {
+						html += '<td></td>';
+					} else if (day > daysInMonth) {
+						html += '<td></td>';
+					} else {
+						html += '<td onclick="selectDate(' + year + ',' + month
+								+ ',' + day + ')">' + day + '</td>';
+						day++;
+					}
+				}
+				html += '</tr>';
+				if (day > daysInMonth) {
+					break;
+				}
+			}
+			html += '</table>';
 
-        // 현재 날짜로 달력 생성
-        const now = new Date();
-        createCalendar(now.getFullYear(), now.getMonth() + 1);
-    </script>
-	</body>
+			document.querySelector('.DateData').innerHTML = html;
+		}
+
+		function selectDate(year, month, day) {
+			const selectedDate = year + '년 ' + month + '월 ' + day + '일';
+			document.getElementById('reserveDate').textContent = selectedDate;
+			document.querySelector("#reserveDateInput").value = year + '-'
+					+ String(month).padStart(2, '0') + '-'
+					+ String(day).padStart(2, '0');
+		}
+
+		function changeMonth(delta) {
+			currentMonth += delta;
+			if (currentMonth > 12) {
+				currentMonth = 1;
+				currentYear++;
+			} else if (currentMonth < 1) {
+				currentMonth = 12;
+				currentYear--;
+			}
+			createCalendar(currentYear, currentMonth);
+		}
+
+		// 현재 날짜로 달력 생성
+		const now = new Date();
+		createCalendar(now.getFullYear(), now.getMonth() + 1);
+	</script>
+</body>
 </html>

@@ -1,62 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>술컴퍼니</title>
+    <link rel="stylesheet" href="/css/tourList.css">
 </head>
-
 <body>
-	<form th:action="@{/reservation/listSearchResult}" th:object="${tour}" method="POST">
-		<div>
-			<input type="text" name="tourName" th:value="${tourName}">
-			<button type="submit">검색</button>
-		</div>
-	</form>
-	
-	<div th:each="Tour: ${tList}">
-		<div class="main">
-			<div class="tourInfo">
-				<div class="Tourimg">
-					<div><img th:src="@{${Tour.ImagePath}}" alt="Tour Image" /></div>
-				</div>
-				<div class="TourContent">
-					<p>[[${Tour.tourNo}]]</p>
-					<p>[[${Tour.breweryNo}]]</p>
-					<span th:text="${Tour.breweryName}"></span><br>
-					<span th:text="${Tour.tourName}"></span>
-					<p th:text="${Tour.tourContent}"></p>
-					<p th:text="${Tour.timeTaken}"></p>
-					<p th:text="${Tour.tourPrice}"></p>
-					
-				</div>
-			</div>
-		</div>
-	<form th:action="@{/reservation/initate/{breweryNo}/{tourNo}(breweryNo=${Tour.breweryNo},tourNo=${Tour.tourNo})}" method="POST">
-			<input type="hidden" name="tourNo" th:value="${Tour.tourNo}">
-			<input type="hidden" name="breweryNo" th:value="${Tour.breweryNo}">
-			<button>예약하기</button>
-		</form>
-	</div>
-	<th:block th:unless="${#lists.isEmpty(tList)}">
-		<tr align="center">
-			<td colspan="5">
-				<th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
-					<th:block th:if="${pn.startNavi > 1}">
-						<a th:href="@{/reservation/list(currentPage=${pn.prevPage})}">Previous</a>
-					</th:block>
+    <header>
+        <div class="header-top">
+            <div style="width: 100px;;"></div>
+            <div id="logo-container">
+                <img src="./img/logo.png" alt="" id="logo">
+                <h1>술길따라</h1>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="icon-user"><img class="header-img" src="./img/free-icon-user-17095347.png" alt=""></a>
+                <a href="#" class="icon-menu"><img class="header-img" src="./img/free-icon-menu-3856832.png" alt=""></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#story">술길따라 이야기</a></li>
+                <li><a href="#brewery">양조장 탐방</a></li>
+                <li><a href="#guide">술 도감</a></li>
+                <li><a href="#tour">투어 예약</a></li>
+                <li><a href="#tales">술 이야기</a></li>
+            </ul>
+        </nav>
+    </header>
 
-					<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
-						<a th:href="@{/reservation/list(currentPage=${p},tourName=${tourName})}" th:text="${p}"></a>
-					</th:block>
+    <form th:action="@{/reservation/listSearchResult}" th:object="${tour}" method="POST" class="search-form">
+        <input type="text" name="tourName" th:value="${tourName}" placeholder="투어 이름 검색">
+        <button type="submit">검색</button>
+    </form>
 
-					<th:block th:if="${pn.endNavi < pn.maxPage}">
-						<a th:href="@{/reservation/list(currentPage=${pn.nextPage})}">Next</a>
-					</th:block>
-				</th:block>
-			</td>
-		</tr>
-	</th:block>
+    <div th:each="Tour: ${tList}" class="tour-item">
+        <div class="tour-img">
+            <img th:src="@{${Tour.ImagePath}}" alt="Tour Image" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="tour-content">
+            <h2 class="tour-title" th:text="${Tour.tourName}"></h2>
+            <p class="tour-info" th:text="${Tour.tourContent}"></p>
+            <p class="tour-info" th:text="${Tour.breweryName}"></p>
+            <p class="tour-info">
+                <span th:text="${Tour.timeTaken}"></span> | 
+                <span class="tour-price" th:text="${Tour.tourPrice}"></span>
+            </p>
+            <form th:action="@{/reservation/initate/{breweryNo}/{tourNo}(breweryNo=${Tour.breweryNo},tourNo=${Tour.tourNo})}" method="POST">
+                <input type="hidden" name="tourNo" th:value="${Tour.tourNo}">
+                <input type="hidden" name="breweryNo" th:value="${Tour.breweryNo}">
+                <input type="hidden" name="tourName" th:value="${Tour.tourName}">
+                <button class="reserve-button">예약 하기</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="pagination" th:if="${not #lists.isEmpty(tList)}">
+        <a th:if="${pn.startNavi > 1}" th:href="@{/reservation/list(currentPage=${pn.prevPage})}">&laquo; 이전</a>
+        <span th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
+            <a th:href="@{/reservation/list(currentPage=${p},tourName=${tourName})}" th:text="${p}"></a>
+        </span>
+        <a th:if="${pn.endNavi < pn.maxPage}" th:href="@{/reservation/list(currentPage=${pn.nextPage})}">다음 &raquo;</a>
+    </div>
 </body>
-
 </html>

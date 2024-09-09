@@ -57,8 +57,9 @@ public class ReservationController {
 	@PostMapping("/reservation/initate/{breweryNo}/{tourNo}")
 	public String initateRegister(Model model, HttpSession session,
 			@PathVariable("tourNo") Integer tourNo
-			,@PathVariable("breweryNo")Integer breweryNo) {
-		Tour tour = tService.searchByNo(tourNo);
+			,@PathVariable("breweryNo")Integer breweryNo
+			,@RequestParam("tourName")String tourName) {
+		Tour tour = tService.searchByInfo(tourNo,tourName,breweryNo);
 		System.out.println("ReservationCOntroller: " + tour);
 //		Brewery brewery = bService.searchOneByNo(breweryNo);
 		session.setAttribute("tour", tour);
@@ -102,7 +103,7 @@ public class ReservationController {
 //		reservation.setBreweryNo(breweryNo);
 		System.out.println("Reservaton: "+ reservation);
 		Tour sessionTour = (Tour) session.getAttribute("tour");
-		tour = tService.searchByNo(sessionTour.getTourNo());
+		tour = tService.searchByInfo(sessionTour.getTourNo(),sessionTour.getTourName(),sessionTour.getBreweryNo());
 		String randomString = generateRandomString(10);
 		reservation.setReserveNo(randomString);
         int result = rService.RegisterInfo(reservation,tour,brewery);
@@ -178,6 +179,7 @@ public class ReservationController {
 			System.out.println("ControllerTList:" + tList);
 			// Brewery 이미지 경로 설정
 			String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
+			tour.setImagePath(imagePath);
 			System.out.println(imagePath);
 			model.addAttribute("ImagePath", imagePath);
 		} else {

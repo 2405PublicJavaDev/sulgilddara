@@ -27,5 +27,7 @@ public class Tour {
 	//brewery
 	private Integer breweryNo;
 	private String breweryName;
+	private String breweryAddr;
+	private String breweryPhone;
 	private MultipartFile uploadFile;
 }
