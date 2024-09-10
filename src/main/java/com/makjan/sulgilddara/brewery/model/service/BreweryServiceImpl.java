@@ -2,6 +2,7 @@ package com.makjan.sulgilddara.brewery.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -183,6 +184,70 @@ public class BreweryServiceImpl implements BreweryService{
 		List<Brewery> bList = mapper.selectFourTagList(tagName);
 		return bList;
 	}
+
+	@Override
+	public Map<String, String> mapFacilitiesToIcons(List<String> fList) {
+		 Map<String, String> iconMap = new HashMap<>();
+		    iconMap.put("주차장", "/img/park.png");
+		    iconMap.put("화장실", "/img/restroom.png");
+		    iconMap.put("와이파이", "/img/wifi.png");
+		    iconMap.put("에어컨", "/img/air-conditioner.png");
+		    iconMap.put("카페", "/img/cafe.png");
+		    iconMap.put("안내소", "/img/information.png");
+		    iconMap.put("물품 보관소", "/img/luggage.png");
+		    iconMap.put("금연", "/img/nonsmoking.png");
+		    iconMap.put("흡연 구역", "/img/smoking.png");
+		    iconMap.put("레스토랑", "/img/restaurant.png");
+
+		    Map<String, String> result = new HashMap<>();
+		    for (String facility : fList) {
+		        if (iconMap.containsKey(facility)) {
+		            result.put(facility, iconMap.get(facility));
+		        }
+		    }
+		return result;
+	}
+
+	@Override
+	public String getFacilityKorean(String facility) {
+		 switch (facility) {
+         case "park":	
+             return "주차장";
+         case "restroom":
+             return "화장실";
+         case "wifi":
+             return "와이파이";
+         case "air-conditioner":
+             return "에어컨";
+         case "cafe":
+             return "카페";
+         case "information":
+             return "안내소";
+         case "luggage":
+             return "물품 보관소";
+         case "non-smoking":
+             return "금연";
+         case "smoking":
+             return "흡연 구역";
+         case "restaurant":
+             return "레스토랑";
+         default:
+             return facility;
+	     }
+	 }
+
+	@Override
+	public String getLocalName(String localName) {
+	    switch (localName) {
+        case "sudo": return "수도권";
+        case "gang": return "강원";
+        case "chung": return "충청";
+        case "gyeong": return "경상";
+        case "jeoll": return "전라";
+        case "jeju": return "제주";
+        default: return "알 수 없음";
+    }
+}
 	
 	
 }

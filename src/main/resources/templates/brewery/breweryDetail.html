@@ -50,16 +50,17 @@
 			        <h1 class="brewery-name" th:text="${brewery.breweryName}"></h1>
 			        <ul class="info-list">
 			            <li><b>주소:</b> <span th:text="${brewery.breweryAddr}"></span></li>
+			            <li><b>전화번호:</b> <span th:text="${brewery.breweryPhone}"></span></li>
 			            <li><b>영업시간:</b> <span th:text="${brewery.openTime} + ' ~ ' + ${brewery.closeTime}"></span></li>
 						<li><b>주종:</b>
 							<span th:each="liquor, iterStat : ${liquorMap.lList}" 
 				          th:if="${iterStat.index == 0 || liquor.liquorType != liquorMap.lList[iterStat.index-1].liquorType}"
 				          th:text="${liquor.liquorType + ' '}"></span>
 						</li>
-					</ul>
+						<li><b>홈페이지:</b> <a th:href="@{${brewery.breweryUrl}}" th:text="${brewery.breweryUrl}">홈페이지 링크</a></li>					</ul>
 				</div>
 			</div>
-			<h2 class="section-title">생산제품</h2>
+			<h2 class="section-title" id="productGoods">생산제품</h2>
 			<div class="products-container">
 			    <div th:each="liquor, iterStat : ${liquorMap.lList}" class="product">
 			        <img th:if="${iterStat.index < liquorMap.iList.size()}" 
@@ -115,20 +116,30 @@
 			
 
 			<h2 class="section-title">편의시설</h2>
-			<div class="amenities" th:text="${brewery.facilities}">
-				<div class="amenity">
-					<!-- 					<img src="" alt="편의시설 1 이미지"> -->
-				</div>
+			<div class="amenities">
+			    <div class="amenity" th:each="fac : ${iconMap}">
+			        <img th:src="@{${fac.value}}" />
+			        <div class="fac-name" th:text="${fac.key}"></div>
+			    </div>
 			</div>
-
 			<h2 class="section-title">키즈존</h2>
-			<div class="amenity">
-				<!-- 				<img src="" alt="키즈존 이미지"> -->
+			<div th:if="${brewery.kidsZone == 'yes'}" class="amenity">
+			    <img th:src="@{/img/yesbaby.png}" alt="Kids Zone Available" />
+			    <div class="fac-name">입장 가능</div>
 			</div>
-
+			<div th:if="${brewery.kidsZone == 'no'}" class="amenity">
+			    <img th:src="@{/img/nobaby.png}" alt="Kids Zone Not Available" />
+			    <div class="fac-name">입장 불가</div>
+			</div>
+			
 			<h2 class="section-title">장애인 편의시설</h2>
-			<div class="amenity">
-				<!-- 				<img src="" alt="장애인 편의시설 이미지"> -->
+			<div th:if="${brewery.disFriendly == 'yes'}" class="amenity">
+			    <img th:src="@{/img/yesdisabled.png}" alt="Accessibility Available" />
+			    <div class="fac-name">휠체어 출입구</div>
+			</div>
+			<div th:if="${brewery.disFriendly == 'no'}" class="amenity">
+			    <img th:src="@{/img/nodisabled.png}" alt="Accessibility Not Available" />
+			    <div class="fac-name">별도 시설 없음</div>
 			</div>
 		</div>
 	</main>
