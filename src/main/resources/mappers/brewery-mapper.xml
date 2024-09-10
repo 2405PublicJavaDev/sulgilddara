@@ -138,12 +138,21 @@
 	  <select id="selectAllTag" resultType="BreweryTag">
 	  	SELECT DISTINCT BREWERY_TAG_NAME FROM BREWERY_TAG_TBL
 	  </select>
+<!-- 	  메인에서 전체보기 눌렀을 때 지역값 받아서 리스트 가기 위한 쿼리 -->	  
 	  <select id="selectTagList" resultType="Brewery">
 	  	<![CDATA[
 		  	SELECT * FROM BREWERY_TBL
 		  	JOIN BREWERY_TAG_TBL USING (BREWERY_NO)
 		  	WHERE BREWERY_TAG_NAME=#{tagName}
-		  	AND ROWNUM <= 4
+	    ]]>
+	  </select>
+<!-- 	  메인에서 랜덤 해시태그 별 양조장 네개만 출력하기 위한 쿼리 -->
+	  <select id="selectFourTagList" resultType="Brewery">
+	  	<![CDATA[
+		  	SELECT * FROM BREWERY_TBL
+		  	JOIN BREWERY_TAG_TBL USING (BREWERY_NO)
+		  	WHERE BREWERY_TAG_NAME=#{tagName}
+  		  	AND ROWNUM <= 4
 	    ]]>
 	  </select>
 	 <select id="searchLiquorByNo" resultType="Liquor">

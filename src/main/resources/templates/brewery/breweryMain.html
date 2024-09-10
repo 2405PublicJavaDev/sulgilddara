@@ -72,9 +72,12 @@
 					</span>				
 			  		<div id="brewery-list">
 			    		<div class="brewery-item" th:each="brewery : ${bList}">
-							<div class="brewery-image" th:style="|background-image: url('${brewery.filePath}/${brewery.fileRename}');|"></div>
+							<div class="brewery-image" 
+								th:onclick="'goToBreweryDetail(' + ${brewery.breweryNo} + ');'" 
+								th:style="|background-image: url('${brewery.filePath}/${brewery.fileRename}');|">
+							</div>
 						    <div class="brewery-info">    
-						        <h3 th:text="${brewery.breweryName}"></h3>
+						        <h3 th:text="${brewery.breweryName}" th:onclick="'goToBreweryDetail(' + ${brewery.breweryNo} + ');'"></h3>
 						        <p class="breweryAddr" th:text="${brewery.breweryAddr}"></p>
 						    </div>
 						</div>

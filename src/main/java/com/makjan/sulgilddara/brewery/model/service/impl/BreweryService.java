@@ -152,4 +152,11 @@ public interface BreweryService {
 	 * @return List<BreweryTag>
 	 */
 	List<BreweryTag> showAllTagByBrwNo(Integer breweryNo);
+
+	/**
+	 * 해시태그 별 양조장 4개 조회
+	 * @param local
+	 * @return
+	 */
+	List<Brewery> searchFourBreweryByTag(String tagName);
 }

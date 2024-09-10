@@ -251,7 +251,7 @@ public class BreweryController {
 	@GetMapping("/showByTag")
 	public String showSearchByHashTag2 (@RequestParam("tagName") String tagName
 			, Model model) {
-		List<Brewery> bList = bService.searchBreweryByTag(tagName);
+		List<Brewery> bList = bService.searchFourBreweryByTag(tagName);
 		model.addAttribute("bList", bList);
 		System.out.println(bList);
 		return "brewery/breweryMain::#brewery-list";
