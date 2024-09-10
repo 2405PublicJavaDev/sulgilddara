@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.makjan.sulgilddara.reservation.model.Mapper.ReservationMapper">
+	<resultMap type="Reservation" id="reserveResultMap">
+		<id property="reserveNo" column="RESERVE_NO" />
+		<result property="userId" column="USER_ID" />
+		<result property="memberNum" column="MEMBER_NUM" />
+		<result property="reserveDate" column="RESERVE_DATE" />
+		<result property="reserveTime" column="RESERVE_TIME" />
+		<result property="emergencyPhone" column="EMERGENCY_PHONE" />
+		<result property="breweryName" column="BREWERY_NAME" />
+		<result property="reserveCompleteTime"
+			column="RESERVE_COMPLETE_TIME" />
+		<result property="tourName" column="TOUR_NAME" />
+	</resultMap>
+
+	<resultMap type="User" id="userResultMap">
+		<id property="userId" column="USER_ID" />
+		<result property="userPw" column="USER_PW" />
+		<result property="userName" column="USER_NAME" />
+		<result property="email" column="EMAIL" />
+		<result property="isAdmin" column="IS_ADMIN" />
+		<result property="loginType" column="LOGIN_TYPE" />
+		<result property="gender" column="GEMDER" />
+		<result property="phone" column="PHONE" />
+		<result property="address" column="ADDRESS" />
+		<result property="joinDate" column="JOIN_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
+	</resultMap>
+
+	<insert id="registerInfo">
+		<!-- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, 
+			#{reserveDate}, #{reserveTime}, #{emergencyPhone} (SELECT brewery_tbl.BREWERY_NAME 
+			FROM BREWERY_TBL join tour_tbl using (brewery_no) WHERE tour_NO =#{tourNo}) 
+			,DEFAULT,#{select tour_price from tour_tbl where tour_no=#{tourNo}},#{tourNo},#{breweryNo}) -->
+
+		INSERT INTO reservation_tbl VALUES (
+		#{reservation.reserveNo}, #{reservation.userId}, #{reservation.visitorNum},
+		#{reservation.reserveDate},
+		#{reservation.reserveTime},#{reservation.emergencyPhone},
+		(SELECT brewery_name FROM brewery_tbl WHERE brewery_no =
+		#{tour.breweryNo}),DEFAULT,
+		(SELECT TOUR_PRICE FROM TOUR_TBL WHERE TOUR_NO=#{tour.tourNo}),
+		(SELECT TOUR_NO FROM TOUR_TBL JOIN BREWERY_TBL USING(BREWERY_NO) WHERE
+		BREWERY_NO=#{tour.breweryNo}AND
+		TOUR_NO=#{tour.tourNo}),#{tour.breweryNo},#{tour.tourName})
+
+
+	</insert>
+
+	<select id="searchInfo" resultMap="reserveResultMap">
+		SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
+	</select>
+
+	<select id="searchAllInfo" resultMap="reserveResultMap">
+		SELECT * FROM reservation_tbl
+		<where>
+			<if test="userId != null and userId != ''">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="breweryName != null and breweryName != ''">
+				AND brewery_Name = #{breweryName}
+			</if>
+		</where>
+	</select>
+
+	<select id="searchreserveNo" resultMap="reserveResultMap">
+		SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
+	</select>
+	<select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM reservation_tbl
+		<where>
+			<if test="userId != null and userId != ''">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="breweryName != null and breweryName != ''">
+				AND brewery_Name = #{breweryName}
+			</if>
+		</where>
+	</select>
+
+	<select id="getTotalCountWithConditiion" resultType="_int">
+		SELECT COUNT(*) FROM reservation_tbl
+		<where>
+			<if test="userId != null and userId != ''">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="breweryName != null and breweryName != ''">
+				AND brewery_Name = #{breweryName}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectOne" resultType="Reservation">
+		select reservation_tbl.reserve_No
+		,user_tbl.join_date,reservation_tbl.reserve_complete_time,user_tbl.email,user_tbl.phone,user_Id,brewery_tbl.filePath,brewery_tbl.fileRename,brewery_tbl.brewery_Name,tour_tbl.tour_Name,tour_tbl.tour_Price,reservation_tbl.visitor_Num
+		from reservation_tbl join User_TBL using (user_ID)join brewery_tbl
+		using(brewery_no) join tour_tbl using (tour_no) where reserve_no
+		=#{reserveNo}
+	</select>
+	<select id="selectInfo" resultMap="userResultMap">
+		SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
+	</select>
+	<!-- 투어리스트 총 게시글 검색 -->
+	<select id="getListTotalCount" resultType="_int">
+		select count(*) from TOUR_TBL
+		<where>
+			<if test="tourName!=null and tourName!=''">
+				AND TOUR_NAME=#{tourName}
+			</if>
+		</where>
+	</select>
+	<!-- 투어 리스트 페이지 검색에 따라 결과 출력 쿼리 -->
+	<select id="selectSearchList" resultType="Tour">
+		SELECT * FROM tour_tbl join brewery_tbl using (brewery_no) where
+		tour_name =#{tourName}
+	</select>
+	<!--투어 리스트(투어번호) - 양조장 리스트(양조장번호) 합치기 -->
+	<select id="showTourList" resultType="Tour">
+		SELECT
+		tour_name,tour_content,tour_Price,time_taken,brewery_name,tour_tbl.filePath,tour_tbl.fileRename,tour_no,brewery_no
+		FROM tour_tbl join brewery_tbl using (brewery_no)
+	</select>
+	<select id="searchPaymentInfo" resultType="reservation">
+		SELECT * FROM RESERVATION_TBL JOIN USER_TBL USING(USER_ID) JOIN TOUR_TBL
+		USING (TOUR_NO) WHERE RESERVE_NO=#{reservation.reserveNo}
+	</select>
+
+</mapper>
