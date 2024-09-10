@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 	<head>
 		<meta charset="UTF-8">
 		<title>양조장 정보 등록</title>
@@ -53,7 +54,7 @@
 	</head>
 	<body>
 		<h1>양조장 등록</h1>
-		<form action="/brewery/admin/write" method="post" enctype="multipart/form-data">
+		<form action="/brewery/write" method="post" enctype="multipart/form-data">
 			<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
 			지역 
 			<select id="local" name="breweryLocal">
@@ -132,4 +133,32 @@
 		    }
 		});
 	</script>
+=======
+<head>
+<meta charset="UTF-8">
+<title>양조장 정보 등록</title>
+</head>
+<body>
+	<h1>양조장 등록</h1>
+	<form action="/brewery/write" method="post" enctype="multipart/form-data">
+		<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
+		지역 
+		<select id="local" name="breweryLocal">
+			<option value="sudo">수도권</option>
+			<option value="gang">강원</option>
+			<option value="chung">충청</option>
+			<option value="gyeong">경상</option>
+			<option value="jeoll">전라</option>
+			<option value="jeju">제주</option>
+		</select> <br>
+		주소 <input type="text" placeholder="주소 입력" name="breweryAddr"> <br>
+		번호 <input type="text" placeholder="번호 입력" name="breweryPhone"> <br>
+		오픈시간 <input type="time" name="openTime" value="09:00"> <br>
+		마감시간 <input type="time" name="closeTime" value="18:00"> <br>
+		홈페이지 <input type="text" placeholder="홈페이지 입력" name="breweryUrl"> <br>
+		첨부파일 <input type="file" name="uploadFile"> <br>
+		<input type="submit" value="등록">
+	</form>
+</body>
+>>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 </html>

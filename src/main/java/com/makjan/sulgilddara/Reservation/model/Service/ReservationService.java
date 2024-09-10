@@ -8,19 +8,15 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
-import com.makjan.sulgilddara.brewery.model.vo.Brewery;
-import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 public interface ReservationService {
 /**
  * 예약 정보 등록하기 Service
  * @param reservation
- * @param tour 
- * @param brewery 
  * @return Int
  */
-int RegisterInfo(Reservation reservation, Tour tour, Brewery brewery);
+	int RegisterInfo(Reservation reservation);
 
 /**
  * 예약 정보 조회하기 Service
@@ -67,57 +63,13 @@ int getTotalCountWithConditiion(String userId, String breweryName);
  * @param userId
  * @return Reservation
  */
-List<Reservation> selectOne(String reserveNo);
+List<Reservation> selectOne(String userId);
 /**
  * 유저 정보 가져오기
  * @param user
  * @return List<User>
  */
 List<User> selectInfo(User user);
-
-/**
- * 결제 페이지
- * @param tourName
- * @return List<Reservation>
- */
-List<Reservation> selectTourInfo(String tourNo);
-/**
- * 투어리스트 검색 조건 검색 내용
- * @param searchCondition
- * @return int
- */
-int getListTotalCount(String tourName);
-/**
- * 투어리스트 검색 결과 
- * @param currentPage
- * @param param
- * @param rowBounds 
- * @return List<Tour>
- */
-List<Tour> selectSearchList(String TourName, RowBounds rowBounds);
-
-
-/**
- * 투어 리스트 출력
- * @param tourName
- * @param rowBounds
- * @return
- */
-
-List<Tour> showTourList(String tourName, RowBounds rowBounds);
-/**
- * 결제 정보 검색
- * @param reserveNo 
- * @return List<Reservation>
- */
-List<Reservation> SearchPaymentInfo(Reservation reservation, Tour tour);
-//List<Reservation> SearchPaymentInfo(String reserveNo);
-
-
-
-
-
-
 
 
 }

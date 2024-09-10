@@ -3,7 +3,6 @@ package com.makjan.sulgilddara.tour.model.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
@@ -48,33 +47,4 @@ public interface TourMapper {
 	 * @return
 	 */
 	Tour searchOneByNo(Integer tourNo);
-
-	/**
-	 * 체험 번호 기준 양조장 , 체험 정보 출력
-	 * @param tourNo
-	 * @param breweryNo 
-	 * @return Tour
-	 */
-	
-	Tour searchByNo(Integer tourNo);
-
-	/**
-	 * 투어 번호 , 양조장 번호로 정보 조회
-	 * @param tourNo
-	 * @param breweryNo
-	 * @return
-	 */
-	List<Tour> ShowInfoByNo(Integer tourNo, Integer breweryNo);
-
-	/**
-	 * 투어 번호와 투어 명 으로 조회
-	 * @param tourNo
-	 * @param tourName
-	 * @param breweryNo 
-	 * @return
-	 */
-	Tour searchByInfo(@Param("tourNo")Integer tourNo, @Param("tourName")String tourName, @Param("breweryNo")Integer breweryNo);
-
-
-		
 }

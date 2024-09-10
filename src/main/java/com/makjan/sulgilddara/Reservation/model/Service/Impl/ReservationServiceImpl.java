@@ -13,11 +13,7 @@ import org.springframework.stereotype.Service;
 import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
-import com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper;
-import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.model.vo.Pagination;
-import com.makjan.sulgilddara.tour.model.mapper.TourMapper;
-import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 import lombok.extern.java.Log;
@@ -29,18 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationServiceImpl implements ReservationService{
 @Autowired
 	ReservationMapper rmapper;
-//@Autowired
-//	private TourMapper tmapper;
-//@Autowired
-//	private BreweryMapper bmapper;
+@Autowired
+	User user;
 	@Override
-	public int RegisterInfo(Reservation reservation,Tour tour,Brewery brewery) {
-//		Tour tour = tmapper.searchByNo(reservation.getTourNo());
-//		System.out.println("tour"+ tour);
-//		Brewery brewery = bmapper.searchOneByNo(tour.getBreweryNo());
-//		System.out.println("brewery"+brewery);
-//		reservation.setBreweryNo(brewery.getBreweryNo());
-		int result = rmapper.RegisterInfo(reservation,tour,brewery); 
+	public int RegisterInfo(Reservation reservation) {
+		System.out.println(reservation);
+		int result = rmapper.RegisterInfo(reservation); 
 		return result;
 	}
 //
@@ -106,43 +96,10 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<Reservation> selectOne(String reserveNo) {
-		List<Reservation>rList = rmapper.selectOne(reserveNo);
-		System.out.println("ServiceRList"+rList);
+	public List<Reservation> selectOne(String userId) {
+		List<Reservation>rList = rmapper.selectOne(userId);
 		return rList;
 	}
-
-	@Override
-	public List<Reservation> selectTourInfo(String tourNo) {
-		List<Reservation>rList = rmapper.selectTourInfo(tourNo);
-		return rList;
-	}
-
-	@Override
-	public int getListTotalCount(String tourName) {
-		int result = rmapper.getListTotalCount(tourName);
-		return result;
-	}
-	@Override
-	public List<Tour> selectSearchList(String TourName,RowBounds rowBounds) {
-		List<Tour>tList = rmapper.selectSearchList(TourName,rowBounds);
-		return tList;
-	}
-
-	@Override
-	public List<Tour> showTourList(String tourName , RowBounds rowBounds) {
-	List<Tour>tList = rmapper.showTourList(tourName,rowBounds);
-		return tList;
-	}
-
-	@Override
-	public List<Reservation> SearchPaymentInfo(Reservation reservation , Tour tour) {
-		List<Reservation>rList = rmapper.SearchPaymentInfo(reservation ,tour);
-		return rList;
-	}
-
-
-
 
 
 

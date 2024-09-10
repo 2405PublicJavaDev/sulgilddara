@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
-import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 
 @Mapper
 public interface BreweryMapper {
@@ -99,30 +98,4 @@ public interface BreweryMapper {
 	 * @return
 	 */
 	List<Brewery> selectLocalList(String local);
-
-	/**
-	 * 전체 양조장 리스트 중 3개만 조회
-	 * @return List<Brewery>
-	 */
-	List<Brewery> selectThreeBrewery();
-
-	/**
-	 * 전체 해시태그 조회
-	 * @return List<BreweryTag>
-	 */
-	List<BreweryTag> selectAllTag();
-
-	/**
-	 * 해시태그 별 양조장 리스트 조회
-	 * @param tagName
-	 * @return
-	 */
-	List<Brewery> selectTagList(String tagName);
-
-	/**
-	 * 양조장 별 주류 리스트 조회
-	 * @param breweryNo
-	 * @return
-	 */
-	List<Liquor> searchLiquorByNo(Integer breweryNo);
 }

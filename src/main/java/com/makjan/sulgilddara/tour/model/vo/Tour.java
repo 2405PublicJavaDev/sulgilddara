@@ -22,12 +22,8 @@ public class Tour {
 	private String fileName;
 	private String fileRename;
 	private String filePath;
-	private String imagePath;
 	
-	//brewery
 	private Integer breweryNo;
-	private String breweryName;
-	private String breweryAddr;
-	private String breweryPhone;
+	
 	private MultipartFile uploadFile;
 }

@@ -42,28 +42,4 @@ public interface TourService {
 	 * @return
 	 */
 	Tour searchOneByNo(Integer tourNo);
-	/**
-	 * 투어 번호 기준 결과 조회
-	 * @param tourNo
-	 * @param breweryNo 
-	 * @return
-	 */
-	Tour searchByNo(Integer tourNo);
-	/**
-	 * 투어번호 , 양조장 번호로 정보 조회
-	 * @param tourNo
-	 * @param breweryNo
-	 * @return
-	 */
-	List<Tour> ShowInfoByNo(Integer tourNo, Integer breweryNo);
-	/**
-	 * 번호와 체험명으로 조회
-	 * @param tourNo
-	 * @param tourName
-	 * @param breweryNo 
-	 * @return
-	 */
-	Tour searchByInfo(Integer tourNo, String tourName, Integer breweryNo);
-
-	
 }

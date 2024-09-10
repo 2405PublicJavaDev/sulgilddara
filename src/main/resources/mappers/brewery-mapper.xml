@@ -27,7 +27,6 @@
 	  </insert>
 	  <select id="selectAllList" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL
-	  		ORDER BY BREWERY_NO ASC
 	  </select>
 	  <select id="searchOneByNo" resultType="Brewery">
 	  		SELECT * FROM BREWERY_TBL WHERE BREWERY_NO=#{breweryNo}
@@ -70,7 +69,6 @@
 				BREWERY_LOCAL LIKE '%'||#{searchKeyword}||'%'
 			</if>
 		</where>
-		ORDER BY BREWERY_NO ASC
 	  </select>
 	  <insert id="insertTag">
 		  <selectKey order="BEFORE" resultType="_int" keyProperty="breweryTagNo">
@@ -82,7 +80,6 @@
 	  <select id="showTagByBrwNo" resultType="BreweryTag">
 	  	SELECT * FROM BREWERY_TAG_TBL
 	  	WHERE BREWERY_NO=#{breweryNo}
-	  	ORDER BY BREWERY_TAG_NO ASC
 	  </select>
 	  <delete id="deleteTag">
 	  	DELETE FROM BREWERY_TAG_TBL
@@ -106,31 +103,7 @@
 		</where>
 	  </select>
 	  <select id="selectLocalList" resultType="Brewery">
-	  	<![CDATA[
-	        SELECT * FROM 
-	        (SELECT * FROM BREWERY_TBL 
-	       	WHERE BREWERY_LOCAL=#{breweryLocal}
-	        ORDER BY BREWERY_NO ASC)
-	        WHERE ROWNUM <= 3
-	    ]]>
+	  	SELECT * FROM BREWERY_TBL WHERE BREWERY_LOCAL=#{breweryLocal}
 	  </select>
-	  <select id="selectThreeBrewery" resultType="Brewery">
-	    <![CDATA[
-	        SELECT * FROM 
-	        (SELECT * FROM BREWERY_TBL ORDER BY BREWERY_NO ASC)
-	        WHERE ROWNUM <= 3
-	    ]]>
-	  </select>
-	  <select id="selectAllTag" resultType="BreweryTag">
-	  	SELECT DISTINCT BREWERY_TAG_NAME FROM BREWERY_TAG_TBL
-	  </select>
-	  <select id="selectTagList" resultType="Brewery">
-	  	SELECT * FROM BREWERY_TBL
-	  	JOIN BREWERY_TAG_TBL USING (BREWERY_NO)
-	  	WHERE BREWERY_TAG_NAME=#{tagName}
-	  </select>
-	 <select id="searchLiquorByNo" resultType="Liquor">
-	 	SELECT DISTINCT LIQUOR_TYPE FROM LIQUOR_TBL
-	 	WHERE BREWERY_ID=#{breweryNo}
-	 </select>
   </mapper>
+  

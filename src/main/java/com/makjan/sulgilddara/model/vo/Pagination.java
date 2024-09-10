@@ -47,14 +47,14 @@ public class Pagination {
 		if(endNavi == maxPage) nextPage = maxPage;
 		else nextPage = endNavi + 1;
 	
-//	    // 로그 출력
-//	    System.out.println("Pagination Info: maxPage=" + maxPage + 
-//	                       ", startNavi=" + startNavi + 
-//	                       ", endNavi=" + endNavi + 
-//	                       ", prevPage=" + prevPage + 
-//	                       ", nextPage=" + nextPage +
-//	                       ", totalCount="+ totalCount
-//	                       );
+	    // 로그 출력
+	    System.out.println("Pagination Info: maxPage=" + maxPage + 
+	                       ", startNavi=" + startNavi + 
+	                       ", endNavi=" + endNavi + 
+	                       ", prevPage=" + prevPage + 
+	                       ", nextPage=" + nextPage +
+	                       ", totalCount="+ totalCount
+	                       );
 	}	
 	}
     

@@ -2,6 +2,7 @@ package com.makjan.sulgilddara.user.model.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -12,6 +13,7 @@ import com.makjan.sulgilddara.common.utility.Util;
 import com.makjan.sulgilddara.user.common.mail.SendEmailService;
 import com.makjan.sulgilddara.user.model.mapper.UserMapper;
 import com.makjan.sulgilddara.user.model.service.UserService;
+import com.makjan.sulgilddara.user.model.vo.Mail;
 import com.makjan.sulgilddara.user.model.vo.User;
 import com.makjan.sulgilddara.user.model.vo.UserFile;
 
@@ -120,18 +122,35 @@ public class UserServiceImpl implements UserService {
         User user = mapper.selectOneById(userId);
         // 해당 id의 user이 있고, 그 user의 email과 입력한 email이 동일하면 true 아니면 false
         if (user != null && user.getEmail().equals(email)) {
+            System.out.println("Email and ID match."); // 로그 출력
             return true;
         } else {
+            System.out.println("Email and ID do not match."); // 로그 출력
             return false;
         }
     }
 
 	// 비밀번호 이메일로 전송 Service
-	// SendEmailService 클래스 이용
-	// 이메일 전송 시간 단축 시키기 위해 비동기 어노테이션 사용
-	@Async
     @Override
     public void sendTemporaryPassword(String userId, String email) {
-    	sendEmailService.sendTemporaryPassword(userId, email);
+        String tempPassword = generateTempPassword();
+        mapper.updatePassword(userId, tempPassword); // userId와 새로운 password 넘겨줘서 pw 업데이트
+        Mail mail = new Mail();
+        mail.setAddress(email);
+        mail.setTitle("술길따라 임시 비밀번호 안내");
+        mail.setMessage("안녕하세요. 술길따라 임시 비밀번호는 " + tempPassword + "입니다. "
+        		+ "새로운 비밀번호로 로그인 부탁드립니다!");
+        sendEmailService.sendMail(mail);
+    }
+
+    // 새로운 임시 비밀번호 생성 Service
+    private String generateTempPassword() {
+        char[] charSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            sb.append(charSet[random.nextInt(charSet.length)]);
+        }
+        return sb.toString();
     }
 }
