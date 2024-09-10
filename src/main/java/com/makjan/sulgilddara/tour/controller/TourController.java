@@ -39,7 +39,7 @@ public class TourController {
 	@PostMapping("/write")
 	public String insertTour(Tour inputTour) throws IllegalStateException, IOException {
 		int result = tService.insertTour(inputTour);
-		return "redirect:/brewery/update/"+inputTour.getBreweryNo();
+		return "redirect:/brewery/admin/update/"+inputTour.getBreweryNo();
 	}
 	@GetMapping("/list")
 	public String showTourByBrwNo(Integer breweryNo) {
@@ -56,7 +56,7 @@ public class TourController {
 	@PostMapping("/update")
 	public String updateTour(Tour updateTour) throws IllegalStateException, IOException {
 		int result = tService.updateTour(updateTour);
-		return "redirect:/brewery/update/"+updateTour.getBreweryNo();
+		return "redirect:/brewery/admin/update/"+updateTour.getBreweryNo();
 	}
 	@GetMapping("/delete/{breweryNo}/{tourNo}")
 	public String deleteTour(@PathVariable("tourNo") Integer tourNo,
@@ -65,7 +65,7 @@ public class TourController {
 //		Brewery brewery = bService.searchOneByNo(breweryNo);
 //		model.addAttribute("brewery", brewery);
 		tService.deleteTour(tourNo);
-		return "redirect:/brewery/update/"+breweryNo;
+		return "redirect:/brewery/admin/update/"+breweryNo;
 	}
 	
 }

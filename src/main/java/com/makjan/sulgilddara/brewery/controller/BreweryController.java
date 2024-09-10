@@ -107,7 +107,7 @@ public class BreweryController {
 			Model model) {
 		Brewery brewery = bService.searchOneByNo(breweryNo);
 		List<Tour>tourList = tService.showTourByBrwNo(breweryNo);
-		List<BreweryTag> tagList = bService.showTagByBrwNo(breweryNo);
+		List<BreweryTag> tagList = bService.showAllTagByBrwNo(breweryNo);
 		String tagString = tagList.stream()
                 .map(BreweryTag::getBreweryTagName)
                 .collect(Collectors.joining(","));
@@ -241,6 +241,22 @@ public class BreweryController {
 	    response.put("breweryList", breweryList);
 		return response;
 	}
+//	@ResponseBody
+//	@RequestMapping(value="/showByTag", produces="application/json;charset=UTF-8")
+//	public List<Brewery> showSearchByHashTag (@RequestParam(value="tagName") String tagName) {
+//		List<Brewery> bList = bService.searchBreweryByTag(tagName);
+//		return bList;
+//	}
+	
+	@GetMapping("/showByTag")
+	public String showSearchByHashTag2 (@RequestParam("tagName") String tagName
+			, Model model) {
+		List<Brewery> bList = bService.searchBreweryByTag(tagName);
+		model.addAttribute("bList", bList);
+		System.out.println(bList);
+		return "brewery/breweryMain::#brewery-list";
+	}
+	
 	@GetMapping("/list")
 	public String showBreweryList(Model model) {
 		List<BreweryTag>tList = bService.showAllTag();
