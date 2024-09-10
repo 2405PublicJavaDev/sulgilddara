@@ -2,81 +2,110 @@
 <html xmlns:th="http://thymeleaf.org">
 	<head>
 	<meta charset="UTF-8">
-	<title>관리자 조회 검색 결과</title>
+	<title>관리자 조회</title>
+	<link rel="stylesheet" href="/css/reservationlookupadmin.css">
 	</head>
 	
 	<body>
-		<form th:action="@{/reservation/searchResultAdmin}" th:object= "${reservation}" method="POST">
-				<div class="searchArea">
-					<div class="searchDiv">
-						<div class="breweryNameSearch">
-							<input type="text" name="breweryName" th:value="${breweryName}">
-						</div>
-						<div class="userId">
-							<input type="text" name="userId" th:value="${userId}">
-						</div>
-					</div>
-						<button type="submit">조회</button>
-				</div>
-			</form>
-		
-		<div class="reserveResult" >
-			<div class="List">
-				목록
-			</div>
-			<div class="searchResult">
-				<table>
-					<thead>
-						<tr>
-							<th>예약 번호</th>
-							<th>양조장 명</th>
-							<th>체험 프로그램</th>
-							<th>예약 날짜</th>
-							<th>예약 인원</th>
-							<th>예약 시간</th>
-							<th>비상 연락처</th>
-							<th>예약자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:if="${#lists.isEmpty(rList)}">
-							<td>NoData</td>
-						</tr>
-						<tr th:each="Reservation: ${rList}">						
-							<td>
-							<a th:href="@{/reservation/detail/{reserveNo}(reserveNo=${Reservation.reserveNo})}" th:text="${Reservation.reserveNo}"></a>
-							</td>
-							<td>[[${Reservation.breweryName}]]</td>
-							<td>[[${Reservation.tourName}]]</td>
-							<td>[[${Reservation.reserveDate}]]</td>
-							<td>[[${Reservation.visitorNum}]]</td>
-							<td>[[${Reservation.reserveTime}]]</td>
-							<td>[[${Reservation.emergencyPhone}]]</td>
-							<td>[[${Reservation.userId}]]</td>
-						</tr>
-					</tbody>
-					<tfoot th:unless="${#lists.isEmpty(rList)}">
-						 <tr align="center">
-							<td colspan="5">
-								<th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
-									<th:block th:if="${pn.startNavi > 1}">
-										<a th:href="@{/reservation/searchResultAdmin(currentPage=${pn.prevPage})}">Previous</a>
-									</th:block>
-									
-									<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
-										<a th:href="@{/reservation/searchResultAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" th:text="${p}"></a>
-									</th:block> 
-									
-								 <th:block th:if="${pn.endNavi < pn.maxPage}">
-										<a th:href="@{/reservation/searchResultAdmin(currentPage=${pn.nextPage})}">Next</a>
-									</th:block>
-								</th:block>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-				<pre th:text="${pn}"></pre>
-			</div>
-		</div>
-	</body>
+	    <header>
+        <div class="header-top">
+            <div style="width: 100px;;"></div>
+            <div id="logo-container">
+                <img src="./img/logo.png" alt="" id="logo">
+                <h1>술길따라</h1>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="icon-user"><img class="header-img" src="./img/free-icon-user-17095347.png" alt=""></a>
+                <a href="#" class="icon-menu"><img class="header-img" src="./img/free-icon-menu-3856832.png" alt=""></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#story">술길따라 이야기</a></li>
+                <li><a href="#brewery">양조장 탐방</a></li>
+                <li><a href="#guide">술 도감</a></li>
+                <li><a href="#tour">투어 예약</a></li>
+                <li><a href="#tales">술 이야기</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+	    <form th:action="@{/reservation/searchResultAdmin}" th:object="${reservation}" method="POST">
+	        <div class="searchArea">
+	            <div class="searchDiv">
+	                <div>
+	                    <label>양조장 명:</label>
+	                    <input type="text" name="breweryName">
+	                </div>
+	                <div>
+	                    <label>예약자 ID:</label>
+	                    <input type="text" name="userId" th:value="${userId}" placeholder="예약자ID를 입력하세요">
+	                </div>
+	                <button type="submit">검색</button>
+	            </div>
+	        </div>
+	    </form>
+	
+	    <div class="reserveResult">
+	        <h2>목록</h2>
+	        <table>
+	            <thead>
+	                <tr>
+	                    <th>예약 번호</th>
+	                    <th>양조장 명</th>
+	                    <th>체험 프로그램</th>
+	                    <th>예약 날짜</th>
+	                    <th>예약 인원</th>
+	                    <th>예약 시간</th>
+	                    <th>비상 연락처</th>
+	                    <th>예약자</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr th:if="${#lists.isEmpty(rList)}">
+	                    <td colspan="8">조회된 데이터가 없습니다</td>
+	                </tr>
+	                <tr th:each="Reservation: ${rList}">
+	                    <td>
+	                        <a th:href="@{/reservation/detail/{reserveNo}(reserveNo=${Reservation.reserveNo})}" th:text="${Reservation.reserveNo}"></a>
+	                    </td>
+	                    <td th:text="${Reservation.breweryName}"></td>
+	                    <td th:text="${Reservation.tourName}"></td>
+	                    <td th:text="${Reservation.reserveDate}"></td>
+	                    <td th:text="${Reservation.visitorNum}"></td>
+	                    <td th:text="${Reservation.reserveTime}"></td>
+	                    <td th:text="${Reservation.emergencyPhone}"></td>
+	                    <td th:text="${Reservation.userId}"></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        
+	        <div class="pagination" th:unless="${#lists.isEmpty(rList)}">
+	            <th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
+	                <a th:if="${pn.startNavi > 1}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.prevPage})}">&lt;</a>
+	                <th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
+	                    <a th:href="@{/reservation/searchListAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" th:text="${p}"></a>
+	                </th:block>
+	                <a th:if="${pn.endNavi < pn.maxPage}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.nextPage})}">&gt;</a>
+	            </th:block>
+	        </div>
+	    </div>
+	</main>
+    <footer>
+        <nav>
+            <a href="#">이용약관</a> |
+            <a href="#">개인정보처리방침</a> |
+            <a href="#">사이트맵</a>
+        </nav>
+        <div class="company-info">
+            <p>상호 : 술길따라 | 대표이사 : 김정욱 | 설립일 : 2024년 8월 26일 | 개인정보관리책임자 : 홍예은</p>
+            <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
+        </div>
+        <div class="social-icons">
+            <a href="#" class="icon-facebook"><img src="./img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
+            <a href="#" class="icon-instagram"><img src="./img/free-icon-instagram-4922972.png" alt=""></a>
+        </div>
+        <p class="copyright">Copyright 2024 Sulgilddara Inc.  | All Rights Reserved</p>
+    </footer>
+</body>
 </html>

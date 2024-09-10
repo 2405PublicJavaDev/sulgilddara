@@ -34,12 +34,7 @@ public class ReservationServiceImpl implements ReservationService{
 		return result;
 	}
 //
-//	@Override
-//	public int RegisterInfo(Reservation reservation, String userId) {
-//		System.out.println(reservation);
-//		int result = rmapper.RegisterInfo(reservation,userId); 
-//		return result;
-//	}
+
 
 	@Override
 	public List<Reservation> SearchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
