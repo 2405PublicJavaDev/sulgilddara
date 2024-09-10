@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/tourSearchResultList.css">
+<link rel="stylesheet" href="/css/reservation/tourSearchResultList.css">
 </head>
 <body>
     <header>
@@ -51,6 +51,7 @@
 						<form th:action="@{/reservation/initate/{breweryNo}/{tourNo}(breweryNo=${Tour.breweryNo},tourNo=${Tour.tourNo})}" method="POST">
 							<input type="hidden" name="tourNo" th:value="${Tour.tourNo}">
 							<input type="hidden" name="breweryNo" th:value="${Tour.breweryNo}">
+							<input type="hidden" name="tourName" th:value="${Tour.tourName}">
 							<button class="reserve-button">예약 하기</button>
 						</form>
 					</th:block>
