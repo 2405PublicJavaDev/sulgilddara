@@ -1,42 +1,106 @@
-body {
-    font-family: Inter, sans-serif;
+/* 공통 */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: white;
 }
+
+body, html {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
 
 .container {
     max-width: 1920px;
     margin: 0 auto;
 }
 
-.header {
+/* 헤더 */
+header {
+    background-color: white;
+    padding: 20px;
+}
+
+.header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px;
+    width: 90vw;
+    margin: 0 auto;
+    
+    margin-bottom: 25px;
 }
 
-.header h1 {
-    font-size: 48px;
-    font-weight: 400;
+#logo{
+    width: 50px;
+    height: 50px;
+    border-radius: 25%;
+    margin: auto 10px;
+    /* margin-right: 10px; */
+
+
 }
 
-.header nav ul {
+#logo-container{
     display: flex;
-    list-style-type: none;
-    gap: 20px;
+    flex-direction: row;
+    
 }
 
-.header nav a {
+.header-img{
+    margin: 10px 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.icon-user{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+nav ul li a {
     text-decoration: none;
     color: black;
-    font-size: 25px;
+    /* font-size: 1.2rem; */
+    font-size: 18px;
 }
 
+.user-actions {
+    display: flex;
+    /* gap: 20px; */
+}
+
+.icon-user, .icon-menu {
+    width: 50px;
+    height: 50px;
+    /* background-color: #D9D9D9; */
+}
+
+.user-actions img{
+    width: 30px;
+    height: 30px;
+}
+
+/* 메인 */
 .content-wrapper {
     display: flex;
-    padding: 0 20px;
+    padding: 40px;
 }
 
 .main-content {
@@ -103,7 +167,7 @@ body {
     font-size: 16px;
 }
 
-.tags {
+.tagList {
     font-size: 14px;
     margin: 5px 0;
 }
@@ -134,7 +198,7 @@ body {
 .pagination {
     display: flex;
     list-style-type: none;
-    padding: 0;
+    padding: 40px;
     justify-content: center;
 }
 .pagination li {
@@ -192,6 +256,14 @@ body {
 
 .sidebar input[type=number]{
     width: 100px;
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+#tags {
+	width: 300px;
 }
 
 .filter-section h4 {
@@ -206,29 +278,25 @@ body {
 
 
 /* footer */
-.footer {
-    margin-top: 40px;
+footer {
+    background-color: white;
+    padding: 50px 20px;
     text-align: center;
-    padding: 20px;
 }
 
-.footer nav ul {
-    display: flex;
-    justify-content: center;
-    list-style-type: none;
-    gap: 20px;
+footer nav {
     margin-bottom: 20px;
 }
 
-.footer nav a {
+footer nav a {
     text-decoration: none;
     color: black;
-    font-size: 24px;
+    font-size: 1rem;
 }
 
 .company-info {
-    font-size: 24px;
-    line-height: 1.2;
+    font-size: 0.9rem;
+    line-height: 1.5;
     margin-bottom: 20px;
 }
 
@@ -239,13 +307,100 @@ body {
     margin-bottom: 20px;
 }
 
-.icon {
-    width: 50px;
-    height: 50px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
+.icon-facebook, .icon-instagram {
+    width: 40px;
+    height: 40px;
+}
+
+.social-icons img{
+    width: 100%;
 }
 
 .copyright {
-    font-size: 20px;
+    font-size: 0.8rem;
+}
+
+
+@media (min-width: 768px) {
+    
+    h1 {
+        font-size: 4rem;
+    }
+    .user-actions img{
+        width: 40px;
+        height: 40px;
+        margin: auto;
+    }
+    #logo{
+        width: 60px;
+        height: 60px;
+    }
+
+    .story-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .story-image {
+        width: 60%;
+        height: 400px;
+    }
+
+    .tour-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tour-item {
+        height: 300px;
+    }
+}
+#logo{
+    width: 50px;
+    height: 50px;
+}
+
+@media (min-width: 1024px) {
+    .header-img{
+        margin: 10px 20px;
+        flex: 1;
+        min-width: 0;
+    }
+    .user-actions {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .icon-user{
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+    }
+
+    .user-actions img{
+        width: 50px;
+        height: 50px;
+    }
+    
+    h1 {
+        font-size: 5rem;
+    }
+    #logo{
+        width: 80px;
+        height: 80px;
+    }
+    main {
+        padding: 0;
+    }
+
+    #popular-breweries {
+        height: 70vh;
+    }
+
+    .story-image {
+        height: 500px;
+    }
+
+    .tour-item {
+        height: 350px;
+    }
 }
