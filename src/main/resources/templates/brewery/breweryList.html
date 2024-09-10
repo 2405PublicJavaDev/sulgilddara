@@ -1,96 +1,96 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
+	<html>
 	<head>
 		<meta charset="UTF-8">
-		<title>양조장 전체 리스트</title>
+		<title>양조장 리스트</title>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<link rel="stylesheet" href="../../css/breweryList.css">
+
 	</head>
 	<body>
-		<h1>양조장 목록</h1>
-<<<<<<< HEAD
-		<form action="/brewery/search" method="post">
-		<table>
-        <tr>
-            <td>
-                <!-- 검색 조건 선택 드롭다운 -->
-                <select name="searchCondition" onchange="this.form.submit()">
-                    <option value="brewery" th:selected="${searchCondition == 'brewery'}">양조장</option>
-                    <option value="local" th:selected="${searchCondition == 'local'}">지역</option>
-                </select>
-            </td>
-            <td>
-                <!-- 검색 조건에 따라 적절한 입력 필드 표시 -->
-                <div th:if="${searchCondition == 'local'}">
-                    <select name="searchKeyword">
-                        <option value="sudo">수도권</option>
-                        <option value="gang">강원</option>
-                        <option value="chung">충청</option>
-                        <option value="gyeong">경상</option>
-                        <option value="jeoll">전라</option>
-                        <option value="jeju">제주</option>
-                    </select>
-                </div>
-                <div th:if="${searchCondition != 'local'}">
-                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" th:value="${searchKeyword}">
-                </div>
-            </td>
-            <td>
-                <!-- 검색 버튼 -->
-                <input type="submit" value="검색">
-				<button type="button" th:onclick="goInsert()">양조장 등록</button>
-            </td>
-        </tr>
-    </table>
-=======
->>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
-	    <table>
-	        <thead>
-	            <tr>
-	            	<th>번호</th>
-	                <th>양조장명</th>
-	                <th>지역</th>
-	                <th>수정일시</th>
-	                <th>수정</th>
-	                <th>삭제</th>
-	            </tr>
-	        </thead>
-	        <tbody>
-	            <tr th:each="brewery : ${bList}">
-	            	<td th:text="${brewery.breweryNo}"></td>
-	                <td th:text="${brewery.breweryName}"></td>
-<<<<<<< HEAD
-	                <td th:text="${brewery.breweryLocal == 'sudo' ? '수도권' : brewery.breweryLocal == 'gang' ? '강원' : brewery.breweryLocal == 'chung' ? '충청' : brewery.breweryLocal == 'gyeong' ? '경상' : brewery.breweryLocal == 'jeoll' ? '전라' : brewery.breweryLocal == 'jeju' ? '제주' : brewery.breweryLocal}"></td>
-=======
-	                <td th:text="${brewery.breweryLocal}"></td>
->>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
-	                <td th:text="${brewery.bUpdateDate}"></td>
-		      	    <td><button type="button" th:onclick="modifyBrewery(/*[[${brewery.breweryNo}]]*/);">수정</button></td>
-	            	<td><button type="button" th:onclick="deleteBrewery(/*[[${brewery.breweryNo}]]*/);">삭제</button></td>
-	        	</tr>
-	    	</tbody>
-			<tfoot>
-				<tr align="center">
-					<td colspan="5">
-						<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
-							<a th:href="@{/brewery/list(cp=${p})}" th:text="${p}"></a>
-						</th:block>
-					</td>
-			</tfoot>
-		</table>
-	</form>
+		<header>
+			<div class="header-top">
+	            <div style="width: 100px;;"></div>
+	            <div id="logo-container">
+	                <img src="../../img/logo.png" alt="" id="logo">
+	                <h1>술길따라</h1>
+	            </div>
+	            <div class="user-actions">
+	                <a href="#" class="icon-user"><img class="header-img" src="../../img/free-icon-user-17095347.png" alt=""></a>
+	                <a href="#" class="icon-menu"><img class="header-img" src="../../img/free-icon-menu-3856832.png" alt=""></a>
+	            </div>
+	        </div>
+	        <nav>
+	            <ul>
+	                <li><a href="#story">술길따라 이야기</a></li>
+	                <li><a href="#brewery">양조장 탐방</a></li>
+	                <li><a href="#guide">술 도감</a></li>
+	                <li><a href="#tour">투어 예약</a></li>
+	                <li><a href="#tales">술 이야기</a></li>
+	            </ul>
+	        </nav>
+		</header>
+		
+		<main>
+			<div id="breweryListContainer"></div>
+			<div class="tag-container">
+				<div class="tag-div" th:each="tag : ${tList}">
+					<a href="#" th:text="${tag.breweryTagName}"></a>
+				</div>
+			</div>
+		</main>
+		
+		<footer>
+			<nav>
+	            <a href="#">이용약관</a> |
+	            <a href="#">개인정보처리방침</a> |
+	            <a href="#">사이트맵</a>
+	        </nav>
+	        <div class="company-info">
+	            <p>상호 : 술길따라 | 대표이사 : 김정욱 | 설립일 : 2024년 8월 26일 | 개인정보관리책임자 : 홍예은</p>
+	            <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
+	        </div>
+	        <div class="social-icons">
+	            <a href="#" class="icon-facebook"><img src="../../img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
+	            <a href="#" class="icon-instagram"><img src="../../img/free-icon-instagram-4922972.png" alt=""></a>
+	        </div>
+	        <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
+		</footer>
 	</body>
-	<script th:inline="javascript">
-	    function modifyBrewery(breweryNo) {
-	        console.log(breweryNo);
-	        location.href = "/brewery/update/" + breweryNo;
-	    }
-	    function deleteBrewery(breweryNo) {
-	        console.log(breweryNo);
-	        if (confirm("정말 삭제하시겠습니까?")) {
-	            location.href = "/brewery/delete/" + breweryNo;
-	        }
-	    }
-	    function goInsert() {
-	    	location.href = "/brewery/write";
+
+	<script>
+	    const jsonData = localStorage.getItem('breweryListData');
+	    const hashTag = localStorage.getItem('hashTag');
+	    const data = JSON.parse(jsonData);
+	    const sList = data.sList;
+	    const breweryList = data.breweryList;
+
+	    let breweryListHtml = "";
+	    breweryListHtml = `<div class="hash-tag">${hashTag}</div>`;
+	    
+	    breweryList.forEach(function(breweryData) {
+	        const brewery = breweryData.brewery;
+	        const liquors = breweryData.liquors;
+	        const tags = breweryData.tags;
+	        
+	        const liquorTypes = [...new Set(liquors.map(l => l.liquorType))].join(", ");
+	        const liquorNames = liquors.map(l => l.liquorName).join(", ");
+	        
+	        const hashTags = tags.map(t => t.breweryTagName).join(" ");
+	        
+	        breweryListHtml += `<div class="detail-div" data-brewery-id="${brewery.breweryNo}">
+	            <div class="img-div" style="background-image: url('${brewery.filePath}/${brewery.fileRename}');" onclick="goToBreweryDetail(${brewery.breweryNo})""></div>
+	            <ul class="text-div">
+	                <li class="name" onclick="goToBreweryDetail(${brewery.breweryNo})">${brewery.breweryName}</li>
+	                <li><b>주소</b> | ${brewery.breweryAddr}</li>
+	                <li><b>주종</b> | ${liquorTypes}</li>
+	                <li>${hashTags}</li>
+	            </ul>
+	        </div>`;
+	    });
+	    document.getElementById('breweryListContainer').innerHTML = breweryListHtml;
+	    function goToBreweryDetail(breweryNo) {
+	    	window.location.href = `/brewery/detail/${breweryNo}`;
 	    }
 	</script>
-</html>

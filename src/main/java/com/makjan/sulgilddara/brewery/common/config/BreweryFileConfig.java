@@ -6,12 +6,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class BreweryFileConfig implements WebMvcConfigurer {
-	private String webPath = "/brewery-images/**";
-	private String realPath = "file:C:/uploadFile/brewery/";
-	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler(webPath)
-			.addResourceLocations(realPath);
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 양조장 이미지 설정
+        registry.addResourceHandler("/brewery-images/**")
+                .addResourceLocations("file:C:/uploadFile/brewery/");
+        
+        // 생산제품 이미지 설정
+        registry.addResourceHandler("/liquor-images/**")
+                .addResourceLocations("file:C:/uploadFile/liquor/");
+    }
 }
