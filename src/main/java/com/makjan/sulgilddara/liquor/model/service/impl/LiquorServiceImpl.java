@@ -77,8 +77,8 @@ public class LiquorServiceImpl implements LiquorService{
 	}
 
 	@Override
-	public List<LiquorDetail> liquorSearch(Map<String, Object> searchMap) {
-		List<LiquorDetail> lList = mapper.liquorSearch(searchMap);
+	public List<LiquorDetail> liquorSearch(Map<String, Object> searchMap, RowBounds rowBounds) {
+		List<LiquorDetail> lList = mapper.liquorSearch(searchMap, rowBounds);
 		return lList;
 	}
 

@@ -133,22 +133,32 @@ body {
 
 .pagination {
     display: flex;
+    list-style-type: none;
+    padding: 0;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
 }
-
-.pagination button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background-color: #f0f0f0;
-    cursor: pointer;
+.pagination li {
+    margin: 0 5px;
 }
-
-.pagination button.active {
-    background-color: #FD7900;
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 50%;
+    min-width: 30px;
+    text-align: center;
+}
+.pagination .active {
+    background-color: #007bff;
     color: white;
+}
+.pagination .disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+.pagination .arrow {
+    font-weight: bold;
 }
 
 

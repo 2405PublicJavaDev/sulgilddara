@@ -79,7 +79,7 @@ public interface LiquorMapper {
 	 * @param tags
 	 * @return List<Liquor>
 	 */
-	List<LiquorDetail> liquorSearch(Map<String, Object> searchMap);
+	List<LiquorDetail> liquorSearch(Map<String, Object> searchMap, RowBounds rowBounds);
 
 	/**
 	 * 주류ID로 태그검색 Mapper

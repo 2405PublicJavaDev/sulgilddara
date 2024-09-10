@@ -140,11 +140,11 @@ public class LiquorController {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 //		searchMap.put("rowBounds", rowBounds);	//페이징 데이터를 Map에 입력
-		searchMap.put("currentPage", currentPage);	//페이징 데이터를 Map에 입력
-		searchMap.put("pageSize", pn.getBoardLimit());	//페이징 데이터를 Map에 입력
+//		searchMap.put("currentPage", currentPage);	//페이징 데이터를 Map에 입력
+//		searchMap.put("pageSize", pn.getBoardLimit());	//페이징 데이터를 Map에 입력
 		
 		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
-		liquorList = lService.liquorSearch(searchMap);
+		liquorList = lService.liquorSearch(searchMap, rowBounds);
 		
 		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
 		for(int i=0; i<liquorList.size(); i++) {
@@ -169,6 +169,8 @@ public class LiquorController {
 		model.addAttribute("liquorList", liquorList);
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("imgList", imgList);
+		model.addAttribute("pn", pn);
+		model.addAttribute("cp", currentPage);
 		
 		return "liquor/liquorSearch";
 	}
@@ -212,7 +214,7 @@ public class LiquorController {
 			searchMap.put("tagLength", (Integer)tags.length);	//tags가 null이 아니라면 길이를 구해서 Map에 입력
 		
 		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
-		liquorList = lService.liquorSearch(searchMap);
+		liquorList = lService.liquorSearch(searchMap, rowBounds);
 		System.out.println("list.size(): "+liquorList.size());
 		
 		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
@@ -238,6 +240,8 @@ public class LiquorController {
 		model.addAttribute("liquorList", liquorList);
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("imgList", imgList);
+		model.addAttribute("pn", pn);
+		model.addAttribute("cp", currentPage);
 		
 		return "liquor/liquorSearch";
 	}
