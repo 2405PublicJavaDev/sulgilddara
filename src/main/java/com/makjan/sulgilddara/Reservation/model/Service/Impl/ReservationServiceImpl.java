@@ -1,7 +1,5 @@
 package com.makjan.sulgilddara.Reservation.model.Service.Impl;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,38 +11,24 @@ import org.springframework.stereotype.Service;
 import com.makjan.sulgilddara.Reservation.model.Mapper.ReservationMapper;
 import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
 import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
-import com.makjan.sulgilddara.brewery.model.mapper.BreweryMapper;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
-import com.makjan.sulgilddara.model.vo.Pagination;
-import com.makjan.sulgilddara.tour.model.mapper.TourMapper;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
-import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class ReservationServiceImpl implements ReservationService{
-@Autowired
+	
+	@Autowired
 	ReservationMapper rmapper;
-//@Autowired
-//	private TourMapper tmapper;
-//@Autowired
-//	private BreweryMapper bmapper;
+
 	@Override
 	public int registerInfo(Reservation reservation,Tour tour,Brewery brewery) {
-//		Tour tour = tmapper.searchByNo(reservation.getTourNo());
-//		System.out.println("tour"+ tour);
-//		Brewery brewery = bmapper.searchOneByNo(tour.getBreweryNo());
-//		System.out.println("brewery"+brewery);
-//		reservation.setBreweryNo(brewery.getBreweryNo());
-		int result = rmapper.RegisterInfo(reservation,tour,brewery); 
+		int result = rmapper.registerInfo(reservation,tour,brewery); 
 		return result;
 	}
-//
-
 
 	@Override
 	public List<Reservation> searchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
@@ -52,19 +36,19 @@ public class ReservationServiceImpl implements ReservationService{
 		Map<String,String>param = new HashMap<String,String>();
 		param.put("userId",userId);
 		param.put("breweryName",breweryName);
-		List<Reservation> rList = rmapper.SearchAllInfo(param,rowbounds);
+		List<Reservation> rList = rmapper.searchAllInfo(param,rowbounds);
 		return rList;
 	}
 
 	@Override
 	public List<Reservation> SearchreserveNo(Reservation reservation) {
-		List<Reservation> rList = rmapper.SearchreserveNo(reservation);
+		List<Reservation> rList = rmapper.searchreserveNo(reservation);
 		return rList;
 	}
 
 	@Override
 	public List<Reservation> searchInfo(Map<String, String> param) {
-		List<Reservation> rList = rmapper.SearchInfo(param);
+		List<Reservation> rList = rmapper.searchInfo(param);
 		return rList;
 	}
 
@@ -86,13 +70,6 @@ public class ReservationServiceImpl implements ReservationService{
 		int result = rmapper.getTotalCountWithConditiion(param);
 		return result;
 	}
-
-//
-//	@Override
-//	public List<Reservation> selectOne(String reserveNo) {
-//		List<Reservation>rList = rmapper.selectOne(reserveNo);
-//		return rList;
-//	}
 
 	@Override
 	public List<User> selectInfo(User user) {
@@ -132,13 +109,7 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public List<Reservation> searchPaymentInfo(Reservation reservation , Tour tour) {
-		List<Reservation>rList = rmapper.SearchPaymentInfo(reservation ,tour);
+		List<Reservation>rList = rmapper.searchPaymentInfo(reservation ,tour);
 		return rList;
 	}
-
-
-
-
-
-
 }
