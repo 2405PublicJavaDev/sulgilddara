@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
-	<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" href="/css/reservation/reservationlookup.css">
-	</head>
-	<body>
-        <header>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/reservation/reservationlookupResult.css">
+
+ </head>
+<body>
+    <header>
         <div class="header-top">
             <div style="width: 100px;;"></div>
             <div id="logo-container">
@@ -28,26 +29,36 @@
             </ul>
         </nav>
     </header>
-
-    <main>
-      <div class="Title">
-        <h1>예약 조회</h1>
-    </div>
-    <form th:action="@{/reservation/search}" method="POST" id="searchForm">
-        <div class="content">
-            <span id="reserveNo">예약 번호</span>
-            <div class="reserveNoInput">
-                <input type="text" name="reserveNo" placeholder="예약번호를 입력하세요">
-                <hr>
-            </div>
-             <div class="button-container">
-	            <button type="submit">예약 조회</button>
-	            <button type="button" onclick="goBack();">취소</button>
-        	 </div>
-        </div>
-    </form>
-    </main>
-	<footer>
+<main>
+	 <div class="reserveResult" id="reserveResult">
+	        <h2>예약 조회 결과</h2>
+	        <div class="result">
+	            <table id="reserveTable">
+	                <thead>
+	                    <tr>
+	                        <th>양조장 명</th>
+	                        <th>예약 날짜</th>
+	                        <th>예약 인원</th>
+	                        <th>예약 시간</th>
+	                        <th>체험 프로그램</th>
+	                        <th>비상 연락처</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr th:each="Reservation: ${rList}" var="Reservation">
+	                        <td>[[${Reservation.breweryName}]]</td>
+	                        <td>[[${Reservation.reserveDate}]]</td>
+	                        <td>[[${Reservation.visitorNum}]]</td>
+	                        <td>[[${Reservation.reserveTime}]]</td>
+	                        <td>[[${Reservation.tourName}]]</td>
+	                        <td>[[${Reservation.emergencyPhone}]]</td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+</main>
+    <footer>
         <nav>
             <a href="#">이용약관</a> |
             <a href="#">개인정보처리방침</a> |
@@ -63,10 +74,5 @@
         </div>
         <p class="copyright">Copyright 2024 Sulgilddara Inc.  | All Rights Reserved</p>
     </footer>
-    <script type="text/javascript">
-    function goBack(){
-	location.href(history.go(-1));
-    }
-    </script>
-	</body>
+</body>
 </html>
