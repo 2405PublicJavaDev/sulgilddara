@@ -145,4 +145,11 @@ public interface BreweryService {
 	 * @return
 	 */
 	List<LiquorImage> selectLiquorImageByNo(Integer breweryNo);
+
+	/**
+	 * 양조장 별 모든 해시태그 조회
+	 * @param breweryNo
+	 * @return List<BreweryTag>
+	 */
+	List<BreweryTag> showAllTagByBrwNo(Integer breweryNo);
 }

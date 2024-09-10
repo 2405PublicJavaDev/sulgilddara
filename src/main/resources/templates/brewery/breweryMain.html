@@ -32,7 +32,7 @@
 	        </nav>
 	    </header>
         <main>
-            <div class="map-box">
+            <div class="top">
                 <div class="map-inner">
                     <div class="mapLink">
                         <a class="area sudo" id="001" style="cursor: pointer;" onclick="getBreweryList('sudo');"></a>
@@ -53,30 +53,34 @@
                     </div>
                 	<button id="all-btn" onclick="getBreweryList('all')">전국</button>
                 </div>
+				<div id="mapTag" class="mapTag">
+					<p id="selected-local"></p>
+				</div>
+				<ul id="detail-list">
+					<li id="selected-list">
+						<div id="list-box"></div>
+					</li>
+				</ul>
             </div>
-			<div id="mapTag" class="mapTag">
-				<p id="selected-local"></p>
-			</div>
-			<ul id="detail-list">
-				<li id="selected-list">
-					<div id="list-box"></div>
-				</li>
-			</ul>
-			<div class="rec-box">
-			<span th:each = "tag : ${tList}" th:text="${tag.breweryTagName}"></span>
-				<h1>추천 양조장</h1>
-			  		<div class="brewery-list">
-			    		<div class="brewery-item">
-			      			<div class="image-container">
-			        			<img src="#" alt="F 양조장">
-			      			</div>
-			      			<div class="info-container">
-				        		<h2>F 양조장</h2>
-				        		<p>서울특별시 강북구</p>
-			      			</div>
-		      			</div>
+			<div class="bottom">
+				<h2 class="section-title">추천 양조장</h2>
+				<div class="rec-box">
+					<span class="random-tag" 
+					      th:each="tag : ${tList}" 
+					      th:text="${tag.breweryTagName}" 
+					      th:data-brewery-tag="${tag.breweryTagName}">
+					</span>				
+			  		<div id="brewery-list">
+			    		<div class="brewery-item" th:each="brewery : ${bList}">
+							<div class="brewery-image" th:style="|background-image: url('${brewery.filePath}/${brewery.fileRename}');|"></div>
+						    <div class="brewery-info">    
+						        <h3 th:text="${brewery.breweryName}"></h3>
+						        <p class="breweryAddr" th:text="${brewery.breweryAddr}"></p>
+						    </div>
+						</div>
 			 		</div>
-			 </div>
+				 </div>
+			</div>
         </main>
         <footer>
 	        <nav>
@@ -98,9 +102,29 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.mapImg .all').style.display = 'block';
-        document.querySelector('.mapImg .all').style.display = 'block';
         getBreweryList('all');
-    });
+        
+        
+        document.querySelectorAll('.random-tag').forEach(function(element) {
+            element.addEventListener('click', function() {
+                document.querySelectorAll('.random-tag').forEach(function(el) {
+                    el.classList.remove('selected');
+                });
+
+                this.classList.add('selected');
+
+                var tagName = this.getAttribute('data-brewery-tag');
+                showList(tagName);
+            });
+        });
+        var firstTag = document.querySelector('.random-tag');
+        if (firstTag) {
+            firstTag.classList.add('selected');
+            var firstTagName = firstTag.getAttribute('data-brewery-tag');
+            showList(firstTagName);
+        }
+        
+	});
 
     document.querySelectorAll('.mapLink .area').forEach(area => {
         area.addEventListener('mouseover', function() {
@@ -126,7 +150,7 @@
 			dataType : "json",
 			success : function(data) {
 		    	var localName = localToLocalName(local);
-				console.log(data);
+// 				console.log(data);
 				document.querySelector("#selected-local").innerHTML = localName;
                 var listBox = document.querySelector("#list-box");
                 listBox.innerHTML = '';
@@ -172,6 +196,22 @@
     		}
     	})
     }
+	    function showList(tagName) {
+	//     	console.log(tag);
+	    	$.ajax({
+	    		url : "/brewery/showByTag",
+	    		data : { "tagName" : tagName },
+	    		type : "GET",
+	    		success : function(data) {
+// 	    			console.log(data);
+	    			$('#brewery-list').replaceWith(data);
+					
+	    		},
+	    		error : function() {
+	    			alert("전송 실패");
+	    		}
+	    	})
+	    }
     function convertLocalToHashTag(local) {
         switch(local) {
             case 'all': return '#전국';

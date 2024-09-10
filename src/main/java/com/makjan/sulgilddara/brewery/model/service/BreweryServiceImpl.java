@@ -171,6 +171,12 @@ public class BreweryServiceImpl implements BreweryService{
 		List<LiquorImage> iList = mapper.searchLiquorImageByNo(breweryNo);
 		return iList;
 	}
+
+	@Override
+	public List<BreweryTag> showAllTagByBrwNo(Integer breweryNo) {
+		List<BreweryTag> tagList = mapper.showAllTagByBrwNo(breweryNo);
+		return tagList;
+	}
 	
 	
 }

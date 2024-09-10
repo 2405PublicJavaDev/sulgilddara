@@ -139,4 +139,11 @@ public interface BreweryMapper {
 	 * @return List<BreweryTag>
 	 */
 	List<BreweryTag> selectRandomTag();
+
+	/**
+	 * 양조장 별 해시태그 출력
+	 * @param breweryNo
+	 * @return List<BreweryTag>
+	 */
+	List<BreweryTag> showAllTagByBrwNo(Integer breweryNo);
 }

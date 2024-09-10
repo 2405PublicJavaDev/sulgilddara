@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h1>양조장 목록 조회</h1>
-		<form action="/brewery/search" method="post">
+		<form action="/brewery/admin/search" method="post">
 		<table>
         <tr>
             <td>
@@ -81,16 +81,16 @@
 	<script th:inline="javascript">
 	    function modifyBrewery(breweryNo) {
 	        console.log(breweryNo);
-	        location.href = "/brewery/update/" + breweryNo;
+	        location.href = "/brewery/admin/update/" + breweryNo;
 	    }
 	    function deleteBrewery(breweryNo) {
 	        console.log(breweryNo);
 	        if (confirm("정말 삭제하시겠습니까?")) {
-	            location.href = "/brewery/delete/" 	+ breweryNo;
+	            location.href = "/brewery/admin/delete/" 	+ breweryNo;
 	        }
 	    }
 	    function goInsert() {
-	    	location.href = "/brewery/write";
+	    	location.href = "/brewery/admin/write";
 	    }
         
 	</script>
