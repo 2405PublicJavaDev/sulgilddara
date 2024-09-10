@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -106,82 +107,14 @@ public class LiquorController {
 		return "liquor/liquorAiSearch";
 	}
 	
-	/**
-	 * 주류정보 검색 페이지로 이동
-	 * @return liquorSearch.html로 이동
-	 */
-	@GetMapping("/search")
-	public String showLiquorSearchPage(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model) {
-		System.out.println("[디폴트서치]");
-		
-		
-		//상세검색 수행을 위한 데이터 구조를 가지고있으나 최초 리스트 출력은 전체 주류정보 대상으로 할 것임
-		Map<String, Object> searchMap = new HashMap<>();	//검색조건 VO객체와 태그리스트를 담기위한 Map
-		LiquorSearchInfo sInfo = new LiquorSearchInfo();
-		List<LiquorDetail> liquorList = null;				//LiquorDetail VO객체를 담기위한 List
-		List<List<LiquorTagInfo>> tagList = new ArrayList<List<LiquorTagInfo>>();	//List<LiquorTagInfo> 를 담기위한 List
-		List<List<LiquorImage>> imgList = new ArrayList<List<LiquorImage>>();		//List<LiquorImage> 를 담기위한 List
-		String[] tags = null;								//검색을 위한 태그명 배열
-		
-		//전체정보 검색을 위한 기본 데이터를 sInfo에 추가
-		sInfo.setKeyword("");
-		sInfo.setBreweryLocal("all");
-		sInfo.setLiquorType("all");
-		
-		searchMap.put("sInfo", sInfo);	//검색조건 데이터를 Map에 입력
-		searchMap.put("tags", tags);	//기본 검색이기 때문에 tags는 null값인 초기상태 그대로 전달
-		
-		//페이징 데이터 처리
-		int totalCount = lService.detailSearchTotalCount(searchMap);
-		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
-		pn.setBoardLimit(12);
-		int limit = pn.getBoardLimit();
-		int offset = (currentPage-1)*limit;
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-//		searchMap.put("rowBounds", rowBounds);	//페이징 데이터를 Map에 입력
-//		searchMap.put("currentPage", currentPage);	//페이징 데이터를 Map에 입력
-//		searchMap.put("pageSize", pn.getBoardLimit());	//페이징 데이터를 Map에 입력
-		
-		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
-		liquorList = lService.liquorSearch(searchMap, rowBounds);
-		
-		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
-		for(int i=0; i<liquorList.size(); i++) {
-			System.out.println(liquorList.get(i).toString());
-			
-			//liquorId값을 입력하여 business logic 수행 후 결과 리스트를 받는다.
-			int liquorId = liquorList.get(i).getLiquorId();
-			tagList.add(lService.searchTagsByLiquorId(liquorId));
-			imgList.add(lService.searchImageByLiquorId(liquorId));
-			
-			//결과값을 확인 하기 위한 임시 코드(추후 삭제 예정)
-			if(tagList.get(i)!=null && !tagList.get(i).isEmpty()) {
-				System.out.println("tList.size(): "+tagList.get(i).size());
-				for(LiquorTagInfo tInfo : tagList.get(i))
-					System.out.println("tInfo: "+tInfo.toString());
-				for(LiquorImage image : imgList.get(i))
-					System.out.println("image : "+image.toString());
-			}//(추후 삭제 예정
-		}
-		
-		//조회 결과를 Attribute에 추가하여 리스트 출력 페이지로 이동
-		model.addAttribute("liquorList", liquorList);
-		model.addAttribute("tagList", tagList);
-		model.addAttribute("imgList", imgList);
-		model.addAttribute("pn", pn);
-		model.addAttribute("cp", currentPage);
-		
-		return "liquor/liquorSearch";
-	}
-	
-	@PostMapping("/search")
+	@RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
 	public String liquorSearch(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model, @ModelAttribute LiquorSearchInfo sInfo) {
-		System.out.println(sInfo);
+		System.out.println("sInfo:"+sInfo);
 		
 		//페이징 데이터 처리
 		int totalCount = lService.getTotalCount();
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
+		pn.setBoardLimit(3);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
@@ -192,6 +125,7 @@ public class LiquorController {
 		List<List<LiquorTagInfo>> tagList = new ArrayList<List<LiquorTagInfo>>();	//List<LiquorTagInfo> 를 담기위한 List
 		List<List<LiquorImage>> imgList = new ArrayList<List<LiquorImage>>();		//List<LiquorImage> 를 담기위한 List
 		String[] tags = null;								//검색을 위한 태그명 배열
+		String tagString = new String();
 		
 		//검색조건 VO객체에 태그리스트 정보가 존재하는 경우
 		if(sInfo.getTags()!=null && sInfo.getTags()!="") {
@@ -210,8 +144,14 @@ public class LiquorController {
 		}
 		searchMap.put("sInfo", sInfo);	//검색조건 데이터를 Map에 입력
 		searchMap.put("tags", tags);	//String[] 형태로 변환시킨 태그 정보들을 Map에 입력
-		if(tags != null)
+		if(tags != null) {
 			searchMap.put("tagLength", (Integer)tags.length);	//tags가 null이 아니라면 길이를 구해서 Map에 입력
+			for(int i=0; i<tags.length; i++) {
+				tagString += tags[i];
+				if(i!=tags.length-1)
+					tagString += ", ";
+			}
+		}
 		
 		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 		liquorList = lService.liquorSearch(searchMap, rowBounds);
@@ -242,6 +182,8 @@ public class LiquorController {
 		model.addAttribute("imgList", imgList);
 		model.addAttribute("pn", pn);
 		model.addAttribute("cp", currentPage);
+		model.addAttribute("sInfo", sInfo);
+		model.addAttribute("tags", tagString);
 		
 		return "liquor/liquorSearch";
 	}
