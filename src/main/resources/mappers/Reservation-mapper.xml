@@ -29,7 +29,7 @@
 	<result property="updateDate" column="UPDATE_DATE"/>
 </resultMap>
 
- <insert id="RegisterInfo">
+ <insert id="registerInfo">
 <!-- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone}
  (SELECT brewery_tbl.BREWERY_NAME FROM BREWERY_TBL join tour_tbl using (brewery_no) WHERE tour_NO =#{tourNo})
  ,DEFAULT,#{select tour_price from tour_tbl where tour_no=#{tourNo}},#{tourNo},#{breweryNo})-->
@@ -44,11 +44,11 @@ INSERT INTO reservation_tbl VALUES (
 
  </insert>
  
- <select id="SearchInfo" resultMap="reserveResultMap">
+ <select id="searchInfo" resultMap="reserveResultMap">
  	SELECT * FROM RESERVATION_TBL WHERE RESERVE_NO=#{reserveNo}
  </select>
  
- <select id="SearchAllInfo" resultMap="reserveResultMap">
+ <select id="searchAllInfo" resultMap="reserveResultMap">
  	SELECT * FROM reservation_tbl
     <where>
         <if test="userId != null and userId != ''">
@@ -60,7 +60,7 @@ INSERT INTO reservation_tbl VALUES (
     </where>
 </select>
 
- <select id="SearchreserveNo" resultMap="reserveResultMap">
+ <select id="searchreserveNo" resultMap="reserveResultMap">
  	SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
  </select>
  <select id="getTotalCount" resultType="_int">
@@ -119,7 +119,7 @@ select reservation_tbl.reserve_No ,user_tbl.join_date,reservation_tbl.reserve_co
 	  	 where tourNo = #{tourNo} -->
 	  	SELECT * FROM tour_tbl join brewery_tbl using (brewery_no) 
 	  </select>
-	  <select id="SearchPaymentInfo" resultType="reservation">
+	  <select id="searchPaymentInfo" resultType="reservation">
 	  	SELECT * FROM RESERVATION_TBL JOIN USER_TBL USING(USER_ID) JOIN TOUR_TBL USING (TOUR_NO) WHERE RESERVE_NO=#{reservation.reserveNo}
 	  </select>
 	  

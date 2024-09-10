@@ -105,7 +105,7 @@ public class ReservationController {
 		tour = tService.searchByInfo(sessionTour.getTourNo(),sessionTour.getTourName(),sessionTour.getBreweryNo());
 		String randomString = generateRandomString(10);
 		reservation.setReserveNo(randomString);
-        int result = rService.RegisterInfo(reservation,tour,brewery);
+        int result = rService.registerInfo(reservation,tour,brewery);
         System.out.println("result: " + result);
         model.addAttribute("reservation",reservation);
         model.addAttribute("tour",tour);
@@ -118,7 +118,7 @@ public class ReservationController {
 			,@ModelAttribute Reservation reservation
 			,@ModelAttribute Tour tour) {
 		System.out.println("paymentController: "+reservation);
-		List<Reservation>rList = rService.SearchPaymentInfo(reservation,tour);
+		List<Reservation>rList = rService.searchPaymentInfo(reservation,tour);
 		model.addAttribute("rList",rList);
 		model.addAttribute("reservation",reservation);
 		return "reservation/paymentPage";
@@ -198,7 +198,7 @@ public class ReservationController {
 	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model) {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("reserveNo", reserveNo);
-		List<Reservation> rList = rService.SearchInfo(param);
+		List<Reservation> rList = rService.searchInfo(param);
 		model.addAttribute("rList", rList);
 		model.addAttribute("reserveNo", reserveNo);
 		return "reservation/reservationlookupResult";
@@ -214,7 +214,7 @@ public class ReservationController {
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
+		List<Reservation> rList = rService.searchAllInfo(userId, breweryName, rowBounds);
 		model.addAttribute("rList", rList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pn", pn);
@@ -234,7 +234,7 @@ public class ReservationController {
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
+		List<Reservation> rList = rService.searchAllInfo(userId, breweryName, rowBounds);
 		model.addAttribute("rList", rList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pn", pn);
@@ -254,7 +254,7 @@ public class ReservationController {
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
+		List<Reservation> rList = rService.searchAllInfo(userId, breweryName, rowBounds);
 		model.addAttribute("rList", rList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pn", pn);
