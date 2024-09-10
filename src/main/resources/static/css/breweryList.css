@@ -84,32 +84,35 @@ main {
     .hash-tag {
         margin-top: 40px;
         font-size: 30px;
+        margin-bottom: 20px;
     }
     .detail-div {
         border-top: 1px solid black;
         width: 100%;
-        height: 177px;
+        height: 224px;
         padding: 20px;
     }
         .img-div {
             width: 20%;
             height: 100%;
             background-size: cover;
+            background-position: center;
             align-items: center;
             justify-content: center;
             float: left;
+            cursor: pointer;
         }
         .text-div {
             float: left;
             margin-left: 20px;
-            line-height: 30px;
-            font-size: 12px;
-
+            line-height: 41px;
+            font-size: 15px;
+			
         }
             .name {
                 font-weight: 600;
-                font-size: 20px;
-
+                font-size: 27px;
+				cursor: pointer;
             }
 
     .tag-container {
@@ -129,50 +132,47 @@ main {
                 font-size: 12px;
             }
 
+footer {
+    background-color: white;
+    padding: 50px 20px;
+    text-align: center;
+    width: 100%;
+    margin-top: 50%;
+}
 
-
-
-
-        footer {
-            background-color: white;
-            padding: 50px 20px;
-            text-align: center;
-            width: 100%;
-            margin-top: 50%;
-        }
-        
-        footer nav {
-            margin-bottom: 20px;
-        }
-        
-        footer nav a {
-            text-decoration: none;
-            color: black;
-            font-size: 1rem;
-        }
-        
-        .company-info {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-        
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .icon-facebook, .icon-instagram {
-            width: 40px;
-            height: 40px;
-        }
-        
-        .social-icons img{
-            width: 100%;
-        }
-        
-        .copyright {
-            font-size: 0.8rem;
-        }                     
+	footer nav {
+	    margin-bottom: 20px;
+	}
+	
+		footer nav a {
+		    text-decoration: none;
+		    color: black;
+		    font-size: 1rem;
+		}
+	
+		.company-info {
+		    font-size: 0.9rem;
+		    line-height: 1.5;
+		    margin-bottom: 20px;
+		}
+	
+		.social-icons {
+		    display: flex;
+		    justify-content: center;
+		    gap: 20px;
+		    margin-bottom: 20px;
+		}
+	
+			.icon-facebook, .icon-instagram {
+			    width: 40px;
+			    height: 40px;
+			}
+			
+			.social-icons img{
+			    width: 100%;
+			}
+	
+		.copyright {
+		    font-size: 0.8rem;
+		}
+	

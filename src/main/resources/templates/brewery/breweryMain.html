@@ -57,12 +57,26 @@
 			<div id="mapTag" class="mapTag">
 				<p id="selected-local"></p>
 			</div>
-			<ul>
+			<ul id="detail-list">
 				<li id="selected-list">
 					<div id="list-box"></div>
 				</li>
 			</ul>
-			<div class="paging"></div>
+			<div class="rec-box">
+			<span th:each = "tag : ${tList}" th:text="${tag.breweryTagName}"></span>
+				<h1>추천 양조장</h1>
+			  		<div class="brewery-list">
+			    		<div class="brewery-item">
+			      			<div class="image-container">
+			        			<img src="#" alt="F 양조장">
+			      			</div>
+			      			<div class="info-container">
+				        		<h2>F 양조장</h2>
+				        		<p>서울특별시 강북구</p>
+			      			</div>
+		      			</div>
+			 		</div>
+			 </div>
         </main>
         <footer>
 	        <nav>
@@ -82,6 +96,12 @@
 	    </footer>
     </body>
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.mapImg .all').style.display = 'block';
+        document.querySelector('.mapImg .all').style.display = 'block';
+        getBreweryList('all');
+    });
+
     document.querySelectorAll('.mapLink .area').forEach(area => {
         area.addEventListener('mouseover', function() {
             let areaClass = this.classList[1];
@@ -95,7 +115,7 @@
             document.querySelectorAll('.mapImg img').forEach(img => {
                 img.style.display = 'none';
             });
-            document.querySelector('.mapImg .all').style.display = 'block';
+            document.querySelector('.mapImg .all').style.display = 'block';  // 기본 지도 표시
         });
     });
     function getBreweryList(local) {
@@ -112,10 +132,12 @@
                 listBox.innerHTML = '';
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
-                        listBox.innerHTML += `<div id="brewery-detail">
-                            <div id="img-div" style="background-image: url('${data[i].filePath}/${data[i].fileRename}');"></div>
+                        listBox.innerHTML += `<div id="brewery-detail"">
+                            <div id="img-div" style="background-image: url('${data[i].filePath}/${data[i].fileRename}" onclick="goToBreweryDetail(${data[i].breweryNo})");"></div>
                             <div id="text-div">
-                                <a id="brewery-name">${data[i].breweryName}</a>
+                                <div id="brewery-name" onclick="goToBreweryDetail(${data[i].breweryNo})">${data[i].breweryName}</div>
+                               	<div id="brewery-addr">주소 | ${data[i].breweryAddr}</div><br>
+                                <div id="brewery-phone">예약문의 | ${data[i].breweryPhone}</div>
                             </div>
                         </div>`;
                     }
@@ -127,6 +149,9 @@
 				alert("전송 실패");    			
 			}
 		})
+    }
+    function goToBreweryDetail(breweryNo) {
+    	window.location.href = `/brewery/detail/${breweryNo}`;
     }
     function goList(button) {
     	var local = button.getAttribute("data-local");

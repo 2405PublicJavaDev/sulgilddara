@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 
 @Mapper
 public interface BreweryMapper {
@@ -125,4 +126,17 @@ public interface BreweryMapper {
 	 * @return
 	 */
 	List<Liquor> searchLiquorByNo(Integer breweryNo);
+
+	/**
+	 * 양조장 별 생산제품 이미지 조회
+	 * @param breweryNo
+	 * @return
+	 */
+	List<LiquorImage> searchLiquorImageByNo(Integer breweryNo);
+
+	/**
+	 * 랜덤 태그 조회
+	 * @return List<BreweryTag>
+	 */
+	List<BreweryTag> selectRandomTag();
 }

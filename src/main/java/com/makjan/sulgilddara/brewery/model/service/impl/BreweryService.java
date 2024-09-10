@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.brewery.model.vo.BreweryTag;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
+import com.makjan.sulgilddara.liquor.model.vo.LiquorImage;
 import com.makjan.sulgilddara.model.vo.Pagination;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
@@ -48,10 +49,10 @@ public interface BreweryService {
 	Brewery searchOneByNo(Integer breweryNo);
 	
 	/**
-	 * 양조장 랜덤 조회
+	 * 태그 랜덤 조회
 	 * @return List<Brewery>
 	 */
-	List<Brewery> selectRandom();
+	List<BreweryTag> selectRandomTag();
 	
 	/**
 	 * 양조장 별 주류리스트 조회
@@ -137,4 +138,11 @@ public interface BreweryService {
 	 * @return
 	 */
 	List<Brewery> searchBreweryByTag(String tagName);
+
+	/**
+	 * 양조장 별 생산제품 이미지 조회
+	 * @param breweryNo
+	 * @return
+	 */
+	List<LiquorImage> selectLiquorImageByNo(Integer breweryNo);
 }
