@@ -146,4 +146,11 @@ public interface BreweryMapper {
 	 * @return List<BreweryTag>
 	 */
 	List<BreweryTag> showAllTagByBrwNo(Integer breweryNo);
+
+	/**
+	 * 해시태그 별 양조장 4개 조회
+	 * @param tagName
+	 * @return
+	 */
+	List<Brewery> selectFourTagList(String tagName);
 }

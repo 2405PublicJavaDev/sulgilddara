@@ -177,6 +177,12 @@ public class BreweryServiceImpl implements BreweryService{
 		List<BreweryTag> tagList = mapper.showAllTagByBrwNo(breweryNo);
 		return tagList;
 	}
+
+	@Override
+	public List<Brewery> searchFourBreweryByTag(String tagName) {
+		List<Brewery> bList = mapper.selectFourTagList(tagName);
+		return bList;
+	}
 	
 	
 }
