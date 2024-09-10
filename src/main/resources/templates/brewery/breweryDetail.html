@@ -72,7 +72,6 @@
 			        </div>
 			    </div>
 			</div>
-
 			<h2 class="section-title">체험 프로그램</h2>
 			<div class="programs">
 				<div th:each="tour : ${tList}" class="program">
@@ -80,7 +79,10 @@
 					<div class="program-info" th:text="${tour.tourContent}">프로그램 상세정보</div>
 					<div class="program-details">
 						<span th:text="'소요시간 : ' + ${tour.timeTaken} + ' 금액 : ' +${tour.tourPrice} + '원'"></span>
-						<button class="book-button">예약하기</button>
+						<form th:action="@{/reservation/initate/{breweryNo}/{tourNo}(breweryNo=${tour.breweryNo},tourNo=${tour.tourNo})}" method="POST">
+							<input type="hidden" name="tourName" th:value="${tour.tourName}">
+							<button class="book-button">예약하기</button>						
+						</form>
 					</div>
 				</div>
 			</div>
@@ -112,6 +114,11 @@
                		  }
                		);
 	      		});
+// 			 	function goReservation(tourNo, breweryNo) {
+// 			 		console.log(tourNo);
+// 			 		console.log(breweryNo);
+// 			 		location.href = `/reservation/initate/${breweryNo}/${tourNo}`;
+// 			 	}
 			</script>
 			
 

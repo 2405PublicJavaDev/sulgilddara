@@ -32,6 +32,8 @@ import com.makjan.sulgilddara.model.vo.Pagination;
 import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/brewery")
 public class BreweryController {
