@@ -57,17 +57,17 @@
 				        <li th:class="${cp <= 1} ? 'disabled' : ''">
 				            <a th:if="${cp > 1}" th:href="@{/liquor/search(
 				                cp=1,
-				                startNavi=${pn.startNavi},
-				                endNavi=${pn.endNavi},
-				                keyword=${sInfo.keyword},
-				                liquorType=${sInfo.liquorType},
-				                breweryLocal=${sInfo.breweryLocal},
-				                alcholMin=${sInfo.alcholMin},
-				                alcholMax=${sInfo.alcholMax},
-				                capacityMin=${sInfo.capacityMin},
-				                capacityMax=${sInfo.capacityMax},
-				                priceMin=${sInfo.priceMin},
-				                priceMax=${sInfo.priceMax},
+				                pn.startNavi=${pn.startNavi},
+				                pn.endNavi=${pn.endNavi},
+				                sInfo.keyword=${sInfo.keyword},
+				                sInfo.liquorType=${sInfo.liquorType},
+				                sInfo.breweryLocal=${sInfo.breweryLocal},
+				                sInfo.alcholMin=${sInfo.alcholMin},
+				                sInfo.alcholMax=${sInfo.alcholMax},
+				                sInfo.capacityMin=${sInfo.capacityMin},
+				                sInfo.capacityMax=${sInfo.capacityMax},
+				                sInfo.priceMin=${sInfo.priceMin},
+				                sInfo.priceMax=${sInfo.priceMax},
 				                tags=${tags}
 				            )}" class="arrow">&laquo;&laquo;</a>
 				            <span th:unless="${cp > 1}" class="arrow disabled">&laquo;&laquo;</span>
@@ -75,17 +75,17 @@
 				        <li th:class="${cp <= 1} ? 'disabled' : ''">
 				            <a th:if="${cp > 1}" th:href="@{/liquor/search(
 				                cp=${cp - 1},
-				                startNavi=${pn.startNavi},
-				                endNavi=${pn.endNavi},
-				                keyword=${sInfo.keyword},
-				                liquorType=${sInfo.liquorType},
-				                breweryLocal=${sInfo.breweryLocal},
-				                alcholMin=${sInfo.alcholMin},
-				                alcholMax=${sInfo.alcholMax},
-				                capacityMin=${sInfo.capacityMin},
-				                capacityMax=${sInfo.capacityMax},
-				                priceMin=${sInfo.priceMin},
-				                priceMax=${sInfo.priceMax},
+				                pn.startNavi=${pn.startNavi},
+				                pn.endNavi=${pn.endNavi},
+				                sInfo.keyword=${sInfo.keyword},
+				                sInfo.liquorType=${sInfo.liquorType},
+				                sInfo.breweryLocal=${sInfo.breweryLocal},
+				                sInfo.alcholMin=${sInfo.alcholMin},
+				                sInfo.alcholMax=${sInfo.alcholMax},
+				                sInfo.capacityMin=${sInfo.capacityMin},
+				                sInfo.capacityMax=${sInfo.capacityMax},
+				                sInfo.priceMin=${sInfo.priceMin},
+				                sInfo.priceMax=${sInfo.priceMax},
 				                tags=${tags}
 				            )}" class="arrow">&laquo;</a>
 				            <span th:unless="${cp > 1}" class="arrow disabled">&laquo;</span>
@@ -95,17 +95,17 @@
 				            th:class="${pageNumber == cp} ? 'active' : ''">
 				            <a th:href="@{/liquor/search(
 				                cp=${pageNumber},
-				                startNavi=${pn.startNavi},
-				                endNavi=${pn.endNavi},
-				                keyword=${sInfo.keyword},
-				                liquorType=${sInfo.liquorType},
-				                breweryLocal=${sInfo.breweryLocal},
-				                alcholMin=${sInfo.alcholMin},
-				                alcholMax=${sInfo.alcholMax},
-				                capacityMin=${sInfo.capacityMin},
-				                capacityMax=${sInfo.capacityMax},
-				                priceMin=${sInfo.priceMin},
-				                priceMax=${sInfo.priceMax},
+				                pn.startNavi=${pn.startNavi},
+				                pn.endNavi=${pn.endNavi},
+				                sInfo.keyword=${sInfo.keyword},
+				                sInfo.liquorType=${sInfo.liquorType},
+				                sInfo.breweryLocal=${sInfo.breweryLocal},
+				                sInfo.alcholMin=${sInfo.alcholMin},
+				                sInfo.alcholMax=${sInfo.alcholMax},
+				                sInfo.capacityMin=${sInfo.capacityMin},
+				                sInfo.capacityMax=${sInfo.capacityMax},
+				                sInfo.priceMin=${sInfo.priceMin},
+				                sInfo.priceMax=${sInfo.priceMax},
 				                tags=${tags}
 				            )}" th:text="${pageNumber}"
 				               th:class="${pageNumber == cp} ? 'active' : ''"></a>
@@ -114,17 +114,17 @@
 				        <li th:class="${cp >= pn.endNavi} ? 'disabled' : ''">
 				            <a th:if="${cp < pn.endNavi}" th:href="@{/liquor/search(
 				                cp=${cp + 1},
-				                startNavi=${pn.startNavi},
-				                endNavi=${pn.endNavi},
-				                keyword=${sInfo.keyword},
-				                liquorType=${sInfo.liquorType},
-				                breweryLocal=${sInfo.breweryLocal},
-				                alcholMin=${sInfo.alcholMin},
-				                alcholMax=${sInfo.alcholMax},
-				                capacityMin=${sInfo.capacityMin},
-				                capacityMax=${sInfo.capacityMax},
-				                priceMin=${sInfo.priceMin},
-				                priceMax=${sInfo.priceMax},
+				                pn.startNavi=${pn.startNavi},
+				                pn.endNavi=${pn.endNavi},
+				                sInfo.keyword=${sInfo.keyword},
+				                sInfo.liquorType=${sInfo.liquorType},
+				                sInfo.breweryLocal=${sInfo.breweryLocal},
+				                sInfo.alcholMin=${sInfo.alcholMin},
+				                sInfo.alcholMax=${sInfo.alcholMax},
+				                sInfo.capacityMin=${sInfo.capacityMin},
+				                sInfo.capacityMax=${sInfo.capacityMax},
+				                sInfo.priceMin=${sInfo.priceMin},
+				                sInfo.priceMax=${sInfo.priceMax},
 				                tags=${tags}
 				            )}" class="arrow">&raquo;</a>
 				            <span th:unless="${cp < pn.endNavi}" class="arrow disabled">&raquo;</span>
@@ -132,17 +132,17 @@
 				        <li th:class="${cp >= pn.endNavi} ? 'disabled' : ''">
 				            <a th:if="${cp < pn.endNavi}" th:href="@{/liquor/search(
 				                cp=${pn.endNavi},
-				                startNavi=${pn.startNavi},
-				                endNavi=${pn.endNavi},
-				                keyword=${sInfo.keyword},
-				                liquorType=${sInfo.liquorType},
-				                breweryLocal=${sInfo.breweryLocal},
-				                alcholMin=${sInfo.alcholMin},
-				                alcholMax=${sInfo.alcholMax},
-				                capacityMin=${sInfo.capacityMin},
-				                capacityMax=${sInfo.capacityMax},
-				                priceMin=${sInfo.priceMin},
-				                priceMax=${sInfo.priceMax},
+				                pn.startNavi=${pn.startNavi},
+				                pn.endNavi=${pn.endNavi},
+				                sInfo.keyword=${sInfo.keyword},
+				                sInfo.liquorType=${sInfo.liquorType},
+				                sInfo.breweryLocal=${sInfo.breweryLocal},
+				                sInfo.alcholMin=${sInfo.alcholMin},
+				                sInfo.alcholMax=${sInfo.alcholMax},
+				                sInfo.capacityMin=${sInfo.capacityMin},
+				                sInfo.capacityMax=${sInfo.capacityMax},
+				                sInfo.priceMin=${sInfo.priceMin},
+				                sInfo.priceMax=${sInfo.priceMax},
 				                tags=${tags}
 				            )}" class="arrow">&raquo;&raquo;</a>
 				            <span th:unless="${cp < pn.endNavi}" class="arrow disabled">&raquo;&raquo;</span>
