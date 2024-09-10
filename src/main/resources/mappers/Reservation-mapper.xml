@@ -39,7 +39,7 @@ INSERT INTO reservation_tbl VALUES (
      #{reservation.reserveTime},#{reservation.emergencyPhone},
     (SELECT brewery_name FROM brewery_tbl WHERE brewery_no = #{tour.breweryNo}),DEFAULT,
     (SELECT TOUR_PRICE FROM TOUR_TBL WHERE TOUR_NO=#{tour.tourNo}),
-    (SELECT tour_no FROM tour_tbl WHERE brewery_no = #{tour.breweryNo}),#{tour.breweryNo},#{tour.tourName})
+    (SELECT TOUR_NO FROM TOUR_TBL JOIN BREWERY_TBL USING(BREWERY_NO) WHERE BREWERY_NO=#{tour.breweryNo}AND TOUR_NO=#{tour.tourNo}),#{tour.breweryNo},#{tour.tourName})
 
 
  </insert>
