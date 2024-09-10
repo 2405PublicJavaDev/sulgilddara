@@ -111,7 +111,6 @@ List<Tour> showTourList(String tourName, RowBounds rowBounds);
  * @return List<Reservation>
  */
 List<Reservation> SearchPaymentInfo(Reservation reservation, Tour tour);
-//List<Reservation> SearchPaymentInfo(String reserveNo);
 
 
 

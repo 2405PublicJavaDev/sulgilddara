@@ -34,7 +34,7 @@ public class Reservation {
 	//Kakao
 	private String tid;
 	private String partner_order_id;
-	private String pg_token;
+	private String pg_token; 
 	
 	
 	
