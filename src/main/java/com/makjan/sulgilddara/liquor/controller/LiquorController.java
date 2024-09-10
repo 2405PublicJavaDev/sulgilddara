@@ -114,7 +114,7 @@ public class LiquorController {
 		//페이징 데이터 처리
 		int totalCount = lService.getTotalCount();
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
-		pn.setBoardLimit(3);
+		pn.setBoardLimit(12);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
