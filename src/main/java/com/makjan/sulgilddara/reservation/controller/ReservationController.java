@@ -50,7 +50,13 @@ public class ReservationController {
 		this.tService = tService;
 		this.bService = bService;
 	}
-
+//	@GetMapping("/reservation/initate/{breweryNo}/{tourNo}")
+//	public String showInitateRegister(Model model
+//			, @PathVariable ("breweryNo") Integer breweryNo
+//			, @PathVariable ("tourNo") Integer tourNo) {
+//		Tour tour = tService.searchByInfo(tourNo,tourName,breweryNo);
+//		return "reservation/registerPage";
+//	}
 	@PostMapping("/reservation/initate/{breweryNo}/{tourNo}")
 	public String initateRegister(Model model, HttpSession session, @PathVariable("tourNo") Integer tourNo,
 			@PathVariable("breweryNo") Integer breweryNo, @RequestParam("tourName") String tourName) {

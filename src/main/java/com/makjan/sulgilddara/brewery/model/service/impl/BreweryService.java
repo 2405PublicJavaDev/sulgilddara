@@ -159,4 +159,25 @@ public interface BreweryService {
 	 * @return
 	 */
 	List<Brewery> searchFourBreweryByTag(String tagName);
+
+	/**
+	 * 편의시설 별 아이콘 매핑
+	 * @param fList
+	 * @return
+	 */
+	Map<String, String> mapFacilitiesToIcons(List<String> fList);
+
+	/**
+	 * 편의시설 한글로 변환
+	 * @param trim
+	 * @return
+	 */
+	String getFacilityKorean(String trim);
+
+	/**
+	 * 지역 한글로 변환
+	 * @param localName
+	 * @return
+	 */
+	String getLocalName(String localName);
 }

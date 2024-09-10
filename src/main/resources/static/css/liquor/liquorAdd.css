@@ -1,0 +1,56 @@
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+}
+.inputForm {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    align-items: center;
+}
+input, select {
+    width: 100%;
+    padding: 5px;
+}
+button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.checkbox-group {
+    display: flex;
+    gap: 10px;
+}
+.file-buttons {
+    display: flex;
+    gap: 10px;
+}
+.submit-button {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 20px;
+}
+img {
+    max-width: 200px;
+    float: right;
+}
+
+/* 리스트 아이템을 클릭 가능하게 보이도록 스타일 추가 */
+.clickable-brewery {
+    color: blue; /* 파란색으로 텍스트 색상 변경 */
+    cursor: pointer; /* 마우스를 가져다 대면 커서가 클릭 모양으로 변경 */
+    text-decoration: underline; /* 링크처럼 밑줄 추가 */
+}
+
+/* 마우스를 가져다 댔을 때의 추가 스타일 (선택 사항) */
+.clickable-brewery:hover {
+    color: darkblue; /* 마우스를 올렸을 때 더 진한 파란색으로 변경 */
+}

@@ -9,10 +9,7 @@
 			*{
 				box-sizing: border-box;
 			}
-			a{
-				text-decoration: none;
-				color: black;
-			}
+			
 			body {
 	            font-family: Arial, sans-serif;
 	            background-color: #f0f0f0;
@@ -27,24 +24,24 @@
 	            border-radius: 8px;
 	            box-shadow: 0 0 10px rgba(0,0,0,0.1);
 	        }
-	        .search-bar {
-	            display: flex;
-	            margin-bottom: 20px;
-	        }
-	        .search-bar input[type="text"] {
-	            flex-grow: 1;
-	            padding: 10px;
-	            border: 1px solid #ddd;
-	            border-radius: 4px 0 0 4px;
-	        }
-	        .search-bar button {
-	            padding: 10px 20px;
-	            background-color: #b8860b;
-	            color: white;
-	            border: none;
-	            border-radius: 0 4px 4px 0;
-	            cursor: pointer;
-	        }
+/* 	        .search-bar { */
+/* 	            display: flex; */
+/* 	            margin-bottom: 20px; */
+/* 	        } */
+/* 	        .search-bar input[type="text"] { */
+/* 	            flex-grow: 1; */
+/* 	            padding: 10px; */
+/* 	            border: 1px solid #ddd; */
+/* 	            border-radius: 4px 0 0 4px; */
+/* 	        } */
+/* 	        .search-bar button { */
+/* 	            padding: 10px 20px; */
+/* 	            background-color: #b8860b; */
+/* 	            color: white; */
+/* 	            border: none; */
+/* 	            border-radius: 0 4px 4px 0; */
+/* 	            cursor: pointer; */
+/* 	        } */
 	        .tag-list {
 	            display: flex;
 	            flex-wrap: wrap;
@@ -85,6 +82,10 @@
 	        	transition: all 0.2s ease;
 	        	cursor:pointer;	
 	        }
+	        .review-card a{
+	        	color: black;	        	
+	        }
+	        
 	        
 	        .review-card:hover {
 	            border-radius: 8px;
@@ -96,7 +97,9 @@
 	        	display: flex;
 	        	flex-direction: column;
 	        	height: 100%;
+	        	
 	        }
+	        
 	        
 	        .review-header {
 	        	width:100%;
@@ -107,11 +110,13 @@
 	        }
 	        .review-content{
 	        	width:100%;
+	        	
 				flex-grow: 1;
 	        }
 	        
 			h3{
 				margin: 10px 0; 
+				max-width:200px; 
 			}
 	        
 	        .review-footer {
@@ -152,12 +157,108 @@
 	        }
 	        .starContainer{
 	        	color: #fdc82a;
+	        	width: 120px;
 	        }
 	        
 	        .starContainer i{
 	        	font-size: 20px;
 	        	line-height: 45px;
 	        }
+	        
+	        #searchCondition{
+	        	border-radius: 5px;
+	        	width: 80px;
+	        	height: 100%;
+	        	border: 3px solid #735747;
+	        	color: #735747;
+	        	font-size: 15px;
+	        	font-weight: 1000;
+	        	
+	        }
+	        #searchFormBar{
+	        	height: 60px;
+	        }
+	        
+	        #searchBar{
+	        	width: 100%;
+	        	height: 100%;
+ 	        	border-radius: 30px;
+	        	padding: 0px;
+	        	border: 3px solid #735747;
+	        }
+	        
+	        #searchBtn-keyword{
+	        	border-radius:50%;
+	        	padding: 0px;
+	        	width: 60px;
+	        	height: 60px;
+	        	color: white;
+	        	background-color:#735747;
+	        	border: 0px;
+	        	font-size: 25px;
+	        }
+	        
+	        #searchBarContainer{
+	        	margin:0 auto;
+	        	width:80%;
+	        	display: flex;
+	        	justify-content: center;
+	        	height: 100%;
+	        }
+	       
+	       
+	       
+	       label{
+	       		user-select:none;
+	       		font-size: 18px;
+	       		font-weight: bold;
+				display: inline-block;
+				padding: 8px;
+	       		background-color: rgb(221, 208, 190);
+	       		color: #735747;
+				border-radius: 10px;
+				cursor: pointer;
+				transition: all 0.2s
+	       }
+	       label:hover{
+				background-color: #735747;
+				color: white;
+	       		transform:scale(1.1);
+	       }
+	        
+	        
+	        #tagListContainer{
+	        	display: flex;
+	        	flex-wrap: wrap;
+	        	width: 80%;
+	        	margin: 0 auto;
+	        	margin-top: 20px;
+	        	gap:8px;
+	        	
+	        }
+	        
+	        #searchButton{
+	        	width: 80px;
+	        	height: 50px;
+	        	font-size: 16px;
+	        	font-weight:1000;
+	        	border-radius: 10px;
+	        	background-color: #735747;
+				color: white;
+				border: 0px;
+	        }
+	        #searchButton:disabled {
+	        	color: gray;
+	        	background: rgb(221, 208, 190);
+	        	border: 0px
+			}
+			
+			.tagCheckbox:checked + label {
+				background-color: #735747;
+				color: white;
+	       		transform:scale(1.1);
+			}
+			
 		</style>
 		
 <!-- 		<span th:text="${#strings.length(board.title) > 10 ? board.title.substring(0, 10) + '...' : board.title}"></span> -->
@@ -174,26 +275,39 @@
 		<div class="container">
 		
 		<a th:href="@{/board/writePage}" th:text="게시글작성"></a>
-	<form action="/board/listCard" method="post">
+		
+	<form id="searchFormBar" action="/board/listCard" method="post">
 		<input type="hidden" name="searchMethod" value="keywordSearch">
-		 <select name="searchCondition">
-		 	<option value="all" th:selected="${searchCondition eq 'all'}">전체</option>
-		    <option value="boardSubject" th:selected="${searchCondition eq 'boardSubject'}">제목</option>
-		    <option value="boardWriter" th:selected="${searchCondition eq 'boardWriter'}">작성자</option>
-		 </select>
-		 <input type="text" name="searchKeyword" th:value="${searchKeyword}">
-		 <!-- 정렬 선택 hidden input -->
+		
+		<div id="searchBarContainer">
+			 <select id="searchCondition" name="searchCondition">
+			 	<option value="all" th:selected="${searchCondition eq 'all'}">전체</option>
+			    <option value="boardSubject" th:selected="${searchCondition eq 'boardSubject'}">제목</option>
+			    <option value="boardWriter" th:selected="${searchCondition eq 'boardWriter'}">작성자</option>
+			 </select>
+			 
+			 <div style="position: relative; width: 100%">
+				<input id="searchBar" type="text" name="searchKeyword" th:value="${searchKeyword}">
+				<div style="position: absolute; top: 0px; left: 100%; transform: translateX(-50%);">
+					<button id="searchBtn-keyword"><i class="fa-solid fa-magnifying-glass"></i></button>
+				</div>
+			 </div>
+		</div>
+		
+			 <!-- 정렬 선택 hidden input -->
 		<input type="hidden" id="orderInputHidden_default"  name="orderSelectBox" th:value="${orderSelectBox}">
-		<button>검색</button>
 	</form>
 	
 	<div>
 		<form action="/board/searchTag_listCard" method="post">
 			<input type="hidden" name="searchMethod" value="tagSearch">
-			<div th:each="tag : ${bTagListDistinct}">
-				<label th:for="${tag.boardTagName}">[[${tag.boardTagName}]]</label>		
-				<input type="checkbox" th:class="tagCheckBox" th:name="tagName" th:value="${tag.boardTagName}" th:id="${tag.boardTagName}" th:checked="${selectedTags != null && #strings.contains(selectedTags, tag.boardTagName)}">
+			<div id="tagListContainer">
+				<div th:each="tag : ${bTagListDistinct}">
+					<input class="checkInput" style="opacity: 0; width: 0px; " type="checkbox" th:class="tagCheckBox" th:name="tagName" th:value="${tag.boardTagName}" th:id="${tag.boardTagName}" th:checked="${selectedTags != null && #strings.contains(selectedTags, tag.boardTagName)}">
+					<label th:for="${tag.boardTagName}"># [[${tag.boardTagName}]]</label>		
+				</div>
 			</div>
+			
 <!-- 			체크하지 않았을땐 비활성화(default) -->
 			<button type="submit" id="searchButton" disabled>간편검색</button>
 <!-- 			정렬 선택 hidden input -->
@@ -219,24 +333,24 @@
 	
 	<div class="review-grid">
 		<div class="review-card"  th:if="${!#lists.isEmpty(bList)}" th:each="board : ${bList}">
-			<a style="display: block; text-decoration: none" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">
-			
-				<div class="boardOne">
-						<div class="review-header">
-		                    <h3 th:text="'['+${board.liquorName}+'] '+${board.boardSubject}"></h3>
-		                    
-			                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 2}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 2.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 3}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 3.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 4}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 4.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+					<a style="display: block; text-decoration: none" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">
+						<div class="boardOne">
+							<div class="review-header">
+			                    <h3 th:text="'['+${board.liquorName}+'] '+${board.boardSubject}"></h3>
 			                    
-	                	</div>
+				                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 2}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 2.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 3}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 3.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 4}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 4.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+				                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+				                    
+		                	</div>
+					
 	                	
 						<div class="review-content">
 							<div th:each="bFile : ${bFileList}"  th:if="${bFile.boardNo == board.boardNo}">
@@ -267,7 +381,7 @@
 	                	
 		<!-- 				프로필사진, 회원ID,  -->
 		
-				</div>
+					</div>
 				</a>
 		</div>
 		

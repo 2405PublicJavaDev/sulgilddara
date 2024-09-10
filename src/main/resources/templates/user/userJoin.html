@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,8 +42,7 @@
                             </li>
                             <li>
                                 <div id="profile">
-                                    
-								<img id="preview" src="/img/user/default_profile.png" alt="미리보기 이미지" style="width: 200px; height: auto;">
+									<img id="preview" src="/img/user/default_profile.png" alt="미리보기 이미지" style="width: 200px; height: auto;">
 								</div>
                                 <div id="file-upload">
                                     <label for="profileImage">
@@ -53,7 +52,6 @@
                                             onchange="previewImage(event)" style="display: none;">
                                 </div>
                             </li>
-                            
                                 <span class="requireds"><span class="required">*</span> 필수 입력 사항</span>
                             
                             <li>
