@@ -34,7 +34,7 @@ public class ReservationServiceImpl implements ReservationService{
 //@Autowired
 //	private BreweryMapper bmapper;
 	@Override
-	public int RegisterInfo(Reservation reservation,Tour tour,Brewery brewery) {
+	public int registerInfo(Reservation reservation,Tour tour,Brewery brewery) {
 //		Tour tour = tmapper.searchByNo(reservation.getTourNo());
 //		System.out.println("tour"+ tour);
 //		Brewery brewery = bmapper.searchOneByNo(tour.getBreweryNo());
@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService{
 
 
 	@Override
-	public List<Reservation> SearchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
+	public List<Reservation> searchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
 		
 		Map<String,String>param = new HashMap<String,String>();
 		param.put("userId",userId);
@@ -63,7 +63,7 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<Reservation> SearchInfo(Map<String, String> param) {
+	public List<Reservation> searchInfo(Map<String, String> param) {
 		List<Reservation> rList = rmapper.SearchInfo(param);
 		return rList;
 	}
@@ -131,7 +131,7 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<Reservation> SearchPaymentInfo(Reservation reservation , Tour tour) {
+	public List<Reservation> searchPaymentInfo(Reservation reservation , Tour tour) {
 		List<Reservation>rList = rmapper.SearchPaymentInfo(reservation ,tour);
 		return rList;
 	}

@@ -20,14 +20,14 @@ public interface ReservationService {
  * @param brewery 
  * @return Int
  */
-int RegisterInfo(Reservation reservation, Tour tour, Brewery brewery);
+int registerInfo(Reservation reservation, Tour tour, Brewery brewery);
 
 /**
  * 예약 정보 조회하기 Service
  * @param param
  * @return List<Reservation>
  */
-List<Reservation> SearchInfo(Map<String, String> param);
+List<Reservation> searchInfo(Map<String, String> param);
 
 /**
  * 예약 정보 조회 리스트 Service
@@ -36,7 +36,7 @@ List<Reservation> SearchInfo(Map<String, String> param);
  * @param rowBounds 
  * @return List<Reservation>
  */
-List<Reservation> SearchAllInfo(String userId, String breweryName, RowBounds rowBounds);
+List<Reservation> searchAllInfo(String userId, String breweryName, RowBounds rowBounds);
 
 
 /**
@@ -110,7 +110,7 @@ List<Tour> showTourList(String tourName, RowBounds rowBounds);
  * @param reserveNo 
  * @return List<Reservation>
  */
-List<Reservation> SearchPaymentInfo(Reservation reservation, Tour tour);
+List<Reservation> searchPaymentInfo(Reservation reservation, Tour tour);
 
 
 
