@@ -204,7 +204,7 @@ footer nav a {
         background-color: #f9f8f8;
         padding: 50px 50px 0px 50px;
         margin: 50px 330px 20px 330px;
-        height: 1150px;
+        height: 1400px;
     }
 
     .join-section ul, .join-section li {
@@ -255,7 +255,7 @@ footer nav a {
         }
 
         .gender-radio {
-            width: 30%;
+            width: 15%;
             float: left;
         }
         #profile {
@@ -263,6 +263,7 @@ footer nav a {
             height: 200px;
             display: flex;
             padding: 0px 100px;
+            justify-content: center;
         }
 
         #preview {
@@ -291,15 +292,46 @@ footer nav a {
     .join-form button{
         text-align: center;
         float: left;
-        width: 100%;
-        margin: 10px 0;
+        width: 90%;
+        margin: 40px 85px;
         padding: 20px;
         font-size: 16px;
-        border: #E4CACA;
+        background-color: #323240;
         font-family: 'Noto Serif KR', serif;
+        color: white;
+    }
+
+    #file-upload {
+        display: flex;
+        justify-content: center;
+        margin: 0px 0px 20px 0px;
     }
     
-    .joinButton {
-        background-color: #E4CACA;
-        border: none;
+    .btn-upload {
+        width: 200px;
+        height: 40px;
+        background: #F2EADF;
+        --border: 1px solid rgb(77,77,77);
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            background: rgb(77,77,77);
+            color: #fff;
+        }
+    }
+    
+    #profileImage {
+        display: none;
+    }
+
+    .required {
+        color: red;
+    }
+
+    .requireds {
+        text-align: right;
     }

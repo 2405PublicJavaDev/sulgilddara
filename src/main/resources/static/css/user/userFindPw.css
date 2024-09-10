@@ -30,6 +30,12 @@ h1 {
     font-weight: 800;
 }
 
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
 nav ul {
     list-style-type: none;
     display: flex;
@@ -195,62 +201,83 @@ footer nav a {
 
 /* user.css */
 
-    .login-section {
+    .findPw-section {
         background-color: #f9f8f8;
-        padding: 80px;
-        margin: 100px 450px;
-        
+        padding: 50px 50px 0px 50px;
+        margin: 50px 400px;
+        height: 600px;
     }
 
-    .login-section h1 {
+    .findPw-section ul, .findPw-section li {
+        list-style: none;
+    }
+
+    .findPw-section h2 {
         text-align: center;
     }
-        .login-form {
+        .findPw-form {
             text-align: center;
+            margin-top: 30px;
+            font-size: 1.5em;
+            padding: 0px 50px;
+        }
+
+        .findPw-form label {
+            width: 20%;
+            float: left;
             margin-top: 30px;
         }
 
-        .login-form button {
-            margin-top: 30px;
-            border: none;
-            
-        }
-        .login-form input, .login-form button {
-            width: 65%;
+        .findPw-form input{
+            float: left;
+            width: 80%;
             margin: 10px 0;
-            padding: 15px;
-            font-size: 18px;
+            padding: 20px;
+            font-size: 16px;
             border: #6B6B6B;
             font-family: 'Noto Serif KR', serif;
         }
-    .login-section button {
-        font-size: 2.0em;
+
+    .findPw-section button {
+        font-size: 1.8em;
         font-weight: bold;
         font-family: 'Noto Serif KR', serif;
     }
-    
-    .social-login img {
-        width: 65%;
-        margin : 10px 0px;
-    }
-    
-        .kakao-login {
-            background-color: #f1c40f;
-        }
-    
-    .additional-links {
-        padding-left: 230px;
-        margin-bottom: 30px;
-    }
-
-
-    .additional-links a {
-        color: #797979;
-        text-decoration: none;
+    .findPw-form button{
+        text-align: center;
+        float: left;
+        width: 85%;
+        margin: 40px 85px;
+        padding: 20px;
         font-size: 16px;
+        background-color: #323240;
+        font-family: 'Noto Serif KR', serif;
+        color: white;
     }
 
-    .joinButton {
-        background-color: #E4CACA;
-        border: none;
+    .findPw-form .result {
+        text-align: center;
+        margin-top: 100px;
+        font-size: 1.1em;
+        color: #333;
+    }
+    
+    .findPw-form .result h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+    
+    .findPw-form .result a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 100px;
+        background-color: #323240;
+        color: white;
+        text-decoration: none;
+        font-size: 1.0em;
+        border-radius: 2px;
+    }
+    
+    .findPw-form .result a:hover {
+        background-color: #555;
     }

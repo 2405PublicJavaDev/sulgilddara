@@ -40,6 +40,8 @@ public class KakaoController {
 		// 세션에 사용자 정보 저장
 	    session.setAttribute("userId", user.getUserId());
 	    session.setAttribute("user", user);
+	    session.setAttribute("userName", user.getUserName());
+	    session.setAttribute("kakaoProfile", user.getKakaoProfile());
 		
 		return "redirect:/";
 	}

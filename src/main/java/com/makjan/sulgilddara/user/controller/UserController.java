@@ -172,7 +172,10 @@ public class UserController {
 		user = uService.checkLogin(user);
 		if(user != null) {
 			// 로그인 성공 시 userId 세션에 저장
+			session.setAttribute("user", user);
 			session.setAttribute("userId", userId);
+			session.setAttribute("userName", user.getUserName());
+			session.setAttribute("userFile", user.getUserFile()); 
 			return "redirect:/";
 		} else {
 			return "user/userJoin";
