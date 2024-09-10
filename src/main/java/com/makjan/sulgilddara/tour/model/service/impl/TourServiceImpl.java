@@ -87,7 +87,7 @@ public class TourServiceImpl implements TourService{
 	}
 
 	@Override
-	public List<Tour> ShowInfoByNo(Integer tourNo, Integer breweryNo) {
+	public List<Tour> showInfoByNo(Integer tourNo, Integer breweryNo) {
 		List<Tour>tList = mapper.ShowInfoByNo(tourNo,breweryNo);
 		return tList;
 	}
