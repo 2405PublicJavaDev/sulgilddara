@@ -13,7 +13,10 @@ import com.makjan.sulgilddara.board.model.mapper.BoardMapper;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
+import com.makjan.sulgilddara.board.model.vo.BoardReply;
+import com.makjan.sulgilddara.board.model.vo.BoardReplyUser;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
+import com.makjan.sulgilddara.board.model.vo.SearchLiquor;
 import com.makjan.sulgilddara.model.vo.Pagination;
 
 @Service
@@ -27,13 +30,13 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Board selectOne(Integer boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Board board = bMapper.selectBoardOne(boardNo);
+		return board;
 	}
 	
 	// selectBoardList 오버로딩 - 키워드검색
 	@Override
-	public Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition) {
+	public Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition, String orderSelectBox) {
 		
 		System.out.println("seacrhCondition : "+searchCondition);
 		System.out.println("searchKeyword : "+searchKeyword);
@@ -43,7 +46,7 @@ public class BoardServiceImpl implements BoardService{
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1) * limit ;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Board> bList = bMapper.selectBoardList(searchCondition, searchKeyword, rowBounds);
+		List<Board> bList = bMapper.selectBoardList(searchCondition, searchKeyword, orderSelectBox ,rowBounds);
 		Map<String, Object> map = new HashMap<>();
 		map.put("bList", bList);
 		map.put("pn", pn);
@@ -51,21 +54,21 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	// selectBoardList 오버로딩 - 간편(태그)검색
-	@Override
-	public Map<String, Object> selectBoardList(Integer currentPage, String[] tagList) {
-		
-		int totalCount = bMapper.getTotalCountTag(tagList);
-		Pagination pn = new Pagination(totalCount, currentPage);
-		int limit = pn.getBoardLimit();
-		int offset = (currentPage-1) * limit ;
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Board> bList = bMapper.selectBoardListTag(tagList, rowBounds);
-		Map<String, Object> map = new HashMap<>();
-		map.put("bList", bList);
-		System.out.println(bList);
-		map.put("pn", pn);
-		return map;
-	}
+//	@Override
+//	public Map<String, Object> selectBoardList(Integer currentPage, String[] tagList) {
+//		
+//		int totalCount = bMapper.getTotalCountTag(tagList);
+//		Pagination pn = new Pagination(totalCount, currentPage);
+//		int limit = pn.getBoardLimit();
+//		int offset = (currentPage-1) * limit ;
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		List<Board> bList = bMapper.selectBoardListTag(tagList, rowBounds);
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("bList", bList);
+//		System.out.println(bList);
+//		map.put("pn", pn);
+//		return map;
+//	}
 
 	@Override
 	public int insertBoard(Board board) {
@@ -74,15 +77,15 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int updateBoard(Board board, MultipartFile uploadFile) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateBoard(Board board) {
+		int result = bMapper.updateBoard(board);
+		return result;
 	}
 
 	@Override
 	public int deleteBoard(Integer boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = bMapper.deleteBoard(boardNo);
+		return result;
 	}
 
 	@Override
@@ -98,9 +101,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int deleteTag(List<String> tags) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteTag(Integer boardNo) {
+		int result = bMapper.deleteTag(boardNo);
+		return result;
 	}
 
 
@@ -122,6 +125,100 @@ public class BoardServiceImpl implements BoardService{
 		List<BoardFile> bFileList = bMapper.selectBoardFileList();
 		return bFileList;
 	}
+
+	
+	// 게시글 NO 조회 - 태그 선택 ( 간편 검색 )
+	@Override
+	public List<Integer> selectBoardNoByTags(Map<String, Object> params) {
+		List<Integer> boardNos = bMapper.selectBoardByTags(params);
+		return boardNos;
+	}
+
+	// 태그선택 - No조회 후 No로 board검색 ( 간편 검색)
+	@Override
+	public Map<String, Object> selectBoardsByBoardNos(Integer currentPage, List<Integer> boardNos, String orderSelectBox) {
+		int totalCount = boardNos.size();
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1) * limit ;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Board> bList = bMapper.selectBoardsByBoardNos(boardNos, rowBounds, orderSelectBox);
+		Map<String, Object> map = new HashMap<>();
+		map.put("bList", bList);
+		map.put("pn", pn);
+		return map;
+		
+	}
+
+	// 태그 중복 X 전체 조회
+	@Override
+	public List<BoardTag> selectBoardTagListDistinct() {
+		List<BoardTag> bTagList = bMapper.selectBoardTagListDistinct();
+		return bTagList;
+	}
+
+	@Override
+	public int updateBoardFile(BoardFile boardFile) {
+		int result = bMapper.updateBoardFile(boardFile);
+		return result;
+	}
+
+	
+	@Override
+	public int insertBoardReply(BoardReply boardReply) {
+		int result = bMapper.insertBoardReply(boardReply);
+		return result;
+	}
+
+	@Override
+	public List<BoardReply> selectBoardReplyList(Integer boardNo) {
+		List<BoardReply> replyList = bMapper.selectBoardReplyList(boardNo);
+		return replyList;
+	}
+
+	@Override
+	public int deleteReply(Integer replyNo) {
+		int result = bMapper.deleteReply(replyNo);
+		return result;
+	}
+
+	@Override
+	public int updateReply(Integer replyNo, String replyContent) {
+		int result = bMapper.updateReply(replyNo, replyContent);
+		return result;
+	}
+
+	@Override
+	public int increaseViewCount(Integer boardNo) {
+		int result = bMapper.increaseViewCount(boardNo);
+		return result;
+	}
+
+	@Override
+	public List<SearchLiquor> searchLiquorList(String liquorName) {
+		List<SearchLiquor> searchLiquorResult = bMapper.searchLiquorList(liquorName);
+		return searchLiquorResult;
+	}
+
+	@Override
+	public int getMinBoardNo() {
+		int minBoardNo = bMapper.getMinBoardNo();
+		return minBoardNo;
+	}
+
+	@Override
+	public int getMaxBoardNo() {
+		int maxBoardNo = bMapper.getMaxBoardNo();
+		return maxBoardNo;
+	}
+
+	@Override
+	public List<BoardReplyUser> selectBoardReplyUser(Integer boardNo) {
+		List<BoardReplyUser> boardReplyUserList = bMapper.selectBoardReplyUser(boardNo);
+		return boardReplyUserList;
+	}
+
+	
 	
 	
 	

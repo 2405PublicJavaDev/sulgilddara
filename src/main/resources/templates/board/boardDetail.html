@@ -3,8 +3,224 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>술 이야기 상세</title>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<style type="text/css">
+			#replyAddContent.fail{
+				border-color: red;
+				animation: shake 0.5s; /* 흔들림 애니메이션 적용 */
+			}
+			#replyAddContent.fail::placeholder{
+				color:red;
+			}
+			
+			@keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+		</style>
 	</head>
 	<body>
-	
+		<h1>술 이야기 상세</h1>
+		<button type="button" th:onclick="showModifyPage(/*[[${board.boardNo}]]*/);">수정하기</button>
+		<button type="button" th:onclick="goBack();">뒤로가기</button>
+		<div><a href="#" th:text="${board.liquorName}"></a> <span th:text="${board.boardSubject}">게시글 제목</span></div>
+		태그
+		<a th:each="bTag : ${bTagList}" th:if="${bTag.boardNo == board.boardNo}" th:text="${bTag.boardTagName}" th:href="@{/board/searchTag_listCard(cp=1, searchMethod=tagSearch, orderSelectBox=latest, tagName=${bTag.boardTagName})}"></a>
+		
+		<div th:text="${board.boardDate}">작성일자</div>
+		
+		썸네일 이미지
+		<div th:each="bFile : ${bFileList}" th:if="${bFile.boardNo == board.boardNo}">
+			<a title="다운로드" th:text="${bFile.boardFileRename}" th:href="@{|${bFile.boardFilePath}${bFile.boardFileRename}|}"></a>
+		</div>
+		<div th:text="${board.boardWriter}"></div>
+		<div th:text="${board.viewCount}"></div>
+		<div th:text="${board.boardPoint}"></div>
+		<div th:utext=${board.boardContent}></div>
+		
+		<button type="button" onclick="location.replace('/board/listCard');">목록</button>
+		
+		<th:block th:if="${prevBoard != null}">
+			<a th:text="이전글" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${prevBoard.boardNo}, viewStatus='yes')}"></a><a th:text="${prevBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${prevBoard.boardNo}, viewStatus='yes')}"></a>
+		</th:block>
+		<th:block th:if="${nextBoard != null}">
+			<a th:text="다음글" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${nextBoard.boardNo}, viewStatus='yes')}"></a><a th:text="${nextBoard.boardSubject}" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${nextBoard.boardNo}, viewStatus='yes')}"></a>
+		</th:block>
+		
+		
+		<div id="replyAddContainer">
+			
+			<div>
+				<input type="text" placeholder="댓글을 작성하세요" id="replyAddContent" >
+			</div>
+			<button type="button" id="replyAddBtn">댓글 작성</button>
+		</div>
+		
+		<div id="replyListContainer">
+			<div id="replyTotalCount" th:text="${'총 '+replyTotalCount + '개의 댓글'}"></div>
+			<div th:if="${!boardReplyUserList.isEmpty()}" id="replyOneContainer" th:each="reply : ${boardReplyUserList}">
+				<div>
+<!-- 				userId는 ajax를 통해 호출된 컨트롤러에서 model로 전달되는 값 -> board.userId를 의미하고있음 -->
+					<div th:if="${loginUserId == reply.userId}">
+						<button type="button" th:onclick="convertUpdateMode(/*[[${reply.replyNo}]]*/);">수정</button>
+						<button type="button" th:onclick="if(confirm('정말 삭제하시겠습니까?')) removeReply(/*[[${reply.replyNo}]]*/);">삭제</button>
+					</div>
+					<div>
+					<th:block  th:if="${reply.kakaoProfile == null and reply.userFileRename != null}">
+						<img alt="프로필" th:src="@{|${reply.userFilePath}/${reply.userFileRename}}|">
+					</th:block>
+						<img th:if="${reply.kakaoProfile != null}" alt="프로필" th:src="${reply.kakaoProfile}">
+					</div>
+					<div>
+						<div th:text="${reply.userName}"></div>
+						<div th:text="${reply.rUpdateDate}"></div>
+					</div>
+				</div>
+				
+				<input th:id="'reply'+${reply.replyNo}" th:if="${loginUserId == reply.userId}" th:value="${reply.replyContent}" disabled="disabled">
+				<div th:id="${reply.replyNo}" th:if="${loginUserId != reply.userId}" th:text="${reply.replyContent}"></div>
+				
+			</div>
+			
+		</div>
+		
+		<script th:inline="javascript">
+			// 수정 페이지 이동 버튼
+			function showModifyPage(boardNo){
+				location.href="/board/modifyPage/"+boardNo;
+			}
+			// 뒤로가기 버튼
+			function goBack(){
+				history.go(-1);
+			}
+			
+			// 댓글 등록
+			document.querySelector('#replyAddBtn').addEventListener('click', () => {
+				let boardNo = /*[[${board.boardNo}]]*/;
+				let replyAddContent = document.querySelector('#replyAddContent').value;
+				
+				$.ajax({
+					url : "/board/replyAdd",
+					data : {
+						"boardNo" : boardNo,
+						"replyContent" : replyAddContent
+					},
+					type : "POST",
+					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+						if(data == "success"){
+							// 리스트 초기화
+							getReplyList();
+							// 댓글작성란 초기화
+							document.querySelector('#replyAddContent').value="";
+						}else if(data == "fail"){
+							addReplyFailAnimation();
+						}
+						
+					},
+					error : function(){
+						console.log("서버 전송 실패");
+					}
+				
+				});
+				
+			});
+			
+			// 내용 없을 시 댓글창 경고
+				function addReplyFailAnimation(){
+					let replyAddContent = document.querySelector('#replyAddContent');
+					
+					if(replyAddContent.value.trim() === ''){
+						replyAddContent.classList.add('fail');
+						setTimeout(()=>{
+							replyAddContent.classList.remove('fail');
+						}, 500);
+					}
+					
+				}	
+			
+			
+			
+			getReplyList();
+			// 댓글 리스트 초기화
+			function getReplyList(){
+				let boardNo = /*[[${board.boardNo}]]*/;
+				$.ajax({
+					url : "/board/replyList",
+					data : {
+						"boardNo" : boardNo
+					},
+					type : "POST",
+					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+						console.log('성공?');
+					console.log(data);
+						$('#replyListContainer').replaceWith(data);
+						let totalCount = /*[[${replyTotalCount}]]*/;
+						console.log("성??공??")
+					},
+					error : function(){
+						console.log("서버 전송 실패");
+					}
+				
+				});
+			}
+			
+			
+			// 댓글 삭제
+			function removeReply(replyNo){
+				$.ajax({
+					url : "/board/replyDelete",
+					data : {
+						"replyNo" : replyNo
+					},
+					type : "POST",
+					success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+						if(data == "success"){
+							console.log("delete sucess");
+							getReplyList();
+						}
+					},
+					error : function(){
+						console.log("서버 전송 실패");
+					}
+				});
+			}
+			
+			// 토글 변수
+			
+			function convertUpdateMode(replyNo){
+				console.log(replyNo);
+				let replyInput = document.querySelector('#reply'+replyNo);
+				// update버튼 토글
+				console.log(replyInput);
+				replyInput.disabled = !replyInput.disabled;
+				if(replyInput.disabled){
+					
+					$.ajax({
+						url : "/board/replyUpdate",
+						data : {
+							"replyNo" : replyNo,
+							"replyContent" : replyInput.value
+						},
+						type : "POST",
+						success : function(data){ // 서버로부터 return된 값은 직렬화된 json data로 들어옴
+							if(data == "success"){
+								console.log("update sucess");
+								getReplyList();
+							}
+						},
+						error : function(){
+							console.log("서버 전송 실패");
+						}
+					});
+				}
+			}
+					
+				
+			
+			
+		</script>
 	</body>
 </html>

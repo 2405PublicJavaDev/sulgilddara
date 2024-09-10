@@ -3,20 +3,15 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>술 이야기 메인</title>
-		<script src="https://kit.fontawesome.com/7d4169cb69.js" crossorigin="anonymous"></script>
-		
 		<style type="text/css">
-			*{
-				box-sizing: border-box;
-			}
 			body {
-	            font-family: Arial, sans-serif;
-	            background-color: #f0f0f0;
-	            margin: 0;
-	            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
 	        }
 	        .container {
-	            max-width: 1800px;
+	            max-width: 1200px;
 	            margin: 0 auto;
 	            background-color: white;
 	            padding: 20px;
@@ -71,51 +66,29 @@
 	        }
 	        .review-grid {
 	            display: grid;
-	            /* 각 열의 최소 너비를 250픽셀로 설정합니다. */
-				/* 각 열의 최대 너비를 가용 공간에 따라 비율적으로 설정합니다. 즉, 가용 공간이 많을수록 열이 커지며, 모든 열이 동일한 비율로 공간을 나눕니다. */
-	            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-
+	            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	            gap: 20px;
 	        }
-	        .review-card{
-	        	transition: all 0.2s ease;
-	        	cursor:pointer;	
-	        }
-	        
-	        .review-card:hover {
+	        .review-card {
+	            border: 1px solid #ddd;
 	            border-radius: 8px;
 	            overflow: hidden;
-			    transform: translate(0px,-5px);
-			    box-shadow: 0px 5px 5px 5px rgb(162, 162, 162);
 	        }
-	        .boardOne{
-	        	display: flex;
-	        	flex-direction: column;
-	        	height: 100%;
-	        }
-	        
 	        .review-header {
-	        	width:100%;
 	            background-color: #f8f8f8;
+	            padding: 10px;
 	            display: flex;
 	            justify-content: space-between;
-	            padding: 0 10px;
 	        }
-	        .review-content{
-	        	width:100%;
-				flex-grow: 1;
+	        .review-content {
+	            padding: 15px;
 	        }
-	        
-			h3{
-				margin: 10px 0; 
-			}
-	        
 	        .review-footer {
 	            background-color: #f8f8f8;
-	            padding: 0 10px;
+	            padding: 10px;
 	            display: flex;
-	            flex-direction: column;
- 	        } 
+	            justify-content: space-between;
+	        }
 	        .pagination {
 	            display: flex;
 	            justify-content: center;
@@ -132,43 +105,16 @@
 	        .pagination .active {
 	            background-color: #b8860b;
 	            color: white;
-	           	background-position: center;background-size: cover;background-repeat: no-repeat;
-	         
-	        }
-	        
-	        .thumbnail{
-	        	width: 100%;
-	        	height: 300px;
-	        	background-color: black;
-	        }
-	        .contentDiv-text{
-	        	width: 100%;
-	        	height: 150px;
-	        	padding: 0 10px;
-	        }
-	        .starContainer{
-	        	color: #fdc82a;
-	        }
-	        
-	        .starContainer i{
-	        	font-size: 20px;
-	        	line-height: 45px;
 	        }
 		</style>
-		
-<!-- 		<span th:text="${#strings.length(board.title) > 10 ? board.title.substring(0, 10) + '...' : board.title}"></span> -->
-		
 	</head>
 	<body>
 		<h1>술 이야기 메인 - 카드</h1>
 		<div>캐러셀 자리</div>
-		
 		<div>
 			<span>카드형</span>
 			<a href="/board/listTable">목록형</a>
 		</div>
-		<div class="container">
-		
 		<a th:href="@{/board/writePage}" th:text="게시글작성"></a>
 	<form action="/board/listCard" method="post">
 		<input type="hidden" name="searchMethod" value="keywordSearch">
@@ -178,7 +124,7 @@
 		    <option value="boardWriter" th:selected="${searchCondition eq 'boardWriter'}">작성자</option>
 		 </select>
 		 <input type="text" name="searchKeyword" th:value="${searchKeyword}">
-		 <!-- 정렬 선택 hidden input -->
+		 <!-- 			정렬 선택 hidden input -->
 		<input type="hidden" id="orderInputHidden_default"  name="orderSelectBox" th:value="${orderSelectBox}">
 		<button>검색</button>
 	</form>
@@ -197,75 +143,48 @@
 		</form>
 	</div>
 
-
 <!-- 		정렬 선택 -->
-	<div class="sort-select">
-		<select name="orderSelectBox" id="orderSelectBox" onchange="updateHiddenValue();">
-			<option value="latest" th:selected="${orderSelectBox eq 'latest'}">최신순</option>
-			<option value="viewCount" th:selected="${orderSelectBox eq 'viewCount'}">조회순</option>
-			<option value="boardPoint" th:selected="${orderSelectBox eq 'boardPoint'}">별점순</option>
-		</select>
-	</div>
-		
+	<select name="orderSelectBox" id="orderSelectBox" onchange="updateHiddenValue();">
+		<option value="latest" th:selected="${orderSelectBox eq 'latest'}">최신순</option>
+		<option value="viewCount" th:selected="${orderSelectBox eq 'viewCount'}">조회순</option>
+		<option value="boardPoint" th:selected="${orderSelectBox eq 'boardPoint'}">별점순</option>
+	</select>
 		
 	<div th:if="${#lists.isEmpty(bList)}">
 			<div>NoData</div>
 			<a th:href="@{/board/listCard(cp=${p},boardSubject=${boardSubject})}">처음으로</a>
  	</div>	
-	
-	<div class="review-grid">
-		<div class="review-card"  th:if="${!#lists.isEmpty(bList)}" th:each="board : ${bList}">
-			<a style="display: block; text-decoration: none" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">
-			</a>
-				<div class="boardOne">
-						<div class="review-header">
-		                    <h3 th:text="'['+${board.liquorName}+'] '+${board.boardSubject}"></h3>
-		                    
-			                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 2}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 2.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 3}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 3.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 4}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 4.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-			                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-			                    
-	                	</div>
-	                	
-						<div class="review-content">
-							<div th:each="bFile : ${bFileList}"  th:if="${bFile.boardNo == board.boardNo}">
-								<div class="thumbnail" th:style="'background-image: url('+ ${bFile.boardFilePath}+${bFile.boardFileRename} + ');background-position: center;background-size: cover;background-repeat: no-repeat; '"></div>
-							</div>
-							
-		                    <div th:utext="${board.boardContent}" class="contentDiv-text"></div>
-		                    <div style="padding: 0 10px">
-		                		<span th:text="${#dates.format(board.boardDate, 'yyyy년 MM월 dd일')}"></span>
-		                		<span th:text="'댓글 : '"></span>
-		                    </div>
-	                	</div>
-	                	
-	                	
-						
-	                	<div class="review-footer">
-	                		
-		                    
-							<div id="bTagList">
-								<span th:each="tag : ${bTagList}" th:if="${tag.boardNo == board.boardNo}">#[[${tag.boardTagName}]]</span>
-							</div>
-							<div style="display: flex; justify-content: space-between;">
-								<span th:text="'by '+${board.userId}"></span>
-			                    <span th:text="'조회수: ' + ${board.viewCount}"></span>
-			                    
-							</div>
-	                	</div>
-	                	
-		<!-- 				프로필사진, 회원ID,  -->
+	<div th:if="${!#lists.isEmpty(bList)}" th:each="board : ${bList}">
 		
-				</div>
+		<div class="boardOne">
+			<div>
+				<a th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">게시글 상세</a>
+				<div>userId [[${board.userId}]]</div>
+				<div>boardPoint [[${board.boardPoint}]]</div>
+				<div>boardDate [[${board.boardDate}]]</div>
+				<div>viewCount [[${board.viewCount}]]</div>
+<!-- 				프로필사진, 회원ID,  -->
+			</div>
+			<div>
+				<div>boardSubject [[${board.boardSubject}]]</div>
+				<div>liquorId [[${board.liquorId}]]</div>
+			</div>
+			<div>
+				<div>boardContent</div>
+				<div th:utext="${board.boardContent}" class="contentDiv-text"></div>
+				
+					<div th:each="bFile : ${bFileList}"  th:if="${bFile.boardNo == board.boardNo}">
+						<img alt="썸네일이미지" th:src="@{|${bFile.boardFilePath}${bFile.boardFileRename}|}" style="max-width: 300px; max-height: 300px;">
+<!-- 						<div class="liquor-image" th:style="${'background-image: url(' + bFile.boardFilePath +'/'+ bFile.boardFileRename+'); background-size: cover; background-position: center;'}"></div> -->
+					</div>
+				
+<!-- 			th문 utext을 이용하여 태그로 이루어진 내용 가져옴 -->
+			</div>
+			<div id="bTagList">
+				<div th:each="tag : ${bTagList}" th:if="${tag.boardNo == board.boardNo}">tag [[${tag.boardTagName}]]</div>
+			</div>
 		</div>
-		
+		<br><br><br>
 	</div>
 	
 	<!-- 	키워드 검색 - 페이징네비 -->
@@ -312,7 +231,6 @@
 		</div>
 	</div>
 		
-		</div>
 	</body>
 	<script th:inline="javascript">
 		document.addEventListener("DOMContentLoaded", function() {

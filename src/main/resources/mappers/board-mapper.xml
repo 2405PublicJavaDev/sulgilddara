@@ -8,26 +8,33 @@
 		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
 			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, 1, #{boardPoint}, #{liquorId}, 1)
+		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, DEFAULT, #{boardPoint}, #{liquorId}, #{userId}, #{liquorName})
   	</insert>
   
   	
   	<insert id="insertTag">
-  		INSERT INTO BOARD_TAG_TBL VALUES(SEQ_BOARD_TAG_NO.NEXTVAL, #{boardTagName}, #{boardNo})
+  		INSERT INTO BOARD_TAG_TBL VALUES(SEQ_BOARD_TAG_NO.NEXTVAL, #{boardTagName}, ${boardNo})
   	</insert>
   	
   	<insert id="insertBoardFile">
   		INSERT INTO BOARD_FILE_TBL VALUES(SEQ_BOARD_FILE_NO.NEXTVAL, #{boardFileName}, #{boardFileRename}, #{boardFilePath}, #{boardNo})
   	</insert>
   	
-  	<update id="updateBoardFile">
-<!--   	where 조건으로 무엇을 넣어야 할까?? -->
-<!--   		UPDATE BOARD_FILE_TBL SET BOARD_NO = #{boardNo} WHERE  --> 
+  	<update id="updateBoard">
+		UPDATE BOARD_TBL SET BOARD_SUBJECT=#{boardSubject}, BOARD_CONTENT=#{boardContent}, UPDATE_DATE=DEFAULT, BOARD_POINT=#{boardPoint}, LIQUOR_ID=#{liquorId}, LIQUOR_NAME=#{liquorName} WHERE BOARD_NO=#{boardNo}
   	</update>
+  	
+  	<update id="updateBoardFile">
+  		UPDATE BOARD_FILE_TBL SET BOARD_FILE_NAME = #{boardFileName}, BOARD_FILE_RENAME = #{boardFileRename}, BOARD_FILE_PATH = #{boardFilePath} WHERE BOARD_NO = #{boardNo}
+  	</update>
+  	
+  	<select id="selectBoardOne" resultType="Board">
+  		SELECT * FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
+  	</select>
   	
 <!--   	게시글 키워드 검색 -->
   	<select id="selectBoardList" resultType="Board">
-  		SELECT * FROM BOARD_TBL
+	  	SELECT * FROM BOARD_TBL
   		<where>
   			<if test="searchCondition == 'all' and searchKeyword != null">
   				BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
@@ -43,19 +50,68 @@
   			<if test="searchCondition == 'boardContent' and searchKeyword != null">
   				BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
   			</if>
-<!--   			<if test="boardSubject != null and boardSubject != ''"> -->
-<!-- 		  		BOARD_SUBJECT LIKE '%'||#{boardSubject}||'%' -->
-<!--   			</if> -->
   		</where>
-  		ORDER BY BOARD_NO DESC
+  		
+	  	<if test="orderSelectBox == 'latest'">
+	  		ORDER BY BOARD_DATE DESC
+	  	</if>
+	  	<if test="orderSelectBox == 'viewCount'">
+			ORDER BY VIEW_COUNT DESC
+		</if>
+		<if test="orderSelectBox == 'boardPoint'">
+			ORDER BY BOARD_POINT DESC
+		</if>
+ 		
   	</select>
   	
 <!--   	게시글 간편(태그) 검색 -->
-	<select id="selectBoardListTag" parameterType="list" resultType="BoardTag">
+<!-- 	<select id="selectBoardListTag" parameterType="list" resultType="BoardTag"> -->
 
 	    
+<!-- 	</select> -->
+<!--  게시글 No 조회 - 태그 검색 -->
+	<select id="selectBoardByTags" resultType="_int">
+		SELECT BOARD_NO
+		FROM BOARD_TAG_TBL
+		WHERE BOARD_TAG_NAME IN
+		<foreach item="tag" collection="tags" open="(" separator="," close=")">
+		  #{tag}
+		</foreach>
+		GROUP BY BOARD_NO
+		HAVING COUNT(DISTINCT BOARD_TAG_NAME) = #{tagCount}
 	</select>
- 
+
+	<!-- 게시글 간편 검색 -->
+	<select id="selectBoardsByBoardNos" resultType="Board">
+	<if test="orderSelectBox == 'latest'">
+		SELECT * 
+		FROM BOARD_TBL
+		WHERE BOARD_NO IN 
+		<foreach item="boardNo" collection="boardNos" open="(" separator="," close=")">
+			#{boardNo}
+  		</foreach>
+  		ORDER BY BOARD_DATE DESC
+	</if>
+	<if test="orderSelectBox == 'viewCount'">
+		SELECT * 
+		FROM BOARD_TBL
+		WHERE BOARD_NO IN 
+		<foreach item="boardNo" collection="boardNos" open="(" separator="," close=")">
+			#{boardNo}
+  		</foreach>
+  		ORDER BY VIEW_COUNT DESC
+	</if>
+	<if test="orderSelectBox == 'boardPoint'">
+		SELECT * 
+		FROM BOARD_TBL
+		WHERE BOARD_NO IN 
+		<foreach item="boardNo" collection="boardNos" open="(" separator="," close=")">
+			#{boardNo}
+  		</foreach>
+  		ORDER BY BOARD_POINT DESC
+	</if>
+		
+	</select>
 
   	
   	<select id="getTotalCount" resultType="_int">
@@ -83,13 +139,61 @@
 	</select>
 	
 	<select id="selectBoardTagList" resultType="BoardTag">
-		SELECT DISTINCT BOARD_TAG_NAME FROM BOARD_TAG_TBL
+		SELECT  * FROM BOARD_TAG_TBL
+	</select>
+	
+	<select id="selectBoardTagListDistinct" resultType="BoardTag">
+		SELECT BOARD_TAG_NAME, COUNT(*) AS BOARD_COUNT FROM BOARD_TAG_TBL GROUP BY BOARD_TAG_NAME ORDER BY BOARD_COUNT DESC
 	</select>
 	
 	<select id="selectBoardFileList" resultType="BoardFile">
 		SELECT * FROM BOARD_FILE_TBL
 	</select>
 	
+	<delete id="deleteTag">
+		DELETE FROM BOARD_TAG_TBL WHERE BOARD_NO=#{boardNo}
+	</delete>
 	
+	<insert id="insertBoardReply">
+		INSERT INTO BOARD_REPLY_TBL VALUES(SEQ_BOARD_REPLY_NO.NEXTVAL, #{replyWriter}, #{replyContent}, DEFAULT, DEFAULT, #{likeCount}, #{boardNo}, #{userId})
+	</insert>
+	
+	<select id="selectBoardReplyList" resultType="BoardReply">
+		SELECT * FROM BOARD_REPLY_TBL WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<delete id="deleteReply">
+		DELETE FROM BOARD_REPLY_TBL WHERE REPLY_NO=#{replyNo}
+	</delete>
+	
+	<update id="updateReply">
+		UPDATE BOARD_REPLY_TBL SET REPLY_CONTENT=#{replyContent}, R_UPDATE_DATE=DEFAULT WHERE REPLY_NO=#{replyNo}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM BOARD_TBL WHERE BOARD_NO=#{boardNo}
+	</delete>
+	
+	<update id="increaseViewCount">
+		UPDATE BOARD_TBL SET VIEW_COUNT = VIEW_COUNT+1 WHERE BOARD_NO=#{boardNo}
+	</update>
+	
+	<select id="searchLiquorList" resultType="SearchLiquor">
+		SELECT * FROM LIQUOR_TBL JOIN LIQUOR_IMAGE_TBL USING(LIQUOR_ID) WHERE LIQUOR_NAME LIKE '%'||#{liquorName}||'%'
+	</select>
+	
+	<select id="getMinBoardNo" resultType="_int">
+		SELECT MIN(BOARD_NO) FROM BOARD_TBL
+	</select>
+	<select id="getMaxBoardNo" resultType="_int">
+		SELECT MAX(BOARD_NO) FROM BOARD_TBL
+	</select>
+	
+	<select id="selectBoardReplyUser" resultType="BoardReplyUser">
+		SELECT * FROM USER_TBL 
+		LEFT JOIN USER_FILE_TBL USING(USER_ID) 
+		LEFT JOIN BOARD_REPLY_TBL USING(USER_ID)
+		WHERE BOARD_NO=#{boardNo} ORDER BY R_UPDATE_DATE
+	</select>
   </mapper>
   
