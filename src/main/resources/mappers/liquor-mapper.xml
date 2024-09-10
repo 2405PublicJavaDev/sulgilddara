@@ -46,10 +46,10 @@
 					<if test="sInfo.keyword != null and sInfo.keyword !=''">
 						AND LIQUOR_NAME LIKE '%'||#{sInfo.keyword}||'%'
 					</if>
-					<if test="sInfo.breweryLocal != 'all'">
+					<if test="sInfo.breweryLocal != 'all' and sInfo.breweryLocal != null">
 						AND BREWERY_LOCAL = #{sInfo.breweryLocal}
 					</if>
-					<if test="sInfo.liquorType != 'all'">
+					<if test="sInfo.liquorType != 'all' and sInfo.liquorType != null">
 						AND LIQUOR_TYPE = #{sInfo.liquorType}
 					</if>
 					<if test="sInfo.alcholMin != null">
