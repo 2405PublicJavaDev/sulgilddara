@@ -8,7 +8,7 @@
 		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
 			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, #{viewCount}, #{boardPoint}, #{liquorId}, #{userId}, #{liquorName})
+		INSERT INTO BOARD_TBL VALUES(#{boardNo}, #{boardSubject }, #{boardContent }, #{boardWriter}, DEFAULT, DEFAULT, DEFAULT, #{boardPoint}, #{liquorId}, #{userId}, #{liquorName})
   	</insert>
   
   	
