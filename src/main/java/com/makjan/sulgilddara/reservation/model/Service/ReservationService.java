@@ -1,14 +1,12 @@
-package com.makjan.sulgilddara.Reservation.model.Service;
+package com.makjan.sulgilddara.reservation.model.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
-import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
@@ -20,14 +18,14 @@ public interface ReservationService {
  * @param brewery 
  * @return Int
  */
-int RegisterInfo(Reservation reservation, Tour tour, Brewery brewery);
+int registerInfo(Reservation reservation, Tour tour, Brewery brewery);
 
 /**
  * 예약 정보 조회하기 Service
  * @param param
  * @return List<Reservation>
  */
-List<Reservation> SearchInfo(Map<String, String> param);
+List<Reservation> searchInfo(Map<String, String> param);
 
 /**
  * 예약 정보 조회 리스트 Service
@@ -36,7 +34,7 @@ List<Reservation> SearchInfo(Map<String, String> param);
  * @param rowBounds 
  * @return List<Reservation>
  */
-List<Reservation> SearchAllInfo(String userId, String breweryName, RowBounds rowBounds);
+List<Reservation> searchAllInfo(String userId, String breweryName, RowBounds rowBounds);
 
 
 /**
@@ -110,7 +108,7 @@ List<Tour> showTourList(String tourName, RowBounds rowBounds);
  * @param reserveNo 
  * @return List<Reservation>
  */
-List<Reservation> SearchPaymentInfo(Reservation reservation, Tour tour);
+List<Reservation> searchPaymentInfo(Reservation reservation, Tour tour);
 
 
 

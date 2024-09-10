@@ -1,4 +1,4 @@
-package com.makjan.sulgilddara.Reservation.controller;
+package com.makjan.sulgilddara.reservation.controller;
 
 import java.security.SecureRandom;
 import java.sql.Timestamp;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.makjan.sulgilddara.Reservation.model.Service.ReservationService;
-import com.makjan.sulgilddara.Reservation.model.VO.Reservation;
+import com.makjan.sulgilddara.reservation.model.Service.ReservationService;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
@@ -105,7 +105,7 @@ public class ReservationController {
 		tour = tService.searchByInfo(sessionTour.getTourNo(),sessionTour.getTourName(),sessionTour.getBreweryNo());
 		String randomString = generateRandomString(10);
 		reservation.setReserveNo(randomString);
-        int result = rService.RegisterInfo(reservation,tour,brewery);
+        int result = rService.registerInfo(reservation,tour,brewery);
         System.out.println("result: " + result);
         model.addAttribute("reservation",reservation);
         model.addAttribute("tour",tour);
@@ -118,7 +118,7 @@ public class ReservationController {
 			,@ModelAttribute Reservation reservation
 			,@ModelAttribute Tour tour) {
 		System.out.println("paymentController: "+reservation);
-		List<Reservation>rList = rService.SearchPaymentInfo(reservation,tour);
+		List<Reservation>rList = rService.searchPaymentInfo(reservation,tour);
 		model.addAttribute("rList",rList);
 		model.addAttribute("reservation",reservation);
 		return "reservation/paymentPage";
@@ -144,7 +144,6 @@ public class ReservationController {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Tour> tList = rService.showTourList(tourName, rowBounds);
 		if (!tList.isEmpty()) {
-			System.out.println("ControllerTList:" + tList);
 			// Tour 이미지 경로 설정
 			for (Tour tour : tList) {
 	            String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
@@ -175,11 +174,10 @@ public class ReservationController {
 		if (!tList.isEmpty()) {
 			Tour tour = tList.get(0);
 			model.addAttribute("tList", tList);
-			System.out.println("ControllerTList:" + tList);
+
 			// Brewery 이미지 경로 설정
 			String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
 			tour.setImagePath(imagePath);
-			System.out.println(imagePath);
 			model.addAttribute("ImagePath", imagePath);
 		} else {
 			// 예약이 없을 경우 처리
@@ -198,7 +196,7 @@ public class ReservationController {
 	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model) {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("reserveNo", reserveNo);
-		List<Reservation> rList = rService.SearchInfo(param);
+		List<Reservation> rList = rService.searchInfo(param);
 		model.addAttribute("rList", rList);
 		model.addAttribute("reserveNo", reserveNo);
 		return "reservation/reservationlookupResult";
@@ -214,7 +212,7 @@ public class ReservationController {
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
+		List<Reservation> rList = rService.searchAllInfo(userId, breweryName, rowBounds);
 		model.addAttribute("rList", rList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pn", pn);
@@ -234,7 +232,7 @@ public class ReservationController {
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
+		List<Reservation> rList = rService.searchAllInfo(userId, breweryName, rowBounds);
 		model.addAttribute("rList", rList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pn", pn);
@@ -254,7 +252,7 @@ public class ReservationController {
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Reservation> rList = rService.SearchAllInfo(userId, breweryName, rowBounds);
+		List<Reservation> rList = rService.searchAllInfo(userId, breweryName, rowBounds);
 		model.addAttribute("rList", rList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pn", pn);

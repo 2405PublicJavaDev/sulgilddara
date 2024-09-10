@@ -1,4 +1,4 @@
-package com.makjan.sulgilddara.Reservation.model.VO;
+package com.makjan.sulgilddara.reservation.model.VO;
 
 import java.sql.Timestamp;
 
