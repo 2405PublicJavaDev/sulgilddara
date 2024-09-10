@@ -178,7 +178,7 @@ public class UserController {
 			session.setAttribute("userFile", user.getUserFile()); 
 			return "redirect:/";
 		} else {
-			return "user/userJoin";
+			return "user/userLogin";
 		}		
 	}
 	
