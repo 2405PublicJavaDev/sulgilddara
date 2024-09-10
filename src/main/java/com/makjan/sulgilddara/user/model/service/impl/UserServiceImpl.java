@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 		if(uploadFile != null && !uploadFile.isEmpty()) {
 			String fileName = uploadFile.getOriginalFilename();
 			String fileRename = Util.fileRename(fileName);
-			String filePath="/user-images";
+			String filePath="/user-images/";
 			uploadFile.transferTo(new File("C:/uploadFile/user/"+ fileRename));
 			UserFile userFile = new UserFile();
 			userFile.setFileName(fileName);
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 			// reloadFile이 list 형식이기 때문에 !.isEmpty() 도 적어줘야 기존에 파일이 없을때도 새로 등록하여 수정이 가능하다.
 			String fileName = reloadFile.getOriginalFilename();
 			String fileRename = Util.fileRename(fileName);
-			String filePath = "/user-images";
+			String filePath = "/user-images/";
 			UserFile userFile = new UserFile();
 			userFile.setFileName(fileName);
 			userFile.setFileRename(fileRename);

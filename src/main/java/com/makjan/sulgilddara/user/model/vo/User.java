@@ -36,14 +36,14 @@ public class User {
 	private String email;
 	private String isAdmin;
 	// 로그인타입 
-	private LoginType loginType;
-	private String providerId;
+	private String loginType;
 	private String gender;
-	//@Pattern(regexp = "[0-9]{3}-[0-9]{4}-[0-9]{4}", message = "전화번호 형식은 000-0000-0000 입니다.") 
 	private String phone;
 	private String address;
 	private Timestamp joinDate;
 	private Timestamp updateDate;
 	// 프로필 사진
 	private UserFile userFile;
+	// 카카오톡 프로필 사진 URL 
+    private String kakaoProfile;
 }

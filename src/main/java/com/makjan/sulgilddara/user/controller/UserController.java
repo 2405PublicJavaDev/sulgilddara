@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.makjan.sulgilddara.user.model.service.UserService;
 import com.makjan.sulgilddara.user.model.vo.Mail;
 import com.makjan.sulgilddara.user.model.vo.User;
+import com.makjan.sulgilddara.user.oauth.model.service.KakaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,6 +32,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService uService;
+	
+	@Autowired
+	private KakaoService kakaoService;
 	
 	// 회원가입 form (get)
 	@GetMapping("/register")
@@ -69,6 +73,7 @@ public class UserController {
 		if (user != null) {
 			// 성공하면 본인의 수정 페이지로 이동
 			model.addAttribute("user", user);
+			
 			return "user/userModify";
 		} else {
 			return "user/userLogin";
@@ -111,22 +116,44 @@ public class UserController {
 
 	// 회원탈퇴 메소드
 	@PostMapping("/delete")
-	public String deleteUser(@RequestParam("userPw") String userPw , HttpSession session) {
+	public String deleteUser(@RequestParam(value = "userPw", required = false) String userPw , 
+			@RequestParam("loginType") String loginType, HttpSession session) {
+		
 		String userId = (String)session.getAttribute("userId");
-		User user = uService.selectOneById(userId);
-		   // 비밀번호가 일치하는지 확인
-	    if (user != null && user.getUserPw().equals(userPw)) {
-	        int result = uService.deleteUser(userId);
-	        if (result > 0) {
-	            // 탈퇴 성공시 로그아웃 처리
+		
+		// 일반 회원일 시 비밀번호가 입력해야 탈퇴가 가능
+		if ("LOCAL".equals(loginType)) {
+			User user = uService.selectOneById(userId);
+			// 비밀번호가 일치하는지 확인
+			if (user != null && user.getUserPw().equals(userPw)) {
+				int result = uService.deleteUser(userId);
+				if (result > 0) {
+					// 탈퇴 성공시 로그아웃 처리
+					return "redirect:/user/logout";
+				} else {
+					return "user/userDelete";
+				}
+			} else {
+				// 비밀번호가 일치하지 않을 때 처리
+				return "user/userDelete";
+			}
+			// 카카오 회원일 시 비밀번호 입력하지 않아도 탈퇴하게
+		} else {
+			int result = uService.deleteUser(userId);
+			if (result > 0) {
+				try {
+					String accessToken = (String) session.getAttribute("accessToken");
+	                kakaoService.unlink(accessToken); // 카카오 Unlink API 호출
+				} catch (Exception e) {
+					e.printStackTrace();
+	                return "user/userDelete";
+				}
+	            // 탈퇴 성공 시 로그아웃 처리
 	            return "redirect:/user/logout";
 	        } else {
 	            return "user/userDelete";
 	        }
-	    } else {
-	        // 비밀번호가 일치하지 않을 때 처리
-	        return "user/userDelete";
-	    }
+		}
 	}
 	
 	// 로그인 form 
@@ -145,7 +172,10 @@ public class UserController {
 		user = uService.checkLogin(user);
 		if(user != null) {
 			// 로그인 성공 시 userId 세션에 저장
+			session.setAttribute("user", user);
 			session.setAttribute("userId", userId);
+			session.setAttribute("userName", user.getUserName());
+			session.setAttribute("userFile", user.getUserFile()); 
 			return "redirect:/";
 		} else {
 			return "user/userJoin";

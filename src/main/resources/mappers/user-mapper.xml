@@ -15,8 +15,8 @@
 	</resultMap>
   	<insert id="registerUser">
 		INSERT INTO USER_TBL
-		VALUES(#{userId}, #{userPw}, #{userName}, #{email}, DEFAULT, DEFAULT, #{gender}
-		, #{phone}, #{address}, DEFAULT, DEFAULT)
+		VALUES(#{userId}, #{userPw}, #{userName}, #{email}, DEFAULT, #{loginType}, #{gender}
+		, #{phone}, #{address}, DEFAULT, DEFAULT, #{kakaoProfile})
 	</insert>
 	<insert id="registerUserFile">
 		INSERT INTO USER_FILE_TBL
