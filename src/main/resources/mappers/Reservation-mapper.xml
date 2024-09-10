@@ -30,7 +30,18 @@
 </resultMap>
 
  <insert id="RegisterInfo">
- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone},33,DEFAULT,1)
+<!-- INSERT INTO RESERVATION_TBL VALUES(#{reserveNo}, #{userId}, #{visitorNum}, #{reserveDate}, #{reserveTime}, #{emergencyPhone}
+ (SELECT brewery_tbl.BREWERY_NAME FROM BREWERY_TBL join tour_tbl using (brewery_no) WHERE tour_NO =#{tourNo})
+ ,DEFAULT,#{select tour_price from tour_tbl where tour_no=#{tourNo}},#{tourNo},#{breweryNo})-->
+ 
+INSERT INTO reservation_tbl VALUES (
+    #{reservation.reserveNo}, #{reservation.userId}, #{reservation.visitorNum}, #{reservation.reserveDate},
+     #{reservation.reserveTime},#{reservation.emergencyPhone},
+    (SELECT brewery_name FROM brewery_tbl WHERE brewery_no = #{tour.breweryNo}),DEFAULT,
+    (SELECT TOUR_PRICE FROM TOUR_TBL WHERE TOUR_NO=#{tour.tourNo}),
+    (SELECT TOUR_NO FROM TOUR_TBL JOIN BREWERY_TBL USING(BREWERY_NO) WHERE BREWERY_NO=#{tour.breweryNo}AND TOUR_NO=#{tour.tourNo}),#{tour.breweryNo},#{tour.tourName})
+
+
  </insert>
  
  <select id="SearchInfo" resultMap="reserveResultMap">
@@ -77,12 +88,39 @@
  </select>
  
  <select id="selectOne" resultType="Reservation">
- 	<!-- SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) WHERE RESERVE_NO=#{reserveNo} -->
-	SELECT * FROM RESERVATION_TBL join user_tbl using(user_Id) 
-	join tour_tbl using(tour_name) join brewery_tbl using (brewery_name) 
-	WHERE RESERVE_NO=#{reserveNo};
- </select>
+select reservation_tbl.reserve_No ,user_tbl.join_date,reservation_tbl.reserve_complete_time,user_tbl.email,user_tbl.phone,user_Id,brewery_tbl.filePath,brewery_tbl.fileRename,brewery_tbl.brewery_Name,tour_tbl.tour_Name,tour_tbl.tour_Price,reservation_tbl.visitor_Num from reservation_tbl join User_TBL using (user_ID)join brewery_tbl using(brewery_no) join tour_tbl using (tour_no) where reserve_no =#{reserveNo}
+</select>
  <select id="selectInfo" resultMap="userResultMap">
  	SELECT USER_NAME,EMAIL,PHONE,JOIN_DATE FROM USER_TBL where user_Id=#{userId}
  </select>
+ <!-- 투어리스트 총 게시글 검색 -->
+	  <select id="getListTotalCount" resultType="_int">
+	  	select count(*) from TOUR_TBL
+	  	<where>
+	  		<if test="tourName!=null and tourName!=''">
+	  			AND TOUR_NAME=#{tourName}
+	  		</if>
+	  	</where>
+	  </select>
+<!-- 투어 리스트 페이지 검색에 따라 결과 출력 쿼리-->
+	  <select id="selectSearchList" resultType="Tour">
+<!-- 	    SELECT brewery_tbl.brewery_name,tour_tbl.filerename,tour_tbl.filePath,tour_tbl.tour_name,
+	    tour_tbl.time_taken,tour_tbl.tour_content,tour_tbl.tour_price 
+	    FROM TOUR_TBL join brewery_tbl using(brewery_no) WHERE TOUR_NAME = #{tourName} -->
+	    SELECT * FROM tour_tbl join brewery_tbl using (brewery_no) where tour_name =#{tourName}
+	  </select>
+	  <!--투어 리스트(투어번호) - 양조장 리스트(양조장번호) 합치기 -->
+	  <select id="showTourList" resultType="Tour">
+ <!-- 	select tour_tbl.tour_name,tour_tbl.tour_content,tour_tbl.time_taken,tour_tbl.tour_price,brewery_tbl.filerename
+	  	,brewery_tbl.brewery_name,tour_tbl.tour_no,brewery_No from brewery_tbl join tour_tbl using(brewery_no)-->
+
+<!--	 SELECT  tour_tbl.tour_name,tour_tbl.tour_content,tour_tbl.time_taken,tour_tbl.tour_price,brewery_tbl.filerename
+	  	,brewery_tbl.brewery_name,tour_tbl.tour_no,brewery_No FROM RESERVATION_TBL JOIN TOUR_TBL USING(Tour_NO) join BREWERY_TBL USING(BREWERY_NO)
+	  	 where tourNo = #{tourNo} -->
+	  	SELECT * FROM tour_tbl join brewery_tbl using (brewery_no) 
+	  </select>
+	  <select id="SearchPaymentInfo" resultType="reservation">
+	  	SELECT * FROM RESERVATION_TBL JOIN USER_TBL USING(USER_ID) JOIN TOUR_TBL USING (TOUR_NO) WHERE RESERVE_NO=#{reservation.reserveNo}
+	  </select>
+	  
  </mapper>
