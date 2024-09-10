@@ -73,8 +73,8 @@
 					<td>[[${liquor.liquorCapacity }]]</td>
 					<td>[[${liquor.breweryId }]]</td>
                     <td>
-                        <button class="edit-button">수정</button>
-                        <button class="delete-button">삭제</button>
+                        <button onclick="location.href=this.getAttribute('data-href')" th:attr="data-href=@{/liquor/update/{id}(id=${liquor.liquorId})}" class="edit-button">수정</button>
+                        <button th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\''" type="button" class="delete-button">삭제</button>
                     </td>
                 </tr>
             </tbody>
@@ -91,7 +91,7 @@
         </table>
 
 
-        <button class="register-button">등록</button>
+        <button onclick="location.href='/liquor/add'" class="register-button">등록</button>
 
         <footer>
             <p>이용약관 | 개인정보처리방침 | 사이트맵</p>

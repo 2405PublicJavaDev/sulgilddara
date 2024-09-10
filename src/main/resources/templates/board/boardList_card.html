@@ -9,6 +9,10 @@
 			*{
 				box-sizing: border-box;
 			}
+			a{
+				text-decoration: none;
+				color: black;
+			}
 			body {
 	            font-family: Arial, sans-serif;
 	            background-color: #f0f0f0;
@@ -216,7 +220,7 @@
 	<div class="review-grid">
 		<div class="review-card"  th:if="${!#lists.isEmpty(bList)}" th:each="board : ${bList}">
 			<a style="display: block; text-decoration: none" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">
-			</a>
+			
 				<div class="boardOne">
 						<div class="review-header">
 		                    <h3 th:text="'['+${board.liquorName}+'] '+${board.boardSubject}"></h3>
@@ -264,6 +268,7 @@
 		<!-- 				프로필사진, 회원ID,  -->
 		
 				</div>
+				</a>
 		</div>
 		
 	</div>
