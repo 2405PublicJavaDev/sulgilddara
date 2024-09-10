@@ -63,7 +63,6 @@ public class ReservationController {
 		System.out.println("ReservationCOntroller: " + tour);
 //		Brewery brewery = bService.searchOneByNo(breweryNo);
 		session.setAttribute("tour", tour);
-//		session.setAttribute("brewery", brewery);
 		return "redirect:/reservation/register";
 	}
 
