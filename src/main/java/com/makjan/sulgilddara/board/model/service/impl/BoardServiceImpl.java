@@ -218,6 +218,12 @@ public class BoardServiceImpl implements BoardService{
 		return boardReplyUserList;
 	}
 
+	@Override
+	public List<Board> selectBoardListByLiquorId(Integer liquorId) {
+		List<Board> bList = bMapper.selectBoardListByLiquorId(liquorId);
+		return bList;
+	}
+
 	
 	
 	

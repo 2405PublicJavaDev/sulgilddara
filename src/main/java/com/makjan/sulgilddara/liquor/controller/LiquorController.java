@@ -25,6 +25,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makjan.sulgilddara.board.model.service.BoardService;
+import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.common.utility.Util;
@@ -54,14 +57,16 @@ public class LiquorController {
 
 	private LiquorService lService;
 	private BreweryService bService;
+	private BoardService boardService;
 	private String UPLOAD_DIR;
 	
 	public LiquorController() {}
 
 	@Autowired
-	public LiquorController(LiquorService lService, BreweryService bService, RestTemplate template) {
+	public LiquorController(LiquorService lService, BreweryService bService, RestTemplate template, BoardService boardService) {
 		this.lService = lService;
 		this.bService = bService;
+		this.boardService = boardService;
 		this.UPLOAD_DIR = "C:/uploadFile/liquor/";
 		this.template = template;
 	}
@@ -227,7 +232,7 @@ public class LiquorController {
 	 * @return liquorList.html로 이동
 	 */
 	@PostMapping("/liquorAdd")
-	public String liquorAdd(Model model, @ModelAttribute Liquor liquor, @RequestParam("files") MultipartFile[] files) {
+	public String liquorAdd(Model model, @ModelAttribute Liquor liquor, @RequestParam(value="files", required=false) MultipartFile[] files) {
 		lService.addLiquor(liquor);
 		System.out.println(liquor.getLiquorId());
 		if(files.length != 0){
@@ -306,12 +311,20 @@ public class LiquorController {
 		LiquorDetail liquor = lService.selectOneById(liquorId);
 		List<LiquorTagInfo> tags = lService.searchTagsByLiquorId(liquorId);
 		List<LiquorImage> images = lService.searchImageByLiquorId(liquorId);
+		
+		List<Board> bList = boardService.selectBoardListByLiquorId(liquorId);
+		// 파일 전체 리스트 조회
+		List<BoardFile> bFileList = boardService.selectBoardFileList(); 
+		
+		model.addAttribute("bFileList", bFileList);
+		
 		System.out.println(liquor.toString());
 		for(LiquorTagInfo tag : tags)
 			System.out.println(tag.toString());
 		model.addAttribute("liquor", liquor);
 		model.addAttribute("images", images);
 		model.addAttribute("tags", tags);
+		model.addAttribute("bList", bList);
 		return "liquor/liquorDetail";
 	}
 	

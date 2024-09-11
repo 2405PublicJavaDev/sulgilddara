@@ -99,7 +99,7 @@
 		        </section>
 		
 		        <section class="reviews">
-		            <h3 th:text="${liquor.reviewCount}+'건의 평가'"></h3>
+		            <h3 class="review-count" th:text="${liquor.reviewCount}+'건의 평가'"></h3>
 		            <div class="rating">
 						<p th:with="score=${liquor.avgPoint}, 
 						             stars=${score < 0.5 ? '☆☆☆☆☆' : 
@@ -116,31 +116,62 @@
 		            </div>
 
 		
-		            <ul class="review-list">
-		                <li class="review-item">
-		                    <div class="user-info">
-		                        <img src="user-avatar.jpg" alt="사용자 아바타">
-		                        <p class="user-id">userID</p>
-		                        <p class="review-date">2024.08.26</p>
-		                    </div>
-		                    <div class="review-content">
-		                        <h4>[상품 이름] REVIEW TITLE</h4>
-		                        <p class="rating">★★★★★</p>
-		                        <p>술길따라술길따라술길따라술길따라술길따라술길따라술길따라술길따라술길따라술길따라...</p>
-		                    </div>
-		                    <div class="review-images">
-		                        <img src="review-image-1.jpg" alt="리뷰 이미지 1">
-		                        <img src="review-image-2.jpg" alt="리뷰 이미지 2">
-		                    </div>
-		                    <ul class="review-tags">
-		                        <li>#술길따라</li>
-		                        <li>#술길따라</li>
-		                        <li>#술길</li>
-		                    </ul>
-		                    <p class="view-count">조회수</p>
-		                </li>
-		                <!-- 추가 리뷰 아이템들... -->
-		            </ul>
+		            <div class="review-grid">
+						<div class="review-card"  th:if="${!#lists.isEmpty(bList)}" th:each="board : ${bList}">
+									<a style="display: block; text-decoration: none" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">
+										<div class="boardOne">
+											<div class="review-header">
+							                    <h3 th:text="'['+${board.liquorName}+'] '+${#strings.length(board.boardSubject) > 15 ? board.boardSubject.substring(0, 15) + ' . . .' : board.boardSubject}"></h3>
+							                    
+							                    
+								                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 2}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 2.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 3}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 3.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 4}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 4.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+								                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+								                    
+						                	</div>
+									
+					                	
+										<div class="review-content">
+											<div th:each="bFile : ${bFileList}"  th:if="${bFile.boardNo == board.boardNo}">
+												<div class="thumbnail" th:style="'background-image: url('+ ${bFile.boardFilePath}+${bFile.boardFileRename} + ');background-position: center;background-size: cover;background-repeat: no-repeat; '"></div>
+											</div>
+											
+						                    <div th:utext="${board.boardContent}" class="contentDiv-text"></div>
+						                    <div style="padding: 0 10px">
+						                		<span style="margin-right:10px;" th:text="${#dates.format(board.boardDate, 'yyyy년 MM월 dd일')}"></span>
+						                		
+						                		<span th:text="'댓글 총 0개'"></span>
+						                    </div>
+					                	</div>
+					                	
+					                	
+										
+					                	<div class="review-footer">
+					                		
+						                    
+											<div id="bTagList">
+												<span style="font-weight: 800;" th:each="tag : ${bTagList}" th:if="${tag.boardNo == board.boardNo}">#[[${tag.boardTagName}]] </span>
+											</div>
+											<div style="display: flex; justify-content: space-between;">
+												<span style="color: gray" th:text="'by '+${board.userId}"></span>
+							                    <span th:text="'조회수: ' + ${board.viewCount}"></span>
+											</div>
+					                	</div>
+					                	
+						<!-- 				프로필사진, 회원ID,  -->
+						
+									</div>
+								</a>
+						</div>
+						
+					</div>
 		
 		            <button type="button" class="write-review" th:onclick="'window.location.href=\'' + @{/board/writePage} + '\''">리뷰쓰기</button>
 		        </section>

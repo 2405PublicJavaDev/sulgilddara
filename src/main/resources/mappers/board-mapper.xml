@@ -64,6 +64,17 @@
  		
   	</select>
   	
+<!--   	liquorId로 게시글 키워드 검색 -->
+  	<select id="selectBoardListByLiquorId" resultType="Board">
+	  	SELECT * FROM BOARD_TBL
+  		<where>
+  			<if test="liquorId != null">
+  				LIQUOR_ID LIKE #{liquorId}
+  			</if>
+  		</where>
+ 		
+  	</select>
+  	
 <!--   	게시글 간편(태그) 검색 -->
 <!-- 	<select id="selectBoardListTag" parameterType="list" resultType="BoardTag"> -->
 

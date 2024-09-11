@@ -194,6 +194,13 @@ public interface BoardMapper {
 	 */
 	List<BoardReplyUser> selectBoardReplyUser(Integer boardNo);
 
+	/**
+	 * liquorId로 게시글 리스트 조회
+	 * @param liquorId
+	 * @return List<Board>
+	 */
+	List<Board> selectBoardListByLiquorId(Integer liquorId);
+
 	
 
 }
