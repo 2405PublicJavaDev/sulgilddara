@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,23 +12,42 @@
 <body>
     <header>
         <div class="header-top">
-            <div style="width: 100px;"></div>
-            <div id="logo-container">
-                <img src="./img/logo.png" alt="" id="logo">
-                <h1>술길따라</h1>
-            </div>
+            <div style="width: 100px;;"></div>
+            	<a href="/" class="logo-link">
+	            <div id="logo-container">
+	                <img src="./img/logo.png" alt="" id="logo">
+		            <h1>술길따라</h1>
+	            </div>
+            	</a>
             <div class="user-actions">
-                <a href="#" class="icon-user"><img class="header-img" src="./img/free-icon-user-17095347.png" alt=""></a>
-                <a href="#" class="icon-menu"><img class="header-img" src="./img/free-icon-menu-3856832.png" alt=""></a>
+	            <div class="dropdown" th:if="${session.userId != null}">
+        			<a href="#" class="icon-user" id="userMenuToggle">
+            			<img class="header-img" src="/img/free-icon-user-17095347.png" alt="사용자 아이콘">
+        			</a>
+        			<div class="mypage-content" id="mypageDropdown">
+        				<span class="user-name" th:text="${session.userName} + '님'"></span>
+        					<hr>
+            			<a href="/user/update">마이페이지</a>
+            			<a href="/user/logout">로그아웃</a>
+        			</div>
+    			</div>
+    			<div th:if="${session.userId == null}">
+    				<a href="/user/login" class="icon-user">
+	                	<img class="header-img" src="/img/free-icon-user-17095347.png" alt="">
+	                </a>
+	            </div>
+               	<a href="#" class="icon-menu">
+                	<img class="header-img" src="/img/free-icon-menu-3856832.png" alt="">
+                </a>
             </div>
-        </div>
+        	</div>
         <nav>
             <ul>
                 <li><a href="#story">술길따라 이야기</a></li>
-                <li><a href="#brewery">양조장 탐방</a></li>
+                <li><a href="/brewery/">양조장 탐방</a></li>
                 <li><a href="/liquor/search">술 도감</a></li>
-                <li><a href="#tour">투어 예약</a></li>
-                <li><a href="#tales">술 이야기</a></li>
+                <li><a href="/reservation/list">투어 예약</a></li>
+                <li><a href="/board/listCard">술 이야기</a></li>
             </ul>
         </nav>
     </header>
@@ -98,7 +117,29 @@
         </div>
         <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
     </footer>
+	<script>
+	 document.addEventListener('DOMContentLoaded', function() {
+	        const userMenuToggle = document.getElementById('userMenuToggle');
+	        const mypageDropdown = document.getElementById('mypageDropdown');
 
+	        if (userMenuToggle && mypageDropdown) {
+	            userMenuToggle.addEventListener('click', function(e) {
+	                e.preventDefault();
+	                mypageDropdown.classList.toggle('show');
+	            });
+
+	            // 드롭다운 외부 클릭 시 닫기
+	            window.addEventListener('click', function(e) {
+	                if (!e.target.matches('.icon-user') && !e.target.matches('.header-img')) {
+	                    if (mypageDropdown.classList.contains('show')) {
+	                        mypageDropdown.classList.remove('show');
+	                    }
+	                }
+	            });
+	        }
+	    });
+	
+	</script>
     <script src="/css/owlcarousel/jquery.min.js"></script>
     <script src="/css/owlcarousel/owl.carousel.min.js"></script>
 
