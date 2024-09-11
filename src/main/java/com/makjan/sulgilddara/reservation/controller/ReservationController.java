@@ -26,7 +26,7 @@ import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
-import jakarta.mail.Session;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
