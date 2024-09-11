@@ -58,7 +58,7 @@ public class KakaoPayService {
         params.put("partner_user_id", reservation.getUserId()); // 회원 아이디
         params.put("item_name", reservation.getTourName()); // 상품 명
         params.put("quantity", reservation.getVisitorNum()); // 상품 수량
-        params.put("total_amount", reservation.getTourPrice()); // 상품 가격
+        params.put("total_amount", (reservation.getTourPrice()*reservation.getVisitorNum())+(reservation.getTourPrice()*0.1)); // 상품 가격
         params.put("tax_free_amount", "100"); // 상품 비과세 금액
         params.put("approval_url", "http://127.0.0.1:8888/success"); // 성공시 url
         params.put("fail_url", "http://127.0.0.1:8888/fail"); 
