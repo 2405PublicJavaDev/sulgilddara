@@ -6,315 +6,51 @@
 		<script src="https://kit.fontawesome.com/7d4169cb69.js" crossorigin="anonymous"></script>
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="../css/board/header.css">
-		<link rel="stylesheet" href="../css/board/boardPage.css">
+		<link rel="stylesheet" href="../css/board/listCard.css">
 		<link rel="stylesheet" href="../css/board/footer.css">
 		
 		<style type="text/css">
-			*{
-				box-sizing: border-box;
-			}
-			
-			
-	        
-	        .container {
-	            max-width: 1800px;
-	            margin: 0 auto;
-	            background-color: white;
-	            padding: 20px;
-	            border-radius: 8px;
-	            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-	            max-width: 1800px;
-	        }
-/* 	        .search-bar { */
+/* 	        .tag-list { */
 /* 	            display: flex; */
+/* 	            flex-wrap: wrap; */
+/* 	            gap: 10px; */
 /* 	            margin-bottom: 20px; */
 /* 	        } */
-/* 	        .search-bar input[type="text"] { */
-/* 	            flex-grow: 1; */
-/* 	            padding: 10px; */
+/* 	        .tag { */
+/* 	            background-color: #f8f8f8; */
 /* 	            border: 1px solid #ddd; */
-/* 	            border-radius: 4px 0 0 4px; */
+/* 	            border-radius: 20px; */
+/* 	            padding: 5px 15px; */
+/* 	            font-size: 14px; */
+/* 	            color: #333; */
 /* 	        } */
-/* 	        .search-bar button { */
-/* 	            padding: 10px 20px; */
-/* 	            background-color: #b8860b; */
-/* 	            color: white; */
-/* 	            border: none; */
-/* 	            border-radius: 0 4px 4px 0; */
-/* 	            cursor: pointer; */
+/* 	        .view-options { */
+/* 	            display: flex; */
+/* 	            justify-content: space-between; */
+/* 	            align-items: center; */
+/* 	            margin-bottom: 20px; */
 /* 	        } */
-	        .tag-list {
-	            display: flex;
-	            flex-wrap: wrap;
-	            gap: 10px;
-	            margin-bottom: 20px;
-	        }
-	        .tag {
-	            background-color: #f8f8f8;
-	            border: 1px solid #ddd;
-	            border-radius: 20px;
-	            padding: 5px 15px;
-	            font-size: 14px;
-	            color: #333;
-	        }
-	        .view-options {
-	            display: flex;
-	            justify-content: space-between;
-	            align-items: center;
-	            margin-bottom: 20px;
-	        }
-	        .view-type a {
-	            margin-right: 10px;
-	            text-decoration: none;
-	            color: #333;
-	        }
-	        .sort-select select {
-	            padding: 5px;
-	        }
-	        .review-grid {
-	            display: grid;
-	            /* 각 열의 최소 너비를 250픽셀로 설정합니다. */
-				/* 각 열의 최대 너비를 가용 공간에 따라 비율적으로 설정합니다. 즉, 가용 공간이 많을수록 열이 커지며, 모든 열이 동일한 비율로 공간을 나눕니다. */
-	            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+/* 	        .view-type a { */
+/* 	            margin-right: 10px; */
+/* 	            text-decoration: none; */
+/* 	            color: #333; */
+/* 	        } */
+/* 	        .sort-select select { */
+/* 	            padding: 5px; */
+/* 	        } */
+/* 	        .review-grid { */
+/* 	            display: grid; */
+/* 	            /* 각 열의 최소 너비를 250픽셀로 설정합니다. */ */
+/* 				/* 각 열의 최대 너비를 가용 공간에 따라 비율적으로 설정합니다. 즉, 가용 공간이 많을수록 열이 커지며, 모든 열이 동일한 비율로 공간을 나눕니다. */ */
+/* 	            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));  */
 
-	            gap: 20px;
-	        }
-	        .review-card{
-	        	transition: all 0.2s ease;
-	        	cursor:pointer;	
-	        	height: 600px;
-	        }
-	        .review-card a{
-	        	color: black;	 
-	        	height: 100%;       	
-	        }
+/* 	            gap: 20px; */
+/* 	        } */
 	        
-	        
-	        .review-card:hover {
-	            border-radius: 8px;
-	            overflow: hidden;
-			    transform: translate(0px,-5px);
-			    box-shadow: 0px 5px 5px 5px rgb(162, 162, 162);
-	        }
-	        .boardOne{
-	        	display: flex;
-	        	flex-direction: column;
-	        	height: 100%;
-	        	
-	        }
-	        
-	        
-	        .review-header {
-	        	width:100%;
-	        	height:100px;
-	            background-color: #f8f8f8;
-	            display: flex;
-	            justify-content: space-between;
-	            padding: 0 10px;
-	        }
-	        .review-content{
-	        	width:100%;
-	        	
-				flex-grow: 1;
-	        }
-	        
-			h3{
-				margin: 10px 0; 
-				max-width:200px; 
-			}
-	        
-	        .review-footer {
-	            background-color: #f8f8f8;
-	            padding: 0 10px;
-	            display: flex;
-	            flex-direction: column;
-	            font-size: 16px;
- 	        } 
- 	        
- 	        
-
-	        
-	        .thumbnail{
-	        	width: 100%;
-	        	height: 300px;
-	        	background-color: black;
-	        }
-	        .contentDiv-text{
-	        	width: 100%;
-	        	height: 150px;
-	        	padding: 10px;
-	        }
-	        .starContainer{
-	        	color: #fdc82a;
-	        	width: 120px;
-	        }
-	        
-	        .starContainer i{
-	        	font-size: 20px;
-	        	line-height: 45px;
-	        }
-	        
-	        #searchCondition{
-	        	border-radius: 5px;
-	        	width: 80px;
-	        	height: 100%;
-	        	border: 3px solid #735747;
-	        	color: #735747;
-	        	font-size: 15px;
-	        	font-weight: 1000;
-	        	
-	        }
-	        #searchFormBar{
-	        	height: 60px;
-	        }
-	        
-	        #searchBar{
-	        	width: 100%;
-	        	height: 100%;
- 	        	border-radius: 30px;
-	        	padding: 0px;
-	        	border: 3px solid #735747;
-	        }
-	        
-	        #searchBtn-keyword{
-	        	border-radius:50%;
-	        	padding: 0px;
-	        	width: 60px;
-	        	height: 60px;
-	        	color: white;
-	        	background-color:#735747;
-	        	border: 0px;
-	        	font-size: 25px;
-	        	cursor: pointer;
-	        }
-	        
-	        #searchBarContainer{
-	        	margin:0 auto;
-	        	width:80%;
-	        	display: flex;
-	        	justify-content: center;
-	        	height: 100%;
-	        }
-	       
-	       
-	        
-	        #tagListContainer{
-	        	display: flex;
-	        	flex-wrap: wrap;
-	        	width: 80%;
-	        	margin: 0 auto;
-	        	margin-top: 20px;
-	        	gap:8px;
-	        	position: relative;
-	        }
-	        
-	        #searchButton{
-	        	width: 80px;
-	        	height: 50px;
-	        	font-size: 16px;
-	        	font-weight:1000;
-	        	border-radius: 10px;
-	        	background-color: #735747;
-				color: white;
-				border: 0px;
-				position: absolute;
-				left: 100%;
-				top: 0px;
-				cursor: pointer;
-	        }
-	        #searchButton:disabled {
-	        	color: gray;
-	        	background: rgb(221, 208, 190);
-	        	border: 0px;
-			}
-			
-			label{
-	       		user-select:none;
-	       		font-size: 18px;
-	       		font-weight: bold;
-				display: inline-block;
-				padding: 8px;
-	       		background-color: rgb(221, 208, 190);
-	       		color: #735747;
-				border-radius: 10px;
-				cursor: pointer;
-				transition: all 0.2s
-	       }
-	       
-	        label:hover{
-				background-color: #735747;
-				color: white;
-	       		transform:scale(1.1);
-	       }
-	       
-	       .tagCheckBox:checked + label{
-				background: #735747;
-				color: white;
-				transform:scale(1.1);
-			}
-			
-			#writePageLink{
-				display:block;
-				color: white;
-				font-size: 18px;
-				font-weight:1000;
-				text-decoration: none;
-				width: 80px;
-				height: 50px;
-				background-color: #bf4539;
-				text-align: center;
-				border-radius: 10px;
-				line-height: 50px;
-			}
-			.sort-select{
-				position: relative;
-				height: 50px;
-			}
-			#orderSelectBox{
-				border-radius: 5px;
-	        	width: 80px;
-	        	height: 40px;
-	        	border: 3px solid #735747;
-	        	color: #735747;
-	        	font-size: 15px;
-	        	font-weight: 1000;
-	        	position: absolute;
-	        	top: 0px;
-	        	right: 0px;
-			}
-			.paginationBox a{
-				display:inline-block;
-				text-align:center;
-				line-height:30px;
-				font-size: 20px;
-				min-width:30px;
-				height:30px;
-				text-decoration: none;
-				color: #333;
-			}
-			.paginationBox #currentPageId{
-				display:inline-block;
-				text-align:center;
-				line-height:30px;
-				font-size: 20px;
-				min-width:30px;
-				height:30px;
-				text-decoration: none;
-				border-radius:50%;
-				background-color:#bf4539;
-				color: white;
-			}
-			
-			.paginationBox{
-				text-align: center; 
-				height: 120px;
-				line-height: 120px;
-			}
 
 			
 		</style>
-		
-<!-- 		<span th:text="${#strings.length(board.title) > 10 ? board.title.substring(0, 10) + '...' : board.title}"></span> -->
+
 		
 	</head>
 	<body>
@@ -430,8 +166,7 @@
 						<div class="boardOne">
 							<div class="review-header">
 			                    <h3 th:text="'['+${board.liquorName}+'] '+${#strings.length(board.boardSubject) > 15 ? board.boardSubject.substring(0, 15) + ' . . .' : board.boardSubject}"></h3>
-			                    
-			                    
+
 				                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
 				                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
 				                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
@@ -444,41 +179,35 @@
 				                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
 				                    
 		                	</div>
-					
 	                	
-						<div class="review-content">
-							<div th:each="bFile : ${bFileList}"  th:if="${bFile.boardNo == board.boardNo}">
-								<div class="thumbnail" th:style="'background-image: url('+ ${bFile.boardFilePath}+${bFile.boardFileRename} + ');background-position: center;background-size: cover;background-repeat: no-repeat; '"></div>
-							</div>
-							
-		                    <div th:utext="${#strings.length(board.boardContent) > 80 ? board.boardContent.substring(0, 80) + '...' : board.boardContent}" class="contentDiv-text"></div>
-		                    <div style="padding: 0 10px">
-		                		<span style="margin-right:10px;" th:text="${#dates.format(board.boardDate, 'yyyy년 MM월 dd일')}"></span>
-		                		
-		                		<span th:text="'댓글 총 0개'"></span>
-		                    </div>
-	                	</div>
-	                	
-	                	
-						
-	                	<div class="review-footer">
-	                		
-		                    
-							<div id="bTagList">
-								<span style="font-weight: 800;" th:each="tag : ${bTagList}" th:if="${tag.boardNo == board.boardNo}">#[[${tag.boardTagName}]] </span>
-							</div>
-							<div style="display: flex; justify-content: space-between;">
-								<span style="color: gray" th:text="'by '+${board.userId}"></span>
-			                    <span th:text="'조회수: ' + ${board.viewCount}"></span>
-							</div>
-	                	</div>
-	                	
+							<div class="review-content">
+								<div th:each="bFile : ${bFileList}"  th:if="${bFile.boardNo == board.boardNo}">
+									<div class="thumbnail" th:style="'background-image: url('+ ${bFile.boardFilePath}+${bFile.boardFileRename} + ');background-position: center;background-size: cover; background-repeat: no-repeat;'"></div>
+								</div>
+								
+ 			                    
+			                    <div th:utext="${board.boardContent}" class="contentDiv-text"></div>
+			                    <div style="padding: 0 10px">
+			                		<span style="margin-right:10px;" th:text="${#dates.format(board.boardDate, 'yyyy년 MM월 dd일')}"></span>
+	<!-- 		                	<span th:text="'댓글 총 0개'"></span> -->
+			                    </div>
+		                	</div>
+		                	<div class="review-footer">
+								<div id="bTagList">
+									<span style="font-weight: 800;" th:each="tag : ${bTagList}" th:if="${tag.boardNo == board.boardNo}">#[[${tag.boardTagName}]] </span>
+								</div>
+								<div style="display: flex; justify-content: space-between;">
+				                    <span>
+										<span style="color: gray; font-weight: 800" >by </span>
+										<span style="font-weight: 800" th:text="${board.userId}"></span>
+				                    </span>
+				                    <span th:text="'조회수: ' + ${board.viewCount}"></span>
+								</div>
+		                	</div>
 		<!-- 				프로필사진, 회원ID,  -->
-		
 					</div>
 				</a>
 		</div>
-		
 	</div>
 	
 	<!-- 	키워드 검색 - 페이징네비 -->
@@ -525,6 +254,8 @@
 	</div>
 		
 		</div>
+		
+		
 		<footer>
 	        <nav>
 	            <a href="#">이용약관</a> |
@@ -553,16 +284,20 @@
 	        
 	        // 텍스트만 출력하기
 	        contentDivText.forEach(item => {
-	    		item.innerHTML = item.textContent;
+	    		if(item.innerText.length > 80){
+	        		item.innerHTML = item.innerText.substring(0, 80) + ' . . .';
+	    		}else{
+	    			item.innerHTML = item.innerText;
+	    		}
+	        	
+	    		
 	        });
 	        
+// -> utext로 에디터로 db에 등록한 태그 정제해서 출력 , 태그 포함한 텍스트 길이를 연산하고 있기 때문에 문제 발생 텍스트만을 연산하여 출력시켜줘야 했음.
+// 태그를 포함시킬경우 태그를 잘라버리는 경우도 발생하므로 ui가 엉켜버림.
+// 	        <div th:utext="${#strings.length(board.boardContent) > 80 ? board.boardContent.substring(0, 80) + '...' : board.boardContent}" class="contentDiv-text"></div>
 	        
-// 	        contentDivImg.forEach(item => {
-// 	        	item.innerHTML = item.innerHTML.replace(/<(?!\/?img\b)[^>]*>/gi, ''); // replace(/<\/?[^img][^>]*>/g, '')  // <img> 태그 외의 모든 태그 제거
-//  //	        	item.textContent = "";
-// 	        	// div 내의 모든 자식 노드를 순회합니다.
-			   
-// 	        });
+	        
 		
 	// 		간편 검색 - 체크박스 아무것도 체크 안할 때 검색 버튼 비활성화
 			let searchButton = document.querySelector("#searchButton");
