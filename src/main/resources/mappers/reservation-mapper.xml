@@ -59,17 +59,14 @@
 		SELECT * FROM reservation_tbl
 		<where>
 			<if test="userId != null and userId != ''">
-				AND USER_ID = #{userId}
+				AND USER_ID LIKE '%'|| #{userId}||'%'
 			</if>
 			<if test="breweryName != null and breweryName != ''">
-				AND brewery_Name = #{breweryName}
+				AND brewery_Name LIKE '%'|| #{breweryName}||'%'
 			</if>
 		</where>
 	</select>
-
-	<select id="searchreserveNo" resultMap="reserveResultMap">
-		SELECT RESERVE_NO FROM RESERVATION_TBL WHERE USERID=#{userId}
-	</select>
+	
 	<select id="getTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM reservation_tbl
 		<where>
@@ -86,10 +83,10 @@
 		SELECT COUNT(*) FROM reservation_tbl
 		<where>
 			<if test="userId != null and userId != ''">
-				AND USER_ID = #{userId}
+				AND USER_ID LIKE '%'|| #{userId}||'%'
 			</if>
 			<if test="breweryName != null and breweryName != ''">
-				AND brewery_Name = #{breweryName}
+				AND brewery_Name LIKE '%'|| #{breweryName}||'%'
 			</if>
 		</where>
 	</select>
@@ -109,14 +106,14 @@
 		select count(*) from TOUR_TBL
 		<where>
 			<if test="tourName!=null and tourName!=''">
-				AND TOUR_NAME=#{tourName}
+				AND TOUR_NAME LIKE '%'|| #{tourName}||'%'
 			</if>
 		</where>
 	</select>
 	<!-- 투어 리스트 페이지 검색에 따라 결과 출력 쿼리 -->
 	<select id="selectSearchList" resultType="Tour">
 		SELECT * FROM tour_tbl join brewery_tbl using (brewery_no) where
-		tour_name =#{tourName}
+		tour_name LIKE '%'|| #{tourName}||'%'
 	</select>
 	<!--투어 리스트(투어번호) - 양조장 리스트(양조장번호) 합치기 -->
 	<select id="showTourList" resultType="Tour">

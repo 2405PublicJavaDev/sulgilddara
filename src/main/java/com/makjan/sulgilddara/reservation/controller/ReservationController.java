@@ -26,6 +26,7 @@ import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
+import jakarta.mail.Session;
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -111,8 +112,7 @@ public class ReservationController {
 
 	@GetMapping("/reservation/payment")
 	public String showPaymentForm(Model model
-
-			, @ModelAttribute Reservation reservation, @ModelAttribute Tour tour) {
+		,@ModelAttribute Reservation reservation, @ModelAttribute Tour tour) {
 		System.out.println("paymentController: " + reservation);
 		List<Reservation> rList = rService.searchPaymentInfo(reservation, tour);
 		model.addAttribute("rList", rList);
@@ -123,7 +123,11 @@ public class ReservationController {
 	@GetMapping("/reservation/list")
 	public String showTourList(Model model,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
-			@RequestParam(value = "tourName", required = false) String tourName) {
+			@RequestParam(value = "tourName", required = false) String tourName,HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			return "redirect:/user/login";
+		}
 		int totalCount = rService.getListTotalCount(tourName);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
@@ -158,13 +162,13 @@ public class ReservationController {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Tour> tList = rService.selectSearchList(tourName, rowBounds);
 		if (!tList.isEmpty()) {
-			Tour tour = tList.get(0);
+			for (Tour tour : tList) {
+				String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
+				tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
+				System.out.println(imagePath);
+			}
 			model.addAttribute("tList", tList);
 
-			// Brewery 이미지 경로 설정
-			String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
-			tour.setImagePath(imagePath);
-			model.addAttribute("ImagePath", imagePath);
 		} else {
 			// 예약이 없을 경우 처리
 		}
@@ -179,7 +183,11 @@ public class ReservationController {
 	}
 
 	@PostMapping("/reservation/search")
-	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model) {
+	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model,HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			return "redirect:/user/login";
+		}
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("reserveNo", reserveNo);
 		List<Reservation> rList = rService.searchInfo(param);
@@ -247,17 +255,6 @@ public class ReservationController {
 		return "reservation/reservationlookupadmin";
 	}
 
-	@GetMapping("/reservation/reservationsuccess")
-	public String SuccessInfo() {
-		return "reservation/reservationsuccess";
-	}
-
-	@PostMapping("/reservation/reservationsuccess")
-	public String reserveSuccess(Reservation reservation, Model model) {
-		List<Reservation> rList = rService.SearchreserveNo(reservation);
-		model.addAttribute("rList", rList);
-		return "reservation/reservationsuccess";
-	}
 
 	@GetMapping("/reservation/detail/{reserveNo}")
 	public String showReservationDetail(@PathVariable("reserveNo") String reserveNo, Model model) {

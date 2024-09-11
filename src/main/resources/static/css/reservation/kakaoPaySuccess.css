@@ -1,20 +1,3 @@
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
-body, html {
-	font-family: 'Noto Serif KR', serif;
-	font-size: 10px;
-	line-height: 1.5;
-}
-
-main {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 20px;
-}
 /* header */
 header {
 	background-color: white;
@@ -173,14 +156,20 @@ nav ul li a {
 	main {
 		padding: 0;
 	}
-
+	#popular-breweries {
+		height: 70vh;
+	}
+	.story-image {
+		height: 500px;
+	}
+	.tour-item {
+		height: 350px;
+	}
 }
 
 
 @media (min-width: 768px) {
-    .tour-item{
-    height:170px;
-    }
+    
     h1 {
         font-size: 4rem;
     }
@@ -192,6 +181,24 @@ nav ul li a {
     #logo{
         width: 60px;
         height: 60px;
+    }
+
+    .story-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .story-image {
+        width: 60%;
+        height: 400px;
+    }
+
+    .tour-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tour-item {
+        height: 300px;
     }
 }
 #logo{
@@ -241,83 +248,9 @@ footer nav a {
 .copyright {
     font-size: 0.8rem;
 }
-.search-form {
-	margin-bottom: 20px;
-	text-align: right;
-}
-
-.search-form input[type="text"] {
-	width: 200px;
-	padding: 5px;
-	margin-right: 5px;
-}
-
-.search-form button {
-	padding: 5px 10px;
-	background-color: #f0f0f0;
-	border: 1px solid #ddd;
-	cursor: pointer;
-}
-
-.tour-item {
-	display: flex;
-	margin-bottom: 20px;
-	border-bottom: 1px solid #000;
-}
-
-.tour-img {
-	width: 200px;
-	height: 150px;
-	background-color: #f0f0f0;
-	margin-right: 20px;
-}
-
-.tour-content {
-	flex: 1;
+.successPayment {
+	max-width: 600px;
+	margin: 0 auto;
 	align-items: center;
-}
-
-.tour-title {
-	font-size: 18px;
-	margin-bottom: 5px;
-	color: #333;
-}
-
-.tour-info {
-	font-size: 14px;
-	color: #666;
-	margin-bottom: 3px;
-}
-
-.tour-price {
-	font-weight: bold;
-}
-
-.reserve-button {
-	background-color: #f0f0f0;
-	color: #333;
-	padding: 5px 10px;
-	text-decoration: none;
-	display: inline-block;
-	margin-top: 10px;
-	float: right;
-	border: 1px solid #ddd;
-}
-
-.pagination {
-	display: flex;
-	justify-content: center;
-	margin-top: 20px;
-}
-
-.pagination a {
-	padding: 5px 10px;
-	margin: 0 5px;
-	border: 1px solid #ddd;
-	text-decoration: none;
-	color: #333;
-}
-
-.reserve-button {
-	cursor: pointer;
+	text-align: center;
 }

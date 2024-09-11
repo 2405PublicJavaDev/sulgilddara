@@ -1,8 +1,3 @@
-body {
-	font-family: Arial, sans-serif;
-
-}
-
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -10,73 +5,86 @@ body {
 }
 
 body, html {
-	/* font-family: 'Noto Serif KR', serif; */
+	font-family: 'Noto Serif KR', serif;
 	font-size: 10px;
 	line-height: 1.5;
 }
 
-main{
-	max-width: 1200px;
-	margin: 0 auto;
+/* header */
+header {
+	background-color: white;
 	padding: 20px;
 }
 
-header {
-    background-color: white;
-    padding: 20px;
-}
-
 .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90vw;
-    margin: 0 auto;
-    
-    margin-bottom: 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 90vw;
+	margin: 0 auto;
+	margin-bottom: 25px;
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: 800;
+	font-size: 3rem;
+	font-weight: 800;
 }
 
 nav ul {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 10px;
+	list-style-type: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	gap: 10px;
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: black;
-    /* font-size: 1.2rem; */
-    font-size: 18px;
+	text-decoration: none;
+	color: black;
+	/* font-size: 1.2rem; */
+	font-size: 18px;
 }
 
 .user-actions {
-    display: flex;
-    /* gap: 20px; */
+	display: flex;
+	/* gap: 20px; */
 }
 
 .icon-user, .icon-menu {
-    width: 50px;
-    height: 50px;
-    /* background-color: #D9D9D9; */
+	width: 50px;
+	height: 50px;
+	/* background-color: #D9D9D9; */
 }
 
-.user-actions img{
-    width: 30px;
-    height: 30px;
+.user-actions img {
+	width: 30px;
+	height: 30px;
 }
 
+/* main */
+main{
+	margin: 0 auto;
+}
+main .paymentinfo{
+	position: relative;
+	left:180px;
+	font-size:20px;
+	margin-bottom:20px;
+}
 .main {
 	display: flex;
 	gap: 20px;
+	max-width:1000px;
+	margin: 0 auto;
 }
-
+.main label{
+	font-size:20px;
+}
+.main hr{
+	margin-top:10px;
+	margin-bottom:20px;
+	width:100%;
+}
 .main-left {
 	flex: 2;
 }
@@ -85,19 +93,48 @@ nav ul li a {
 	flex: 1;
 }
 
+.payment-boxx {
+	background-color: #f0f0f0;
+	padding: 15px;
+	margin-bottom: 15px;
+	height: 150px;
+}
+
+.payment-div {
+	background-color: #f0f0f0;
+	padding: 15px;
+	margin-bottom: 15px;
+	height: 150px;
+}
 .payment-box {
 	background-color: #f0f0f0;
 	padding: 15px;
 	margin-bottom: 15px;
-	height:150px;
+	height: 150px;
+}
+.payment-boxx h3{
+	margin-bottom:10px;
+}
+.payment-boxx h3 ,.payment-boxx label{
+	font-size:20px;
+}
+.payment-boxx label input{
+	margin-bottom:15px;
+}
+
+.payment-box table tr td{
+	font-size:18px;
+	padding:5px;
 }
 
 .payment-method {
 	margin-bottom: 15px;
 }
-.payment-info{
-	margin-top:20px;
+
+.payment-info {
+	margin-top: 20px;
 }
+
 .kakao-pay-info {
 	display: flex;
 	background-color: #f0f0f0;
@@ -114,10 +151,12 @@ nav ul li a {
 	font-size: 20px;
 	font-weight: bold;
 }
-.price{
-	font-size:13px;
-	font-weight:bold;
+
+.price {
+	font-size: 13px;
+	font-weight: bold;
 }
+
 .pay-button {
 	background-color: #333;
 	color: white;
@@ -126,12 +165,15 @@ nav ul li a {
 	cursor: pointer;
 	width: 100%;
 }
-.kakaoPayImg{
-	overflow:hidden;
+
+.kakaoPayImg {
+	overflow: hidden;
 }
+
 .kakaoPayImg img {
-	height:100%;
+	height: 100%;
 }
+
 #kakaoPayEmail {
 	position: relative;
 	top: 55px;
@@ -157,4 +199,56 @@ nav ul li a {
 #productPrice {
 	position: relative;
 	top: 3px;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.icon-user {
+	cursor: pointer;
+}
+
+.header-img {
+	width: 30px;
+	height: 30px;
+}
+
+.mypage-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 2;
+	right: 0;
+	font-size: 1.3em;
+	font-weight: 400;
+	--text-align: center;
+}
+
+.mypage-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.mypage-content a:hover {
+	background-color: #f1f1f1;
+}
+
+.show {
+	display: block;
+}
+
+.user-name {
+	padding: 12px 16px;
+	display: block;
+}
+
+.logo-link {
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	color: inherit; /* 링크의 색상 제거 */
 }
