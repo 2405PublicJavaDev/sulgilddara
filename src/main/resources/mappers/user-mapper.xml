@@ -13,6 +13,21 @@
 	    <result property="filePath" column="USER_FILE_PATH"/>
 	    <result property="userId" column="USER_ID"/>
 	</resultMap>
+	<resultMap type="Reservation" id="reserveResultMap">
+		<id property="reserveNo" column="RESERVE_NO" />
+		<result property="userId" column="USER_ID" />
+		<result property="memberNum" column="MEMBER_NUM" />
+		<result property="reserveDate" column="RESERVE_DATE" />
+		<result property="reserveTime" column="RESERVE_TIME" />
+		<result property="emergencyPhone" column="EMERGENCY_PHONE" />
+		<result property="breweryName" column="BREWERY_NAME" />
+		<result property="reserveCompleteTime"
+			column="RESERVE_COMPLETE_TIME" />
+		<result property="tourName" column="TOUR_NAME" />
+	</resultMap>
+	<resultMap id="boardResultMap" type="com.makjan.sulgilddara.board.model.vo.Board">
+		<id property="boardNo" column="BOARD_NO" />
+	</resultMap>
   	<insert id="registerUser">
 		INSERT INTO USER_TBL
 		VALUES(#{userId}, #{userPw}, #{userName}, #{email}, DEFAULT, #{loginType}, #{gender}
@@ -54,5 +69,16 @@
 	</select>
 	<select id="searchId" resultType="string">
 		SELECT USER_ID FROM USER_TBL WHERE USER_NAME = #{userName} AND EMAIL = #{email} 
+	</select>
+	<select id="selectReservationList" resultMap="reserveResultMap">
+		SELECT * FROM RESERVATION_TBL
+		<where>
+			<if test="userId != null and userId != ''">
+				AND USER_ID = #{userId}
+			</if>
+		</where> 	
+	</select>
+	<select id="selectReviewList" resultMap="boardResultMap">
+		SELECT * FROM BOARD_TBL WHERE USER_ID = #{userId}
 	</select>
 </mapper>

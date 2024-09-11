@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>술길따라</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/user/userFindPw.css">
+    <link rel="stylesheet" href="/css/user/userReservation.css">
 </head>
 <body>
-     <header>
+    <header>
         <div class="header-top">
             <div style="width: 100px;;"></div>
-            <a href="/" class="logo-link">
+            	<a href="/" class="logo-link">
 	            <div id="logo-container">
 	                <img src="../img/logo.png" alt="" id="logo">
 		            <h1>술길따라</h1>
@@ -30,7 +30,7 @@
         			</div>
     			</div>
     			<div th:if="${session.userId == null}">
-    				<a href="#" class="icon-user">
+    				<a href="/user/login" class="icon-user">
 	                	<img class="header-img" src="/img/free-icon-user-17095347.png" alt="">
 	                </a>
 	            </div>
@@ -41,7 +41,7 @@
         	</div>
         <nav>
             <ul>
-                <li><a href="#story">술길따라 이야기</a></li>
+                <li><a href="/#story">술길따라 이야기</a></li>
                 <li><a href="/brewery/">양조장 탐방</a></li>
                 <li><a href="/liquor/search">술 도감</a></li>
                 <li><a href="/reservation/list">투어 예약</a></li>
@@ -51,25 +51,49 @@
     </header>
 
     <main> 
-        <section class="findPw-section">
-            <h2>비밀번호 찾기</h2>
-            <div class="findPw-form">
-                <form action="/user/findPwForm" method="post" id="formId">
-                        <ul>
-                            <li>
-                                <label>아이디</label>
-                                <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요">
-                            </li>
-                            <li>
-                                <label>이메일</label>
-                                <input type="text" name="email" id="email" placeholder="이메일을 입력해주세요">
-                            </li>
-                        </ul>
-                        <button type="button" id="checkEmail">비밀번호 찾기</button>
-                    </form>
-					<div class="result" id="checkMsg" style="color: red;"></div>
+        <aside>
+            <div id="aside-main">
+                <div id="aside-content">
+                    <span>마이페이지</span>
+                    <hr  class="mypage-header">
+                    <ul>
+                        <li><a href="/user/update" >회원정보 수정</a></li>
+                        <li><a href="/user/reservation" class="active">투어 예약 조회</a></li>
+                        <li><a href="/user/review">내가 쓴 리뷰</a></li>
+                        <li><a href="/user/delete" >회원 탈퇴</a></li>
+                    </ul>
+                </div>
             </div>
-        </section>
+        </aside>
+        <section class="reservation-section">
+            <div class="reservation-all">
+                <h2>투어 예약 내역</h2>
+                <div class="reservation-main">
+                <table class="reservation-table">
+                    <thead>
+                    <tr>
+                        <th>예약번호</th>
+                        <th>투어이름</th>
+                        <th>투어비용</th>
+                        <th>예약날짜</th>
+                        <th>예약시간</th>
+                        <th>방문인원</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                 		<tr th:each="reservation : ${rList}">
+                 			<td>[[${reservation.reserveNo }]]</td>
+                 			<td>[[${reservation.tourName }]]</td>
+                 			<td>[[${reservation.tourPrice }]]</td>
+                 			<td>[[${reservation.reserveDate }]]</td>
+                 			<td>[[${reservation.reserveTime }]]</td>
+                 			<td>[[${reservation.visitorNum }]]</td>
+                 		</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
     </main>
     <footer>
         <nav>
@@ -87,7 +111,6 @@
         </div>
         <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const userMenuToggle = document.getElementById('userMenuToggle');
@@ -109,35 +132,6 @@
             });
         }
     });
-    
-    
-        $("#checkEmail").click(function () {
-            let userId = $("#userId").val();
-            let email = $("#email").val();
-            $.ajax({
-                type: "POST",
-                url: "/user/findPw",
-                data: {
-                    userId: userId,
-                    email: email
-                },
-                success: function (response) {
-                    console.log(response);
-                    if (response.success) {
-                    	console.log("Success: " + response.success); // 성공 시 로그
-                        alert("발송 완료! 입력하신 이메일로 임시비밀번호가 발송되었습니다.");
-                        window.location = "/user/login";
-                    
-                    } else {
-                    	console.log("Error: Information does not match."); // 실패 시 로그
-                        $('#checkMsg').html('<p style="color:red">일치하는 정보가 없습니다.</p>');
-                    }
-                },
-                error: function () {
-                    $('#checkMsg').html('<p style="color:red">서버 오류가 발생했습니다.</p>');
-                }
-            });
-        });
     </script>
 </body>
 </html>

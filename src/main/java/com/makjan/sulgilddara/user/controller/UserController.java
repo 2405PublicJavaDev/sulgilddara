@@ -2,6 +2,7 @@ package com.makjan.sulgilddara.user.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.makjan.sulgilddara.board.model.service.BoardService;
+import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.reservation.model.Service.ReservationService;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.user.model.service.UserService;
 import com.makjan.sulgilddara.user.model.vo.Mail;
 import com.makjan.sulgilddara.user.model.vo.User;
@@ -30,11 +35,20 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/user")
 public class UserController {
 	
-	@Autowired
 	private UserService uService;
+	private KakaoService kakaoService;
+	private ReservationService rService;
+	private BoardService bService;
+	
+	public UserController() {}
 	
 	@Autowired
-	private KakaoService kakaoService;
+	private UserController(UserService uService, KakaoService kakaoService, ReservationService rService) {
+		this.uService = uService;
+		this.kakaoService = kakaoService;
+		this.rService = rService;
+		this.bService = bService;
+	}
 	
 	// 회원가입 form (get)
 	@GetMapping("/register")
@@ -114,48 +128,56 @@ public class UserController {
 			}	
 	}
 
-	// 회원탈퇴 메소드
 	@PostMapping("/delete")
-	public String deleteUser(@RequestParam(value = "userPw", required = false) String userPw , 
-			@RequestParam("loginType") String loginType, HttpSession session) {
-		
-		String userId = (String)session.getAttribute("userId");
-		
-		// 일반 회원일 시 비밀번호가 입력해야 탈퇴가 가능
-		if ("LOCAL".equals(loginType)) {
-			User user = uService.selectOneById(userId);
-			// 비밀번호가 일치하는지 확인
-			if (user != null && user.getUserPw().equals(userPw)) {
-				int result = uService.deleteUser(userId);
-				if (result > 0) {
-					// 탈퇴 성공시 로그아웃 처리
-					return "redirect:/user/logout";
-				} else {
-					return "user/userDelete";
-				}
-			} else {
-				// 비밀번호가 일치하지 않을 때 처리
-				return "user/userDelete";
-			}
-			// 카카오 회원일 시 비밀번호 입력하지 않아도 탈퇴하게
-		} else {
-			int result = uService.deleteUser(userId);
-			if (result > 0) {
-				try {
-					String accessToken = (String) session.getAttribute("accessToken");
-	                kakaoService.unlink(accessToken); // 카카오 Unlink API 호출
-				} catch (Exception e) {
-					e.printStackTrace();
-	                return "user/userDelete";
-				}
-	            // 탈퇴 성공 시 로그아웃 처리
-	            return "redirect:/user/logout";
-	        } else {
+	public String deleteUser(@RequestParam(value = "userPw", required=false) String userPw,
+	                         HttpSession session, 
+	                         Model model) {
+
+	    String userId = (String)session.getAttribute("userId");
+	    if (userId == null) {
+	        return "redirect:/user/login";  // 로그인 페이지로 리다이렉트
+	    }
+
+	    User user = uService.selectOneById(userId);
+	    if (user == null) {
+	        model.addAttribute("errorMessage", "사용자 정보를 찾을 수 없습니다.");
+	        return "user/userDelete";
+	    }
+
+	    model.addAttribute("user", user);  // 뷰에 user 객체 전달
+
+	    if ("LOCAL".equals(user.getLoginType())) {
+	        // 비밀번호가 null이거나 빈 문자열인 경우 처리
+	        if (userPw == null || userPw.trim().isEmpty()) {
+	            model.addAttribute("errorMessage", "비밀번호를 입력해주세요.");
 	            return "user/userDelete";
 	        }
-		}
+	        
+	        // 비밀번호 검증 
+	        if (!user.getUserPw().equals(userPw)) {
+	            model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+	            return "user/userDelete";
+	        }
+	    }
+
+	    int result = uService.deleteUser(userId);
+	    if (result > 0) {
+	        if ("KAKAO".equals(user.getLoginType())) {
+	            try {
+	                String accessToken = (String) session.getAttribute("accessToken");
+	                kakaoService.unlink(accessToken);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                model.addAttribute("errorMessage", "카카오 연동 해제 중 오류가 발생했습니다.");
+	                return "user/userDelete";
+	            }
+	        }
+	        return "redirect:/user/logout";
+	    } else {
+	        model.addAttribute("errorMessage", "탈퇴가 처리되지 않았습니다.");
+	        return "user/userDelete";
+	    }
 	}
-	
 	// 로그인 form 
 	@GetMapping("/login")
 	public String showLoginForm(@ModelAttribute User user) {
@@ -233,5 +255,24 @@ public class UserController {
        }
         return response;
     }
+    
+    // 투어 예약 조회
+    @GetMapping("/reservation")
+    public String showReservation(@ModelAttribute User user, Model model, HttpSession session) {
+    	String userId = (String)session.getAttribute("userId");
+    	List<Reservation> rList = uService.selectReservationList(userId);
+    	model.addAttribute("rList", rList);
+    	return "user/userReservation";
+    }
+    
+    // 내가 쓴 리뷰 조회
+    @GetMapping("/review")
+    public String showReview(@ModelAttribute User user, Model model, HttpSession session) {
+    	String userId = (String)session.getAttribute("userId");
+    	List<Board> bList = uService.selectReviewList(userId);
+    	model.addAttribute("bList", bList);
+    	return "user/userReview";
+    }
+    
 }
 	
