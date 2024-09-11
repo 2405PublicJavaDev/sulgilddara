@@ -10,7 +10,6 @@ body, html {
     line-height: 1.5;
 }
 
-/* header */
 header {
     background-color: white;
     padding: 20px;
@@ -19,7 +18,6 @@ header {
 .header-top {
     display: flex;
     justify-content: space-between;
-    
     align-items: center;
     width: 90vw;
     margin: 0 auto;
@@ -30,6 +28,11 @@ header {
 h1 {
     font-size: 3rem;
     font-weight: 800;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
 }
 
 nav ul {
@@ -63,7 +66,6 @@ nav ul li a {
     height: 30px;
 }
 
-/* main */
 main {
     width: 90vw;
     max-width: 2000px;
@@ -71,59 +73,6 @@ main {
     padding: 0 20px;
 }
 
-#popular-breweries {
-    width: 90vw;
-    height: 50vh;
-    background-color: #D9D9D9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 50px;
-}
-
-#story {
-    margin-bottom: 50px;
-}
-
-.story-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-h2, h3 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.story-image {
-    width: 100%;
-    height: 300px;
-    background-color: #D9D9D9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-}
-
-#brewery-tour {
-    margin-bottom: 50px;
-}
-
-.tour-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.tour-item {
-    width: 100%;
-    height: 250px;
-    background-color: #D9D9D9;
-}
-
-/* footer */
 footer {
     background-color: white;
     padding: 50px 20px;
@@ -181,24 +130,6 @@ footer nav a {
         width: 60px;
         height: 60px;
     }
-
-    .story-content {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .story-image {
-        width: 60%;
-        height: 400px;
-    }
-
-    .tour-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .tour-item {
-        height: 300px;
-    }
 }
 #logo{
     width: 50px;
@@ -237,53 +168,7 @@ footer nav a {
     main {
         padding: 0;
     }
-
-    #popular-breweries {
-        height: 70vh;
-    }
-
-    .story-image {
-        height: 500px;
-    }
-
-    .tour-item {
-        height: 350px;
-    }
 }
-
-
-.owlCarousel-item{
-    width: 100%;
-    height: 100%;
-}
-
-.carousel-item{
-    width: 100%;
-    height: 100%;
-}
-
-.owl-item{
-    width: 100%;
-    height: 100%;
-}
-.owl-stage{
-    width: 100%;
-    height: 100%;
-}
-.owl-stage-outer{
-    width: 100%;
-    height: 100%;
-}
-
-.owl-carousel{
-    width: 100%;
-    height: 100%;
-}
-
-#popular-breweries{
-    margin: 0 auto;
-}
-
 
 #logo{
     /* width: 100px;
@@ -313,8 +198,146 @@ footer nav a {
     height: 50px;
 }
 
-/* 네비게이션 바 추가 - 여기서부터 추가*/
-.dropdown {
+/* user.css */
+
+    .modify-section {
+        background-color: #f9f8f8;
+        padding: 50px 50px 0px 50px;
+        margin: 50px 330px 20px 330px;
+        height: 1400px;
+    }
+
+    .modify-section ul, .modify-section li {
+        list-style: none;
+    }
+
+    .modify-section h2 {
+        text-align: center;
+    }
+        .modify-form {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+
+        .modify-form label {
+            width: 20%;
+            --display: inline-block;
+            float: left;
+            margin-top: 30px;
+        }
+        
+        .modify-form button {
+            margin-top: 30px;
+            border: none;
+            
+        }
+        .modify-form input{
+            float: left;
+            width: 80%;
+            margin: 10px 0;
+            padding: 20px;
+            font-size: 16px;
+            border: #6B6B6B;
+            font-family: 'Noto Serif KR', serif;
+        }
+        
+        #gender-check {
+            width: 80%;
+            float: left;
+            margin: 10px 0;
+            padding: 20px;
+        }
+
+        .modify-form input[type="radio"] {
+            width: 10%;
+            --float: left;
+        }
+
+        .gender-radio {
+            width: 15%;
+            float: left;
+        }
+        .profile {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            padding: 0px 100px;
+            justify-content: center;
+        }
+
+        #preview {
+            background-size: contain;
+            justify-content: center;
+        }
+
+        .modify-form input[type="file"] {
+            --padding : 50px;
+            width: 100%;
+        }
+
+        .input-file-button{
+            padding: 6px 25px;
+            background-color:#FF6600;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+    .modify-section button {
+        font-size: 1.8em;
+        font-weight: bold;
+        font-family: 'Noto Serif KR', serif;
+    }
+    .modify-form button{
+        text-align: center;
+        float: left;
+        width: 90%;
+        margin: 40px 85px;
+        padding: 20px;
+        font-size: 16px;
+        background-color: #323240;
+        font-family: 'Noto Serif KR', serif;
+        color: white;
+    }
+
+    #file-upload {
+        display: flex;
+        justify-content: center;
+        margin: 0px 0px 20px 0px;
+    }
+    
+    .btn-upload {
+        width: 200px;
+        height: 40px;
+        background: #F2EADF;
+        --border: 1px solid rgb(77,77,77);
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            background: rgb(77,77,77);
+            color: #fff;
+        }
+    }
+    
+    #profileImage {
+        display: none;
+    }
+
+    .required {
+        color: red;
+    }
+
+    .requireds {
+        text-align: right;
+    }
+    
+/* 네비게이션 드롭다운 bar css */
+        .dropdown {
             position: relative;
             display: inline-block;
         }
@@ -334,7 +357,7 @@ footer nav a {
             background-color: #f9f9f9;
             min-width: 120px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 2;
+            z-index: 1;
             right: 0;
             font-size: 1.3em;
             font-weight:400;
@@ -359,9 +382,4 @@ footer nav a {
 		.user-name {
 			padding: 12px 16px;
 			display : block;
-		}
-		
-		.logo-link {
-			text-decoration: none; /* 링크의 밑줄 제거 */  
-			color: inherit; /* 링크의 색상 제거 */
 		}

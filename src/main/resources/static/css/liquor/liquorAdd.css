@@ -7,24 +7,13 @@
 
 body, html {
     font-family: 'Noto Serif KR', serif;
-    font-size: 10px;
-    line-height: 1.5;
+
 }
 
 
 .container {
     max-width: 1920px;
     margin: 0 auto;
-}
-
-/* 전체 페이지 스타일 */
-body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    color: black;
-    max-width: 1920px;
-    margin: 0 auto;
-    background: white;
 }
 
 /* 헤더 */
@@ -71,12 +60,12 @@ header {
     height: 50px;
 }
 
-h1 {
+header h1 {
     font-size: 3rem;
     font-weight: 800;
 }
 
-.headerNav ul {
+nav ul {
     list-style-type: none;
     display: flex;
     flex-wrap: wrap;
@@ -84,7 +73,7 @@ h1 {
     gap: 10px;
 }
 
-.headerNav ul li a {
+nav ul li a {
     text-decoration: none;
     color: black;
     /* font-size: 1.2rem; */
@@ -107,153 +96,63 @@ h1 {
     height: 30px;
 }
 
-/* 메인 컨텐츠 스타일 */
+/* 메인 */
 .content-wrapper {
-    width: 1400px;
+	width: 50%;
+	margin: 0 auto;
+}
+body {
     margin: 0 auto;
-}
-main {
-    padding: 40px 121px;
-}
-
-.breadcrumb ul {
-    display: flex;
-    gap: 17px;
-    list-style: none;
-    padding: 0;
-}
-
-.breadcrumb ul li {
-    font-size: 24px;
-}
-
-h2 {
-    font-size: 64px;
-    font-weight: 400;
-    margin-top: 20px;
-}
-
-/* 제품 정보 스타일 */
-.product-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-}
-
-.product-info td{
-	font-size: 30px;
-}
-
-.product-details p {
-    font-size: 40px;
-    margin: 10px 0;
-}
-
-.product-image img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* 리뷰 섹션 스타일 */
-.reviews {
-    margin-top: 60px;
-}
-
-.reviews h3 {
-    font-size: 40px;
-    font-weight: 400;
-}
-
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.rating p {
-    font-size: 36px;
-}
-
-.tags {
-    display: flex;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-}
-
-.tags li {
-    background: #EEDCBB;
-    padding: 5px 10px;
-    border-radius: 10px;
-    font-size: 20px;
-    color: #737171;
-}
-
-.rating-distribution {
-    font-size: 20px;
-}
-
-/* 리뷰 아이템 스타일 */
-.review-item {
-    background: white;
-    border-radius: 20px;
     padding: 20px;
-    margin-bottom: 20px;
 }
-
-.user-info {
-    display: flex;
+h1 {
+    text-align: center;
+}
+.inputForm {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
     align-items: center;
-    gap: 10px;
 }
-
-.user-info img {
-    width: 100px;
-    height: 100px;
-    border-radius: 20px;
+input, select {
+    width: 100%;
+    padding: 5px;
 }
-
-.review-content h4 {
-    font-size: 24px;
-    margin: 10px 0;
-}
-
-.review-images {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.review-images img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-}
-
-/* 페이지네이션 스타일 */
-.pagination ul {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-}
-
-.pagination ul li a {
-    text-decoration: none;
-    color: black;
-    font-size: 24px;
-}
-
-/* 리뷰 작성 버튼 스타일 */
-.write-review {
-    background: #D9D9D9;
+button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 32px;
     cursor: pointer;
+}
+.checkbox-group {
+    display: flex;
+    gap: 10px;
+}
+.file-buttons {
+    display: flex;
+    gap: 10px;
+}
+.submit-button {
+    grid-column: 1 / -1;
+    justify-self: start;
     margin-top: 20px;
+}
+img {
+    max-width: 200px;
+    float: right;
+}
+
+/* 리스트 아이템을 클릭 가능하게 보이도록 스타일 추가 */
+.clickable-brewery {
+    color: blue; /* 파란색으로 텍스트 색상 변경 */
+    cursor: pointer; /* 마우스를 가져다 대면 커서가 클릭 모양으로 변경 */
+    text-decoration: underline; /* 링크처럼 밑줄 추가 */
+}
+
+/* 마우스를 가져다 댔을 때의 추가 스타일 (선택 사항) */
+.clickable-brewery:hover {
+    color: darkblue; /* 마우스를 올렸을 때 더 진한 파란색으로 변경 */
 }
 
 /* footer */
@@ -302,7 +201,7 @@ footer nav a {
 
 @media (min-width: 768px) {
     
-    h1 {
+    header h1 {
         font-size: 4rem;
     }
     .user-actions img{
@@ -360,7 +259,7 @@ footer nav a {
         height: 50px;
     }
     
-    h1 {
+    header h1 {
         font-size: 5rem;
     }
     #logo{

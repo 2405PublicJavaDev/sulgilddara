@@ -32,6 +32,8 @@ import com.makjan.sulgilddara.model.vo.Pagination;
 import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/brewery")
 public class BreweryController {
@@ -263,14 +265,82 @@ public class BreweryController {
 		model.addAttribute("tList", tList);
 		return "brewery/breweryList";
 	}
+//	@GetMapping("/search")
+//	public String showUserSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
+//			, Model model
+//			, @RequestParam("searchCondition") String searchCondition
+//			, @RequestParam("searchKeyword") String searchKeyword) {
+//		List<BreweryTag>tList = bService.showAllTag();
+//		model.addAttribute("tList", tList);
+//		System.out.println(searchCondition);
+//		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
+//		Pagination pn = new Pagination(totalCount, currentPage);
+//		int limit = pn.getBoardLimit();
+//		int offset = (currentPage - 1) * limit;	
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		
+//		Map<String, String> paramMap = new HashMap<String, String>();
+//		paramMap.put("searchCondition", searchCondition);
+//		paramMap.put("searchKeyword", searchKeyword);
+//		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
+//		model.addAttribute("sList", searchList);
+//		System.out.println(searchCondition);
+//		System.out.println(searchKeyword);
+//		
+//		System.out.println(searchList);
+//		model.addAttribute("searchKeyword", searchKeyword);
+//		model.addAttribute("searchCondition", searchCondition);
+//		model.addAttribute("pn", pn);
+//		return "brewery/brewerySearchList";
+//	}
+//	@PostMapping("/search")
+//	public String userSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
+//			, Model model
+//			, @RequestParam("searchCondition") String searchCondition
+//			, @RequestParam("searchKeyword") String searchKeyword) {
+//		List<BreweryTag>tList = bService.showAllTag();
+//		model.addAttribute("tList", tList);
+//		System.out.println(searchCondition);
+//		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
+//		Pagination pn = new Pagination(totalCount, currentPage);
+//		int limit = pn.getBoardLimit();
+//		int offset = (currentPage - 1) * limit;	
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		
+//		Map<String, String> paramMap = new HashMap<String, String>();
+//		paramMap.put("searchCondition", searchCondition);
+//		paramMap.put("searchKeyword", searchKeyword);
+//		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
+//		model.addAttribute("sList", searchList);
+//		model.addAttribute("searchKeyword", searchKeyword);
+//		model.addAttribute("searchCondition", searchCondition);
+//		model.addAttribute("pn", pn);
+//		return "brewery/brewerySearchList";
+//	}
 
 	@GetMapping("/detail/{breweryNo}")
 	public String showBreweryDetail(@PathVariable ("breweryNo") Integer breweryNo,
 			Model model) {
 		Brewery brewery = bService.searchOneByNo(breweryNo);
+		
+		String facilities = brewery.getFacilities();
+		if(facilities != null) {
+			facilities = facilities.replaceAll("[\\[\\]\"]", "");
+			String[] facilityArray = facilities.split(",");
+			List<String> fList = new ArrayList<>();
+			for (String facility : facilityArray) {
+				String result = bService.getFacilityKorean(facility.trim());
+				fList.add(result);
+			};
+//			System.out.println(fList);
+			model.addAttribute("fList", fList); // 한글변환
+			Map<String, String> iconMap = bService.mapFacilitiesToIcons(fList);
+			model.addAttribute("iconMap", iconMap); // 아이콘 변환
+		}
+		
 		String localName = brewery.getBreweryLocal();
-		localName = getLocalName(localName);
-		brewery.setBreweryLocal(localName);
+		String local = bService.getLocalName(localName);
+		brewery.setBreweryLocal(local);
 		model.addAttribute("brewery", brewery);
 		
 		List<Tour> tList = tService.showTourByBrwNo(breweryNo);
@@ -289,16 +359,5 @@ public class BreweryController {
 		
 		return "brewery/breweryDetail";	
 		
-	}
-	public String getLocalName(String local) {
-	    switch (local) {
-	        case "sudo": return "수도권";
-	        case "gang": return "강원";
-	        case "chung": return "충청";
-	        case "gyeong": return "경상";
-	        case "jeoll": return "전라";
-	        case "jeju": return "제주";
-	        default: return "알 수 없음";
-	    }
 	}
 }

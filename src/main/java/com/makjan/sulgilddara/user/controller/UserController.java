@@ -176,6 +176,9 @@ public class UserController {
 			session.setAttribute("userId", userId);
 			session.setAttribute("userName", user.getUserName());
 			session.setAttribute("userFile", user.getUserFile()); 
+			session.setAttribute("isAdmin", user.getIsAdmin());
+			System.out.println("User: " + user);
+			System.out.println("User File: " + user.getUserFile());
 			return "redirect:/";
 		} else {
 			return "user/userLogin";
@@ -187,9 +190,9 @@ public class UserController {
 	public String checkLogout(Model model, HttpSession session) {
 			if(session != null) {
 				session.invalidate();
-				return "user/userLogin";
+				return "redirect:/";
 			} else {
-				return "user/userLogin";
+				return "redirect:/";
 			}
 		} 
 	

@@ -7,15 +7,15 @@
 </head>
 <body>
     <header>
-        <div class="header-top">
+        <div class="header-top"> 
             <div style="width: 100px;;"></div>
             <div id="logo-container">
-                <img src="./img/logo.png" alt="" id="logo">
+                <img src="../img/logo.png" alt="" id="logo">
                 <h1>술길따라</h1>
             </div>
             <div class="user-actions">
-                <a href="#" class="icon-user"><img class="header-img" src="./img/free-icon-user-17095347.png" alt=""></a>
-                <a href="#" class="icon-menu"><img class="header-img" src="./img/free-icon-menu-3856832.png" alt=""></a>
+                <a href="#" class="icon-user"><img class="header-img" src="../img/free-icon-user-17095347.png" alt=""></a>
+                <a href="#" class="icon-menu"><img class="header-img" src="../img/free-icon-menu-3856832.png" alt=""></a>
             </div>
         </div>
         <nav>
@@ -28,6 +28,7 @@
             </ul>
         </nav>
     </header>
+    
 	<main>
 	    <form th:action="@{/reservation/listSearchResult}" th:object="${tour}" method="POST" class="search-form">
 	        <input type="text" name="tourName" th:value="${tourName}" placeholder="투어 이름 검색">
