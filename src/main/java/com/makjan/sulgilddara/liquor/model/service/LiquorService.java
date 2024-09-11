@@ -47,7 +47,7 @@ public interface LiquorService {
 	 * 전체 주류 수 Service
 	 * @return int
 	 */
-	int getTotalCount();
+	int getTotalCount(String keyword, String liquorType);
 	
 	/**
 	 * 검색 주류 수 Service
@@ -60,9 +60,13 @@ public interface LiquorService {
 	 * 주류 목록조회 Service
 	 * @param currentPage
 	 * @param rowBounds
-	 * @return int
+	 * @param searchCondition
+	 * @param keyword
+	 * @param breweryLocal
+	 * @param liquorType
+	 * @return
 	 */
-	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds);
+	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds, String keyword, String liquorType);
 	
 	/**
 	 * 주류 이미지 등록 Service
@@ -105,5 +109,5 @@ public interface LiquorService {
 	 * @return
 	 */
 	int detailSearchTotalCount(Map<String, Object> searchMap);
-	
+
 }

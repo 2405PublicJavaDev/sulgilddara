@@ -20,9 +20,26 @@
 	</delete>
 	<select id="getTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM LIQUOR_TBL
+		<where>
+			<if test="keyword != null and keyword != ''">
+				LIQUOR_NAME LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="liquorType != 'all'">
+				AND LIQUOR_TYPE = #{liquorType}
+			</if>
+		</where>
 	</select>
 	<select id="selectLiquorList" resultType="Liquor">
-		SELECT * FROM LIQUOR_TBL ORDER BY LIQUOR_ID DESC
+		SELECT * FROM LIQUOR_TBL 
+		<where>
+			<if test="keyword != null and keyword != ''">
+				LIQUOR_NAME LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="liquorType != 'all'">
+				AND LIQUOR_TYPE = #{liquorType}
+			</if>
+		</where>
+		ORDER BY LIQUOR_ID DESC
 	</select>
 	<select id="selectOneById" resultType="LiquorDetail">
 		SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL, AVG_POINT, REVIEW_COUNT 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -116,13 +117,6 @@ public class LiquorController {
 	public String liquorSearch(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model, @ModelAttribute LiquorSearchInfo sInfo) {
 		System.out.println("sInfo:"+sInfo);
 		
-		//페이징 데이터 처리
-		int totalCount = lService.getTotalCount();
-		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
-		pn.setBoardLimit(12);
-		int limit = pn.getBoardLimit();
-		int offset = (currentPage-1)*limit;
-		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		//상세검색 수행을 위한 데이터 구조
 		Map<String, Object> searchMap = new HashMap<>();	//검색조건 VO객체와 태그리스트를 담기위한 Map
@@ -157,6 +151,14 @@ public class LiquorController {
 					tagString += ", ";
 			}
 		}
+		
+		//페이징 데이터 처리
+		int totalCount = lService.detailSearchTotalCount(searchMap);
+		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
+		pn.setBoardLimit(12);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1)*limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 		liquorList = lService.liquorSearch(searchMap, rowBounds);
@@ -234,8 +236,7 @@ public class LiquorController {
 	@PostMapping("/liquorAdd")
 	public String liquorAdd(Model model, @ModelAttribute Liquor liquor, @RequestParam(value="files", required=false) MultipartFile[] files) {
 		lService.addLiquor(liquor);
-		System.out.println(liquor.getLiquorId());
-		if(files.length != 0){
+		if(files != null && files.length != 0 && !files[0].isEmpty()){
 //			for(MultipartFile file : files) {
 			for(int i=0; i< files.length; i++) {
 				try {
@@ -271,9 +272,9 @@ public class LiquorController {
 	}
 	
 	@PostMapping("/update")
-	public String updateLiquor(Liquor liquor, @RequestParam("files") MultipartFile[] files) {
+	public String updateLiquor(Liquor liquor, @RequestParam(value="files", required=false, defaultValue="1") MultipartFile[] files) {
 		int result = lService.updateLiquor(liquor);
-		if(files.length != 0){
+		if(files != null && files.length != 0 && !files[0].isEmpty()){
 //			for(MultipartFile file : files) {
 			for(int i=0; i< files.length; i++) {
 				try {
@@ -337,13 +338,17 @@ public class LiquorController {
 	 * @return liquorList.html로 이동
 	 */
 	@GetMapping("/list")
-	public String showLiquorList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model) {
-		int totalCount = lService.getTotalCount();
+	public String showLiquorList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model,
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+			@RequestParam(value="liquorType", required=false, defaultValue="all") String liquorType) {
+		int totalCount = lService.getTotalCount(keyword, liquorType);
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
+		System.out.println("startNavi:"+pn.getStartNavi());
+		System.out.println("endNavi:"+pn.getEndNavi());
 		int offset = (currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Liquor> lList = lService.selectLiquorList(currentPage, rowBounds);		//RowBounds 범위만큼의 데이터를 받아온 List
+		List<Liquor> lList = lService.selectLiquorList(currentPage, rowBounds, keyword, liquorType);		//RowBounds 범위만큼의 데이터를 받아온 List
 		List<List<LiquorImage>> imgList = new ArrayList<List<LiquorImage>>();		//List<LiquorImage> 를 담기위한 List
 		
 		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
@@ -362,6 +367,8 @@ public class LiquorController {
 		model.addAttribute("lList", lList);
 		model.addAttribute("pn", pn);
 		model.addAttribute("cp", currentPage);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("liquorType", liquorType);
 		return "liquor/liquorList";
 	}
 	

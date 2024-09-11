@@ -55,17 +55,24 @@
             <main class="main-content">
 
 		        <div class="search-filters">
-		            <input type="text" placeholder="양조장">
-		            <input type="text" placeholder="술이름">
-		            <select>
-		                <option>지역</option>
-		                <option>지역별목록</option>
-		            </select>
-		            <select>
-		                <option>주종</option>
-		                <option>주종별목록</option>
-		            </select>
-		            <button class="search-button">검색</button>
+		        	<form action="/liquor/list" method="get">
+		        		<input name="cp" type="hidden" th:value="1">
+			            <input name="keyword" th:value=${keyword} type="text" placeholder="술이름">
+			            <select name="liquorType">
+	                            <option value="all" th:selected="${liquorType == 'all'}")>전체</option>
+	                            <option value="전통주" th:selected="${liquorType == '전통주'}">전통주</option>
+	                            <option value="막걸리" th:selected="${liquorType == '막걸리'}">막걸리</option>
+	                            <option value="청주" th:selected="${liquorType == '청주'}">청주</option>
+	                            <option value="소주" th:selected="${liquorType == '소주'}">소주</option>
+	                            <option value="와인" th:selected="${liquorType == '와인'}">와인</option>
+	                            <option value="위스키" th:selected="${liquorType == '위스키'}">위스키</option>
+	                            <option value="맥주" th:selected="${liquorType == '맥주'}">맥주</option>
+	                            <option value="리큐르" th:selected="${liquorType == '리큐르'}">리큐르</option>
+	                            <option value="브랜디" th:selected="${liquorType == '브랜디'}">브랜디</option>
+								<option value="보드카" th:selected="${liquorType == '보드카'}">보드카</option>
+	                        </select>
+			            <button class="search-button">검색</button>
+		        	</form>
 		        </div>
 		
 		        <table class="liquor-table">
@@ -105,8 +112,8 @@
 						<tr align="center">
 							<td colspan="11" id="pagination">
 								<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
-							        <span th:if="${p == cp}" th:text="${p}"></span>
-							        <a th:unless="${p == cp}" th:href="@{/liquor/list(cp=${p})}" th:text="${p}"></a>
+								    <span th:if="${p == cp}" th:text="${p}"></span>
+								    <a th:unless="${p == cp}" th:href="@{/liquor/list(cp=${p}, keyword=${keyword}, liquorType=${liquorType})}" th:text="${p}"></a>
 								</th:block>
 							</td>
 						</tr>
