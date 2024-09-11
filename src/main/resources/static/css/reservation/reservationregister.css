@@ -1,101 +1,127 @@
-
-
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body, html {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 10px;
-    line-height: 1.5;
-
+	font-family: 'Noto Serif KR', serif;
+	font-size: 10px;
+	line-height: 1.5;
 }
-main{
-    max-width: 800px;
+
+main {
+	max-width: 1000px;
 	margin: 0 auto;
-	padding: 20px;	
+	padding: 20px;
 }
 
 header {
-    background-color: white;
-    padding: 20px;
+	background-color: white;
+	padding: 20px;
 }
 
 .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90vw;
-    margin: 0 auto;
-    
-    margin-bottom: 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 90vw;
+	margin: 0 auto;
+	margin-bottom: 25px;
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: 800;
+	font-size: 3rem;
+	font-weight: 800;
 }
 
 nav ul {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 10px;
+	list-style-type: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	gap: 10px;
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: black;
-    /* font-size: 1.2rem; */
-    font-size: 18px;
+	text-decoration: none;
+	color: black;
+	/* font-size: 1.2rem; */
+	font-size: 18px;
 }
 
 .user-actions {
-    display: flex;
-    /* gap: 20px; */
+	display: flex;
+	/* gap: 20px; */
 }
 
 .icon-user, .icon-menu {
-    width: 50px;
-    height: 50px;
-    /* background-color: #D9D9D9; */
+	width: 50px;
+	height: 50px;
+	/* background-color: #D9D9D9; */
 }
 
-.user-actions img{
-    width: 30px;
-    height: 30px;
+.user-actions img {
+	width: 30px;
+	height: 30px;
 }
-/* /*  */ */
+
 .breweryInfo {
-	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+.breweryTitle {
+	font-size: 30px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
 
-.breweryInfo1 {
+.Info {
+	font-size: 20px;
+	font-weight: bold;
+	font-weight: bold;
+}
+
+.tourTitle {
 	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	font-weight: bold;
+	font-weight: 800;
+}
+
+.tour-info {
+	display: flex;
+}
+
+.tourInfo {
+	font-size: 15px;
+	font-weight: 800;
 }
 
 .reservationDate {
 	margin-bottom: 20px;
 }
-
+.reservationDate h3{
+	font-size:20px;
+}
 .DateData table {
 	width: 100%;
 	border-collapse: collapse;
 	font-size: 14px;
 }
 
+.DateData td:hover {
+	background-color: #f0f0f0;
+	cursor: pointer;
+}
+
 .DateData th, .DateData td {
 	border: 1px solid #ddd;
 	padding: 8px;
 	text-align: center;
+}
+
+.DateData td.selected {
+	background-color: #007bff;
+	color: white;
 }
 
 .DateData .header {
@@ -108,11 +134,6 @@ nav ul li a {
 	border: none;
 	color: white;
 	font-size: 16px;
-	cursor: pointer;
-}
-
-.DateData td:hover {
-	background-color: #f0f0f0;
 	cursor: pointer;
 }
 
@@ -158,11 +179,20 @@ button[type="submit"]:hover {
 }
 
 .reservation-info {
-	max-width: 800px;
+	max-width: 1000px;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #f9f9f9;
 	border-radius: 8px;
+	height: 230px;
+}
+.reservation-info1 {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	height: 380px;
 }
 
 .reservation-info h2 {
@@ -178,6 +208,7 @@ button[type="submit"]:hover {
 	display: block;
 	margin-bottom: 5px;
 	color: #666;
+	font-size:10px;
 }
 
 .form-group input, .form-group select {
@@ -229,8 +260,8 @@ button[type="submit"]:hover {
 	font-size: 18px;
 	font-weight: bold;
 	color: #333;
-	margin-top: 10px;
+	margin-top: 15px;
 	display: block;
-	border-bottom:1px solid gray;
-	margin-bottom:30px;
+	border-bottom: 1px solid gray;
+	margin-bottom: 30px;
 }

@@ -121,7 +121,7 @@
 	<!--투어 리스트(투어번호) - 양조장 리스트(양조장번호) 합치기 -->
 	<select id="showTourList" resultType="Tour">
 		SELECT
-		tour_name,tour_content,tour_Price,time_taken,brewery_name,tour_tbl.filePath,tour_tbl.fileRename,tour_no,brewery_no
+		tour_tbl.tour_price,tour_tbl.Time_Taken,tour_name,tour_content,tour_Price,time_taken,brewery_name,tour_tbl.filePath,tour_tbl.fileRename,tour_no,brewery_no
 		FROM tour_tbl join brewery_tbl using (brewery_no)
 	</select>
 	<select id="searchPaymentInfo" resultType="reservation">

@@ -40,7 +40,7 @@
 	  	WHERE TOUR_NO=#{tourNo}
 	  </delete>
 	  <select id="searchByNo" resultType="Tour">
-	  SELECT * FROM TOUR_TBL join brewery_tbl using(brewery_no)
+	  SELECT * FROM TOUR_TBL JOIN BREWERY_TBL USING(brewery_no)
 	  WHERE TOUR_NO=#{tourNo}
 	  </select>
 	  
