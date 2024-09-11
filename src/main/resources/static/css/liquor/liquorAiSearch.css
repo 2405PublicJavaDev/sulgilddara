@@ -98,8 +98,12 @@ nav ul li a {
 
 /* 메인 */
 .content-wrapper {
+	box-sizing: border-box;
+	height: 70vh;
+	max-height: 800px;
     display: flex;
     padding: 40px;
+    background-color: #f4f4f4;
 }
 
 .main-content {
@@ -126,10 +130,14 @@ nav ul li a {
     color: white;
 }
 
-.liquor-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+.ai-wrapper {
+    width: 90vh;
+    background-color: white;
+    border-radius: 20px;
+}
+
+#ai-answer {
+	font-size: 2rem;
 }
 
 .liquor-item {

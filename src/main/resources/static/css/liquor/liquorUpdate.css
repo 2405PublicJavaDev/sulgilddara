@@ -7,9 +7,9 @@
 
 body, html {
     font-family: 'Noto Serif KR', serif;
-
+    font-size: 10px;
+    line-height: 1.5;
 }
-
 
 .container {
     max-width: 1920px;
@@ -114,6 +114,12 @@ h1 {
     gap: 10px;
     align-items: center;
 }
+
+/* 폼 요소들의 폰트 크기 조정 */
+input, select, button, label {
+    font-size: 1.5rem;  /* 1rem은 body의 font-size를 따라가므로 16px가 됩니다 */
+}
+
 input, select {
     width: 100%;
     padding: 5px;
@@ -134,7 +140,7 @@ button {
     gap: 10px;
 }
 .submit-button {
-    grid-column: 1 / -1;
+    grid-column: 2 / -1;
     justify-self: start;
     margin-top: 20px;
 }
@@ -310,3 +316,56 @@ footer nav a {
     color: #ff5353;
     margin-left: 5px;
 }
+
+/* 네비게이션 바 추가 - 여기서부터 추가*/
+.dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .icon-user {
+            cursor: pointer;
+        }
+        
+        .header-img {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .mypage-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 2;
+            right: 0;
+            font-size: 1.3em;
+            font-weight:400;
+            --text-align: center;
+        }
+        
+        .mypage-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .mypage-content a:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+		.user-name {
+			padding: 12px 16px;
+			display : block;
+		}
+		
+		.logo-link {
+			text-decoration: none; /* 링크의 밑줄 제거 */  
+			color: inherit; /* 링크의 색상 제거 */
+		}
