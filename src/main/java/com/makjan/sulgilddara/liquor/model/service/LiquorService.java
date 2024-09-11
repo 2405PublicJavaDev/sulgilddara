@@ -110,4 +110,10 @@ public interface LiquorService {
 	 */
 	int detailSearchTotalCount(Map<String, Object> searchMap);
 
+	/**
+	 * 리뷰많은 주류 조회 Service
+	 * @return
+	 */
+	List<LiquorDetail> getPopularLiquor();
+
 }

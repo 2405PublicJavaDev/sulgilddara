@@ -106,4 +106,10 @@ public class LiquorServiceImpl implements LiquorService{
 		return count;
 	}
 
+	@Override
+	public List<LiquorDetail> getPopularLiquor() {
+		List<LiquorDetail> lList = mapper.getPopularLiquor();
+		return lList;
+	}
+
 }
