@@ -1,8 +1,12 @@
 package com.makjan.sulgilddara.user.model.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.user.model.vo.User;
 import com.makjan.sulgilddara.user.model.vo.UserFile;
 
@@ -86,4 +90,18 @@ public interface UserMapper {
 	 * @param password
 	 */
 	void updatePassword(@Param("userId")String userId, @Param("password") String password);
+
+	/**
+	 * 투어 예약 조회 Mapper
+	 * @param userId
+	 * @return List<Reservation>
+	 */
+	List<Reservation> selectReservationList(String userId);
+
+	/**
+	 * 내가 쓴 댓글 조회 Mapper
+	 * @param userId
+	 * @return List<Board>
+	 */
+	List<Board> selectReviewList(String userId);
 }

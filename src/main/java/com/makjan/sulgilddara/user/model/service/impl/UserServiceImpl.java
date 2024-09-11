@@ -2,6 +2,7 @@ package com.makjan.sulgilddara.user.model.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.common.utility.Util;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.user.common.mail.SendEmailService;
 import com.makjan.sulgilddara.user.model.mapper.UserMapper;
 import com.makjan.sulgilddara.user.model.service.UserService;
@@ -153,4 +156,18 @@ public class UserServiceImpl implements UserService {
         }
         return sb.toString();
     }
+
+    // 투어 예약 조회 Service
+	@Override
+	public List<Reservation> selectReservationList(String userId) {
+		List<Reservation> rList = mapper.selectReservationList(userId);
+		return rList;
+	}
+
+	// 내가 쓴 리뷰 조회 Service
+	@Override
+	public List<Board> selectReviewList(String userId) {
+		List<Board> bList = mapper.selectReviewList(userId);
+		return bList;
+	}
 }
