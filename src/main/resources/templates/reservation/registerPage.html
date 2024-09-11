@@ -28,23 +28,33 @@
             </ul>
         </nav>
     </header>
+    
+    
     <main>
 	<div class="reservation-info">
-		<div class="breweryInfo" th:text="${tour.breweryName}"></div>
-		<div class="breweryInfo1" th:text="${tour.breweryAddr}"></div>
-		<div class="breweryInfo1" th:text="${tour.breweryPhone}"></div>
+		<div class="breweryInfo">
+			<div class="breweryTitle" th:text="${tour.breweryName}"></div>
+			<div class="Info" th:text="${tour.breweryAddr}"></div>
+			<div class="Info" th:text="${tour.breweryPhone}"></div>
+		</div>
+		<div class="tourTitle" th:text="${tour.tourName}"></div>
+		<div class="tour-info">
+			<div class="tourInfo" th:text="${tour.tourPrice + '원'}"></div>|
+			<div class="tourInfo" th:text="${tour.timeTaken}"></div>
+		</div>
 	</div>
+	
+	
 	<form th:action="@{/reservation/register}" method="POST">
 		<div class="reservationDate">
 			<h3>방문일자 선택</h3>
-			날짜*
-			<div id="reserveDate">			
-			</div> 
-			<input id="reserveDateInput" type="hidden" name="reserveDate" value="111">
+			<h3>날짜*</h3>
+			<div id="reserveDate"></div> 
+			<input id="reserveDateInput" type="hidden" name="reserveDate" value="111" >
 			<div class="DateData"></div>
 		</div>
 
-		<div class="reservation-info">
+		<div class="reservation-info1">
 			<h2>예약자 정보</h2>
 
 			<div class="form-group">
@@ -100,55 +110,65 @@
     </footer>
 
 	<script>
-		let currentYear, currentMonth;
+	let currentYear, currentMonth;
+	let selectedDate = null;
 
-		function createCalendar(year, month) {
-			currentYear = year;
-			currentMonth = month;
-			const date = new Date(year, month - 1);
-			const daysInMonth = new Date(year, month, 0).getDate();
-			const firstDay = new Date(year, month - 1, 1).getDay();
+	function createCalendar(year, month) {
+	    currentYear = year;
+	    currentMonth = month;
+	    const date = new Date(year, month - 1);
+	    const daysInMonth = new Date(year, month, 0).getDate();
+	    const firstDay = new Date(year, month - 1, 1).getDay();
 
-			let html = '<table>';
-			html += '<tr class="header">';
-			html += '<th colspan="7">';
-			html += '<button onclick="changeMonth(-1)">&lt;</button>';
-			html += year + '년 ' + month + '월';
-			html += '<button onclick="changeMonth(1)">&gt;</button>';
-			html += '</th></tr>';
-			html += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>';
+	    let html = '<table>';
+	    html += '<tr class="header">';
+	    html += '<th colspan="7">';
+	    html += '<button onclick="changeMonth(-1)">&lt;</button>';
+	    html += year + '년 ' + month + '월';
+	    html += '<button onclick="changeMonth(1)">&gt;</button>';
+	    html += '</th></tr>';
+	    html += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>';
 
-			let day = 1;
-			for (let i = 0; i < 6; i++) {
-				html += '<tr>';
-				for (let j = 0; j < 7; j++) {
-					if (i === 0 && j < firstDay) {
-						html += '<td></td>';
-					} else if (day > daysInMonth) {
-						html += '<td></td>';
-					} else {
-						html += '<td onclick="selectDate(' + year + ',' + month
-								+ ',' + day + ')">' + day + '</td>';
-						day++;
-					}
-				}
-				html += '</tr>';
-				if (day > daysInMonth) {
-					break;
-				}
-			}
-			html += '</table>';
+	    let day = 1;
+	    for (let i = 0; i < 6; i++) {
+	        html += '<tr>';
+	        for (let j = 0; j < 7; j++) {
+	            if (i === 0 && j < firstDay) {
+	                html += '<td></td>';
+	            } else if (day > daysInMonth) {
+	                html += '<td></td>';
+	            } else {
+	                html += `<td onclick="selectDate(this, ${year}, ${month}, ${day})">${day}</td>`;
+	                day++;
+	            }
+	        }
+	        html += '</tr>';
+	        if (day > daysInMonth) {
+	            break;
+	        }
+	    }
+	    html += '</table>';
 
-			document.querySelector('.DateData').innerHTML = html;
-		}
+	    document.querySelector('.DateData').innerHTML = html;
+	}
 
-		function selectDate(year, month, day) {
-			const selectedDate = year + '년 ' + month + '월 ' + day + '일';
-			document.getElementById('reserveDate').textContent = selectedDate;
-			document.querySelector("#reserveDateInput").value = year + '-'
-					+ String(month).padStart(2, '0') + '-'
-					+ String(day).padStart(2, '0');
-		}
+	function selectDate(cell, year, month, day) {
+	    // 이전에 선택된 셀의 색상을 제거
+	    const prevSelected = document.querySelector('.DateData td.selected');
+	    if (prevSelected) {
+	        prevSelected.classList.remove('selected');
+	    }
+
+	    // 현재 선택된 셀에 색상 추가
+	    cell.classList.add('selected');
+
+	    const selectedDate = year + '년 ' + month + '월 ' + day + '일';
+
+	    document.getElementById('reserveDate').textContent = selectedDate;
+	    document.querySelector("#reserveDateInput").value = year + '-'
+	        + String(month).padStart(2, '0') + '-'
+	        + String(day).padStart(2, '0');
+	}
 
 		function changeMonth(delta) {
 			currentMonth += delta;
