@@ -190,9 +190,9 @@ public class UserController {
 	public String checkLogout(Model model, HttpSession session) {
 			if(session != null) {
 				session.invalidate();
-				return "user/userLogin";
+				return "redirect:/";
 			} else {
-				return "user/userLogin";
+				return "redirect:/";
 			}
 		} 
 	
