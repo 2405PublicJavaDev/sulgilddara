@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
 	<head>
 		<meta charset="UTF-8">
 		<title>양조장 정보 등록</title>
@@ -53,73 +52,119 @@
 		</style>
 	</head>
 	<body>
-		<h1>양조장 등록</h1>
-		<form action="/brewery/write" method="post" enctype="multipart/form-data">
-			<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
-			지역 
-			<select id="local" name="breweryLocal">
-				<option value="sudo">수도권</option>
-				<option value="gang">강원</option>
-				<option value="chung">충청</option>
-				<option value="gyeong">경상</option>
-				<option value="jeoll">전라</option>
-				<option value="jeju">제주</option>
-			</select> <br>
-			주소 <input type="text" placeholder="주소 입력" name="breweryAddr"> <br>
-			번호 <input type="text" placeholder="번호 입력" name="breweryPhone"> <br>
-			오픈시간 <input type="time" name="openTime" value="09:00"> <br>
-			마감시간 <input type="time" name="closeTime" value="18:00"> <br>
-			홈페이지 <input type="text" placeholder="홈페이지 입력" name="breweryUrl"> <br>
-			첨부파일 <input type="file" name="uploadFile"> <br>
-			해시태그 <input type="text" name="breweryTagName"> <br>
-			편의시설
-			<div style="border: 1px solid black;">
-			    <label for="park">
-        			<input type="checkbox" id="park" name="facilities" value="park"> 주차장
-    			</label>
-			    <label for="restroom">
-        			<input type="checkbox" id="restroom" name="facilities" value="restroom"> 화장실
-    			</label>
-			    <label for="wifi">
-        			<input type="checkbox" id="wifi" name="facilities" value="wifi"> 와이파이
-    			</label>
-			    <label for="air-conditioner">
-        			<input type="checkbox" id="air-conditioner" name="facilities" value="air-conditioner"> 에어컨
-    			</label>
-    			<label for="cafe">
-        			<input type="checkbox" id="cafe" name="facilities" value="cafe"> 카페
-    			</label>
-    			<label for="information">
-        			<input type="checkbox" id="information" name="facilities" value="information"> 유도 및 안내시설
-    			</label>
-    			<label for="luggage">
-        			<input type="checkbox" id="luggage" name="facilities" value="luggage"> 짐 보관 가능
-    			</label>
-    			<label for="non-smoking">
-        			<input type="checkbox" id="non-smoking" name="facilities" value="non-smoking"> 금연
-    			</label>
-    			<label for="smoking">
-        			<input type="checkbox" id="smoking" name="facilities" value="smoking"> 흡연구역
-    			</label>
-    			<label for="restaurant">
-        			<input type="checkbox" id="restaurant" name="facilities" value="restaurant"> 레스토랑
-    			</label> <br>
-    			키즈존
-		        <label for="kidsZoneYes">
-			        <input type="radio" id="kidsZoneYes" name="kidsZone" value="yes"> 입장 가능
-			    </label>
-			    <label for="kidsZoneNo">
-			        <input type="radio" id="kidsZoneNo" name="kidsZone" value="no"> 입장 불가
-			    </label> <br>
-			    장애인 편의시설
-			    <label for="disabledFriendlyYes">
-			        <input type="radio" id="disabledFriendlyYes" name="disFriendly" value="yes"> 휠체어 출입구
-			    </label>
-			    <label for="disabledFriendlyNo">
-			        <input type="radio" id="disabledFriendlyNo" name="disFriendly" value="no"> 별도 시설 없음
-		       </label>
-		    </div>
-			<input type="submit" value="등록">
+		<header>
+			<div class="header-top">
+				<div style="width: 100px;;"></div>
+				<div id="logo-container">
+					<img src="../../img/logo.png" alt="" id="logo">
+					<h1>술길따라</h1>
+				</div>
+				<div class="user-actions">
+					<a href="#" class="icon-user"><img class="header-img" src="../../img/free-icon-user-17095347.png"
+							alt=""></a>
+					<a href="#" class="icon-menu"><img class="header-img" src="../../img/free-icon-menu-3856832.png"
+							alt=""></a>
+				</div>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="#story">술길따라 이야기</a></li>
+					<li><a href="#brewery">양조장 탐방</a></li>
+					<li><a href="#guide">술 도감</a></li>
+					<li><a href="#tour">투어 예약</a></li>
+					<li><a href="#tales">술 이야기</a></li>
+				</ul>
+			</nav>
+		</header>
+		
+		<main>
+			<h1>양조장 등록</h1>
+			<form action="/brewery/write" method="post" enctype="multipart/form-data">
+				<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
+				지역 
+				<select id="local" name="breweryLocal">
+					<option value="sudo">수도권</option>
+					<option value="gang">강원</option>
+					<option value="chung">충청</option>
+					<option value="gyeong">경상</option>
+					<option value="jeoll">전라</option>
+					<option value="jeju">제주</option>
+				</select> <br>
+				주소 <input type="text" placeholder="주소 입력" name="breweryAddr"> <br>
+				번호 <input type="text" placeholder="번호 입력" name="breweryPhone"> <br>
+				오픈시간 <input type="time" name="openTime" value="09:00"> <br>
+				마감시간 <input type="time" name="closeTime" value="18:00"> <br>
+				홈페이지 <input type="text" placeholder="홈페이지 입력" name="breweryUrl"> <br>
+				첨부파일 <input type="file" name="uploadFile"> <br>
+				해시태그 <input type="text" name="breweryTagName"> <br>
+				편의시설
+				<div style="border: 1px solid black;">
+					<label for="park">
+						<input type="checkbox" id="park" name="facilities" value="park"> 주차장
+					</label>
+					<label for="restroom">
+						<input type="checkbox" id="restroom" name="facilities" value="restroom"> 화장실
+					</label>
+					<label for="wifi">
+						<input type="checkbox" id="wifi" name="facilities" value="wifi"> 와이파이
+					</label>
+					<label for="air-conditioner">
+						<input type="checkbox" id="air-conditioner" name="facilities" value="air-conditioner"> 에어컨
+					</label>
+					<label for="cafe">
+						<input type="checkbox" id="cafe" name="facilities" value="cafe"> 카페
+					</label>
+					<label for="information">
+						<input type="checkbox" id="information" name="facilities" value="information"> 유도 및 안내시설
+					</label>
+					<label for="luggage">
+						<input type="checkbox" id="luggage" name="facilities" value="luggage"> 짐 보관 가능
+					</label>
+					<label for="non-smoking">
+						<input type="checkbox" id="non-smoking" name="facilities" value="non-smoking"> 금연
+					</label>
+					<label for="smoking">
+						<input type="checkbox" id="smoking" name="facilities" value="smoking"> 흡연구역
+					</label>
+					<label for="restaurant">
+						<input type="checkbox" id="restaurant" name="facilities" value="restaurant"> 레스토랑
+					</label> <br>
+					키즈존
+					<label for="kidsZoneYes">
+						<input type="radio" id="kidsZoneYes" name="kidsZone" value="yes"> 입장 가능
+					</label>
+					<label for="kidsZoneNo">
+						<input type="radio" id="kidsZoneNo" name="kidsZone" value="no"> 입장 불가
+					</label> <br>
+					장애인 편의시설
+					<label for="disabledFriendlyYes">
+						<input type="radio" id="disabledFriendlyYes" name="disFriendly" value="yes"> 휠체어 출입구
+					</label>
+					<label for="disabledFriendlyNo">
+						<input type="radio" id="disabledFriendlyNo" name="disFriendly" value="no"> 별도 시설 없음
+				    </label>
+				</div>
+				<input type="submit" value="등록">
+		</main>
+			
+		<footer>
+			<nav>
+	            <a href="#">이용약관</a> |
+	            <a href="#">개인정보처리방침</a> |
+	            <a href="#">사이트맵</a>
+	        </nav>
+	        <div class="company-info">
+	            <p>상호 : 술길따라 | 대표이사 : 김정욱 | 설립일 : 2024년 8월 26일 | 개인정보관리책임자 : 홍예은</p>
+	            <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
+	        </div>
+	        <div class="social-icons">
+	            <a href="#" class="icon-facebook"><img src="../../img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
+	            <a href="#" class="icon-instagram"><img src="../../img/free-icon-instagram-4922972.png" alt=""></a>
+	        </div>
+	        <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
+		</footer>
+		
+		
 		</form>
 	</body>
 	<script>
@@ -133,32 +178,4 @@
 		    }
 		});
 	</script>
-=======
-<head>
-<meta charset="UTF-8">
-<title>양조장 정보 등록</title>
-</head>
-<body>
-	<h1>양조장 등록</h1>
-	<form action="/brewery/write" method="post" enctype="multipart/form-data">
-		<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
-		지역 
-		<select id="local" name="breweryLocal">
-			<option value="sudo">수도권</option>
-			<option value="gang">강원</option>
-			<option value="chung">충청</option>
-			<option value="gyeong">경상</option>
-			<option value="jeoll">전라</option>
-			<option value="jeju">제주</option>
-		</select> <br>
-		주소 <input type="text" placeholder="주소 입력" name="breweryAddr"> <br>
-		번호 <input type="text" placeholder="번호 입력" name="breweryPhone"> <br>
-		오픈시간 <input type="time" name="openTime" value="09:00"> <br>
-		마감시간 <input type="time" name="closeTime" value="18:00"> <br>
-		홈페이지 <input type="text" placeholder="홈페이지 입력" name="breweryUrl"> <br>
-		첨부파일 <input type="file" name="uploadFile"> <br>
-		<input type="submit" value="등록">
-	</form>
-</body>
->>>>>>> 6317c83cb8712b3731ff722bc6eeb2dc2fc5eed2
 </html>

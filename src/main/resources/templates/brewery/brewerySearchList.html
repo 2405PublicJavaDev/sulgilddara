@@ -5,7 +5,7 @@
 		<title>양조장 리스트</title>
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-		<link rel="stylesheet" href="../../css/breweryList.css">
+		<link rel="stylesheet" href="../../css/brewery/brewerySearchList.css">
 
 	</head>
 	<body>
@@ -64,27 +64,20 @@
 		            </td>
 		        </tr>
 	        </table>
-	        <div th:each="brewery : ${sList}" th:unless="${#lists.isEmpty(sList)}">
-			    <div class="detail-div">
-			        <div class="img-div" 
-			             th:style="'background-image: url(' + @{${brewery.filePath}|${brewery.fileRename}} + ');'"
-			             th:onclick="'goToBreweryDetail(' + ${brewery.breweryNo} + ')'"></div>			        
-			        <ul class="text-div">
-			            <li class="name"
-			                th:onclick="'goToBreweryDetail(' + ${brewery.breweryNo} + ')'"
-			                th:text="${brewery.breweryName}"></li>
-			            <li><b>주소</b> | <span th:text="${brewery.breweryAddr}"></span></li>
-			            <li><b>주종</b> | <span th:text="${liquorTypes}"></span></li>
-			            <li th:text="${hashTags}"></li>
-			        </ul>
-			    </div>
-			</div>
-			<div id="breweryListContainer"></div>
-			<div class="tag-container">
-				<div class="tag-div" th:each="tag : ${tList}">
-					<a href="#" th:text="${tag.breweryTagName}"></a>
+				<div th:each="breweryData : ${breweryDataList}">
+				    <div class="detail-div">
+				        <div class="img-div" 
+				             th:style="'background-image: url(' + @{${breweryData.brewery.filePath} + '/' + ${breweryData.brewery.fileRename}} + ');'"
+				             th:onclick="'goToBreweryDetail(' + ${breweryData.brewery.breweryNo} + ')'"></div>
+				        <ul class="text-div">
+				            <li class="name" th:text="${breweryData.brewery.breweryName}"></li>
+				            <li><b>주소</b> | <span th:text="${breweryData.brewery.breweryAddr}"></span></li>
+							<li><b>주종</b> | <span th:each="liquorType : ${breweryData.liquors}" th:text="${liquorType}" /></li>
+				            <li><span th:each="tag : ${breweryData.tags}" th:text="${tag.breweryTagName + ' '}" />
+				        </ul>
+				    </div>
 				</div>
-			</div>
+			<div id="breweryListContainer"></div>
 		</main>
 		
 		<footer>
@@ -108,6 +101,6 @@
 
 	<script>
 	    function goToBreweryDetail(breweryNo) {
-	    	window.location.href = `/brewery/detail/${breweryNo}`;
+	        window.location.href = `/brewery/detail/${breweryNo}`;
 	    }
 	</script>

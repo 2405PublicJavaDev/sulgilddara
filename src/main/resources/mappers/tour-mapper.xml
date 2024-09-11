@@ -22,7 +22,7 @@
 	  	SELECT * FROM TOUR_TBL WHERE BREWERY_NO=#{breweryNo}
 	  </select>
 	  <select id="searchOneByNo" resultType="Tour">
-	  SELECT * FROM TOUR_TBL join brewery_tbl using(brewery_no) WHERE TOUR_No=#{tourNo};
+	  SELECT * FROM TOUR_TBL join brewery_tbl using(brewery_no) WHERE TOUR_No=#{tourNo}
 	  </select>
 	  <update id="updateTour">
 	  	UPDATE TOUR_TBL
