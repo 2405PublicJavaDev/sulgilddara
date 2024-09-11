@@ -115,6 +115,8 @@ public class LiquorController {
 	@RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
 	public String liquorSearch(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model, @ModelAttribute LiquorSearchInfo sInfo) {
 		System.out.println("sInfo:"+sInfo);
+		System.out.println("sInfo:"+sInfo);
+		System.out.println("sInfo:"+sInfo);
 		
 		
 		//상세검색 수행을 위한 데이터 구조
@@ -153,6 +155,9 @@ public class LiquorController {
 		
 		//페이징 데이터 처리
 		int totalCount = lService.detailSearchTotalCount(searchMap);
+		System.out.println("totalCount:"+totalCount);
+		System.out.println("totalCount:"+totalCount);
+		System.out.println("totalCount:"+totalCount);
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
 		pn.setBoardLimit(12);
 		int limit = pn.getBoardLimit();
