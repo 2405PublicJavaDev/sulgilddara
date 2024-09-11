@@ -201,34 +201,34 @@ footer nav a {
 
 /* user.css */
 
-    .findId-section {
+    .delete-section {
         background-color: #f9f8f8;
         padding: 50px 50px 0px 50px;
         margin: 50px 400px;
-        height: 500px;
+        height: 630px;
     }
 
-    .findId-section ul, .findId-section li {
+    .delete-section ul, .delete-section li {
         list-style: none;
     }
 
-    .findId-section h2 {
+    .delete-section h2 {
         text-align: center;
     }
-        .findId-form {
+        .delete-form {
             text-align: center;
             margin-top: 30px;
             font-size: 1.5em;
             padding: 0px 50px;
         }
 
-        .findId-form label {
+        .delete-form label {
             width: 20%;
             float: left;
             margin-top: 30px;
         }
 
-        .findId-form input{
+        .delete-form input{
             float: left;
             width: 80%;
             margin: 10px 0;
@@ -238,12 +238,12 @@ footer nav a {
             font-family: 'Noto Serif KR', serif;
         }
 
-    .findId-section button {
+    .delete-section button {
         font-size: 1.8em;
         font-weight: bold;
         font-family: 'Noto Serif KR', serif;
     }
-    .findId-form button{
+    .delete-form button{
         text-align: center;
         float: left;
         width: 85%;
@@ -255,35 +255,63 @@ footer nav a {
         color: white;
     }
 
-    .findId-form .result {
-        text-align: center;
-        margin-top: 100px;
-        font-size: 1.1em;
-        color: #333;
+    aside {
+        width: 15%;
+        float: left;
     }
+
+        #aside-main {
+            margin: 20px 0px 0px 40px;
+            background-color: #323240;
+            border-radius: 30px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+        }
+
+            #aside-content {
+                align-content: space-between;
+                font-size: 1.8em;
+                color: white;
+                margin : 50px 0px;
+                text-align: center;
+            }
+
+            #aside-content li {
+                
+                padding-top: 30px;
+                text-decoration: none;
+                list-style: none;
+            }
+
+                #aside-content li a {
+                    --color: black;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                #aside-content li a:hover {
+                    font-weight: 600;
+
+                }
+
+                #aside-content li a.active {
+                    font-weight: 600;
+                }
+
+                .mypage-header {
+                    margin-top: 50px;
+                }
+        .delete-notice {
+            background-color: #F2EADF;
+            margin: 30px;
+            padding: 50px 20px 50px 20px;
+            box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.1);
+        }
     
-    .findId-form .result h2 {
-        font-size: 1.8em;
-        margin-bottom: 20px;
-    }
-    
-    .findId-form .result a {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 10px 100px;
-        background-color: #323240;
-        color: white;
-        text-decoration: none;
-        font-size: 1.0em;
-        border-radius: 2px;
-    }
-    
-    .findId-form .result a:hover {
-        background-color: #555;
-    }
-    
-    
-    .dropdown {
+        
+/* 네비게이션 드롭다운 bar css */
+        .dropdown {
             position: relative;
             display: inline-block;
         }
@@ -303,7 +331,7 @@ footer nav a {
             background-color: #f9f9f9;
             min-width: 120px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 2;
+            z-index: 1;
             right: 0;
             font-size: 1.3em;
             font-weight:400;

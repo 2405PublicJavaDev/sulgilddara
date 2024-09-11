@@ -335,6 +335,54 @@ footer nav a {
     .requireds {
         text-align: right;
     }
+
+    aside {
+        width: 15%;
+        float: left;
+    }
+
+        #aside-main {
+            margin: 20px 0px 0px 40px;
+            background-color: #323240;
+            border-radius: 30px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+        }
+
+            #aside-content {
+                align-content: space-between;
+                font-size: 1.8em;
+                color: white;
+                margin : 50px 0px;
+                text-align: center;
+            }
+
+            #aside-content li {
+                
+                padding-top: 30px;
+                text-decoration: none;
+                list-style: none;
+            }
+
+                #aside-content li a {
+                    --color: black;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                #aside-content li a:hover {
+                    font-weight: 600;
+
+                }
+
+                #aside-content li a.active {
+                    font-weight: 600;
+                }
+
+                .mypage-header {
+                    margin-top: 50px;
+                }
     
 /* 네비게이션 드롭다운 bar css */
         .dropdown {
@@ -382,4 +430,9 @@ footer nav a {
 		.user-name {
 			padding: 12px 16px;
 			display : block;
+		}
+		
+		.logo-link {
+			text-decoration: none; /* 링크의 밑줄 제거 */  
+			color: inherit; /* 링크의 색상 제거 */
 		}
