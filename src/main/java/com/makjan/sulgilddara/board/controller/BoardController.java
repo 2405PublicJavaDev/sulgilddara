@@ -64,8 +64,9 @@ public class BoardController {
 		
 		// 태그 전체 리스트 조회
 		List<BoardTag> bTagList = bService.selectBoardTagList();
-		// 태그 중복X 리스트 조회
+		// 태그 중복X 리스트 조회 - 상위 30개
 		List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
+		bTagListDistinct = bTagListDistinct.size() > 30 ? bTagListDistinct.subList(0, 30) : bTagListDistinct;
 		// 파일 전체 리스트 조회
 		List<BoardFile> bFileList = bService.selectBoardFileList(); 
 		
@@ -104,6 +105,7 @@ public class BoardController {
 		List<BoardTag> bTagList = bService.selectBoardTagList();
 		// 태그 중복X 리스트 조회
 		List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
+		bTagListDistinct = bTagListDistinct.size() > 30 ? bTagListDistinct.subList(0, 30) : bTagListDistinct;
 		// 파일 전체 리스트 조회
 		List<BoardFile> bFileList = bService.selectBoardFileList(); 
 		
@@ -441,6 +443,7 @@ public class BoardController {
 				List<BoardTag> bTagList = bService.selectBoardTagList();
 				// 태그 중복X 리스트 조회
 				List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
+				bTagListDistinct = bTagListDistinct.size() > 30 ? bTagListDistinct.subList(0, 30) : bTagListDistinct;
 				// 파일 전체 리스트 조회
 				List<BoardFile> bFileList = bService.selectBoardFileList(); 
 				if(map != null) {
@@ -487,6 +490,7 @@ public class BoardController {
 				List<BoardTag> bTagList = bService.selectBoardTagList();
 				// 태그 중복X 리스트 조회
 				List<BoardTag> bTagListDistinct = bService.selectBoardTagListDistinct();
+				bTagListDistinct = bTagListDistinct.size() > 30 ? bTagListDistinct.subList(0, 30) : bTagListDistinct;
 				// 파일 전체 리스트 조회
 				List<BoardFile> bFileList = bService.selectBoardFileList(); 
 				if(map != null) {

@@ -9,49 +9,6 @@
 		<link rel="stylesheet" href="../css/board/listCard.css">
 		<link rel="stylesheet" href="../css/board/footer.css">
 		
-		<style type="text/css">
-/* 	        .tag-list { */
-/* 	            display: flex; */
-/* 	            flex-wrap: wrap; */
-/* 	            gap: 10px; */
-/* 	            margin-bottom: 20px; */
-/* 	        } */
-/* 	        .tag { */
-/* 	            background-color: #f8f8f8; */
-/* 	            border: 1px solid #ddd; */
-/* 	            border-radius: 20px; */
-/* 	            padding: 5px 15px; */
-/* 	            font-size: 14px; */
-/* 	            color: #333; */
-/* 	        } */
-/* 	        .view-options { */
-/* 	            display: flex; */
-/* 	            justify-content: space-between; */
-/* 	            align-items: center; */
-/* 	            margin-bottom: 20px; */
-/* 	        } */
-/* 	        .view-type a { */
-/* 	            margin-right: 10px; */
-/* 	            text-decoration: none; */
-/* 	            color: #333; */
-/* 	        } */
-/* 	        .sort-select select { */
-/* 	            padding: 5px; */
-/* 	        } */
-/* 	        .review-grid { */
-/* 	            display: grid; */
-/* 	            /* 각 열의 최소 너비를 250픽셀로 설정합니다. */ */
-/* 				/* 각 열의 최대 너비를 가용 공간에 따라 비율적으로 설정합니다. 즉, 가용 공간이 많을수록 열이 커지며, 모든 열이 동일한 비율로 공간을 나눕니다. */ */
-/* 	            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));  */
-
-/* 	            gap: 20px; */
-/* 	        } */
-	        
-
-			
-		</style>
-
-		
 	</head>
 	<body>
 		<header>
@@ -165,19 +122,18 @@
 					<a style="display: block; text-decoration: none" th:href="@{/board/detailPage/{boardNo}/{viewStatus}(boardNo=${board.boardNo}, viewStatus='yes')}">
 						<div class="boardOne">
 							<div class="review-header">
-			                    <h3 th:text="'['+${board.liquorName}+'] '+${#strings.length(board.boardSubject) > 15 ? board.boardSubject.substring(0, 15) + ' . . .' : board.boardSubject}"></h3>
+			                    <h3 th:text="'['+${board.liquorName}+'] '+ ${#strings.length(board.boardSubject) > 15 ? board.boardSubject.substring(0, 15) + ' . . .' : board.boardSubject}"></h3>
 
-				                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 2}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 2.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 3}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 3.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 4}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 4.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
-				                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-				                    
+			                    <div class="starContainer" th:if="${board.boardPoint == 0.5}"><i class="fa-solid fa-star-half"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 1}"><i class="fa-solid fa-star"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 1.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 2}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 2.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 3}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 3.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 4}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 4.5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+			                    <div class="starContainer"  th:if="${board.boardPoint == 5}"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
 		                	</div>
 	                	
 							<div class="review-content">

@@ -215,7 +215,7 @@
 				</div>
 				<div style="display: flex; justify-content: flex-end;">
 					<button type="submit" onclick="return validateForm()">수정</button> 
-					<button type="button" onclick="goBack();">취소</button>
+					<button type="button" onclick="if(confirm('정말 나가시겠습니까? 수정된 사항은 저장되지 않습니다.')) goBack();">취소</button>
 					<button type="button" th:onclick="boardDelete(/*[[${board.boardNo}]]*/);">삭제</button>
 				</div>
 			</form>
