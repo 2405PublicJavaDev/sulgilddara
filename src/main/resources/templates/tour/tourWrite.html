@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>투어 정보 등록</title>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="/css/tour/tourWrite.css">
 	</head>
 	<body>
@@ -51,21 +52,46 @@
 	    </header>
 	
 		<div class="content-wrapper">
-            <main class="main-content">
-	
-			    <h1>투어 등록</h1>
-			    <form action="/tour/write" method="post" enctype="multipart/form-data">
-			        체험 프로그램 <br>
-			        <input type="hidden" name="breweryNo" th:value="${breweryNo}">
-			        <input type="text" placeholder="프로그램명 입력" name="tourName"> <br>
-					첨부파일 <input type="file" name="uploadFile"> <br><br>
-					<textarea placeholder="프로그램 소개 입력" name=tourContent></textarea> <br>
-					<input type="text" placeholder="소요시간 입력" name="timeTaken"> <br>
-					<input type="text" placeholder="금액 입력" name="tourPrice"> <br>
-					<input type="submit" value="등록">
-			    </form>
+		    <main class="main-content">
+		        <form action="/tour/write" method="post" enctype="multipart/form-data">
+		            <!-- 프로그램명 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="tourName">체험 프로그램</label>
+		                <input type="hidden" name="breweryNo" th:value="${breweryNo}">
+		                <input type="text" id="tourName" name="tourName" class="form-input" placeholder="프로그램명 입력" required>
+		            </div>
+		            
+		            <!-- 첨부파일 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="uploadFile">첨부파일</label>
+		                <input type="file" id="uploadFile" name="uploadFile" class="file-input">
+		            </div>
+		            
+		            <!-- 프로그램 소개 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="tourContent">프로그램 소개</label>
+		                <textarea id="tourContent" name="tourContent" class="form-input" rows="4" placeholder="프로그램 소개 입력" required></textarea>
+		            </div>
+		            
+		            <!-- 소요시간 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="timeTaken">소요시간</label>
+		                <input type="text" id="timeTaken" name="timeTaken" class="form-input" placeholder="소요시간 입력" required>
+		            </div>
+		            
+		            <!-- 금액 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="tourPrice">금액</label>
+		                <input type="text" id="tourPrice" name="tourPrice" class="form-input" placeholder="금액 입력" required>
+		            </div>
+		            
+		            <!-- 등록 버튼 -->
+		            <div class="form-group">
+		                <button type="submit" class="submit-button">등록</button>
+		            </div>
+		        </form>
 		    </main>
-	    </div>
+		</div>
 	    
 	    <footer>
 	        <nav>

@@ -294,6 +294,9 @@ public class BreweryController {
 		paramMap.put("searchKeyword", searchKeyword);
 		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
 		List<Map<String, Object>> breweryDataList = new ArrayList<>();
+		if (searchList == null) {
+		    searchList = new ArrayList<>();
+		}
 	    for (Brewery brewery : searchList) {
 	        Map<String, Object> breweryData = new HashMap<>();
 	        breweryData.put("brewery", brewery);
@@ -312,7 +315,9 @@ public class BreweryController {
 
 	        breweryDataList.add(breweryData);
 	    }
-
+	    if (breweryDataList.isEmpty()) {
+	        model.addAttribute("message", "검색 결과가 없습니다.");
+	    }
 	    model.addAttribute("breweryDataList", breweryDataList);
 	    model.addAttribute("searchKeyword", searchKeyword);
 	    model.addAttribute("searchCondition", searchCondition);
@@ -339,6 +344,9 @@ public class BreweryController {
 		paramMap.put("searchKeyword", searchKeyword);
 		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
 		List<Map<String, Object>> breweryDataList = new ArrayList<>();
+		if (searchList == null) {
+		    searchList = new ArrayList<>();
+		}
 	    for (Brewery brewery : searchList) {
 	    	Map<String, Object> breweryData = new HashMap<>();
 	    	List<String> liquorStr = new ArrayList<String>();
@@ -356,7 +364,9 @@ public class BreweryController {
 
 	        breweryDataList.add(breweryData);
 	    }
-
+//	    if (breweryDataList.isEmpty()) {
+//	        model.addAttribute("message", "검색 결과가 없습니다.");
+//	    }
 	    model.addAttribute("breweryDataList", breweryDataList);
 	    model.addAttribute("searchKeyword", searchKeyword);
 	    model.addAttribute("searchCondition", searchCondition);
