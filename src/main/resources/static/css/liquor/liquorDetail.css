@@ -74,10 +74,9 @@ header nav ul {
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: black;
-    /* font-size: 1.2rem; */
-    font-size: 18px;
+	text-decoration: none;
+	color: black;
+	font-size: 18px;
 }
 
 .user-actions {
@@ -222,15 +221,15 @@ footer nav {
 }
 
 footer nav a {
-    text-decoration: none;
-    color: black;
-    font-size: 1rem;
+	text-decoration: none;
+	color: black;
+	font-size: 15px;
 }
 
 .company-info {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 20px;
+	font-size: 13px;
+	line-height: 1.5;
+	margin-bottom: 20px;
 }
 
 .social-icons {
@@ -250,7 +249,7 @@ footer nav a {
 }
 
 .copyright {
-    font-size: 0.8rem;
+	font-size: 10px;
 }
 
 #logo{
@@ -275,17 +274,17 @@ footer nav a {
         }
         
         .mypage-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 120px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 2;
-            right: 0;
-            font-size: 1.3em;
-            font-weight:400;
-            --text-align: center;
-        }
+			display: none;
+			position: absolute;
+			background-color: #F9F9F9;
+			min-width: 120px;
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			z-index: 2;
+			right: 0;
+			font-size: 13px;
+			font-weight: 400;
+			--text-align: center;
+		}
         
         .mypage-content a {
             color: black;
