@@ -31,6 +31,8 @@ public class SendEmailService {
         sendMail(mail);
     }
 
+	// 새로운 임시번호 생성함
+	// 대문자와 숫자로 이루어진 랜덤의 10글자 임시비밀번호 생성
     private String generateTempPassword() {
         char[] charSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -41,6 +43,7 @@ public class SendEmailService {
         return sb.toString();
     }
 
+    // 메일 생성 - 주소/ 타이틀/ 내용 설정
     private Mail createMail(String userId, String email, String tempPassword) {
         Mail mail = new Mail();
         mail.setAddress(email);
@@ -52,6 +55,7 @@ public class SendEmailService {
         return mail;
     }
 
+    // 임시비밀번호를 해당 유저의 비밀번호로 업데이트함
     private void updatePassword(String userId, String tempPassword) {
         String encryptedPassword = EncryptionUtils.encryptMD5(tempPassword);
         User user = mapper.selectOneById(userId);
@@ -61,6 +65,7 @@ public class SendEmailService {
         }
     }
 
+    // 메일 전송
     public void sendMail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail.getAddress());

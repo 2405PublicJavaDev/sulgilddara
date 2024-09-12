@@ -90,4 +90,11 @@ public interface UserService {
 	 */
 	List<Board> selectReviewList(String userId);
 
+	/**
+	 * 아이디 중복 체크 Service
+	 * @param userId
+	 * @return true/false
+	 */
+	boolean isUserIdDuplicate(String userId);
+
 }
