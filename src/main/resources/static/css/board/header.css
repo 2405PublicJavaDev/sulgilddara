@@ -23,7 +23,7 @@ header {
 #logo-container{
     display: flex;
     flex-direction: row;
-    
+    align-items: center;
 }
 
 .header-img{
@@ -51,6 +51,8 @@ header {
 h1 {
     font-size: 36px;
     font-weight: 800;
+    margin:0px;
+    color:black;
 }
 
 nav ul {
@@ -64,7 +66,6 @@ nav ul {
 nav ul li a {
     text-decoration: none;
     color: black;
-    /* font-size: 1.2rem; */
     font-size: 18px;
 }
 
@@ -111,7 +112,7 @@ nav ul li a {
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 2;
             right: 0;
-            font-size: 1.3em;
+            font-size: 13px;
             font-weight:400;
             --text-align: center;
         }

@@ -96,37 +96,6 @@ body, html {
 }
 
 
-@media (min-width: 1024px) {
-    .header-img{
-        margin: 10px 20px;
-        flex: 1;
-        min-width: 0;
-    }
-    .user-actions {
-        display: flex;
-        gap: 20px;
-    }
-    
-    .icon-user{
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-    }
-
-    .user-actions img{
-        width: 50px;
-        height: 50px;
-    }
-    
-    h1 {
-        font-size: 40px;
-    }
-    #logo{
-        width: 80px;
-        height: 80px;
-    }
-}
-
 
 #boardWriteContainer{
 	max-width: 1400px;
