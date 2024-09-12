@@ -51,14 +51,6 @@ public class ReservationController {
 		this.bService = bService;
 	}
 
-	@GetMapping("/reservation/cancel")
-	public String deleteInfo(@RequestParam("reserveNo") String reserveNo,HttpSession session
-			) {
-    	Reservation reservation = (Reservation)session.getAttribute("reservation");
-		int result = rService.deleteInfo(reserveNo);
-		return "redirect:"+ kakaoPay.kakaoPayCancel(session);
-	}
-
 	@PostMapping("/reservation/initate/{breweryNo}/{tourNo}")
 	public String initateRegister(Model model, HttpSession session, @PathVariable("tourNo") Integer tourNo,
 			@PathVariable("breweryNo") Integer breweryNo, @RequestParam("tourName") String tourName) {
