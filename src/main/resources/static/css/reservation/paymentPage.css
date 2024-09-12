@@ -252,27 +252,24 @@ footer nav a {
 }
 /* main */
 main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
-
 
 main .paymentinfo {
-    font-size: 24px;
-    font-weight: bold;
-    
+	font-size: 24px;
+	font-weight: bold;
 }
 
-
 .main {
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    justify-content: center;
+	width: 100%;
+	display: flex;
+	gap: 20px;
+	justify-content: center;
 }
 
 .main label {
@@ -292,10 +289,11 @@ main .paymentinfo {
 .main-right {
 	flex: 1;
 }
-@media (max-width: 768px) {
-    .main {
-        flex-direction: column;
-    }
+
+@media ( max-width : 768px) {
+	.main {
+		flex-direction: column;
+	}
 }
 
 .payment-boxx {
@@ -395,7 +393,8 @@ main .paymentinfo {
 
 #paymentMethod {
 	position: relative;
-	top: 10px; font-size : 18px; /* 글씨 크기 */
+	top: 10px;
+	font-size: 18px; /* 글씨 크기 */
 	font-weight: bold; /* 굵은 글씨 */
 	color: #ff9900; /* 카카오페이의 대표 색상 */
 	margin-bottom: 10px; /* 아래 여백 */
@@ -406,7 +405,7 @@ main .paymentinfo {
 #kakaoPayEmail {
 	position: relative;
 	top: 10px;
-	font-size: 14px; /* 글씨 크기 */
+	font-size: 18px; /* 글씨 크기 */
 	color: #333; /* 글씨 색상 */
 	display: block; /* block 형태로 변경 */
 	margin-top: 5px; /* 위 여백 */
