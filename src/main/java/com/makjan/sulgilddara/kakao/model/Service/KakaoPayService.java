@@ -60,9 +60,9 @@ public class KakaoPayService {
         params.put("quantity", reservation.getVisitorNum()); // 상품 수량
         params.put("total_amount", (reservation.getTourPrice()*reservation.getVisitorNum())+(reservation.getTourPrice()*0.1)); // 상품 가격
         params.put("tax_free_amount", "100"); // 상품 비과세 금액
-        params.put("approval_url", "http://127.0.0.1:8888/success"); // 성공시 url
-        params.put("fail_url", "http://127.0.0.1:8888/fail"); 
-        params.put("cancel_url", "http://127.0.0.1:8888/cancel"); // 실패시 url
+        params.put("approval_url", "http://192.168.60.234:8888/success"); // 성공시 url
+        params.put("fail_url", "http:/192.168.60.234:8888/fail"); 
+        params.put("cancel_url", "http://192.168.60.234:8888/cancel"); // 실패시 url
 
         // 헤더와 바디 붙이기
         HttpEntity<Map<String, Object>> body = new HttpEntity<Map<String, Object>>(params, headers);
