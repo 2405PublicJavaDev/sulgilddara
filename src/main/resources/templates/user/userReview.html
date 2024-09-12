@@ -27,6 +27,7 @@
         					<hr>
             			<a href="/user/update">마이페이지</a>
             			<a href="/user/logout">로그아웃</a>
+            			<a href="/reservation/search">예약조회</a>
         			</div>
     			</div>
     			<div th:if="${session.userId == null}">
@@ -58,7 +59,7 @@
                     <hr  class="mypage-header">
                     <ul>
                         <li><a href="/user/update" >회원정보 수정</a></li>
-                        <li><a href="/user/reservation" >투어 예약 조회</a></li>
+                        <li><a href="/user/reservation" >체험 예약 리스트</a></li>
                         <li><a href="/user/review" class="active">내가 쓴 리뷰</a></li>
                         <li><a href="/user/delete" >회원 탈퇴</a></li>
                     </ul>
@@ -83,7 +84,9 @@
                     <tbody>
                  		<tr th:each="board : ${bList}">
                  			<td>[[${board.boardNo }]]</td>
-                 			<td>[[${board.boardSubject }]]</td>
+                 			<td>
+                 				<a th:href="@{/board/detailPage/{boardNo}/no(boardNo=${board.boardNo})}" th:text="${board.boardSubject}"></a>
+                 			</td>
                  			<td>[[${board.liquorName }]]</td>
                  			<td>[[${board.boardDate }]]</td>
                  			<td>[[${board.viewCount }]]</td>
