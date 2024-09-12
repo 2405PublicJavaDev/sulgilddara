@@ -159,7 +159,7 @@ public class BreweryController {
 	@GetMapping("/admin/delete/{breweryNo}")
 	public String deleteBrewery(@PathVariable("breweryNo") Integer breweryNo) {
 		int result = bService.deleteBrewery(breweryNo);
-		return "redirect:/brewery/list";
+		return "redirect:/brewery/admin/list";
 	}
 	@PostMapping("/admin/search")
 	public String searchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage

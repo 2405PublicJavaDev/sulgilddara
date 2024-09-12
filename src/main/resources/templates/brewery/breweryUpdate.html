@@ -3,19 +3,22 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>양조장 정보 변경</title>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
-<!-- 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script> -->
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="../../../css/brewery/breweryUpdate.css">
 	<style>
 			.tagify {
 			    display: inline-flex;
 			    flex-wrap: wrap;
-			    padding: 0;
-			    margin: 0;
-			    border: 1px solid black;
-			    height: 30px;
+			    font-size: 15px; /* 기본 폰트 크기 */
+			    padding: 10px; /* 패딩 추가 */
+			    border-radius: 8px; /* 테두리 둥글게 */
+			    border: 1px solid #ccc; /* 테두리 색상 */
+			    outline: none; /* 포커스 시 외곽선 제거 */
+			    width: calc(100% - 22px); /* 너비 설정 (패딩과 테두리를 고려) */
+			    box-sizing: border-box; /* 패딩 및 테두리를 포함하여 너비를 계산 */
+			    margin-bottom: 10px; /* 필드 간 간격 */
 			}
 			
 			.tagify__tag {
@@ -48,8 +51,7 @@
 			}
 			.tagify--focus {
 			    --tags-border-color: black !important;  /* 또는 원하는 색상 */
-			    transition: none !important;  /* 애니메이션 효과 제거 */
-			    height: 30px;
+			    transition: none !important;  /* 애니메이션 효과 제거 */	
 			}
 		</style>
 	</head>
@@ -57,31 +59,30 @@
 		<header>
 			<div class="header-top">
 	            <div style="width: 100px;;"></div>
+	            <a href="/" class="logo-link">
 	            <div id="logo-container">
-	                <img src="../../img/logo.png" alt="" id="logo">
+	                <img src="../../../img/logo.png" alt="" id="logo">
 	                <h1>술길따라</h1>
 	            </div>
 	            <div class="user-actions">
-	                <a href="#" class="icon-user"><img class="header-img" src="../../img/free-icon-user-17095347.png" alt=""></a>
-	                <a href="#" class="icon-menu"><img class="header-img" src="../../img/free-icon-menu-3856832.png" alt=""></a>
+	                <a href="#" class="icon-user"><img class="header-img" src="../../../img/free-icon-user-17095347.png" alt=""></a>
+	                <a href="#" class="icon-menu"><img class="header-img" src="../../../img/free-icon-menu-3856832.png" alt=""></a>
 	            </div>
 	        </div>
 	        <nav>
 	            <ul>
-	                <li><a href="#story">술길따라 이야기</a></li>
-	                <li><a href="#brewery">양조장 탐방</a></li>
-	                <li><a href="#guide">술 도감</a></li>
-	                <li><a href="#tour">투어 예약</a></li>
-	                <li><a href="#tales">술 이야기</a></li>
+	            	<li><a href="/brewery/admin/list">양조장 정보</a></li>
+	                <li><a href="/liquor/list">술 정보</a></li>
+	                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
 	            </ul>
 	        </nav>
 		</header>
 
 		<main>
 			<form action="/brewery/admin/update" method="post" th:object="${brewery}" enctype="multipart/form-data">
+				<input type="hidden" name="breweryNo" th:value="*{breweryNo}">
 				<label for="breweryName" class="form-label">양조장명</label>
 			    <input type="text" id="breweryName" name="breweryName" class="form-input" th:value="*{breweryName}"> <br>
-			
 			    <label for="local" class="form-label">지역</label>
 			    <select id="local" name="breweryLocal" class="form-select" th:value="*{breweryLocal}">
 			        <option value="sudo">수도권</option>
@@ -106,18 +107,20 @@
 			
 			    <label for="breweryUrl" class="form-label">홈페이지</label>
 			    <input type="text" id="breweryUrl" name="breweryUrl" class="form-input" th:value="*{breweryUrl}"> <br>
+			    
 				<th:block th:if="${brewery.fileRename != null}">
 				    <th:block th:if="${#strings.endsWith(brewery.fileRename, '.jpg') || #strings.endsWith(brewery.fileRename, '.png') || #strings.endsWith(brewery.fileRename, '.jpeg')}">
 				        <img id="breweryImagePreview" class="image-preview" th:src="@{|${brewery.filePath}/${brewery.fileRename}|}" alt="미리보기 이미지" style="max-width: 300px; max-height: 300px;">
 				    </th:block>
 				</th:block>
+				
 				<th:block th:if="${brewery.fileRename == null}">
 				    <span id="noImageText" class="no-image-text">사진 없음</span>
 				</th:block>
+				
 				<input type="file" id="newFileInput" name="uploadFile" class="file-input">
-				<label for="breweryUrl" class="form-label">해시태그</label>
-			    <input type="text" id="inputHashTag" name="breweryTagName" class="form-input" th:value="${tagString}"> <br>
-<!-- 				해시태그 <input type="text" class="form-label" name="breweryTagName" id="inputHashTag" th:value="${tagString}"> <br> -->
+				<label for="breweryTagName" class="form-label">해시태그</label>
+				<input type="text" id="breweryTagName" name="breweryTagName" class="form-input" th:value="${tagString}"> <br>
 				<div id="facilitiesContainer" class="facilities-container">
 			    <fieldset class="facilities-fieldset">
 			        <legend>편의시설</legend>
@@ -208,18 +211,18 @@
 				        <input type="hidden" name="tourNo" th:value="${tour.tourNo}" class="tour-no">
 				        <div class="program-details">
 				            <strong class="program-name-label">프로그램명 : </strong>
-				            <span th:text="${tour.tourName}" class="program-name"></span> <br>
-				            <span th:text="${tour.tourContent}" class="program-content"></span> <br>
-				            <span th:text="${tour.timeTaken}" class="program-time"></span> <br>
-				            <span th:text="${tour.tourPrice}" class="program-price"></span> <br>
+				           	<span th:text="${tour.tourName}" class="program-name"></span> <br> <br>
+				            <span th:text="'체험 내용 : ' + ${tour.tourContent}" class="program-content"></span>
+				            <span th:text="'소요 시간 : ' + ${tour.timeTaken}" class="program-time"></span>
+				            <span th:text="'금액 : ' + ${tour.tourPrice}" class="program-price"></span>
 				        </div>
 				        <div class="program-actions">
 				            <button type="button" th:onclick="modifyTour(/*[[${tour.tourNo}]]*/);" class="modify-btn">수정</button>
 				            <button type="button" th:onclick="deleteTour(/*[[${brewery.breweryNo}]]*/, /*[[${tour.tourNo}]]*/);" class="delete-btn">삭제</button>
 				        </div>
 				    </div>
+					<button type="button" id="register-btn" th:onclick="goTourInsert(/*[[${brewery.breweryNo}]]*/);">등록</button>		
 				</div>
-				<button type="button" th:onclick="goTourInsert(/*[[${brewery.breweryNo}]]*/);">등록</button>		
 			</form>
 		</main>
 		
@@ -234,8 +237,8 @@
 	            <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
 	        </div>
 	        <div class="social-icons">
-	            <a href="#" class="icon-facebook"><img src="../../img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
-	            <a href="#" class="icon-instagram"><img src="../../img/free-icon-instagram-4922972.png" alt=""></a>
+	            <a href="#" class="icon-facebook"><img src="../../../img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
+	            <a href="#" class="icon-instagram"><img src="../../../img/free-icon-instagram-4922972.png" alt=""></a>
 	        </div>
 	        <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
 		</footer>
@@ -244,18 +247,26 @@
 		function goTourInsert(breweryNo) {
 			location.href="/tour/write/" + breweryNo;
 		}
-	    document.getElementById('newFile').addEventListener('change', function(event) {
-	        var file = event.target.files[0];
-	        if (file) {
-	            var reader = new FileReader();
-	            reader.onload = function(e) {
-	                var previewImage = document.getElementById('previewImage');
-	                previewImage.src = e.target.result;
-	                previewImage.style.display = 'block';
-	            };
-	            reader.readAsDataURL(file);
-	        }
-	    });
+		
+// 		<th:block th:if="${brewery.fileRename != null}">
+// 		    <th:block th:if="${#strings.endsWith(brewery.fileRename, '.jpg') || #strings.endsWith(brewery.fileRename, '.png') || #strings.endsWith(brewery.fileRename, '.jpeg')}">
+// 		        <img id="breweryImagePreview" class="image-preview" th:src="@{|${brewery.filePath}/${brewery.fileRename}|}" alt="미리보기 이미지" style="max-width: 300px; max-height: 300px;">
+// 		    </th:block>
+// 		</th:block>
+// 		<input type="file" id="newFileInput" name="uploadFile" class="file-input">
+		
+		document.getElementById('newFileInput').addEventListener('change', function(event) {
+		    var file = event.target.files[0];
+		    if (file) {
+		        var reader = new FileReader();
+		        reader.onload = function(e) {
+		            var previewImage = document.getElementById('breweryImagePreview');
+		            previewImage.src = e.target.result;
+		            previewImage.style.display = 'block';
+		        };
+		        reader.readAsDataURL(file);
+		    }
+		});
 	    function modifyTour(tourNo) {	
 	        location.href = "/tour/update/" + tourNo;
 	    }
@@ -265,8 +276,13 @@
 	        }
 	    }
 	    var input = document.querySelector('input[name=breweryTagName]');
-	    const tagify = new Tagify(input, {
-	    	
+	    var tagify = new Tagify(input, {
+	// 		    delimiters: null, // 구분자를 없애 한 글자 입력 시 태그가 생성되지 않게 설정
+	// 		    enforceWhitelist: false,
+	// 		    editTags: true,
+	// 		    dropdown: {
+	// 		        enabled: 0 // 자동으로 드롭다운이 나타나는 것을 막음
+	// 		    }	    	
 	    });
 	    new Tagify(input);
 	</script>

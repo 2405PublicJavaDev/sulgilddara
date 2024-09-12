@@ -46,19 +46,18 @@ ul{
 .select{
      border: 2px solid gray; 
     border-radius: 5px;
-    width: 160px;
+    width: 180px;
     text-align:center;
     color:gray;
     font-size:20px;
     line-height:40px;
     font-weight:bold;
     
-    z-index:2;
+    z-index:3;
     background-color:white;
     user-select:none;
     margin:10px 0;
-    
-    position:absolute;
+    position:abosulte;
 }
 .select li{
     position: relative;
@@ -88,6 +87,7 @@ ul{
 * {
     box-sizing: border-box;
 }
+
 
 body, html {
     font-family: 'Noto Serif KR', serif;
@@ -128,7 +128,7 @@ body, html {
 }
 
 
-#boardWriteContainer{
+#boardModifyContainer{
 	max-width: 1400px;
 	margin: 0 auto;
 	background-color: white;

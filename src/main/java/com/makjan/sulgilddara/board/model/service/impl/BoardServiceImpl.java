@@ -13,6 +13,7 @@ import com.makjan.sulgilddara.board.model.mapper.BoardMapper;
 import com.makjan.sulgilddara.board.model.service.BoardService;
 import com.makjan.sulgilddara.board.model.vo.Board;
 import com.makjan.sulgilddara.board.model.vo.BoardFile;
+import com.makjan.sulgilddara.board.model.vo.BoardPagination;
 import com.makjan.sulgilddara.board.model.vo.BoardReply;
 import com.makjan.sulgilddara.board.model.vo.BoardReplyUser;
 import com.makjan.sulgilddara.board.model.vo.BoardTag;
@@ -42,7 +43,7 @@ public class BoardServiceImpl implements BoardService{
 		System.out.println("searchKeyword : "+searchKeyword);
 		
 		int totalCount = bMapper.getTotalCount(searchCondition, searchKeyword);
-		Pagination pn = new Pagination(totalCount, currentPage);
+		BoardPagination pn = new BoardPagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1) * limit ;
 		RowBounds rowBounds = new RowBounds(offset, limit);
@@ -138,7 +139,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Map<String, Object> selectBoardsByBoardNos(Integer currentPage, List<Integer> boardNos, String orderSelectBox) {
 		int totalCount = boardNos.size();
-		Pagination pn = new Pagination(totalCount, currentPage);
+		BoardPagination pn = new BoardPagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage-1) * limit ;
 		RowBounds rowBounds = new RowBounds(offset, limit);

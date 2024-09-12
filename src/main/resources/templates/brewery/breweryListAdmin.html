@@ -10,6 +10,7 @@
 		<header>
 			<div class="header-top">
 	            <div style="width: 100px;;"></div>
+	            <a href="/" class="logo-link">
 	            <div id="logo-container">
 	                <img src="../../img/logo.png" alt="" id="logo">
 	                <h1>술길따라</h1>
@@ -21,11 +22,9 @@
 	        </div>
 	        <nav>
 	            <ul>
-	                <li><a href="#story">술길따라 이야기</a></li>
-	                <li><a href="#brewery">양조장 탐방</a></li>
-	                <li><a href="#guide">술 도감</a></li>
-	                <li><a href="#tour">투어 예약</a></li>
-	                <li><a href="#tales">술 이야기</a></li>
+	                <li><a href="/brewery/admin/list">양조장 정보</a></li>
+	                <li><a href="/liquor/list">술 정보</a></li>
+	                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
 	            </ul>
 	        </nav>
 		</header>
@@ -45,6 +44,7 @@
 				            <!-- 검색 조건에 따라 적절한 입력 필드 표시 -->
 				            <div th:if="${searchCondition == 'local'}" class="searchKeywordLocal">
 				                <select name="searchKeyword" class="searchKeywordSelect">
+	                    			<option value="">전체</option>			                    
 				                    <option value="sudo">수도권</option>
 				                    <option value="gang">강원</option>
 				                    <option value="chung">충청</option>
