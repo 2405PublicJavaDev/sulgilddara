@@ -278,10 +278,28 @@ footer nav a {
 	margin-right:10px;
 }
 .searchDiv label{
-	font-size:18px;
+	width: 200px;
+	padding: 5px;
+	margin-right: 5px;
+	font-size: 1.2em;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    height: 40px;
+    outline: none;
+}
+.searchDiv input{
+		width: 200px;
+	padding: 5px;
+	margin-right: 5px;
+	font-size: 1.2em;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    height: 40px;
+    outline: none;
 }
 .searchDiv button{
 	width:80px;
+	border-radius:5px;
 	height:40px;
 }
 input[type="text"], select {
