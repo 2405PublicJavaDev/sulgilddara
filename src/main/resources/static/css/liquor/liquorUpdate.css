@@ -61,7 +61,7 @@ header {
 }
 
 header h1 {
-    font-size: 3rem;
+    font-size: 40px;
     font-weight: 800;
 }
 
@@ -204,89 +204,9 @@ footer nav a {
     font-size: 0.8rem;
 }
 
-
-@media (min-width: 768px) {
-    
-    header h1 {
-        font-size: 4rem;
-    }
-    .user-actions img{
-        width: 40px;
-        height: 40px;
-        margin: auto;
-    }
-    #logo{
-        width: 60px;
-        height: 60px;
-    }
-
-    .story-content {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .story-image {
-        width: 60%;
-        height: 400px;
-    }
-
-    .tour-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .tour-item {
-        height: 300px;
-    }
-}
 #logo{
     width: 50px;
     height: 50px;
-}
-
-@media (min-width: 1024px) {
-    .header-img{
-        margin: 10px 20px;
-        flex: 1;
-        min-width: 0;
-    }
-    .user-actions {
-        display: flex;
-        gap: 20px;
-    }
-    
-    .icon-user{
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-    }
-
-    .user-actions img{
-        width: 50px;
-        height: 50px;
-    }
-    
-    header h1 {
-        font-size: 5rem;
-    }
-    #logo{
-        width: 80px;
-        height: 80px;
-    }
-    main {
-        padding: 0;
-    }
-
-    #popular-breweries {
-        height: 70vh;
-    }
-
-    .story-image {
-        height: 500px;
-    }
-
-    .tour-item {
-        height: 350px;
-    }
 }
 
 
