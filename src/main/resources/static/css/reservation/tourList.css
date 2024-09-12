@@ -16,9 +16,7 @@ main {
 	padding: 20px;
 }
 
-
 /* header */
-
 header {
 	background-color: white;
 	padding: 20px;
@@ -36,6 +34,7 @@ header {
 h1 {
 	font-size: 40px;
 	font-weight: 800;
+	margin-top: 8px;
 }
 
 nav ul {
@@ -49,7 +48,6 @@ nav ul {
 nav ul li a {
 	text-decoration: none;
 	color: black;
-	/* font-size: 1.2rem; */
 	font-size: 18px;
 }
 
@@ -83,11 +81,11 @@ footer nav {
 footer nav a {
 	text-decoration: none;
 	color: black;
-	font-size: 1rem;
+	font-size: 15px;
 }
 
 .company-info {
-	font-size: 0.9rem;
+	font-size: 13px;
 	line-height: 1.5;
 	margin-bottom: 20px;
 }
@@ -109,7 +107,7 @@ footer nav a {
 }
 
 .copyright {
-	font-size: 0.8rem;
+	font-size: 10px;
 }
 
 @media ( min-width : 768px) {
@@ -121,11 +119,13 @@ footer nav a {
 		height: 40px;
 		margin: auto;
 	}
-	#logo {
-		width: 60px;
-		height: 60px;
-	}
 }
+
+#logo {
+	width: 60px;
+	height: 60px;
+}
+
 
 #logo {
 	width: 50px;
@@ -206,12 +206,12 @@ footer nav a {
 .mypage-content {
 	display: none;
 	position: absolute;
-	background-color: #f9f9f9;
+	background-color: #F9F9F9;
 	min-width: 120px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 2;
 	right: 0;
-	font-size: 1.3em;
+	font-size: 13px;
 	font-weight: 400;
 	--text-align: center;
 }
@@ -251,10 +251,10 @@ footer nav a {
 	padding: 5px;
 	margin-right: 5px;
 	font-size: 1.2em;
-    border-radius: 15px;
-    border: 2px solid #ccc;
-    height: 40px;
-    outline: none;
+	border-radius: 15px;
+	border: 2px solid #ccc;
+	height: 40px;
+	outline: none;
 }
 
 .search-form button {
