@@ -125,5 +125,8 @@
 		SELECT * FROM RESERVATION_TBL JOIN USER_TBL USING(USER_ID) JOIN TOUR_TBL
 		USING (TOUR_NO) WHERE RESERVE_NO=#{reservation.reserveNo}
 	</select>
+	<delete id="deleteInfo">
+		DELETE * FROM RESERVATION_TBL WHERE RESERVE_NO =#{reserveNo}
+	</delete>
 
 </mapper>
