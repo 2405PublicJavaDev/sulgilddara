@@ -291,7 +291,7 @@ input[type="text"], select {
 
 button {
 	padding: 5px 15px;
-	background-color: #4CAF50;
+	background-color: #000;
 	color: white;
 	border: none;
 	cursor: pointer;
@@ -337,17 +337,17 @@ th {
     background-color: #f1f1f1;
 }
 
-.pagination a.active {
+/* .pagination a.active {
     background-color: #4CAF50;
     color: white;
     border: 1px solid #4CAF50;
 }
-
+ */
 /* 현재 페이지 표시 */
 .pagination a.current {
-    background-color: #4CAF50;
+    background-color: #000;
     color: white;
-    border: 1px solid #4CAF50;
+    border: 1px solid #000;
 }
 
 /* 이전/다음 페이지 화살표 스타일 */

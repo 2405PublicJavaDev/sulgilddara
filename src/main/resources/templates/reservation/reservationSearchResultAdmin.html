@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-	<head>
-	<meta charset="UTF-8">
-	<title>관리자 조회</title>
-	<link rel="stylesheet" href="/css/reservation/reservationlookupadmin.css">
-	</head>
-	
-	<body>
-	   <header>
+<head>
+<meta charset="UTF-8">
+<title>관리자 조회</title>
+<link rel="stylesheet"
+	href="/css/reservation/reservationlookupadmin.css">
+</head>
+
+<body>
+	<header>
 		<div class="header-top">
 			<div style="width: 100px;"></div>
 			<a href="/" class="logo-link">
@@ -46,68 +47,70 @@
 			</ul>
 		</nav>
 	</header>
-    <main>
-	    <form th:action="@{/reservation/searchResultAdmin}" th:object="${reservation}" method="POST">
-	        <div class="searchArea">
-	            <div class="searchDiv">
-	                <div>
-	                    <label>양조장 명:</label>
-	                    <input type="text" name="breweryName">
-	              
-	                    <label>예약자 ID:</label>
-	                    <input type="text" name="userId" th:value="${userId}" placeholder="예약자ID를 입력하세요">
-	                </div> 
-	                <button type="submit">검색</button>
-	            </div>
-	        </div>
-	    </form>
-	
-	    <div class="reserveResult">
-	        <h2>목록</h2>
-	        <table>
-	            <thead>
-	                <tr>
-	                    <th>예약 번호</th>
-	                    <th>양조장 명</th>
-	                    <th>체험 프로그램</th>
-	                    <th>예약 날짜</th>
-	                    <th>예약 인원</th>
-	                    <th>예약 시간</th>
-	                    <th>비상 연락처</th>
-	                    <th>예약자</th>
-	                </tr>
-	            </thead>
-	            <tbody>
-	                <tr th:if="${#lists.isEmpty(rList)}">
-	                    <td colspan="8">조회된 데이터가 없습니다</td>
-	                </tr>
-	                <tr th:each="Reservation: ${rList}">
-	                    <td>
-	                        <a th:href="@{/reservation/detail/{reserveNo}(reserveNo=${Reservation.reserveNo})}" th:text="${Reservation.reserveNo}"></a>
-	                    </td>
-	                    <td th:text="${Reservation.breweryName}"></td>
-	                    <td th:text="${Reservation.tourName}"></td>
-	                    <td th:text="${Reservation.reserveDate}"></td>
-	                    <td th:text="${Reservation.visitorNum}"></td>
-	                    <td th:text="${Reservation.reserveTime}"></td>
-	                    <td th:text="${Reservation.emergencyPhone}"></td>
-	                    <td th:text="${Reservation.userId}"></td>
-	                </tr>
-	            </tbody>
-	        </table>
-	        
-	        <div class="pagination" th:unless="${#lists.isEmpty(rList)}">
-	            <th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
-	                <a th:if="${pn.startNavi > 1}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.prevPage})}">&lt;</a>
-	                <th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
-	                    <a th:href="@{/reservation/searchResultAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" th:text="${p}"></a>
-	                </th:block>
-	                <a th:if="${pn.endNavi < pn.maxPage}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.nextPage})}">&gt;</a>
-	            </th:block>
-	        </div>
-	    </div>
+
+	<main>
+		<form th:action="@{/reservation/searchResultAdmin}"
+			th:object="${reservation}" method="POST">
+			<div class="searchArea">
+				<div class="searchDiv">
+					<div>
+						<label>양조장 명:</label> <input type="text" name="breweryName">
+						<label>예약자 ID:</label> <input type="text" name="userId"
+							th:value="${userId}" placeholder="예약자ID를 입력하세요">
+					</div>
+					<button type="submit">검색</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="reserveResult">
+			<h2>목록</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>예약 번호</th>
+						<th>양조장 명</th>
+						<th>체험 프로그램</th>
+						<th>예약 날짜</th>
+						<th>예약 인원</th>
+						<th>예약 시간</th>
+						<th>비상 연락처</th>
+						<th>예약자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.isEmpty(rList)}">
+						<td colspan="8">조회된 데이터가 없습니다</td>
+					</tr>
+					<tr th:each="Reservation: ${rList}">
+						<td><a
+							th:href="@{/reservation/detail/{reserveNo}(reserveNo=${Reservation.reserveNo})}"
+							th:text="${Reservation.reserveNo}"></a></td>
+						<td th:text="${Reservation.breweryName}"></td>
+						<td th:text="${Reservation.tourName}"></td>
+						<td th:text="${Reservation.reserveDate}"></td>
+						<td th:text="${Reservation.visitorNum}"></td>
+						<td th:text="${Reservation.reserveTime}"></td>
+						<td th:text="${Reservation.emergencyPhone}"></td>
+						<td th:text="${Reservation.userId}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="pagination" th:unless="${#lists.isEmpty(rList)}">
+    <th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
+        <a class="prev" th:if="${pn.startNavi > 1}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.prevPage})}">&lt;</a>
+        <th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
+            <a th:href="@{/reservation/searchResultAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" 
+               th:text="${p}" 
+               th:class="${p == pn.currentPage} ? 'current' : ''"></a>
+        </th:block>
+        <a class="next" th:if="${pn.endNavi < pn.maxPage}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.nextPage})}">&gt;</a>
+    </th:block>
+</div>
+		</div>
 	</main>
-   	<footer>
+	<footer>
 		<nav>
 			<a href="#">이용약관</a> | <a href="#">개인정보처리방침</a> | <a href="#">사이트맵</a>
 		</nav>
