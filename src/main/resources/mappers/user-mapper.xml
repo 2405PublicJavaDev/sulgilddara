@@ -58,6 +58,11 @@
 	<delete id="deleteUserFile">
 		DELETE FROM USER_FILE_TBL WHERE USER_ID = #{userId}
 	</delete>
+	<select id="existsByUserId" parameterType="String" resultType="Integer">
+        SELECT COUNT(*)
+    	FROM USER_TBL
+    	WHERE USER_ID = #{userId}
+    </select>
 	<select id="checkLogin" resultType="com.makjan.sulgilddara.user.model.vo.User">
 		SELECT * FROM USER_TBL WHERE USER_ID = #{userId} AND USER_PW = #{userPw}
 	</select>

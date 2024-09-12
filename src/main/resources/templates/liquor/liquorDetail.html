@@ -27,6 +27,7 @@
 	        					<hr>
 	            			<a href="/user/update">마이페이지</a>
 	            			<a href="/user/logout">로그아웃</a>
+	            			<a href="/reservation/search">예약조회</a>
 	        			</div>
 	    			</div>
 	    			<div th:if="${session.userId == null}">
@@ -55,7 +56,7 @@
 		        <nav class="breadcrumb">
 		            <ul>
 		                <li><a href="#">전체</a></li>
-		                <li><a href="#" th:text="${liquor.breweryLocal}"></a></li>
+		                <li><a href="#" th:text="${liquor.breweryLocal == 'sudo' ? '수도권' : liquor.breweryLocal == 'gang' ? '강원' : liquor.breweryLocal == 'chung' ? '충청' : liquor.breweryLocal == 'gyeong' ? '경상' : liquor.breweryLocal == 'jeoll' ? '전라' : liquor.breweryLocal == 'jeju' ? '제주' : liquor.breweryLocal}"></a></li>
 		                <li><a href="#" th:text="${liquor.breweryName}"></a></li>
 		                <li><a href="#" th:text="${liquor.liquorType}"></a></li>
 		            </ul>

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -77,6 +79,20 @@ public class UserController {
             return "user/userJoin";
         }
 	}
+	
+	// 아이디 중복 확인 메소드
+	@GetMapping("/checkUserId")
+	public ResponseEntity<Boolean> checkUserId(@RequestParam("userId") String userId) {
+	    try {
+	        boolean isDuplicate = uService.isUserIdDuplicate(userId);
+	        return ResponseEntity.ok(isDuplicate);
+	    } catch (Exception e) {
+	        // 로그로 출력하여 문제를 확인
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
+
 	
 	// 회원정보 수정 form  (GET)
 	@GetMapping("/update")

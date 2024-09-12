@@ -30,6 +30,7 @@
 		        					<hr>
 		            			<a href="/user/update">마이페이지</a>
 		            			<a href="/user/logout">로그아웃</a>
+		            			<a href="/reservation/search">예약조회</a>
 		        			</div>
 		    			</div>
 		    			<div th:if="${session.userId == null}">
@@ -44,11 +45,9 @@
 		        	</div>
 		        <nav>
 		            <ul>
-		                <li><a href="/#story">술길따라 이야기</a></li>
-		                <li><a href="/brewery/">양조장 탐방</a></li>
-		                <li><a href="/liquor/search">술 도감</a></li>
-		                <li><a href="/reservation/list">투어 예약</a></li>
-		                <li><a href="/board/listCard">술 이야기</a></li>
+		                <li><a href="/brewery/admin/list">양조장 정보</a></li>
+		                <li><a href="/liquor/list">술 정보</a></li>
+		                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
 		            </ul>
 		        </nav>
 		    </header>

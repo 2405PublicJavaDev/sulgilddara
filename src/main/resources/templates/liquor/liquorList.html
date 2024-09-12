@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>술길따라 - 주류 목록</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/liquor/liquorList.css}">
 </head>
 <body>
@@ -27,6 +28,7 @@
 	        					<hr>
 	            			<a href="/user/update">마이페이지</a>
 	            			<a href="/user/logout">로그아웃</a>
+	            			<a href="/reservation/search">예약조회</a>
 	        			</div>
 	    			</div>
 	    			<div th:if="${session.userId == null}">
@@ -57,25 +59,42 @@
 		        <div class="search-filters">
 		        	<form action="/liquor/list" method="get">
 		        		<input name="cp" type="hidden" th:value="1">
-			            <input name="keyword" th:value=${keyword} type="text" placeholder="술이름">
-			            <select name="liquorType">
-	                            <option value="all" th:selected="${liquorType == 'all'}")>전체</option>
-	                            <option value="전통주" th:selected="${liquorType == '전통주'}">전통주</option>
-	                            <option value="막걸리" th:selected="${liquorType == '막걸리'}">막걸리</option>
-	                            <option value="청주" th:selected="${liquorType == '청주'}">청주</option>
-	                            <option value="소주" th:selected="${liquorType == '소주'}">소주</option>
-	                            <option value="와인" th:selected="${liquorType == '와인'}">와인</option>
-	                            <option value="위스키" th:selected="${liquorType == '위스키'}">위스키</option>
-	                            <option value="맥주" th:selected="${liquorType == '맥주'}">맥주</option>
-	                            <option value="리큐르" th:selected="${liquorType == '리큐르'}">리큐르</option>
-	                            <option value="브랜디" th:selected="${liquorType == '브랜디'}">브랜디</option>
-								<option value="보드카" th:selected="${liquorType == '보드카'}">보드카</option>
-	                        </select>
-			            <button class="search-button">검색</button>
+		        		
+		        		<table id="searchTable">
+						    <tr>
+						        <td>
+						            <!-- 검색 조건 선택 드롭다운 -->
+						            <select name="liquorType" id="liquorType">
+			                            <option value="all" th:selected="${liquorType == 'all'}")>전체</option>
+			                            <option value="전통주" th:selected="${liquorType == '전통주'}">전통주</option>
+			                            <option value="막걸리" th:selected="${liquorType == '막걸리'}">막걸리</option>
+			                            <option value="청주" th:selected="${liquorType == '청주'}">청주</option>
+			                            <option value="소주" th:selected="${liquorType == '소주'}">소주</option>
+			                            <option value="와인" th:selected="${liquorType == '와인'}">와인</option>
+			                            <option value="위스키" th:selected="${liquorType == '위스키'}">위스키</option>
+			                            <option value="맥주" th:selected="${liquorType == '맥주'}">맥주</option>
+			                            <option value="리큐르" th:selected="${liquorType == '리큐르'}">리큐르</option>
+			                            <option value="브랜디" th:selected="${liquorType == '브랜디'}">브랜디</option>
+										<option value="보드카" th:selected="${liquorType == '보드카'}">보드카</option>
+			                        </select>
+						        </td>
+						        <td>
+						            <!-- 입력 필드 표시 -->
+						            <div class="searchKeywordInputDiv">
+							            <input name="keyword" th:value=${keyword} class="searchKeywordInput" type="text" placeholder="검색어를 입력하세요">
+						            </div>
+						        </td>
+						        <td>
+						            <!-- 검색 버튼 -->
+						            <input type="submit" class="searchButton" value="검색">
+						        </td>
+						    </tr>
+						</table>
+		        		
 		        	</form>
 		        </div>
 		
-		        <table class="liquor-table">
+		        <table id="liquor-table">
 		            <thead>
 		                <tr>
 		                    <th>이미지</th>
@@ -87,10 +106,11 @@
 							<th>용량</th>
 							<th>양조장ID</th>
 							<th></th>
+							<th></th>
 		                </tr>
 		            </thead>
 		            <tbody>
-		                <tr th:each="liquor, iterStat : ${lList}">
+		                <tr th:each="liquor, iterStat : ${lList}" class="liquorRow">
 		                    <td><div class="liquor-image"  th:style="${'background-image: url(' + (#lists.isEmpty(imgList[iterStat.index]) ? 
 																									'/img/liquor/empty_bottle.png' : 
 																									(imgList[iterStat.index][0].filePath + imgList[iterStat.index][0].fileRename)) + 
@@ -103,17 +123,19 @@
 							<td>[[${liquor.liquorCapacity }]]</td>
 							<td>[[${liquor.breweryId }]]</td>
 		                    <td>
-		                        <button onclick="location.href=this.getAttribute('data-href')" th:attr="data-href=@{/liquor/update/{id}(id=${liquor.liquorId})}" class="edit-button">수정</button>
-		                        <button th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\''" type="button" class="delete-button">삭제</button>
+		                        <button onclick="location.href=this.getAttribute('data-href')" th:attr="data-href=@{/liquor/update/{id}(id=${liquor.liquorId})}" class="modifyButton">수정</button>
 		                    </td>
+		                    <td>
+		                        <button th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) window.location.href=\'/liquor/delete/' + ${liquor.liquorId} + '\''" type="button" class="deleteButton">삭제</button>
+		               		</td>
 		                </tr>
 		            </tbody>
 		            <tfoot>
 						<tr align="center">
-							<td colspan="11" id="pagination">
+							<td colspan="10" id="pagination">
 								<th:block th:each="p : ${#numbers.sequence(pn.startNavi, pn.endNavi)}">
 								    <span th:if="${p == cp}" th:text="${p}"></span>
-								    <a th:unless="${p == cp}" th:href="@{/liquor/list(cp=${p}, keyword=${keyword}, liquorType=${liquorType})}" th:text="${p}"></a>
+								    <a th:unless="${p == cp}" class="paginationLink" th:href="@{/liquor/list(cp=${p}, keyword=${keyword}, liquorType=${liquorType})}" th:text="${p}"></a>
 								</th:block>
 							</td>
 						</tr>
@@ -121,7 +143,7 @@
 		        </table>
 		
 		
-		        <button onclick="location.href='/liquor/add'" class="register-button">등록</button>
+		        <button onclick="location.href='/liquor/add'" class="insertButton">등록</button>
 	        </main>
         </div>
 

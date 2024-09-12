@@ -134,6 +134,7 @@ public class UserServiceImpl implements UserService {
     }
 
 	// 비밀번호 이메일로 전송 Service
+	@Async
     @Override
     public void sendTemporaryPassword(String userId, String email) {
         String tempPassword = generateTempPassword();
@@ -169,5 +170,13 @@ public class UserServiceImpl implements UserService {
 	public List<Board> selectReviewList(String userId) {
 		List<Board> bList = mapper.selectReviewList(userId);
 		return bList;
+	}
+
+	// 아이디 중복 체크 Service
+	@Override
+	public boolean isUserIdDuplicate(String userId) {
+		// 아이디가 이미 존재하면 1이므로 true/ 존재하지 않으면 false
+	    Integer count = mapper.existsByUserId(userId);
+	    return count != null && count > 0;
 	}
 }

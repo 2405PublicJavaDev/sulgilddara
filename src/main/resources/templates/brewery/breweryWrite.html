@@ -4,16 +4,21 @@
 		<meta charset="UTF-8">
 		<title>양조장 정보 등록</title>
 		<script src="https://unpkg.com/@yaireo/tagify"></script>
-<!-- 		<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script> -->
 		<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="../../../css/brewery/breweryWrite.css">		
 		<style>
 			.tagify {
 			    display: inline-flex;
 			    flex-wrap: wrap;
-			    padding: 0;
-			    margin: 0;
-			    border: 1px solid black;
-			    height: 30px;
+			    font-size: 15px; /* 기본 폰트 크기 */
+			    padding: 10px; /* 패딩 추가 */
+			    border-radius: 8px; /* 테두리 둥글게 */
+			    border: 1px solid #ccc; /* 테두리 색상 */
+			    outline: none; /* 포커스 시 외곽선 제거 */
+			    width: calc(100% - 22px); /* 너비 설정 (패딩과 테두리를 고려) */
+			    box-sizing: border-box; /* 패딩 및 테두리를 포함하여 너비를 계산 */
+			    margin-bottom: 10px; /* 필드 간 간격 */
 			}
 			
 			.tagify__tag {
@@ -47,7 +52,6 @@
 			.tagify--focus {
 			    --tags-border-color: black !important;  /* 또는 원하는 색상 */
 			    transition: none !important;  /* 애니메이션 효과 제거 */
-			    height: 30px;
 			}
 		</style>
 	</head>
@@ -55,6 +59,7 @@
 		<header>
 			<div class="header-top">
 				<div style="width: 100px;;"></div>
+				<a href="/" class="logo-link">
 				<div id="logo-container">
 					<img src="../../img/logo.png" alt="" id="logo">
 					<h1>술길따라</h1>
@@ -68,83 +73,132 @@
 			</div>
 			<nav>
 				<ul>
-					<li><a href="#story">술길따라 이야기</a></li>
-					<li><a href="#brewery">양조장 탐방</a></li>
-					<li><a href="#guide">술 도감</a></li>
-					<li><a href="#tour">투어 예약</a></li>
-					<li><a href="#tales">술 이야기</a></li>
+					<li><a href="/brewery/admin/list">양조장 정보</a></li>
+	                <li><a href="/liquor/list">술 정보</a></li>
+	                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
 				</ul>
 			</nav>
 		</header>
 		
 		<main>
-			<h1>양조장 등록</h1>
-			<form action="/brewery/write" method="post" enctype="multipart/form-data">
-				<input type="text" placeholder="양조장명 입력" name="breweryName"> <br>
-				지역 
-				<select id="local" name="breweryLocal">
-					<option value="sudo">수도권</option>
-					<option value="gang">강원</option>
-					<option value="chung">충청</option>
-					<option value="gyeong">경상</option>
-					<option value="jeoll">전라</option>
-					<option value="jeju">제주</option>
+			<form action="/brewery/admin/write" method="post" enctype="multipart/form-data">
+				<label for="breweryName" class="form-label">양조장명</label>
+				<input type="text" id="breweryName" name="breweryName" class="form-input"> <br>
+				
+				<label for="local" class="form-label">지역</label>
+				<select id="local" name="breweryLocal" class="form-select">
+				    <option value="sudo">수도권</option>
+				    <option value="gang">강원</option>
+				    <option value="chung">충청</option>
+				    <option value="gyeong">경상</option>
+				    <option value="jeoll">전라</option>
+				    <option value="jeju">제주</option>
 				</select> <br>
-				주소 <input type="text" placeholder="주소 입력" name="breweryAddr"> <br>
-				번호 <input type="text" placeholder="번호 입력" name="breweryPhone"> <br>
-				오픈시간 <input type="time" name="openTime" value="09:00"> <br>
-				마감시간 <input type="time" name="closeTime" value="18:00"> <br>
-				홈페이지 <input type="text" placeholder="홈페이지 입력" name="breweryUrl"> <br>
-				첨부파일 <input type="file" name="uploadFile"> <br>
-				해시태그 <input type="text" name="breweryTagName"> <br>
-				편의시설
-				<div style="border: 1px solid black;">
-					<label for="park">
-						<input type="checkbox" id="park" name="facilities" value="park"> 주차장
-					</label>
-					<label for="restroom">
-						<input type="checkbox" id="restroom" name="facilities" value="restroom"> 화장실
-					</label>
-					<label for="wifi">
-						<input type="checkbox" id="wifi" name="facilities" value="wifi"> 와이파이
-					</label>
-					<label for="air-conditioner">
-						<input type="checkbox" id="air-conditioner" name="facilities" value="air-conditioner"> 에어컨
-					</label>
-					<label for="cafe">
-						<input type="checkbox" id="cafe" name="facilities" value="cafe"> 카페
-					</label>
-					<label for="information">
-						<input type="checkbox" id="information" name="facilities" value="information"> 유도 및 안내시설
-					</label>
-					<label for="luggage">
-						<input type="checkbox" id="luggage" name="facilities" value="luggage"> 짐 보관 가능
-					</label>
-					<label for="non-smoking">
-						<input type="checkbox" id="non-smoking" name="facilities" value="non-smoking"> 금연
-					</label>
-					<label for="smoking">
-						<input type="checkbox" id="smoking" name="facilities" value="smoking"> 흡연구역
-					</label>
-					<label for="restaurant">
-						<input type="checkbox" id="restaurant" name="facilities" value="restaurant"> 레스토랑
-					</label> <br>
-					키즈존
-					<label for="kidsZoneYes">
-						<input type="radio" id="kidsZoneYes" name="kidsZone" value="yes"> 입장 가능
-					</label>
-					<label for="kidsZoneNo">
-						<input type="radio" id="kidsZoneNo" name="kidsZone" value="no"> 입장 불가
-					</label> <br>
-					장애인 편의시설
-					<label for="disabledFriendlyYes">
-						<input type="radio" id="disabledFriendlyYes" name="disFriendly" value="yes"> 휠체어 출입구
-					</label>
-					<label for="disabledFriendlyNo">
-						<input type="radio" id="disabledFriendlyNo" name="disFriendly" value="no"> 별도 시설 없음
-				    </label>
+				
+				<label for="breweryAddr" class="form-label">주소</label>
+				<input type="text" id="breweryAddr" name="breweryAddr" class="form-input"> <br>
+				
+				<label for="breweryPhone" class="form-label">번호</label>
+				<input type="text" id="breweryPhone" name="breweryPhone" class="form-input"> <br>
+				
+				<label for="openTime" class="form-label">오픈시간</label>
+				<input type="time" id="openTime" name="openTime" class="form-input"> <br>
+				
+				<label for="closeTime" class="form-label">마감시간</label>
+				<input type="time" id="closeTime" name="closeTime" class="form-input"> <br>
+				
+				<label for="breweryUrl" class="form-label">홈페이지</label>
+				<input type="text" id="breweryUrl" name="breweryUrl" class="form-input"> <br>
+				
+				<label for="uploadFile" class="form-label">사진 업로드</label>
+				<input type="file" id="newFileInput" name="uploadFile" class="file-input">
+				<label for="breweryTagName" class="form-label">해시태그</label>
+				<input type="text" id="breweryTagName" name="breweryTagName" class="form-input"> <br>
+				<div id="facilitiesContainer" class="facilities-container">
+				    <fieldset class="facilities-fieldset">
+				        <legend>편의시설</legend>
+				        
+				        <label for="park" class="facility-label">
+				            <input type="checkbox" id="park" name="facilities" value="park" class="facility-checkbox">
+				            주차장
+				        </label>
+				        
+				        <label for="restroom" class="facility-label">
+				            <input type="checkbox" id="restroom" name="facilities" value="restroom" class="facility-checkbox">
+				            화장실
+				        </label>
+				        
+				        <label for="wifi" class="facility-label">
+				            <input type="checkbox" id="wifi" name="facilities" value="wifi" class="facility-checkbox">
+				            와이파이
+				        </label>
+				        
+				        <label for="air-conditioner" class="facility-label">
+				            <input type="checkbox" id="air-conditioner" name="facilities" value="air-conditioner" class="facility-checkbox">
+				            에어컨
+				        </label>
+				        
+				        <label for="cafe" class="facility-label">
+				            <input type="checkbox" id="cafe" name="facilities" value="cafe" class="facility-checkbox">
+				            카페
+				        </label>
+				        
+				        <label for="information" class="facility-label">
+				            <input type="checkbox" id="information" name="facilities" value="information" class="facility-checkbox">
+				            유도 및 안내시설
+				        </label>
+				        
+				        <label for="luggage" class="facility-label">
+				            <input type="checkbox" id="luggage" name="facilities" value="luggage" class="facility-checkbox">
+				            짐 보관 가능
+				        </label>
+				        
+				        <label for="non-smoking" class="facility-label">
+				            <input type="checkbox" id="non-smoking" name="facilities" value="non-smoking" class="facility-checkbox">
+				            금연
+				        </label>
+				        
+				        <label for="smoking" class="facility-label">
+				            <input type="checkbox" id="smoking" name="facilities" value="smoking" class="facility-checkbox">
+				            흡연구역
+				        </label>
+				        
+				        <label for="restaurant" class="facility-label">
+				            <input type="checkbox" id="restaurant" name="facilities" value="restaurant" class="facility-checkbox">
+				            레스토랑
+				        </label>
+				    </fieldset>
+				    
+				    <fieldset class="kids-zone-fieldset">
+				        <legend>키즈존</legend>
+				        
+				        <label for="kidsZoneYes" class="radio-label">
+				            <input type="radio" id="kidsZoneYes" name="kidsZone" value="yes" class="radio-input">
+				            입장 가능
+				        </label>
+				        
+				        <label for="kidsZoneNo" class="radio-label">
+				            <input type="radio" id="kidsZoneNo" name="kidsZone" value="no" class="radio-input">
+				            입장 불가
+				        </label>
+				    </fieldset>
+				    
+				    <fieldset class="disabled-friendly-fieldset">
+				        <legend>장애인 편의시설</legend>
+				        
+				        <label for="disabledFriendlyYes" class="radio-label">
+				            <input type="radio" id="disabledFriendlyYes" name="disFriendly" value="yes" class="radio-input">
+				            휠체어 출입구
+				        </label>
+				        
+				        <label for="disabledFriendlyNo" class="radio-label">
+				            <input type="radio" id="disabledFriendlyNo" name="disFriendly" value="no" class="radio-input">
+				            별도 시설 없음
+				        </label>
+				    </fieldset>
 				</div>
-				<input type="submit" value="등록">
+				<input type="submit" id="modify-btn" value="등록">
+			</form>
 		</main>
 			
 		<footer>
@@ -165,7 +219,6 @@
 		</footer>
 		
 		
-		</form>
 	</body>
 	<script>
 		var input = document.querySelector('input[name=breweryTagName]');

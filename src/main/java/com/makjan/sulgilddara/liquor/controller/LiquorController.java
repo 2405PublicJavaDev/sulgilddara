@@ -118,6 +118,11 @@ public class LiquorController {
 		System.out.println("sInfo:"+sInfo);
 		System.out.println("sInfo:"+sInfo);
 		
+		if(sInfo.getBreweryLocal()==null)
+			sInfo.setBreweryLocal("all");
+		if(sInfo.getLiquorType()==null)
+			sInfo.setLiquorType("all");
+		
 		
 		//상세검색 수행을 위한 데이터 구조
 		Map<String, Object> searchMap = new HashMap<>();	//검색조건 VO객체와 태그리스트를 담기위한 Map

@@ -27,6 +27,7 @@
         					<hr>
             			<a href="/user/update">마이페이지</a>
             			<a href="/user/logout">로그아웃</a>
+            			<a href="/reservation/search">예약조회</a>
         			</div>
     			</div>
     			<div th:if="${session.userId == null}">
@@ -58,7 +59,7 @@
                     <hr  class="mypage-header">
                     <ul>
                         <li><a href="/user/update" >회원정보 수정</a></li>
-                        <li><a href="/user/reservation" class="active">투어 예약 조회</a></li>
+                        <li><a href="/user/reservation" class="active">체험 예약 리스트</a></li>
                         <li><a href="/user/review">내가 쓴 리뷰</a></li>
                         <li><a href="/user/delete" >회원 탈퇴</a></li>
                     </ul>
@@ -67,7 +68,7 @@
         </aside>
         <section class="reservation-section">
             <div class="reservation-all">
-                <h2>투어 예약 내역</h2>
+                <h2>체험 예약 리스트</h2>
                 <div class="reservation-main">
                 <table class="reservation-table">
                     <thead>

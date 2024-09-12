@@ -92,11 +92,11 @@ main {
 }
 
 body .story-content {
-    font-family: Arial, sans-serif;
+/*     font-family: Arial, sans-serif; */
     line-height: 1.6;
     color: #333;
     max-width: 1200px;
-    margin: 0 auto;
+/*     margin: 0 auto; */
     padding: 20px;
 }
 .story-content h1 {
