@@ -201,7 +201,11 @@ public class UserController {
 			session.setAttribute("isAdmin", user.getIsAdmin());
 			System.out.println("User: " + user);
 			System.out.println("User File: " + user.getUserFile());
-			return "redirect:/";
+			if("N".equals(user.getIsAdmin())) {
+				return "redirect:/";
+			} else {
+				return "redirect:/liquor/list";
+			}
 		} else {
 			return "user/userLogin";
 		}		
