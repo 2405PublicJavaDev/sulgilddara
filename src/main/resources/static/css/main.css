@@ -314,7 +314,8 @@ footer nav a {
 		height: 50px;
 	}
 	h1 {
-		font-size: 5rem;
+		font-size: 40px;
+		font-weight: 800;
 	}
 	#logo {
 		width: 80px;

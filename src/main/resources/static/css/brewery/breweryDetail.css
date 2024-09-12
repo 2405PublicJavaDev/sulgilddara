@@ -2,6 +2,8 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-weight: 0;
+    
 }
 body, html {
     font-family: 'Noto Serif KR', serif;
@@ -43,8 +45,9 @@ header {
 		}
 	
 		h1 {
-		    font-size: 3rem;
+		    font-size: 40px;
 		    font-weight: 800;
+		    color: black;
 		}
 	
 	.user-actions {
@@ -315,4 +318,56 @@ footer {
 		.copyright {
 		    font-size: 0.8rem;
 		}
+		/* 네비게이션 바 추가 - 여기서부터 추가*/
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.icon-user {
+	cursor: pointer;
+}
+
+.header-img {
+	width: 30px;
+	height: 30px;
+}
+
+.mypage-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 2;
+	right: 0;
+	font-size: 1.3em;
+	font-weight: 400;
+	--text-align: center;
+}
+
+.mypage-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.mypage-content a:hover {
+	background-color: #f1f1f1;
+}
+
+.show {
+	display: block;
+}
+
+.user-name {
+	padding: 12px 16px;
+	display: block;
+}
+
+.logo-link {
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	color: inherit; /* 링크의 색상 제거 */
+}
 		
