@@ -26,6 +26,7 @@ import com.makjan.sulgilddara.tour.model.service.TourService;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
+
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -50,14 +51,16 @@ public class ReservationController {
 		this.tService = tService;
 		this.bService = bService;
 	}
-
+//	@GetMapping("/reservation/initate/{breweryNo}/{tourNo}")
+//	public String showInitateRegister(Model model
+//			, @PathVariable ("breweryNo") Integer breweryNo
+//			, @PathVariable ("tourNo") Integer tourNo) {
+//		Tour tour = tService.searchByInfo(tourNo,tourName,breweryNo);
+//		return "reservation/registerPage";
+//	}
 	@PostMapping("/reservation/initate/{breweryNo}/{tourNo}")
 	public String initateRegister(Model model, HttpSession session, @PathVariable("tourNo") Integer tourNo,
 			@PathVariable("breweryNo") Integer breweryNo, @RequestParam("tourName") String tourName) {
-		String userId = (String) session.getAttribute("userId");
-		if (userId == null) {
-			return "redirect:/user/login";
-		}
 		Tour tour = tService.searchByInfo(tourNo, tourName, breweryNo);
 		System.out.println("ReservationCOntroller: " + tour);
 //		Brewery brewery = bService.searchOneByNo(breweryNo);
@@ -108,7 +111,8 @@ public class ReservationController {
 	}
 
 	@GetMapping("/reservation/payment")
-	public String showPaymentForm(Model model, @ModelAttribute Reservation reservation, @ModelAttribute Tour tour) {
+	public String showPaymentForm(Model model
+		,@ModelAttribute Reservation reservation, @ModelAttribute Tour tour) {
 		System.out.println("paymentController: " + reservation);
 		List<Reservation> rList = rService.searchPaymentInfo(reservation, tour);
 		model.addAttribute("rList", rList);
@@ -119,7 +123,11 @@ public class ReservationController {
 	@GetMapping("/reservation/list")
 	public String showTourList(Model model,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
-			@RequestParam(value = "tourName", required = false) String tourName, HttpSession session) {
+			@RequestParam(value = "tourName", required = false) String tourName,HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			return "redirect:/user/login";
+		}
 		int totalCount = rService.getListTotalCount(tourName);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
@@ -175,9 +183,9 @@ public class ReservationController {
 	}
 
 	@PostMapping("/reservation/search")
-	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model, HttpSession session) {
-		String userId = (String) session.getAttribute("userId");
-		if (userId == null) {
+	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model,HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
 			return "redirect:/user/login";
 		}
 		Map<String, String> param = new HashMap<String, String>();
@@ -246,6 +254,7 @@ public class ReservationController {
 		model.addAttribute("userId", userId);
 		return "reservation/reservationlookupadmin";
 	}
+
 
 	@GetMapping("/reservation/detail/{reserveNo}")
 	public String showReservationDetail(@PathVariable("reserveNo") String reserveNo, Model model) {

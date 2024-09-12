@@ -111,10 +111,4 @@ public class ReservationServiceImpl implements ReservationService{
 		List<Reservation>rList = rmapper.searchPaymentInfo(reservation ,tour);
 		return rList;
 	}
-
-	@Override
-	public int deleteInfo(String reserveNo) {
-		int result = rmapper.deleteInfo(reserveNo);
-		return result;
-	}
 }

@@ -109,13 +109,6 @@ List<Tour> showTourList(String tourName, RowBounds rowBounds);
  * @return List<Reservation>
  */
 List<Reservation> searchPaymentInfo(Reservation reservation, Tour tour);
-/**
- * 예약 정보 삭제
- * @param reserveNo
- * @return
- */
-
-int deleteInfo(String reserveNo);
 
 
 

@@ -308,8 +308,6 @@ footer nav a {
 	display: flex;
 	justify-content: center;
 	margin-top: 20px;
-	padding:10px;
-	font-size:15px;
 }
 
 .pagination a {

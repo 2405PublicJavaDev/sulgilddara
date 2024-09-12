@@ -42,6 +42,4 @@ public interface ReservationMapper {
 	List<Tour> showTourList(String tourName, RowBounds rowBounds);
 
 	List<Reservation> searchPaymentInfo(@Param("reservation")Reservation reservation, @Param("tour")Tour tour);
-
-	int deleteInfo(@Param("reserveNo")String reserveNo);
 }

@@ -19,46 +19,47 @@ import lombok.extern.java.Log;
 @Controller
 @RequiredArgsConstructor
 @Log
-public class KakaoPayController {
+	public class KakaoPayController {
 
-	@Setter(onMethod_ = @Autowired)
-	private KakaoPayService kakaoPay;
 
+	    @Setter(onMethod_ = @Autowired)
+	    private KakaoPayService kakaoPay;
+		
 //	    @Autowired
 //	    private KakaoPayService kakaoPay;
-
+	    
 //	    public KakaoPayController(KakaoPayService kakaoPay) {
 //	    	this.kakaoPay=kakaoPay;
 //	    }
 
-	@PostMapping("/kakaoPay")
-	public String kakaoPay(@ModelAttribute Reservation reservation, HttpSession session) {
-		log.info("kakaoPay post.....................");
-		log.info("Controller reservation {} " + reservation);
-		System.out.println("Controller reservation: " + reservation);
-		session.setAttribute("reservation", reservation);
-		return "redirect:/kakao/ready";
-	}
-
-	@GetMapping("/kakao/ready")
-	public String kakaoPayReady(HttpSession session) {
-		Reservation reservation = (Reservation) session.getAttribute("reservation");
-		System.out.println("ready: " + reservation);
-		log.info("Controller reservatoin {} " + reservation);
-		return "redirect:" + kakaoPay.kakaoPayReady(session);
-	}
-
-	@GetMapping("/success")
-	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model,
+	    @PostMapping("/kakaoPay")
+	    public  String kakaoPay(@ModelAttribute Reservation reservation,HttpSession session){
+	        log.info("kakaoPay post.....................");
+	        log.info("Controller reservation {} "+ reservation);
+	        System.out.println("Controller reservation: " + reservation);
+	        session.setAttribute("reservation", reservation);
+	        return "redirect:/kakao/ready"; 
+	    }
+	    
+	    @GetMapping("/kakao/ready")
+	    public String kakaoPayReady(HttpSession session) {
+	        Reservation reservation = (Reservation) session.getAttribute("reservation");
+	        System.out.println("ready: " + reservation);
+	        log.info("Controller reservatoin {} "+ reservation);
+	        return "redirect:" + kakaoPay.kakaoPayReady(session);
+	    }
+	    
+	    @GetMapping("/success")
+	    public String kakaoPaySuccess(@RequestParam("pg_token")String pg_token, Model model,
 //	    		@ModelAttribute Reservation reservation,
-			HttpSession session) {
-		Reservation reservation = (Reservation) session.getAttribute("reservation");
-		System.out.println("reservation 나오나: " + session);
+	    		HttpSession session) {
+    	Reservation reservation = (Reservation)session.getAttribute("reservation");
+    	System.out.println("reservation 나오나: " + session);
 //	    
 //	        
 //	            KakaoPayApproval kakaoPayInfo = kakaoPay.kakaoPayInfo(pg_token,reservation);
 //	            System.out.println("kakaoPayinfo이거 맞아요?:" + kakaoPayInfo);
-		model.addAttribute("Reservation", reservation);
-		return "kakaoPaySuccess";
-	}
+                model.addAttribute("Reservation",reservation);
+	                return "kakaoPaySuccess";
+}
 }
