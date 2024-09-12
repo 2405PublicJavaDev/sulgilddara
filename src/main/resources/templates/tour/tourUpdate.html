@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>투어 정보 변경</title>
-		<link rel="stylesheet" href="/css/tour/tourWrite.css">
+		<link rel="stylesheet" href="/css/tour/tourWrite.css">        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<header>
@@ -50,34 +50,60 @@
 	    </header>
 	    
 	    <div class="content-wrapper">
-            <main class="main-content">
-			    <h1>투어 변경</h1>
-			    <form action="/tour/update" method="post" th:object="${tour}" enctype="multipart/form-data">
-		   		    <input type="hidden" name="breweryNo" th:value="*{breweryNo}">
-		   		    <input type="hidden" name="tourNo" th:value="*{tourNo}">
-				    <input type="hidden" name="fileName" th:value="*{fileName}">
-				    <input type="hidden" name="fileRename" th:value="*{fileRename}">
-				    <input type="hidden" name="filePath" th:value="*{filePath}">
-			        
-			        체험 프로그램 <br>
-			        <input type="text" name="tourName" th:value="*{tourName}"> <br>
-					첨부파일
-					<th:block th:if="${tour.fileRename != null}">
-					    <th:block th:if="${#strings.endsWith(tour.fileRename, '.jpg') || #strings.endsWith(tour.fileRename, '.png') || #strings.endsWith(tour.fileRename, '.jpeg')}">
-					        <img id="previewImage" th:src="@{|${tour.filePath}/${tour.fileRename}|}" alt="미리보기 이미지" style="max-width: 300px; max-height: 300px;">
-					    </th:block>
-					</th:block> <br>
-					<th:block th:if="${tour.fileRename == null}">
-						<span>사진 없음</span>
-					</th:block>
-					<input type="file" id="newFile" name="uploadFile"> <br>	
-					<textarea name=tourContent th:text="*{tourContent}"></textarea> <br>
-					<input type="text" name="timeTaken" th:value="*{timeTaken}"> <br>
-					<input type="text" name="tourPrice" th:value="*{tourPrice}"> <br>
-					<input type="submit" value="등록">
-			    </form>
+		    <main class="main-content">
+		        <form action="/tour/update" method="post" th:object="${tour}" enctype="multipart/form-data">
+		            <!-- 숨겨진 필드 -->
+		            <input type="hidden" name="breweryNo" th:value="*{breweryNo}">
+		            <input type="hidden" name="tourNo" th:value="*{tourNo}">
+		            <input type="hidden" name="fileName" th:value="*{fileName}">
+		            <input type="hidden" name="fileRename" th:value="*{fileRename}">
+		            <input type="hidden" name="filePath" th:value="*{filePath}">
+		            
+		            <!-- 프로그램명 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="tourName">체험 프로그램</label>
+		                <input type="text" id="tourName" name="tourName" class="form-input" th:value="*{tourName}" required>
+		            </div>
+		            
+		            <!-- 첨부파일 미리보기 및 파일 업로드 -->
+		            <div class="form-group">
+		                <label class="form-label" for="newFile">첨부파일</label>
+		                <th:block th:if="${tour.fileRename != null}">
+		                    <th:block th:if="${#strings.endsWith(tour.fileRename, '.jpg') || #strings.endsWith(tour.fileRename, '.png') || #strings.endsWith(tour.fileRename, '.jpeg')}">
+		                        <img id="previewImage" th:src="@{|${tour.filePath}/${tour.fileRename}|}" alt="미리보기 이미지" class="image-preview">
+		                    </th:block>
+		                </th:block>
+		                <th:block th:if="${tour.fileRename == null}">
+		                    <span class="no-image-text">사진 없음</span>
+		                </th:block>
+		                <input type="file" id="newFile" name="uploadFile" class="file-input">
+		            </div>
+		            
+		            <!-- 프로그램 소개 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="tourContent">프로그램 소개</label>
+		                <textarea id="tourContent" name="tourContent" class="form-input" rows="4" th:text="*{tourContent}" required></textarea>
+		            </div>
+		            
+		            <!-- 소요시간 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="timeTaken">소요시간</label>
+		                <input type="text" id="timeTaken" name="timeTaken" class="form-input" th:value="*{timeTaken}" required>
+		            </div>
+		            
+		            <!-- 금액 입력 -->
+		            <div class="form-group">
+		                <label class="form-label" for="tourPrice">금액</label>
+		                <input type="text" id="tourPrice" name="tourPrice" class="form-input" th:value="*{tourPrice}" required>
+		            </div>
+		            
+		            <!-- 등록 버튼 -->
+		            <div class="form-group">
+		                <button type="submit" class="submit-button">수정</button>
+		            </div>
+		        </form>
 		    </main>
-	    </div>
+		</div>
 	    
 	    <footer>
 	        <nav>

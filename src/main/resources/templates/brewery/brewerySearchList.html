@@ -11,18 +11,37 @@
 	<body>
 		<form action="/brewery/search" method="post">		
 		<header>
-			<div class="header-top">
-	            <div style="width: 100px;;"></div>
+		<div class="header-top">
+			<div style="width: 100px;;"></div>
 	            <a href="/" class="logo-link">
-	            <div id="logo-container">
-	                <img src="../../img/logo.png" alt="" id="logo">
-	                <h1>술길따라</h1>
-	            </div>
-	            <div class="user-actions">
-	                <a href="#" class="icon-user"><img class="header-img" src="../../img/free-icon-user-17095347.png" alt=""></a>
-	                <a href="#" class="icon-menu"><img class="header-img" src="../../img/free-icon-menu-3856832.png" alt=""></a>
-	            </div>
-	        </div>
+					<div id="logo-container">
+						<img src="../../img/logo.png" alt="" id="logo">
+						<h1>술길따라</h1>
+					</div>
+				</a>
+			<div class="user-actions">
+		            <div class="dropdown" th:if="${session.userId != null}">
+	        			<a href="#" class="icon-user" id="userMenuToggle">
+	            			<img class="header-img" src="/img/free-icon-user-17095347.png" alt="사용자 아이콘">
+	        			</a>
+	        			<div class="mypage-content" id="mypageDropdown">
+<!-- 	        				<span class="user-name" th:text="${session.userName} + '님'"></span> -->
+<!-- 	        					<hr> -->
+<!-- 	            			<a href="/user/update">마이페이지</a> -->
+<!-- 	            			<a href="/user/logout">로그아웃</a> -->
+<!-- 	            			<a href="/reservation/search">예약조회</a> -->
+	        			</div>
+	    			</div>
+	    			<div th:if="${session.userId == null}">
+	    				<a href="/user/login" class="icon-user">
+		                	<img class="header-img" src="/img/free-icon-user-17095347.png" alt="">
+		                </a>
+		            </div>
+	               	<a href="#" class="icon-menu">
+	                	<img class="header-img" src="/img/free-icon-menu-3856832.png" alt="">
+	                </a>	                
+	    		</div>
+			</div>
 	        <nav>
 	            <ul>
 	              	<li><a href="/#story">술길따라 이야기</a></li>
@@ -64,6 +83,11 @@
 		            </td>
 		        </tr>
 	        </table>
+	        <div th:if="${#lists.isEmpty(breweryDataList)}">
+			    <p id="null-text">검색 결과가 없습니다.</p>
+			</div>
+			
+			<div th:unless="${#lists.isEmpty(breweryDataList)}">
 				<div th:each="breweryData : ${breweryDataList}">
 				    <div class="detail-div">
 				        <div class="img-div" 
