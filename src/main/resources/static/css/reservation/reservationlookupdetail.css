@@ -29,6 +29,11 @@ header {
 	margin: 0 auto;
 	margin-bottom: 25px;
 }
+.header-top h1 {
+	
+	
+}
+
 
 h1 {
 	font-size: 3rem;
@@ -164,7 +169,7 @@ nav ul li a {
 		height: 50px;
 	}
 	h1 {
-		font-size: 5rem;
+		font-size: 3rem;
 	}
 	#logo {
 		width: 80px;
@@ -319,7 +324,7 @@ footer nav a {
 
 .Info-title {
 	font-weight: bold;
-	margin-bottom: 5px;
+	
 	text-align:center;
 }
 .info-content{
@@ -361,7 +366,7 @@ footer nav a {
 }
 
 /* 제목 크기 조정 */
-h1 { font-size: 4.5rem; }
+h1 { font-size: 3rem; }
 h2 { font-size: 3rem; }
 h3 { font-size: 2.5rem; }
 
@@ -387,7 +392,6 @@ h3 { font-size: 2.5rem; }
 /* 정보 섹션 폰트 크기 조정 */
 .Info-title {
     font-size: 1.3em;
-    margin-bottom: 10px;
 }
 
 .info-content {
@@ -437,4 +441,5 @@ h3 { font-size: 2.5rem; }
 }
 .paymentInfo{
 	margin-bottom:30px;
+	font-size:15px;
 }

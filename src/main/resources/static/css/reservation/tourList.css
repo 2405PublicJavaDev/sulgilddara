@@ -15,7 +15,10 @@ main {
 	margin: 0 auto;
 	padding: 20px;
 }
-* header */
+
+
+/* header */
+
 header {
 	background-color: white;
 	padding: 20px;
@@ -122,8 +125,6 @@ footer nav a {
 		width: 60px;
 		height: 60px;
 	}
-
-
 }
 
 #logo {
@@ -160,8 +161,6 @@ footer nav a {
 	main {
 		padding: 0;
 	}
-
-
 }
 
 #logo {
@@ -241,6 +240,7 @@ footer nav a {
 	text-decoration: none; /* 링크의 밑줄 제거 */
 	color: inherit; /* 링크의 색상 제거 */
 }
+
 .search-form {
 	margin-bottom: 20px;
 	text-align: right;
@@ -308,8 +308,8 @@ footer nav a {
 	display: flex;
 	justify-content: center;
 	margin-top: 20px;
-	padding:10px;
-	font-size:15px;
+	padding: 10px;
+	font-size: 15px;
 }
 
 .pagination a {
