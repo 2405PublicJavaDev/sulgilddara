@@ -34,7 +34,7 @@ header {
 }
 
 h1 {
-	font-size: 3rem;
+	font-size: 40px;
 	font-weight: 800;
 }
 
@@ -114,7 +114,7 @@ footer nav a {
 
 @media ( min-width : 768px) {
 	h1 {
-		font-size: 4rem;
+		font-size: 40px;
 	}
 	.user-actions img {
 		width: 40px;
@@ -152,7 +152,7 @@ footer nav a {
 		height: 50px;
 	}
 	h1 {
-		font-size: 5rem;
+		font-size: 40px;
 	}
 	#logo {
 		width: 80px;
@@ -250,6 +250,11 @@ footer nav a {
 	width: 200px;
 	padding: 5px;
 	margin-right: 5px;
+	font-size: 1.2em;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    height: 40px;
+    outline: none;
 }
 
 .search-form button {

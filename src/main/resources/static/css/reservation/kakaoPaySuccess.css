@@ -14,7 +14,7 @@ header {
 }
 
 h1 {
-	font-size: 3rem;
+	font-size: 40px;
 	font-weight: 800;
 }
 
@@ -147,7 +147,7 @@ nav ul li a {
 		height: 50px;
 	}
 	h1 {
-		font-size: 5rem;
+		font-size: 40px;
 	}
 	#logo {
 		width: 80px;
@@ -169,7 +169,7 @@ nav ul li a {
 
 @media ( min-width : 768px) {
 	h1 {
-		font-size: 3rem;
+		font-size: 40px;
 	}
 	.user-actions img {
 		width: 40px;
@@ -254,15 +254,16 @@ footer nav a {
 a {
 	text-decoration-line: none;
 }
-button{
-	width:70%;
+
+button {
+	width: 70%;
 	background-color: #4CAF50;
 	color: white;
 	padding: 10px 20px;
 	border: none;
 	cursor: pointer;
 	margin-top: 20px;
-	border-radius:5px;
+	border-radius: 5px;
 }
 
 button:hover {

@@ -12,7 +12,7 @@
 			<div style="width: 100px;"></div>
 			<a href="/" class="logo-link">
 				<div id="logo-container">
-					<img src="/img/logo.png" alt="" id="logo">
+					<img src="../img/logo.png" alt="" id="logo">
 					<h1>술길따라</h1>
 				</div>
 			</a>
@@ -25,7 +25,8 @@
 					<div class="mypage-content" id="mypageDropdown">
 						<span class="user-name" th:text="${session.userName} + '님'"></span>
 						<hr>
-						<a href="/user/update">마이페이지</a> <a href="/user/logout">로그아웃</a>
+						<a href="/user/update">마이페이지</a> <a href="/user/logout">로그아웃</a> <a
+							href="/reservation/search">예약조회</a>
 					</div>
 				</div>
 				<div th:if="${session.userId == null}">
@@ -40,9 +41,11 @@
 		</div>
 		<nav>
 			<ul>
-				<li><a href="/brewery/admin/list">양조장 정보</a></li>
-                <li><a href="/liquor/list">술 정보</a></li>
-                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
+				<li><a href="/#story">술길따라 이야기</a></li>
+				<li><a href="/brewery/">양조장 탐방</a></li>
+				<li><a href="/liquor/search">술 도감</a></li>
+				<li><a href="/reservation/list">투어 예약</a></li>
+				<li><a href="/board/listCard">술 이야기</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -90,7 +93,7 @@
 							결제정보: [카카오페이] 간편결제<br> 승인 일시 :
 							[[${Reservation.reserveCompleteTime}]]
 						</div>
-			<!-- 			<div class="creaditCancel">
+						<!-- 			<div class="creaditCancel">
 							<button onclick="cancelPayment();">결제 취소</button>
 						</div> -->
 					</div>
@@ -140,13 +143,27 @@
 		<p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights
 			Reserved</p>
 	</footer>
-<!-- 	<script>
-		function cancelPayment() {
-			if (confirm("정말 취소하시겠습니까?")) {
-				location.href = "/reservation/cancel?reserveNo="
-						+ encodeURIComponent(reserveNo);
+	<script>
+	 document.addEventListener('DOMContentLoaded', function() {
+			const userMenuToggle = document.getElementById('userMenuToggle');
+			const mypageDropdown = document.getElementById('mypageDropdown');
+			
+			if (userMenuToggle && mypageDropdown) {
+			    userMenuToggle.addEventListener('click', function(e) {
+			        e.preventDefault();
+			        mypageDropdown.classList.toggle('show');
+			    });
+			
+			    // 드롭다운 외부 클릭 시 닫기
+			    window.addEventListener('click', function(e) {
+			        if (!e.target.matches('.icon-user') && !e.target.matches('.header-img')) {
+			            if (mypageDropdown.classList.contains('show')) {
+			                mypageDropdown.classList.remove('show');
+			            }
+			        }
+			    });
 			}
-		}
-	</script> -->
+		});
+	</script>
 </body>
 </html>

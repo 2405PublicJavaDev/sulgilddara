@@ -31,7 +31,7 @@ header {
 }
 
 h1 {
-	font-size: 3rem;
+	font-size: 40px;
 	font-weight: 800;
 }
 
@@ -164,7 +164,7 @@ nav ul li a {
 		height: 50px;
 	}
 	h1 {
-		font-size: 5rem;
+		font-size: 40px;
 	}
 	#logo {
 		width: 80px;
@@ -183,7 +183,7 @@ nav ul li a {
 
 @media ( min-width : 768px) {
 	h1 {
-		font-size: 4rem;
+		font-size: 40px;
 	}
 	.user-actions img {
 		width: 40px;
@@ -278,10 +278,28 @@ footer nav a {
 	margin-right:10px;
 }
 .searchDiv label{
-	font-size:18px;
+	width: 200px;
+	padding: 5px;
+	margin-right: 5px;
+	font-size: 1.2em;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    height: 40px;
+    outline: none;
+}
+.searchDiv input{
+		width: 200px;
+	padding: 5px;
+	margin-right: 5px;
+	font-size: 1.2em;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    height: 40px;
+    outline: none;
 }
 .searchDiv button{
 	width:80px;
+	border-radius:5px;
 	height:40px;
 }
 input[type="text"], select {
