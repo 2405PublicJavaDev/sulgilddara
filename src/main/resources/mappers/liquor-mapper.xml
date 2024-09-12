@@ -20,9 +20,26 @@
 	</delete>
 	<select id="getTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM LIQUOR_TBL
+		<where>
+			<if test="keyword != null and keyword != ''">
+				LIQUOR_NAME LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="liquorType != 'all'">
+				AND LIQUOR_TYPE = #{liquorType}
+			</if>
+		</where>
 	</select>
 	<select id="selectLiquorList" resultType="Liquor">
-		SELECT * FROM LIQUOR_TBL ORDER BY LIQUOR_ID DESC
+		SELECT * FROM LIQUOR_TBL 
+		<where>
+			<if test="keyword != null and keyword != ''">
+				LIQUOR_NAME LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="liquorType != 'all'">
+				AND LIQUOR_TYPE = #{liquorType}
+			</if>
+		</where>
+		ORDER BY LIQUOR_ID DESC
 	</select>
 	<select id="selectOneById" resultType="LiquorDetail">
 		SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL, AVG_POINT, REVIEW_COUNT 
@@ -100,20 +117,37 @@
 
 
 	</select>
+	<select id="getPopularLiquor" resultType="LiquorDetail">
+		SELECT * FROM
+		(
+			SELECT * FROM
+			(SELECT LIQUOR_ID, LIQUOR_NAME, ALCHOL_CONTENT, LIQUOR_TYPE, LIQUOR_PRICE, LIQUOR_CAPACITY, L_CREATE_DATE, L_UPDATE_DATE, BREWERY_ID, BREWERY_NAME, BREWERY_LOCAL
+			FROM LIQUOR_TBL
+			LEFT OUTER JOIN BREWERY_TBL
+				ON LIQUOR_TBL.BREWERY_ID = BREWERY_TBL.BREWERY_NO
+			) A
+			LEFT OUTER JOIN
+			(SELECT LIQUOR_ID, ROUND(AVG(BOARD_POINT), 2) AVG_POINT, COUNT(*) REVIEW_COUNT FROM BOARD_TBL GROUP BY LIQUOR_ID) B
+			USING(LIQUOR_ID)
+			ORDER BY REVIEW_COUNT DESC NULLS LAST
+		) SUB
+		WHERE ROWNUM &lt;= 6
+
+	</select>
 	
 	<select id="detailSearchTotalCount">
 		SELECT COUNT(*)
 		FROM LIQUOR_TBL
 		LEFT OUTER JOIN BREWERY_TBL
 			ON LIQUOR_TBL.BREWERY_ID = BREWERY_TBL.BREWERY_NO
-		<where>
+			<where>
 				<if test="sInfo.keyword != null and sInfo.keyword !=''">
 					AND LIQUOR_NAME LIKE '%'||#{sInfo.keyword}||'%'
 				</if>
-				<if test="sInfo.breweryLocal != 'all'">
+				<if test="sInfo.breweryLocal != 'all' and sInfo.breweryLocal != null">
 					AND BREWERY_LOCAL = #{sInfo.breweryLocal}
 				</if>
-				<if test="sInfo.liquorType != 'all'">
+				<if test="sInfo.liquorType != 'all' and sInfo.liquorType != null">
 					AND LIQUOR_TYPE = #{sInfo.liquorType}
 				</if>
 				<if test="sInfo.alcholMin != null">
@@ -134,7 +168,8 @@
 				<if test="sInfo.priceMax != null">
 					AND LIQUOR_PRICE &lt;= #{sInfo.priceMax}
 				</if>
-			<if test="tags != null">
+				
+				<if test="tags != null">
 				AND LIQUOR_ID IN
 				(SELECT LIQUOR_ID
 				FROM LIQUOR_TBL L

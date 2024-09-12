@@ -1,7 +1,6 @@
 package com.makjan.sulgilddara.reservation.controller;
 
 import java.security.SecureRandom;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,24 +14,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.makjan.sulgilddara.reservation.model.Service.ReservationService;
-import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.kakao.model.Service.KakaoPayService;
 import com.makjan.sulgilddara.model.vo.Pagination;
+import com.makjan.sulgilddara.reservation.model.Service.ReservationService;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.tour.model.service.TourService;
-import com.makjan.sulgilddara.tour.model.service.impl.TourServiceImpl;
 import com.makjan.sulgilddara.tour.model.vo.Tour;
 import com.makjan.sulgilddara.user.model.vo.User;
 
+import jakarta.mail.Session;
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Slf4j
 @Controller
@@ -47,8 +44,9 @@ public class ReservationController {
 	private ReservationService rService;
 	private TourService tService;
 	private BreweryService bService;
+
 	@Autowired
-	public ReservationController(ReservationService rService, TourService tService,BreweryService bService) {
+	public ReservationController(ReservationService rService, TourService tService, BreweryService bService) {
 		this.rService = rService;
 		this.tService = tService;
 		this.bService = bService;
@@ -61,11 +59,9 @@ public class ReservationController {
 //		return "reservation/registerPage";
 //	}
 	@PostMapping("/reservation/initate/{breweryNo}/{tourNo}")
-	public String initateRegister(Model model, HttpSession session,
-			@PathVariable("tourNo") Integer tourNo
-			,@PathVariable("breweryNo")Integer breweryNo
-			,@RequestParam("tourName")String tourName) {
-		Tour tour = tService.searchByInfo(tourNo,tourName,breweryNo);
+	public String initateRegister(Model model, HttpSession session, @PathVariable("tourNo") Integer tourNo,
+			@PathVariable("breweryNo") Integer breweryNo, @RequestParam("tourName") String tourName) {
+		Tour tour = tService.searchByInfo(tourNo, tourName, breweryNo);
 		System.out.println("ReservationCOntroller: " + tour);
 //		Brewery brewery = bService.searchOneByNo(breweryNo);
 		session.setAttribute("tour", tour);
@@ -79,70 +75,59 @@ public class ReservationController {
 			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
 		}
 		return builder.toString();
-	} 
+	}
 
 	@GetMapping("/reservation/register")
-	public String showRegisterForm(Model model ,HttpSession session
-			,@ModelAttribute Reservation reservation) {
-		Tour tour = (Tour)session.getAttribute("tour");
-		if(tour == null) {
+	public String showRegisterForm(Model model, HttpSession session, @ModelAttribute Reservation reservation) {
+		Tour tour = (Tour) session.getAttribute("tour");
+		if (tour == null) {
 			return "redirect:/reservation/tourList";
 		}
-		model.addAttribute("tour",tour);
-		model.addAttribute("reservation",reservation);
+		model.addAttribute("tour", tour);
+		model.addAttribute("reservation", reservation);
 		return "reservation/registerPage";
 	}
+
 	@PostMapping("/reservation/register")
-	public String RegisterInfo( 
-			Model model, HttpSession session,
-			@ModelAttribute Reservation reservation,
-			@ModelAttribute Tour tour,
-			@ModelAttribute Brewery brewery,
-			@ModelAttribute User user
-			) {
+	public String RegisterInfo(Model model, HttpSession session, @ModelAttribute Reservation reservation,
+			@ModelAttribute Tour tour, @ModelAttribute Brewery brewery, @ModelAttribute User user) {
 		String userId = (String) session.getAttribute("userId");
 //		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
 
 		reservation.setUserId(userId);
 //		reservation.setTourNo(tourNo);
 //		reservation.setBreweryNo(breweryNo);
-		System.out.println("Reservaton: "+ reservation);
+		System.out.println("Reservaton: " + reservation);
 		Tour sessionTour = (Tour) session.getAttribute("tour");
-		tour = tService.searchByInfo(sessionTour.getTourNo(),sessionTour.getTourName(),sessionTour.getBreweryNo());
+		tour = tService.searchByInfo(sessionTour.getTourNo(), sessionTour.getTourName(), sessionTour.getBreweryNo());
 		String randomString = generateRandomString(10);
 		reservation.setReserveNo(randomString);
-        int result = rService.registerInfo(reservation,tour,brewery);
-        System.out.println("result: " + result);
-        model.addAttribute("reservation",reservation);
-        model.addAttribute("tour",tour);
- 
+		int result = rService.registerInfo(reservation, tour, brewery);
+		System.out.println("result: " + result);
+		model.addAttribute("reservation", reservation);
+		model.addAttribute("tour", tour);
+
 		return "redirect:/reservation/payment?reserveNo=" + reservation.getReserveNo();
 	}
+
 	@GetMapping("/reservation/payment")
 	public String showPaymentForm(Model model
-//			,@RequestParam("reserveNo")String reserveNo
-			,@ModelAttribute Reservation reservation
-			,@ModelAttribute Tour tour) {
-		System.out.println("paymentController: "+reservation);
-		List<Reservation>rList = rService.searchPaymentInfo(reservation,tour);
-		model.addAttribute("rList",rList);
-		model.addAttribute("reservation",reservation);
+		,@ModelAttribute Reservation reservation, @ModelAttribute Tour tour) {
+		System.out.println("paymentController: " + reservation);
+		List<Reservation> rList = rService.searchPaymentInfo(reservation, tour);
+		model.addAttribute("rList", rList);
+		model.addAttribute("reservation", reservation);
 		return "reservation/paymentPage";
 	}
-//	@PostMapping
-//	public String PayToKakao(Model model
-//			,@ModelAttribute Reservation reservation) {
-//		
-//		
-//		return "redirect:" + kakaoPay.kakaoPayReady(reservation); // 결제 페이지
-//	}
-	
-	
 
 	@GetMapping("/reservation/list")
 	public String showTourList(Model model,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
-			@RequestParam(value = "tourName", required = false) String tourName) {
+			@RequestParam(value = "tourName", required = false) String tourName,HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			return "redirect:/user/login";
+		}
 		int totalCount = rService.getListTotalCount(tourName);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
@@ -152,12 +137,12 @@ public class ReservationController {
 		if (!tList.isEmpty()) {
 			// Tour 이미지 경로 설정
 			for (Tour tour : tList) {
-	            String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
-	            tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
-	            System.out.println(imagePath);
-	        }
+				String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
+				tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
+				System.out.println(imagePath);
+			}
 			model.addAttribute("tList", tList);
-//			model.addAttribute("ImagePath", imagePath);
+
 		} else {
 			// 예약이 없을 경우 처리
 		}
@@ -166,7 +151,6 @@ public class ReservationController {
 		return "reservation/tourList";
 	}
 
-	
 	@PostMapping("/reservation/listSearchResult")
 	public String showAllTourList(Model model,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
@@ -178,13 +162,13 @@ public class ReservationController {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Tour> tList = rService.selectSearchList(tourName, rowBounds);
 		if (!tList.isEmpty()) {
-			Tour tour = tList.get(0);
+			for (Tour tour : tList) {
+				String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
+				tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
+				System.out.println(imagePath);
+			}
 			model.addAttribute("tList", tList);
 
-			// Brewery 이미지 경로 설정
-			String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
-			tour.setImagePath(imagePath);
-			model.addAttribute("ImagePath", imagePath);
 		} else {
 			// 예약이 없을 경우 처리
 		}
@@ -199,7 +183,11 @@ public class ReservationController {
 	}
 
 	@PostMapping("/reservation/search")
-	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model) {
+	public String SearchInfo(@RequestParam("reserveNo") String reserveNo, Model model,HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			return "redirect:/user/login";
+		}
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("reserveNo", reserveNo);
 		List<Reservation> rList = rService.searchInfo(param);
@@ -267,17 +255,6 @@ public class ReservationController {
 		return "reservation/reservationlookupadmin";
 	}
 
-	@GetMapping("/reservation/reservationsuccess")
-	public String SuccessInfo() {
-		return "reservation/reservationsuccess";
-	}
-
-	@PostMapping("/reservation/reservationsuccess")
-	public String reserveSuccess(Reservation reservation, Model model) {
-		List<Reservation> rList = rService.SearchreserveNo(reservation);
-		model.addAttribute("rList", rList);
-		return "reservation/reservationsuccess";
-	}
 
 	@GetMapping("/reservation/detail/{reserveNo}")
 	public String showReservationDetail(@PathVariable("reserveNo") String reserveNo, Model model) {

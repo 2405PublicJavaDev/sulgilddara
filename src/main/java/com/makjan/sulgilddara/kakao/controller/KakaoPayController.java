@@ -44,6 +44,7 @@ import lombok.extern.java.Log;
 	    @GetMapping("/kakao/ready")
 	    public String kakaoPayReady(HttpSession session) {
 	        Reservation reservation = (Reservation) session.getAttribute("reservation");
+	        System.out.println("ready: " + reservation);
 	        log.info("Controller reservatoin {} "+ reservation);
 	        return "redirect:" + kakaoPay.kakaoPayReady(session);
 	    }
@@ -52,14 +53,13 @@ import lombok.extern.java.Log;
 	    public String kakaoPaySuccess(@RequestParam("pg_token")String pg_token, Model model,
 //	    		@ModelAttribute Reservation reservation,
 	    		HttpSession session) {
-//	    	Reservation reservation = (Reservation)session.getAttribute("reservation");
-//	    	log.info("kakaoPay Success get................");
-//	        log.info("kakaoPaySuccess pg_token : " + pg_token);
+    	Reservation reservation = (Reservation)session.getAttribute("reservation");
+    	System.out.println("reservation 나오나: " + session);
 //	    
 //	        
 //	            KakaoPayApproval kakaoPayInfo = kakaoPay.kakaoPayInfo(pg_token,reservation);
 //	            System.out.println("kakaoPayinfo이거 맞아요?:" + kakaoPayInfo);
-//	                model.addAttribute("info",kakaoPayInfo);
+                model.addAttribute("Reservation",reservation);
 	                return "kakaoPaySuccess";
 }
 }

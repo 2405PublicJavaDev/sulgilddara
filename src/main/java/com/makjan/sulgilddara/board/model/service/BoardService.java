@@ -185,5 +185,12 @@ public interface BoardService {
 	 */
 	List<BoardReplyUser> selectBoardReplyUser(Integer boardNo);
 
+	/**
+	 * liquorId로 게시글 조회
+	 * @param liquorId
+	 * @return List<Board>
+	 */
+	List<Board> selectBoardListByLiquorId(Integer liquorId);
+
 	
 }

@@ -49,7 +49,7 @@ public interface LiquorMapper {
 	 * 전체 주류 수 Mapper
 	 * @return int
 	 */
-	int getTotalCount();
+	int getTotalCount(@Param("keyword") String keyword, @Param("liquorType") String liquorType);
 	
 	/**
 	 * 검색 주류 수 Mapper
@@ -64,7 +64,7 @@ public interface LiquorMapper {
 	 * @param rowBounds
 	 * @return int
 	 */
-	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds);
+	List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds, @Param("keyword") String keyword, @Param("liquorType") String liquorType);
 
 	/**
 	 * 주류 이미지등록 Mapper
@@ -107,4 +107,10 @@ public interface LiquorMapper {
 	 * @return
 	 */
 	int detailSearchTotalCount(Map<String, Object> searchMap);
+
+	/**
+	 * 리뷰많은 주류 조회 Mapper
+	 * @return
+	 */
+	List<LiquorDetail> getPopularLiquor();
 }

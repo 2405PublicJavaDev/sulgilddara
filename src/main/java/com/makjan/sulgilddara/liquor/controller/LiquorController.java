@@ -25,6 +25,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makjan.sulgilddara.board.model.service.BoardService;
+import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.board.model.vo.BoardFile;
 import com.makjan.sulgilddara.brewery.model.service.impl.BreweryService;
 import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.common.utility.Util;
@@ -54,14 +57,16 @@ public class LiquorController {
 
 	private LiquorService lService;
 	private BreweryService bService;
+	private BoardService boardService;
 	private String UPLOAD_DIR;
 	
 	public LiquorController() {}
 
 	@Autowired
-	public LiquorController(LiquorService lService, BreweryService bService, RestTemplate template) {
+	public LiquorController(LiquorService lService, BreweryService bService, RestTemplate template, BoardService boardService) {
 		this.lService = lService;
 		this.bService = bService;
+		this.boardService = boardService;
 		this.UPLOAD_DIR = "C:/uploadFile/liquor/";
 		this.template = template;
 	}
@@ -110,14 +115,9 @@ public class LiquorController {
 	@RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
 	public String liquorSearch(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model, @ModelAttribute LiquorSearchInfo sInfo) {
 		System.out.println("sInfo:"+sInfo);
+		System.out.println("sInfo:"+sInfo);
+		System.out.println("sInfo:"+sInfo);
 		
-		//페이징 데이터 처리
-		int totalCount = lService.getTotalCount();
-		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
-		pn.setBoardLimit(12);
-		int limit = pn.getBoardLimit();
-		int offset = (currentPage-1)*limit;
-		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		//상세검색 수행을 위한 데이터 구조
 		Map<String, Object> searchMap = new HashMap<>();	//검색조건 VO객체와 태그리스트를 담기위한 Map
@@ -152,6 +152,17 @@ public class LiquorController {
 					tagString += ", ";
 			}
 		}
+		
+		//페이징 데이터 처리
+		int totalCount = lService.detailSearchTotalCount(searchMap);
+		System.out.println("totalCount:"+totalCount);
+		System.out.println("totalCount:"+totalCount);
+		System.out.println("totalCount:"+totalCount);
+		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
+		pn.setBoardLimit(12);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage-1)*limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 		liquorList = lService.liquorSearch(searchMap, rowBounds);
@@ -227,10 +238,9 @@ public class LiquorController {
 	 * @return liquorList.html로 이동
 	 */
 	@PostMapping("/liquorAdd")
-	public String liquorAdd(Model model, @ModelAttribute Liquor liquor, @RequestParam("files") MultipartFile[] files) {
+	public String liquorAdd(Model model, @ModelAttribute Liquor liquor, @RequestParam(value="files", required=false) MultipartFile[] files) {
 		lService.addLiquor(liquor);
-		System.out.println(liquor.getLiquorId());
-		if(files.length != 0){
+		if(files != null && files.length != 0 && !files[0].isEmpty()){
 //			for(MultipartFile file : files) {
 			for(int i=0; i< files.length; i++) {
 				try {
@@ -266,9 +276,9 @@ public class LiquorController {
 	}
 	
 	@PostMapping("/update")
-	public String updateLiquor(Liquor liquor, @RequestParam("files") MultipartFile[] files) {
+	public String updateLiquor(Liquor liquor, @RequestParam(value="files", required=false, defaultValue="1") MultipartFile[] files) {
 		int result = lService.updateLiquor(liquor);
-		if(files.length != 0){
+		if(files != null && files.length != 0 && !files[0].isEmpty()){
 //			for(MultipartFile file : files) {
 			for(int i=0; i< files.length; i++) {
 				try {
@@ -306,12 +316,20 @@ public class LiquorController {
 		LiquorDetail liquor = lService.selectOneById(liquorId);
 		List<LiquorTagInfo> tags = lService.searchTagsByLiquorId(liquorId);
 		List<LiquorImage> images = lService.searchImageByLiquorId(liquorId);
+		
+		List<Board> bList = boardService.selectBoardListByLiquorId(liquorId);
+		// 파일 전체 리스트 조회
+		List<BoardFile> bFileList = boardService.selectBoardFileList(); 
+		
+		model.addAttribute("bFileList", bFileList);
+		
 		System.out.println(liquor.toString());
 		for(LiquorTagInfo tag : tags)
 			System.out.println(tag.toString());
 		model.addAttribute("liquor", liquor);
 		model.addAttribute("images", images);
 		model.addAttribute("tags", tags);
+		model.addAttribute("bList", bList);
 		return "liquor/liquorDetail";
 	}
 	
@@ -324,13 +342,17 @@ public class LiquorController {
 	 * @return liquorList.html로 이동
 	 */
 	@GetMapping("/list")
-	public String showLiquorList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model) {
-		int totalCount = lService.getTotalCount();
+	public String showLiquorList(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model,
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+			@RequestParam(value="liquorType", required=false, defaultValue="all") String liquorType) {
+		int totalCount = lService.getTotalCount(keyword, liquorType);
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
+		System.out.println("startNavi:"+pn.getStartNavi());
+		System.out.println("endNavi:"+pn.getEndNavi());
 		int offset = (currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Liquor> lList = lService.selectLiquorList(currentPage, rowBounds);		//RowBounds 범위만큼의 데이터를 받아온 List
+		List<Liquor> lList = lService.selectLiquorList(currentPage, rowBounds, keyword, liquorType);		//RowBounds 범위만큼의 데이터를 받아온 List
 		List<List<LiquorImage>> imgList = new ArrayList<List<LiquorImage>>();		//List<LiquorImage> 를 담기위한 List
 		
 		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
@@ -349,6 +371,8 @@ public class LiquorController {
 		model.addAttribute("lList", lList);
 		model.addAttribute("pn", pn);
 		model.addAttribute("cp", currentPage);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("liquorType", liquorType);
 		return "liquor/liquorList";
 	}
 	

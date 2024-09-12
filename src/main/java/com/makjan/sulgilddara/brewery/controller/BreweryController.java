@@ -154,7 +154,7 @@ public class BreweryController {
 	            System.out.println("No tags to process: " + e.getMessage());
 	        }
 	    }
-		return "redirect:/brewery/list";
+		return "redirect:/brewery/detail/"+updateBrewery.getBreweryNo();
 	}
 	@GetMapping("/admin/delete/{breweryNo}")
 	public String deleteBrewery(@PathVariable("breweryNo") Integer breweryNo) {
@@ -265,58 +265,95 @@ public class BreweryController {
 		model.addAttribute("tList", tList);
 		return "brewery/breweryList";
 	}
-//	@GetMapping("/search")
-//	public String showUserSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
-//			, Model model
-//			, @RequestParam("searchCondition") String searchCondition
-//			, @RequestParam("searchKeyword") String searchKeyword) {
-//		List<BreweryTag>tList = bService.showAllTag();
-//		model.addAttribute("tList", tList);
-//		System.out.println(searchCondition);
-//		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
-//		Pagination pn = new Pagination(totalCount, currentPage);
-//		int limit = pn.getBoardLimit();
-//		int offset = (currentPage - 1) * limit;	
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//		
-//		Map<String, String> paramMap = new HashMap<String, String>();
-//		paramMap.put("searchCondition", searchCondition);
-//		paramMap.put("searchKeyword", searchKeyword);
-//		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
-//		model.addAttribute("sList", searchList);
-//		System.out.println(searchCondition);
-//		System.out.println(searchKeyword);
-//		
-//		System.out.println(searchList);
-//		model.addAttribute("searchKeyword", searchKeyword);
-//		model.addAttribute("searchCondition", searchCondition);
-//		model.addAttribute("pn", pn);
-//		return "brewery/brewerySearchList";
-//	}
-//	@PostMapping("/search")
-//	public String userSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
-//			, Model model
-//			, @RequestParam("searchCondition") String searchCondition
-//			, @RequestParam("searchKeyword") String searchKeyword) {
-//		List<BreweryTag>tList = bService.showAllTag();
-//		model.addAttribute("tList", tList);
-//		System.out.println(searchCondition);
-//		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
-//		Pagination pn = new Pagination(totalCount, currentPage);
-//		int limit = pn.getBoardLimit();
-//		int offset = (currentPage - 1) * limit;	
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//		
-//		Map<String, String> paramMap = new HashMap<String, String>();
-//		paramMap.put("searchCondition", searchCondition);
-//		paramMap.put("searchKeyword", searchKeyword);
-//		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
-//		model.addAttribute("sList", searchList);
-//		model.addAttribute("searchKeyword", searchKeyword);
-//		model.addAttribute("searchCondition", searchCondition);
-//		model.addAttribute("pn", pn);
-//		return "brewery/brewerySearchList";
-//	}
+	@GetMapping("/search")
+	public String showUserSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
+			, Model model
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchKeyword") String searchKeyword) {
+		List<BreweryTag>tList = bService.showAllTag();
+		model.addAttribute("tList", tList);
+		System.out.println(searchCondition);
+		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage - 1) * limit;	
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchKeyword", searchKeyword);
+		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
+		List<Map<String, Object>> breweryDataList = new ArrayList<>();
+	    for (Brewery brewery : searchList) {
+	        Map<String, Object> breweryData = new HashMap<>();
+	        breweryData.put("brewery", brewery);
+
+	        // 주종 리스트 가져오기
+	        List<Liquor> liquorList = bService.selectLiquorByNo(brewery.getBreweryNo());
+	        liquorList.stream()
+	            .map(Liquor::getLiquorType)  // Liquor 객체에서 liquorType만 추출
+	            .distinct()                 // 중복 제거
+	            .collect(Collectors.joining(", ")); // 쉼표로 구분된 문자열로 변환
+	        breweryData.put("liquors", liquorList);
+
+	        // 해시태그 리스트 가져오기
+	        List<BreweryTag> tagList = bService.showTagByBrwNo(brewery.getBreweryNo());
+	        breweryData.put("tags", tagList);
+
+	        breweryDataList.add(breweryData);
+	    }
+
+	    model.addAttribute("breweryDataList", breweryDataList);
+	    model.addAttribute("searchKeyword", searchKeyword);
+	    model.addAttribute("searchCondition", searchCondition);
+	    model.addAttribute("pn", pn);
+
+	    return "brewery/brewerySearchList";
+	}
+	@PostMapping("/search")
+	public String userSearchBrewery(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage
+			, Model model
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchKeyword") String searchKeyword) {
+		List<BreweryTag>tList = bService.showAllTag();
+		model.addAttribute("tList", tList);
+		System.out.println(searchCondition);
+		int totalCount = bService.getTotalCount(searchCondition, searchKeyword);
+		Pagination pn = new Pagination(totalCount, currentPage);
+		int limit = pn.getBoardLimit();
+		int offset = (currentPage - 1) * limit;	
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchKeyword", searchKeyword);
+		List<Brewery> searchList = bService.searchBreweryByKeyword(paramMap, rowBounds, currentPage);
+		List<Map<String, Object>> breweryDataList = new ArrayList<>();
+	    for (Brewery brewery : searchList) {
+	    	Map<String, Object> breweryData = new HashMap<>();
+	    	List<String> liquorStr = new ArrayList<String>();
+	        breweryData.put("brewery", brewery);
+
+	        // 주종 리스트 가져오기
+	        List<Liquor> liquorList = bService.selectLiquorByNo(brewery.getBreweryNo());
+	        liquorStr.add(liquorList.stream().map(Liquor::getLiquorType).distinct().collect(Collectors.joining(", ")));
+	        breweryData.put("liquors", liquorStr);
+//	        breweryData.put("liquors", liquorList);
+
+	        // 해시태그 리스트 가져오기
+	        List<BreweryTag> tagList = bService.showTagByBrwNo(brewery.getBreweryNo());
+	        breweryData.put("tags", tagList);
+
+	        breweryDataList.add(breweryData);
+	    }
+
+	    model.addAttribute("breweryDataList", breweryDataList);
+	    model.addAttribute("searchKeyword", searchKeyword);
+	    model.addAttribute("searchCondition", searchCondition);
+	    model.addAttribute("pn", pn);
+
+	    return "brewery/brewerySearchList";
+	}
 
 	@GetMapping("/detail/{breweryNo}")
 	public String showBreweryDetail(@PathVariable ("breweryNo") Integer breweryNo,

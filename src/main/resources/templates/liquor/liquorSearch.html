@@ -17,22 +17,41 @@
         <header>
 	        <div class="header-top">
 	            <div style="width: 100px;;"></div>
-	            <div id="logo-container">
-	                <img src="../img/logo.png" alt="" id="logo">
-	                <h1>술길따라</h1>
-	            </div>
+	            	<a href="/" class="logo-link">
+		            <div id="logo-container">
+		                <img src="/img/logo.png" alt="" id="logo">
+			            <h1>술길따라</h1>
+		            </div>
+	            	</a>
 	            <div class="user-actions">
-	                <a href="#" class="icon-user"><img class="header-img" src="../img/free-icon-user-17095347.png" alt=""></a>
-	                <a href="#" class="icon-menu"><img class="header-img" src="../img/free-icon-menu-3856832.png" alt=""></a>
+		            <div class="dropdown" th:if="${session.userId != null}">
+	        			<a href="#" class="icon-user" id="userMenuToggle">
+	            			<img class="header-img" src="/img/free-icon-user-17095347.png" alt="사용자 아이콘">
+	        			</a>
+	        			<div class="mypage-content" id="mypageDropdown">
+	        				<span class="user-name" th:text="${session.userName} + '님'"></span>
+	        					<hr>
+	            			<a href="/user/update">마이페이지</a>
+	            			<a href="/user/logout">로그아웃</a>
+	        			</div>
+	    			</div>
+	    			<div th:if="${session.userId == null}">
+	    				<a href="/user/login" class="icon-user">
+		                	<img class="header-img" src="/img/free-icon-user-17095347.png" alt="">
+		                </a>
+		            </div>
+	               	<a href="#" class="icon-menu">
+	                	<img class="header-img" src="/img/free-icon-menu-3856832.png" alt="">
+	                </a>
 	            </div>
-	        </div>
+	        	</div>
 	        <nav>
 	            <ul>
-	                <li><a href="#story">술길따라 이야기</a></li>
-	                <li><a href="#brewery">양조장 탐방</a></li>
+	                <li><a href="/#story">술길따라 이야기</a></li>
+	                <li><a href="/brewery/">양조장 탐방</a></li>
 	                <li><a href="/liquor/search">술 도감</a></li>
-	                <li><a href="#tour">투어 예약</a></li>
-	                <li><a href="#tales">술 이야기</a></li>
+	                <li><a href="/reservation/list">투어 예약</a></li>
+	                <li><a href="/board/listCard">술 이야기</a></li>
 	            </ul>
 	        </nav>
 	    </header>
@@ -65,26 +84,72 @@
 				<nav>
 			        <ul class="pagination" th:with="startNumber=${pn.startNavi}, endNumber=${pn.endNavi}">
 			            <li th:class="${cp <= 1} ? 'disabled' : ''">
-			                <a th:if="${cp > 1}" th:href="@{/liquor/search(cp=1)}" class="arrow">&laquo;&laquo;</a>
+			            	<a th:if="${cp > 1}" th:href="@{/liquor/search(cp=1, 
+						        liquorType=${sInfo.liquorType},
+						        breweryLocal=${sInfo.breweryLocal},
+						        alcholMin=${sInfo.alcholMin},
+						        alcholMax=${sInfo.alcholMax},
+						        capacityMin=${sInfo.capacityMin},
+						        capacityMax=${sInfo.capacityMax},
+						        priceMin=${sInfo.priceMin},
+						        priceMax=${sInfo.priceMax},
+						        tags=${tags})}" class="arrow">&laquo;&laquo;</a>
 			                <span th:unless="${cp > 1}" class="arrow disabled">&laquo;&laquo;</span>
 			            </li>
 			            <li th:class="${cp <= 1} ? 'disabled' : ''">
-			                <a th:if="${cp > 1}" th:href="@{/liquor/search(cp=${cp - 1})}" class="arrow">&laquo;</a>
+			                <a th:if="${cp > 1}" th:href="@{/liquor/search(cp=${cp - 1}, 
+						        liquorType=${sInfo.liquorType},
+						        breweryLocal=${sInfo.breweryLocal},
+						        alcholMin=${sInfo.alcholMin},
+						        alcholMax=${sInfo.alcholMax},
+						        capacityMin=${sInfo.capacityMin},
+						        capacityMax=${sInfo.capacityMax},
+						        priceMin=${sInfo.priceMin},
+						        priceMax=${sInfo.priceMax},
+						        tags=${tags})}" class="arrow">&laquo;</a>
 			                <span th:unless="${cp > 1}" class="arrow disabled">&laquo;</span>
 			            </li>
 			            
 			            <li th:each="pageNumber : ${#numbers.sequence(startNumber, endNumber)}" 
 			                th:class="${pageNumber == cp} ? 'active' : ''">
-			                <a th:href="@{/liquor/search(cp=${pageNumber})}" th:text="${pageNumber}"
-			                   th:class="${pageNumber == cp} ? 'active' : ''"></a>
+			                <a th:href="@{/liquor/search(cp=${pageNumber}, 
+					            liquorType=${sInfo.liquorType},
+					            breweryLocal=${sInfo.breweryLocal},
+					            alcholMin=${sInfo.alcholMin},
+					            alcholMax=${sInfo.alcholMax},
+					            capacityMin=${sInfo.capacityMin},
+					            capacityMax=${sInfo.capacityMax},
+					            priceMin=${sInfo.priceMin},
+					            priceMax=${sInfo.priceMax},
+					            tags=${tags})}" 
+					           th:text="${pageNumber}"
+					           th:class="${pageNumber == cp} ? 'active' : ''"></a>
 			            </li>
 			            
 			            <li th:class="${cp >= pn.endNavi} ? 'disabled' : ''">
-			                <a th:if="${cp < pn.endNavi}" th:href="@{/liquor/search(cp=${cp + 1})}" class="arrow">&raquo;</a>
+			            	<a th:if="${cp < pn.endNavi}" th:href="@{/liquor/search(cp=${cp + 1}, 
+						        liquorType=${sInfo.liquorType},
+						        breweryLocal=${sInfo.breweryLocal},
+						        alcholMin=${sInfo.alcholMin},
+						        alcholMax=${sInfo.alcholMax},
+						        capacityMin=${sInfo.capacityMin},
+						        capacityMax=${sInfo.capacityMax},
+						        priceMin=${sInfo.priceMin},
+						        priceMax=${sInfo.priceMax},
+						        tags=${tags})}" class="arrow">&raquo;</a>
 			                <span th:unless="${cp < pn.endNavi}" class="arrow disabled">&raquo;</span>
 			            </li>
 			            <li th:class="${cp >= pn.endNavi} ? 'disabled' : ''">
-			                <a th:if="${cp < pn.endNavi}" th:href="@{/liquor/search(cp=${pn.endNavi})}" class="arrow">&raquo;&raquo;</a>
+			            	<a th:if="${cp < pn.endNavi}" th:href="@{/liquor/search(cp=${pn.endNavi}, 
+						        liquorType=${sInfo.liquorType},
+						        breweryLocal=${sInfo.breweryLocal},
+						        alcholMin=${sInfo.alcholMin},
+						        alcholMax=${sInfo.alcholMax},
+						        capacityMin=${sInfo.capacityMin},
+						        capacityMax=${sInfo.capacityMax},
+						        priceMin=${sInfo.priceMin},
+						        priceMax=${sInfo.priceMax},
+						        tags=${tags})}" class="arrow">&raquo;&raquo;</a>
 			                <span th:unless="${cp < pn.endNavi}" class="arrow disabled">&raquo;&raquo;</span>
 			            </li>
 			        </ul>
@@ -166,11 +231,34 @@
 	            <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
 	        </div>
 	        <div class="social-icons">
-	            <a href="#" class="icon-facebook"><img src="./img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
-	            <a href="#" class="icon-instagram"><img src="./img/free-icon-instagram-4922972.png" alt=""></a>
+	            <a href="#" class="icon-facebook"><img src="/img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
+	            <a href="#" class="icon-instagram"><img src="/img/free-icon-instagram-4922972.png" alt=""></a>
 	        </div>
 	        <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
 	    </footer>
     </div>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const userMenuToggle = document.getElementById('userMenuToggle');
+			const mypageDropdown = document.getElementById('mypageDropdown');
+			
+			if (userMenuToggle && mypageDropdown) {
+			    userMenuToggle.addEventListener('click', function(e) {
+			        e.preventDefault();
+			        mypageDropdown.classList.toggle('show');
+			    });
+			
+			    // 드롭다운 외부 클릭 시 닫기
+			    window.addEventListener('click', function(e) {
+			        if (!e.target.matches('.icon-user') && !e.target.matches('.header-img')) {
+			            if (mypageDropdown.classList.contains('show')) {
+			                mypageDropdown.classList.remove('show');
+			            }
+			        }
+			    });
+			}
+		});
+	
+	</script>
 </body>
 </html>

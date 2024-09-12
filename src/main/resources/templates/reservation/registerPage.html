@@ -4,18 +4,19 @@
 <meta charset="UTF-8">
 <title>예약</title>
 <link rel="stylesheet" href="/css/reservation/reservationregister.css">
+ <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
  <header>
         <div class="header-top">
             <div style="width: 100px;;"></div>
             <div id="logo-container">
-                <img src="./img/logo.png" alt="" id="logo">
+                <img src="../img/logo.png" alt="" id="logo">
                 <h1>술길따라</h1>
             </div>
             <div class="user-actions">
-                <a href="#" class="icon-user"><img class="header-img" src="./img/free-icon-user-17095347.png" alt=""></a>
-                <a href="#" class="icon-menu"><img class="header-img" src="./img/free-icon-menu-3856832.png" alt=""></a>
+                <a href="#" class="icon-user"><img class="header-img" src="../img/free-icon-user-17095347.png" alt=""></a>
+                <a href="#" class="icon-menu"><img class="header-img" src="../img/free-icon-menu-3856832.png" alt=""></a>
             </div>
         </div>
         <nav>
@@ -38,9 +39,9 @@
 			<div class="Info" th:text="${tour.breweryPhone}"></div>
 		</div>
 		<div class="tourTitle" th:text="${tour.tourName}"></div>
-		<div class="tour-info">
-			<div class="tourInfo" th:text="${tour.tourPrice + '원'}"></div>|
-			<div class="tourInfo" th:text="${tour.timeTaken}"></div>
+		<div class="tour-Info">
+			<p><span class="tourPriceAndTime" th:text="${tour.tourPrice + '원'}"></span> |
+			<span class="tourPriceAndTime" th:text="${tour.timeTaken}"></span></p>
 		</div>
 	</div>
 	
@@ -60,7 +61,7 @@
 			<div class="form-group">
 				<label for="visitorPhone">비상 연락처* (하이픈 제외하고 작성해주세요)</label> <input type="tel"
 					id="visitorPhone" name="visitorPhone"
-					placeholder="비상연락처를 입력해 주세요." required pattern="[0-9]{10,11}">
+					placeholder="비상연락처를 입력해 주세요." required="required">
 			</div>
 
 			<div class="form-group">
@@ -85,16 +86,18 @@
 				</select>
 			</div>
 		</div>
-		<button type="submit" id="reserveButton">예약하기</button>
+		<div class="buttondiv">
+			<button type="submit" id="reserveButton">예약하기</button>
+		</div>
 		<input type="hidden" name="reserveNo"
 			th:value="${reservation.reserveNo}"> <input type="hidden"
 			name="tourNo" th:value="${reservation.tourNo}"> <input
 			type="hidden" name="breweryNo" th:value="${reservation.breweryNo}">
 	</form>
 	</main>
-	<footer>
+    <footer>
         <nav>
-            <a href="#">이용약관 </a> |
+            <a href="#">이용약관</a> |
             <a href="#">개인정보처리방침</a> |
             <a href="#">사이트맵</a>
         </nav>
@@ -103,8 +106,8 @@
             <p>문의 : jwkim@gmail.com | 사업자등록번호 : 111-22-33333 | 서울시 중구 남대문로 120</p>
         </div>
         <div class="social-icons">
-            <a href="#" class="icon-facebook"><img src="./img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
-            <a href="#" class="icon-instagram"><img src="./img/free-icon-instagram-4922972.png" alt=""></a>
+            <a href="#" class="icon-facebook"><img src="../img/free-icon-facebook-circular-logo-20673.png" alt=""></a>
+            <a href="#" class="icon-instagram"><img src="../img/free-icon-instagram-4922972.png" alt=""></a>
         </div>
         <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
     </footer>

@@ -1,10 +1,13 @@
 package com.makjan.sulgilddara.user.model.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.makjan.sulgilddara.board.model.vo.Board;
+import com.makjan.sulgilddara.reservation.model.VO.Reservation;
 import com.makjan.sulgilddara.user.model.vo.User;
 
 public interface UserService {
@@ -72,5 +75,19 @@ public interface UserService {
 	 * @param email
 	 */
 	void sendTemporaryPassword(String userId, String email);
+
+	/**
+	 * 투어 예약 조회 Service
+	 * @param userId
+	 * @return List<Reservation>
+	 */
+	List<Reservation> selectReservationList(String userId);
+
+	/**
+	 * 내가 쓴 리뷰 조회 Service
+	 * @param userId
+	 * @return
+	 */
+	List<Board> selectReviewList(String userId);
 
 }

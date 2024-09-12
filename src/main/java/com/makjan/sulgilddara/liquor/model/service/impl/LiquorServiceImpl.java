@@ -53,8 +53,8 @@ public class LiquorServiceImpl implements LiquorService{
 	}
 
 	@Override
-	public int getTotalCount() {
-		int totalCount = mapper.getTotalCount();
+	public int getTotalCount(String keyword, String liquorType) {
+		int totalCount = mapper.getTotalCount(keyword, liquorType);
 		return totalCount;
 	}
 
@@ -65,8 +65,8 @@ public class LiquorServiceImpl implements LiquorService{
 	}
 
 	@Override
-	public List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds) {
-		List<Liquor> lList = mapper.selectLiquorList(currentPage, rowBounds);
+	public List<Liquor> selectLiquorList(Integer currentPage, RowBounds rowBounds, String keyword, String liquorType) {
+		List<Liquor> lList = mapper.selectLiquorList(currentPage, rowBounds, keyword, liquorType);
 		return lList;
 	}
 
@@ -104,6 +104,12 @@ public class LiquorServiceImpl implements LiquorService{
 	public int detailSearchTotalCount(Map<String, Object> searchMap) {
 		int count = mapper.detailSearchTotalCount(searchMap);
 		return count;
+	}
+
+	@Override
+	public List<LiquorDetail> getPopularLiquor() {
+		List<LiquorDetail> lList = mapper.getPopularLiquor();
+		return lList;
 	}
 
 }
