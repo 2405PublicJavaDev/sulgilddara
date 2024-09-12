@@ -76,8 +76,10 @@
                             
                             <li>
                                 <label>아이디 <span class="required">*</span></label>
-                                <input type="text" name="userId" th:field="*{userId}" placeholder="아이디를 입력해주세요">
+                                <input type="text" name="userId" id="userId"  th:field="*{userId}" placeholder="아이디를 입력해주세요">
+                                <button type="button" id="checkDuplicateBtn">중복 확인</button>
                                 <div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
+                                <div id="userIdCheckResult" style="color: red;"></div>
                             </li>
                             <li>
                                 <label>비밀번호 <span class="required">*</span></label>
@@ -139,6 +141,23 @@
         <p class="copyright">Copyright 2024 Sulgilddara Inc. | All Rights Reserved</p>
     </footer>
     <script>
+    document.getElementById("checkDuplicateBtn").addEventListener("click", function() {
+        var userId = document.getElementById("userId").value;
+
+        // Ajax 요청으로 중복 체크
+        fetch(`/user/checkUserId?userId=` + userId)
+            .then(response => response.json())
+            .then(isDuplicate => {
+                var resultDiv = document.getElementById("userIdCheckResult");
+                if (isDuplicate) {
+                    resultDiv.innerText = "이미 사용 중인 아이디입니다.";
+                } else {
+                    resultDiv.innerText = "사용 가능한 아이디입니다.";
+                    resultDiv.style.color = "green";
+                }
+            });
+    });
+    
     document.addEventListener('DOMContentLoaded', function() {
         const userMenuToggle = document.getElementById('userMenuToggle');
         const mypageDropdown = document.getElementById('mypageDropdown');
