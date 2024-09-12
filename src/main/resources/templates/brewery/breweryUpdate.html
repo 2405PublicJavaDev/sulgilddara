@@ -81,10 +81,13 @@
 		<main>
 			<form action="/brewery/admin/update" method="post" th:object="${brewery}" enctype="multipart/form-data">
 				<input type="hidden" name="breweryNo" th:value="*{breweryNo}">
+				<input type="hidden" name="existingFilePath"th:value="*{filePath}">
+				<input type="hidden" name="existingFileName" th:value="*{fileRename}">
+				
 				<label for="breweryName" class="form-label">양조장명</label>
 			    <input type="text" id="breweryName" name="breweryName" class="form-input" th:value="*{breweryName}"> <br>
 			    <label for="local" class="form-label">지역</label>
-			    <select id="local" name="breweryLocal" class="form-select" th:value="*{breweryLocal}">
+			    <select id="local" name="breweryLocal" class="form-select" th:field="*{breweryLocal}">
 			        <option value="sudo">수도권</option>
 			        <option value="gang">강원</option>
 			        <option value="chung">충청</option>

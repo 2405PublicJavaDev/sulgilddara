@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -128,13 +129,22 @@ public class BreweryController {
 	}
 	@PostMapping("/admin/update")
 	public String updateBrewery(Brewery updateBrewery
+			, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile
+			, @RequestParam(value = "existingFilePath", required = false) String existingFilePath
+			, @RequestParam(value = "existingFileName", required = false) String existingFileName
 			, @ModelAttribute("BreweryTag") BreweryTag breweryTag
 			, @RequestParam(value = "facilities", required = false) String[] facilities
 			, @RequestParam Map<String, String> params) throws IllegalStateException, IOException {
-		    if (facilities != null && facilities.length > 0) {
-		        String facilitiesJson = new ObjectMapper().writeValueAsString(facilities);
-		        updateBrewery.setFacilities(facilitiesJson);
-		    }
+	    if (facilities != null && facilities.length > 0) {
+	        String facilitiesJson = new ObjectMapper().writeValueAsString(facilities);
+	        updateBrewery.setFacilities(facilitiesJson);
+	    }
+		if(!uploadFile.isEmpty()) {
+			
+	    } else {
+	    	updateBrewery.setFilePath(existingFilePath);
+	    	updateBrewery.setFileRename(existingFileName);
+	    }
 		int result = bService.updateBrewery(updateBrewery);
 		int tagResult = bService.deleteTag(breweryTag);
 		if(breweryTag != null && breweryTag.getBreweryTagName() != null && !breweryTag.getBreweryTagName().isEmpty()) {
