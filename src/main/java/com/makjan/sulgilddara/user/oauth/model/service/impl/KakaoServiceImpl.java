@@ -39,7 +39,7 @@ public class KakaoServiceImpl implements KakaoService {
         StringBuilder sb = new StringBuilder();
         sb.append("grant_type=authorization_code");
         sb.append("&client_id=de590a7e08c82cba6bdf69f09ca0ab27");
-        sb.append("&redirect_uri=http://localhost:8888/oauth/kakao");
+        sb.append("&redirect_uri=http://192.168.60.234:8888/oauth/kakao");
         sb.append("&code=" + code);
         bw.write(sb.toString());
         bw.flush();
