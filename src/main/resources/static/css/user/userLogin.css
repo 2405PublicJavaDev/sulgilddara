@@ -26,8 +26,9 @@ header {
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: 800;
+	font-size: 40px;
+	font-weight: 800;
+	margin-top: 8px;
 }
 
 nav ul {
@@ -39,10 +40,9 @@ nav ul {
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: black;
-    /* font-size: 1.2rem; */
-    font-size: 18px;
+	text-decoration: none;
+	color: black;
+	font-size: 18px;
 }
 
 .user-actions {
@@ -79,13 +79,13 @@ footer nav {
 }
 
 footer nav a {
-    text-decoration: none;
-    color: black;
-    font-size: 1rem;
+	text-decoration: none;
+	color: black;
+	font-size: 15px;
 }
 
 .company-info {
-    font-size: 0.9rem;
+    font-size: 13px;
     line-height: 1.5;
     margin-bottom: 20px;
 }
@@ -107,7 +107,7 @@ footer nav a {
 }
 
 .copyright {
-    font-size: 0.8rem;
+    font-size: 10px;
 }
 
 
@@ -154,7 +154,7 @@ footer nav a {
     }
     
     h1 {
-        font-size: 5rem;
+        font-size: 40px;
     }
     #logo{
         width: 80px;
@@ -270,18 +270,18 @@ footer nav a {
             height: 30px;
         }
         
-        .mypage-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 120px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 2;
-            right: 0;
-            font-size: 1.3em;
-            font-weight:400;
-            --text-align: center;
-        }
+		.mypage-content {
+			display: none;
+			position: absolute;
+			background-color: #F9F9F9;
+			min-width: 120px;
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			z-index: 2;
+			right: 0;
+			font-size: 13px;
+			font-weight: 400;
+			--text-align: center;
+		}
         
         .mypage-content a {
             color: black;
