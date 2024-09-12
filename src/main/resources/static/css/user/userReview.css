@@ -394,4 +394,7 @@ footer nav a {
             background-color: #f2f2f2;
         }
 
-        
+        .review-table a{
+        	color : inherit;
+        	text-decoration : none;
+        }

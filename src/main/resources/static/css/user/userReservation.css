@@ -381,6 +381,7 @@ footer nav a {
             padding: 30px;
             width: 100%;
             border-collapse: collapse;
+            height: 1200px;
         }
 
         .reservation-table th, .reservation-table td {
