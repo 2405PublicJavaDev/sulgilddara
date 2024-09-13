@@ -5,7 +5,7 @@
 <title>관리자 세부사항</title>
 <link rel="stylesheet"
 	href="/css/reservation/reservationlookupdetail.css">
-	<link
+<link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap"
 	rel="stylesheet">
 </head>
@@ -96,9 +96,6 @@
 							결제정보: [카카오페이] 간편결제<br> 승인 일시 :
 							[[${Reservation.reserveCompleteTime}]]
 						</div>
-						<!-- 			<div class="creaditCancel">
-							<button onclick="cancelPayment();">결제 취소</button>
-						</div> -->
 					</div>
 				</div>
 				<div class="main-bottom">
@@ -147,24 +144,25 @@
 			Reserved</p>
 	</footer>
 	<script>
-	 document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function() {
 			const userMenuToggle = document.getElementById('userMenuToggle');
 			const mypageDropdown = document.getElementById('mypageDropdown');
-			
+
 			if (userMenuToggle && mypageDropdown) {
-			    userMenuToggle.addEventListener('click', function(e) {
-			        e.preventDefault();
-			        mypageDropdown.classList.toggle('show');
-			    });
-			
-			    // 드롭다운 외부 클릭 시 닫기
-			    window.addEventListener('click', function(e) {
-			        if (!e.target.matches('.icon-user') && !e.target.matches('.header-img')) {
-			            if (mypageDropdown.classList.contains('show')) {
-			                mypageDropdown.classList.remove('show');
-			            }
-			        }
-			    });
+				userMenuToggle.addEventListener('click', function(e) {
+					e.preventDefault();
+					mypageDropdown.classList.toggle('show');
+				});
+
+				// 드롭다운 외부 클릭 시 닫기
+				window.addEventListener('click', function(e) {
+					if (!e.target.matches('.icon-user')
+							&& !e.target.matches('.header-img')) {
+						if (mypageDropdown.classList.contains('show')) {
+							mypageDropdown.classList.remove('show');
+						}
+					}
+				});
 			}
 		});
 	</script>

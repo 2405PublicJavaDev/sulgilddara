@@ -25,41 +25,45 @@ public class Reservation {
 	private String fileRename;
 	private String breweryName;
 	private Integer breweryNo;
-	//tour
-	private Integer tourNo;	
+	// tour
+	private Integer tourNo;
 	private String tourName;
 	private String tourContent;
 	private String timeTaken;
 	private Integer tourPrice;
-	//Kakao
+	// Kakao
 	private String tid;
 	private String partner_order_id;
-	private String pg_token; 
-	
-	
-	
+	private String pg_token;
 
 	public String getPg_token() {
 		return pg_token;
 	}
+
 	public void setPg_token(String pg_token) {
 		this.pg_token = pg_token;
 	}
+
 	public static java.util.logging.Logger getLog() {
 		return log;
 	}
+
 	public Integer getTourPrice() {
 		return tourPrice;
 	}
-		public String getTid() {
+
+	public String getTid() {
 		return tid;
 	}
+
 	public void setTid(String tid) {
 		this.tid = tid;
 	}
+
 	public String getPartner_order_id() {
 		return partner_order_id;
 	}
+
 	public void setPartner_order_id(String partner_order_id) {
 		this.partner_order_id = partner_order_id;
 	}
@@ -67,34 +71,30 @@ public class Reservation {
 	public void setTourPrice(Integer tourPrice) {
 		this.tourPrice = tourPrice;
 	}
+
 	public Reservation(String reserveNo, Timestamp joinDate, String email, String phone) {
 		this.reserveNo = reserveNo;
 		this.joinDate = joinDate;
 		this.email = email;
 		this.phone = phone;
 	}
+
 	public String getTourContent() {
 		return tourContent;
 	}
-
 
 	public void setTourContent(String tourContent) {
 		this.tourContent = tourContent;
 	}
 
-
 	public String getTimeTaken() {
 		return timeTaken;
 	}
-
 
 	public void setTimeTaken(String timeTaken) {
 		this.timeTaken = timeTaken;
 	}
 
-
-
-	
 	public Integer getBreweryNo() {
 		return breweryNo;
 	}
@@ -146,7 +146,6 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
@@ -183,7 +182,6 @@ public class Reservation {
 		super();
 		this.userId = userId;
 	}
-
 
 	public String getReserveNo() {
 		return reserveNo;

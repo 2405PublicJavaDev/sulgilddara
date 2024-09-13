@@ -19,24 +19,24 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ReservationServiceImpl implements ReservationService{
-	
+public class ReservationServiceImpl implements ReservationService {
+
 	@Autowired
 	ReservationMapper rmapper;
 
 	@Override
-	public int registerInfo(Reservation reservation,Tour tour,Brewery brewery) {
-		int result = rmapper.registerInfo(reservation,tour,brewery); 
+	public int registerInfo(Reservation reservation, Tour tour, Brewery brewery) {
+		int result = rmapper.registerInfo(reservation, tour, brewery);
 		return result;
 	}
 
 	@Override
-	public List<Reservation> searchAllInfo(String userId, String breweryName,RowBounds rowbounds) {
-		
-		Map<String,String>param = new HashMap<String,String>();
-		param.put("userId",userId);
-		param.put("breweryName",breweryName);
-		List<Reservation> rList = rmapper.searchAllInfo(param,rowbounds);
+	public List<Reservation> searchAllInfo(String userId, String breweryName, RowBounds rowbounds) {
+
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("userId", userId);
+		param.put("breweryName", breweryName);
+		List<Reservation> rList = rmapper.searchAllInfo(param, rowbounds);
 		return rList;
 	}
 
@@ -53,39 +53,38 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public int getTotalCount(String breweryName,String userId) {
-		Map<String,String>param = new HashMap<String,String>();
-		param.put("userId",userId);
-		param.put("breweryName",breweryName);
+	public int getTotalCount(String breweryName, String userId) {
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("userId", userId);
+		param.put("breweryName", breweryName);
 		int result = rmapper.getTotalCount();
 		return result;
 	}
 
-
 	@Override
 	public int getTotalCountWithConditiion(String userId, String breweryName) {
-		Map<String,String>param = new HashMap<String,String>();
-		param.put("userId",userId);
-		param.put("breweryName",breweryName);
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("userId", userId);
+		param.put("breweryName", breweryName);
 		int result = rmapper.getTotalCountWithConditiion(param);
 		return result;
 	}
 
 	@Override
 	public List<User> selectInfo(User user) {
-		List<User>uList = rmapper.selectInfo(user);
+		List<User> uList = rmapper.selectInfo(user);
 		return uList;
 	}
 
 	@Override
 	public List<Reservation> selectOne(String userId) {
-		List<Reservation>rList = rmapper.selectOne(userId);
+		List<Reservation> rList = rmapper.selectOne(userId);
 		return rList;
 	}
 
 	@Override
 	public List<Reservation> selectTourInfo(String tourNo) {
-		List<Reservation>rList = rmapper.selectTourInfo(tourNo);
+		List<Reservation> rList = rmapper.selectTourInfo(tourNo);
 		return rList;
 	}
 
@@ -94,21 +93,22 @@ public class ReservationServiceImpl implements ReservationService{
 		int result = rmapper.getListTotalCount(tourName);
 		return result;
 	}
+
 	@Override
-	public List<Tour> selectSearchList(String TourName,RowBounds rowBounds) {
-		List<Tour>tList = rmapper.selectSearchList(TourName,rowBounds);
+	public List<Tour> selectSearchList(String TourName, RowBounds rowBounds) {
+		List<Tour> tList = rmapper.selectSearchList(TourName, rowBounds);
 		return tList;
 	}
 
 	@Override
-	public List<Tour> showTourList(String tourName , RowBounds rowBounds) {
-	List<Tour>tList = rmapper.showTourList(tourName,rowBounds);
+	public List<Tour> showTourList(String tourName, RowBounds rowBounds) {
+		List<Tour> tList = rmapper.showTourList(tourName, rowBounds);
 		return tList;
 	}
 
 	@Override
-	public List<Reservation> searchPaymentInfo(Reservation reservation , Tour tour) {
-		List<Reservation>rList = rmapper.searchPaymentInfo(reservation ,tour);
+	public List<Reservation> searchPaymentInfo(Reservation reservation, Tour tour) {
+		List<Reservation> rList = rmapper.searchPaymentInfo(reservation, tour);
 		return rList;
 	}
 

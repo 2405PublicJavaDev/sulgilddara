@@ -24,13 +24,6 @@ public class KakaoPayController {
 	@Setter(onMethod_ = @Autowired)
 	private KakaoPayService kakaoPay;
 
-//	    @Autowired
-//	    private KakaoPayService kakaoPay;
-
-//	    public KakaoPayController(KakaoPayService kakaoPay) {
-//	    	this.kakaoPay=kakaoPay;
-//	    }
-
 	@PostMapping("/kakaoPay")
 	public String kakaoPay(@ModelAttribute Reservation reservation, HttpSession session) {
 		log.info("kakaoPay post.....................");
@@ -49,15 +42,9 @@ public class KakaoPayController {
 	}
 
 	@GetMapping("/success")
-	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model,
-//	    		@ModelAttribute Reservation reservation,
-			HttpSession session) {
+	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpSession session) {
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 		System.out.println("reservation 나오나: " + session);
-//	    
-//	        
-//	            KakaoPayApproval kakaoPayInfo = kakaoPay.kakaoPayInfo(pg_token,reservation);
-//	            System.out.println("kakaoPayinfo이거 맞아요?:" + kakaoPayInfo);
 		model.addAttribute("Reservation", reservation);
 		return "kakaoPaySuccess";
 	}
