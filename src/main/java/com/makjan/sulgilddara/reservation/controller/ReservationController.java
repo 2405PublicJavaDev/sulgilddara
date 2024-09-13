@@ -60,7 +60,6 @@ public class ReservationController {
 		}
 		Tour tour = tService.searchByInfo(tourNo, tourName, breweryNo);
 		System.out.println("ReservationCOntroller: " + tour);
-//		Brewery brewery = bService.searchOneByNo(breweryNo);
 		session.setAttribute("tour", tour);
 		return "redirect:/reservation/register";
 	}
@@ -89,11 +88,7 @@ public class ReservationController {
 	public String RegisterInfo(Model model, HttpSession session, @ModelAttribute Reservation reservation,
 			@ModelAttribute Tour tour, @ModelAttribute Brewery brewery, @ModelAttribute User user) {
 		String userId = (String) session.getAttribute("userId");
-//		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
-
 		reservation.setUserId(userId);
-//		reservation.setTourNo(tourNo);
-//		reservation.setBreweryNo(breweryNo);
 		System.out.println("Reservaton: " + reservation);
 		Tour sessionTour = (Tour) session.getAttribute("tour");
 		tour = tService.searchByInfo(sessionTour.getTourNo(), sessionTour.getTourName(), sessionTour.getBreweryNo());

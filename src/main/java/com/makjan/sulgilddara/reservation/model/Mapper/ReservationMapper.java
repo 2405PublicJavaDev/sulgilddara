@@ -17,7 +17,7 @@ public interface ReservationMapper {
 
 	List<Reservation> searchInfo(Map<String, String> param);
 
-	List<Reservation> searchAllInfo(Map<String, String> param,RowBounds rowbounds);
+	List<Reservation> searchAllInfo(Map<String, String> param, RowBounds rowbounds);
 
 	List<Reservation> searchreserveNo(Reservation reservation);
 
@@ -27,7 +27,8 @@ public interface ReservationMapper {
 
 	List<Reservation> selectOne(@Param("reserveNo") String reserveNo);
 
-	int registerInfo(@Param("reservation")Reservation reservation,@Param("tour")Tour tour, @Param("brewery")Brewery brewery);
+	int registerInfo(@Param("reservation") Reservation reservation, @Param("tour") Tour tour,
+			@Param("brewery") Brewery brewery);
 
 	List<User> selectInfo(User user);
 
@@ -35,13 +36,11 @@ public interface ReservationMapper {
 
 	int getListTotalCount(String tourName);
 
-//	List<Tour> selectSearchList(Integer currentPage, Map<String, String> param, RowBounds rowBounds);
-
 	List<Tour> selectSearchList(String tourName, RowBounds rowBounds);
 
 	List<Tour> showTourList(String tourName, RowBounds rowBounds);
 
-	List<Reservation> searchPaymentInfo(@Param("reservation")Reservation reservation, @Param("tour")Tour tour);
+	List<Reservation> searchPaymentInfo(@Param("reservation") Reservation reservation, @Param("tour") Tour tour);
 
-	int deleteInfo(@Param("reserveNo")String reserveNo);
+	int deleteInfo(@Param("reserveNo") String reserveNo);
 }

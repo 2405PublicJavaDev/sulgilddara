@@ -53,13 +53,11 @@ nav ul li a {
 
 .user-actions {
 	display: flex;
-	/* gap: 20px; */
 }
 
 .icon-user, .icon-menu {
 	width: 50px;
 	height: 50px;
-	/* background-color: #D9D9D9; */
 }
 
 .user-actions img {
@@ -126,7 +124,6 @@ footer nav a {
 	height: 60px;
 }
 
-
 #logo {
 	width: 50px;
 	height: 50px;
@@ -164,11 +161,8 @@ footer nav a {
 }
 
 #logo {
-	/* width: 100px;
-    height: 100px; */
 	border-radius: 25%;
 	margin: auto 10px;
-	/* margin-right: 10px; */
 }
 
 #logo-container {
