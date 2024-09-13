@@ -423,7 +423,7 @@ C:.
 # 7. 개발 기간 및 작업 관리
    ![Development_period](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%9D%BC%EC%A0%95.jpg?raw=true)<br>
 
-# 8. 페이지별 기능(여기에다가 각자 기능 하면 될듯?)
+# 8. 페이지별 기능
  ## 1. 홍예은
  ## [로그인]
 로그인은 일반 로그인과 소셜 로그인(카카오)를 구현하였습니다
@@ -495,49 +495,98 @@ C:.
 만약 해당하는 정보가 없다면 다음과 같이 일치하는 정보가 없도록 뜨도록 하였습니다.
     ![image](https://github.com/user-attachments/assets/172fd8b3-2b8f-4fe9-b3b6-aeb7e300864c)
  ## 2. 엄은지
-   1. 양조장 메인페이지
-      ![image](https://github.com/user-attachments/assets/646b646d-4126-4acc-b61f-b9aa1e7998e4)
-      수도권, 강원, 충청, 전국 등으로 지역을 분리한 간단한 지도 출력 / 처음 메인에 들어가면 전국이 기본으로 선택되어있음
-      ![image](https://github.com/user-attachments/assets/6613e2e2-0247-48ea-9d5c-8370aab454e0)
-      각 지역 클릭 시 지역에 해당하는 양조장 리스트가 오른쪽에 출력됨 리스트에는 양조장 이름, 주소, 연락처가 나옴
-      ![image](https://github.com/user-attachments/assets/876e6640-3f87-45a9-878c-aefeacaef009)
-      ![image](https://github.com/user-attachments/assets/62063ae5-f1d6-484c-8986-8de4cc946b02)
-      메인페이지 하단에는 태그들이 새로고침할 때마다 랜덤으로 출력되고 기본적으로 첫번째 해시태그에 해당하는 리스트가 출력됨
-      ![image](https://github.com/user-attachments/assets/52df0872-2816-4880-9a45-d0ab3f69141d)
-      다른 해시태그 클릭 시 글자가 굵게 바뀌고 그 해시태그에 해당하는 리스트가 출력됨
-   3. 양조장 리스트
-      ![image](https://github.com/user-attachments/assets/ed82b17d-8b76-4c80-becc-2f0c2294f910)
-      지역별 리스트에서 전체보기 클릭 시 클릭한 지역명이 출력되고 그 지역에 해당하는 전체 리스트가 출력됨
-      양조장 사진, 주소, 주종, 해시태그가 출력되는데 양조장에 해당하는 주종이 여러개라 중복값을 제외하고 출력함
-      해시태그는 모든 양조장이 #전국을 모두 포함하고 있어서 첫번째 값은 제외하고 출력함
-      ![image](https://github.com/user-attachments/assets/e5672a32-edb9-44ec-a22e-705aa96d8eec)
-      양조장명과 지역명으로 검색이 가능함
-      ![image](https://github.com/user-attachments/assets/8fb83487-e186-43dc-9466-1615939d3cf9)
-      지역을 누르면 선택 가능한 옵션들 출력, 지역 선택하면 해당하는 지역 리스트 출력됨
-      ![image](https://github.com/user-attachments/assets/9b23e76b-a032-400c-a01c-ef2836b7e4f6)
-      양조장명으로 검색하면 키워드가 포함된 양조장 리스트가 출력됨
-      ![image](https://github.com/user-attachments/assets/4b278bbd-d604-437a-9c46-e4223e86c717)
-      없는 키워드 검색하면 검색결과 없음 출력됨
-   5. 양조장 상세 페이지
-      ![image](https://github.com/user-attachments/assets/020f6a4f-5d6f-4d9b-8de5-b0c46034a7fa)
-      메인페이지의 지역별 리스트나 하단 해시태그 리스트에서 양조장 클릭 시 해당 양조장 상세페이지로 이동됨
-      해당 양조장의 사진, 지역, 투어가능여부, 양조장명, 주소, 전화번호, 영업시간, 주종, 홈페이지가 상단에 출력됨
-      홈페이지 클릭 시 해당 양조장 홈페이지로 이동됨
-      ![image](https://github.com/user-attachments/assets/2593bde0-bd5e-455c-af4c-086bfcdc70ef)
-      해당 양조장이 생산하는 생산제품이 출력됨, 제품의 사진, 제품명, 도수, 가격이 출력됨
-      ![image](https://github.com/user-attachments/assets/a5fc4ca5-9201-47ee-8180-e898329f2cce)
-      해당 양조장에서 체험 가능한 체험프로그램이 출력됨, 프로그램명, 내용, 소요시간, 금액이 출력됨
-      ![image](https://github.com/user-attachments/assets/cd87aabf-94fe-4721-93f0-b4cc22bbdb84)
-      예약하기 클릭 시 바로 테험 프로그램 예약하기 사이트로 이동됨
-      ![image](https://github.com/user-attachments/assets/1f446d4a-85e0-4dbf-bb71-52453b75b5c3)
-      geocode API를 이용해서 해당 양조장에 입력된 주소를 위도와 경도로 변환한 뒤 네이버 지도 API를 사용해 위도와 경도값을 입력해서 지도를 출력하고 그 위치에 마커를 표시함
-      ![Uploading image.png…]()
-      해당 양조장의 편의시설, 키즈존 유무, 장애인 편의시설 유무가 출력됨
-      편의시설 테이블을 따로 안만들고 여러개로 받아서 json배열로 입력된 데이터베이스의 값을 하나씩 받아오는게 힘들었음
-      ["park","restroom"] 이런식으로 입력되어있는걸 대괄호를 삭제하고 ,를 기준으로 자르고 배열로 만든 뒤 하나씩 넣은 뒤
-      한글로 변환하기 위해 하나씩 매핑하고 영어와 한글로 매핑되어있는걸 한글과 아이콘으로 매핑해서 하나씩 출력함
-      키즈존이랑 장애인 편의시설은 yes와 no로 입력받은 뒤 타임리프로 if문을 걸어서 입장가능, 입장불가, 그에 해당하는 아이콘 바로 출력함
-   7. 양조장 관리자 페이지
+   ###  1. 양조장 메인페이지
+ ![Honeycam 2024-09-13 12-09-10](https://github.com/user-attachments/assets/561b8f34-c348-4b62-b0cd-40659d0bafe3)
+   - 수도권, 강원, 충청, 전국 등으로 지역을 분리한 간단한 지도 출력
+   - 처음 메인에 들어가면 전국이 기본으로 선택되어있음
+   - 각 지역 클릭 시 지역에 해당하는 양조장 리스트가 오른쪽에 출력됨 리스트에는 양조장 이름, 주소, 연락처가 나옴
+           <br><br><br>
+    ![Honeycam 2024-09-13 12-11-35](https://github.com/user-attachments/assets/76d071c5-6109-4192-b996-364b0089e089)
+   - 메인페이지 하단에는 태그들이 새로고침할 때마다 랜덤으로 출력되고 기본적으로 첫번째 해시태그에 해당하는 리스트가 출력됨
+   - 다른 해시태그 클릭 시 글자가 굵게 바뀌고 그 해시태그에 해당하는 리스트가 출력됨
+   - 중복된 해시태그는 제외하고 출력됨
+   
+   ###  2. 양조장 리스트
+   ![image](https://github.com/user-attachments/assets/969191f7-12a5-40cc-acbd-434f6a07a102)
+   
+   - 지역별 리스트에서 전체보기 클릭 시 클릭한 지역명이 출력되고 그 지역에 해당하는 전체 리스트가 출력됨
+   - 양조장 사진, 주소, 주종, 해시태그가 출력되는데 <br>
+   양조장에 해당하는 주종이 여러개라 중복값을 제외하고 출력함
+   - 해시태그는 모든 양조장이 #전국을 모두 포함하고 있어서 첫번째 값은 제외하고 출력함 <br><br>
+   
+   ![image](https://github.com/user-attachments/assets/e5672a32-edb9-44ec-a22e-705aa96d8eec)
+   - 양조장명과 지역명으로 검색이 가능함 <br><br>
+    ![image](https://github.com/user-attachments/assets/ed82b17d-8b76-4c80-becc-2f0c2294f910)
+   - 지역을 누르면 선택 가능한 옵션들 출력, 지역 선택하면 해당하는 지역 리스트 출력됨 <br><br>
+   
+   ![image](https://github.com/user-attachments/assets/8fb83487-e186-43dc-9466-1615939d3cf9)
+   - 양조장명으로 검색하면 키워드가 포함된 양조장 리스트가 출력됨 <br><br>
+   
+   ![image](https://github.com/user-attachments/assets/9b23e76b-a032-400c-a01c-ef2836b7e4f6)
+   - 없는 키워드 검색하면 검색결과 없음 출력됨
+   
+   ###  3. 양조장 상세 페이지
+   ![image](https://github.com/user-attachments/assets/6ca8899d-4adf-45f0-9fd4-67d4b6c244b0)
+   - 메인페이지의 지역별 리스트나 하단 해시태그 리스트에서 양조장 클릭 시 해당 양조장 상세페이지로 이동됨
+   - 해당 양조장의 사진, 지역, 투어가능여부, 양조장명, 주소, 전화번호, 영업시간, 주종, 홈페이지가 상단에 출력됨
+   - 홈페이지 클릭 시 해당 양조장 홈페이지로 이동됨 <br><br>
+   ![image](https://github.com/user-attachments/assets/020f6a4f-5d6f-4d9b-8de5-b0c46034a7fa)
+   - 해당 양조장이 생산하는 생산제품이 출력됨, 제품의 사진, 제품명, 도수, 가격이 출력됨 <br><br>
+   ![image](https://github.com/user-attachments/assets/2593bde0-bd5e-455c-af4c-086bfcdc70ef)
+   - 해당 양조장에서 체험 가능한 체험프로그램이 출력됨, 프로그램명, 내용, 소요시간, 금액이 출력됨 <br><br>
+   ![image](https://github.com/user-attachments/assets/a5fc4ca5-9201-47ee-8180-e898329f2cce)
+   - 예약하기 클릭 시 바로 체험 프로그램 예약하기 사이트로 이동됨 <br><br>
+   ![image](https://github.com/user-attachments/assets/cd87aabf-94fe-4721-93f0-b4cc22bbdb84)
+   - geocode API를 이용해서 해당 양조장에 입력된 주소를 위도와 경도로 변환한 뒤  <br>
+   네이버 지도 API를 사용해 위도와 경도값을 입력해서 지도를 출력하고 그 위치에 마커를 표시함
+   ![image](https://github.com/user-attachments/assets/1f446d4a-85e0-4dbf-bb71-52453b75b5c3)
+   - 해당 양조장의 편의시설, 키즈존 유무, 장애인 편의시설 유무가 출력됨
+   - 편의시설 테이블을 따로 안만들고 여러개로 받아서 json배열로 입력된 데이터베이스의 값을 하나씩 받아오는게 힘들었음
+   -  ["park","restroom"] 이런식으로 입력되어있는걸 대괄호를 삭제하고 ,를 기준으로 자르고 배열로 만든 뒤 하나씩 넣은 뒤
+   한글로 변환하기 위해 하나씩 매핑하고 영어와 한글로 매핑되어있는걸 한글과 아이콘으로 매핑해서 하나씩 출력함
+   - 키즈존이랑 장애인 편의시설은 yes와 no로 입력받은 뒤 타임리프로 if문을 걸어서 입장가능, 입장불가, 그에 해당하는 아이콘 바로 출력함
+   ###  4. 양조장 관리자 페이지
+   ![image](https://github.com/user-attachments/assets/661f457b-063d-460e-ab04-9a4b392fb4fa)
+   ![image](https://github.com/user-attachments/assets/8fc7f17d-9f8b-4de5-8bf5-3d9ef1e6bd8a)
+   - admin 계정으로 로그인하면 nav var가 바뀌고 양조장 정보를 관리하는 리스트로 이동함
+   - 페이징 처리 완료 <br><br>
+   ![image](https://github.com/user-attachments/assets/7c414e06-2378-46ee-a76e-3d7a82ee71ad)
+   - 양조장 등록 버튼 클릭 시 양조장 등록페이지로 이동 <br><br>
+   ![image](https://github.com/user-attachments/assets/932f5e7b-957a-451b-9c05-e73d95c4ed15)
+   - 정보 입력 가능 <br><br>
+   ![image](https://github.com/user-attachments/assets/e273ddab-f8c1-4ccf-a682-b09f376c3ab3)
+   - 양조장명으로 검색 가능 <br><br>
+   ![image](https://github.com/user-attachments/assets/a6f6969e-5e6a-4daa-aae3-fbf2d9ef77da)
+   - 지역명으로도 검색 가능 <br><br>
+   ![image](https://github.com/user-attachments/assets/fb78455e-8c30-438f-a9b0-281b5c1389eb)
+   - 수정 버튼 클릭 시 수정페이지로 이동됨, 입력된 해시태그와 편의시설이 체크되어 있음
+   - 이때도 입력한 편의시설과 해시태그 받아오는게 정말정말 힘들었음
+   - 입력한 편의시설에 체크표시를 하기 위해 편의시설을 json 형식으로 바꾼 뒤 json 배열자체를 <br>
+   편의시설에 입력하고 json 배열을 string의 contain 함수를 이용해 그 안에 park가 있는지 체크하고<br>
+   있으면 selected로 만듬
+   <br><s>원래는 json 배열인 편의시설 목록들의 대괄호를 삭제하고 , 로 자른 뒤 String 배열로 새로 만들어서<br>
+   그 배열을 model로 넘기고 타임리프에서 th:each 문과 th:if 문을 사용할랬는데 안됐음!!!</s>
+   - 해시태그도 이미 입력된 태그들을 tagify input창 안에서 출력되게 만드는게 어려웠음 <br>
+   태그 이름들만 있는 새로운 배열을 만들고 json 배열인 태그 이름을 받아온 뒤 <br>
+   태그 이름들을 List<Map<String, String>> 형태로 변환하고, 각 태그는 Map 구조로 저장함<br> 
+   각 Map은 태그의 속성 이름을 키로, 태그의 값을 값으로 가지는 구조임 <br>
+   변환된 리스트(list)에서 태그의 value 값을 추출해 태그 이름 배열에 저장함 <br>
+   stream 함수를 통해 리스트를 처리, 각 Map에서 "value"라는 키에 해당하는 값을 추출한 후 리스트로 변환<br>
+   리스트에서 추출한 개별 태그 이름이 태그 이름에 저장됨 <br><br>
+   ![image](https://github.com/user-attachments/assets/0537c724-e63d-4341-9f49-936976d9ce22)
+   - 수정페이지에선 체험 프로그램 등록이 가능함 <br><br>
+   ![image](https://github.com/user-attachments/assets/db3ed3de-fd15-4d91-9d02-9e9be3b69110)
+   - 정보 입력 가능  <br><br>
+   ![image](https://github.com/user-attachments/assets/2241fbef-72ae-47f7-aef8-a27a883216d9)
+   - 등록 클릭 시 해당 양조장 수정페이지로 이동 후 바로 확인 가능  <br><br>
+   ![image](https://github.com/user-attachments/assets/923b4f51-dc60-4189-aa3c-257de0451fb9)
+   ![image](https://github.com/user-attachments/assets/0537c724-e63d-4341-9f49-936976d9ce22)
+   - 삭제도 가능  <br><br>
+   ![image](https://github.com/user-attachments/assets/6639f1ed-9281-4716-869a-79bf99ada73b)
+   ![image](https://github.com/user-attachments/assets/ca2e0939-1880-459d-99fe-62c01e03b3ac)
+   ![image](https://github.com/user-attachments/assets/8a1f8347-2789-4c82-b497-4d781faa920b)
+   - 수정 클릭 시 수정 된 양조장의 상세페이지로 바로 이동해서 확인 가능
+
 ## 3. 조홍빈
 
 ### [체험 예약 리스트]
