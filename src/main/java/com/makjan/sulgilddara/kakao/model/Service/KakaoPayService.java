@@ -36,7 +36,6 @@ public class KakaoPayService {
 
 	public String kakaoPayReady(HttpSession session) {
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
-		log.info("Reservation {}" + reservation);
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory()); // 정확한 에러 파악을 위해 생성
 
@@ -67,7 +66,6 @@ public class KakaoPayService {
 
 		try {
 			kakaoPayDTO = restTemplate.postForObject(new URI(Host + "/online/v1/payment/ready"), body, KakaoPay.class);
-			log.info("" + kakaoPayDTO);
 			return kakaoPayDTO.getNext_redirect_pc_url();
 
 		} catch (RestClientException e) {
@@ -84,7 +82,6 @@ public class KakaoPayService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "SECRET_KEY DEV63545E7C8981F4D5D292ABC6B715669F5DC1F"); // 어드민 키
 		headers.add("Content-Type", "application/json");
-		System.out.println("kakaoPayinfo 메소드 " + reservation);
 		int totalAmount = reservation.getTourPrice() * reservation.getVisitorNum();
 		// Server Request Body : 서버 요청 본문
 		Map<String, String> params = new HashMap<String, String>();
@@ -100,7 +97,6 @@ public class KakaoPayService {
 		try {
 			kakaoPayDTO = restTemplate.postForObject(new URI(Host + "/online/v1/payment/approve"), body,
 					KakaoPay.class);
-			log.info("" + kakaoPayDTO);
 			if (kakaoPayDTO != null) {
 				return kakaoPayApprovalVO;
 			}

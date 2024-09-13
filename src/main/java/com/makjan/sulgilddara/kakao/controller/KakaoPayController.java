@@ -28,7 +28,6 @@ public class KakaoPayController {
 	public String kakaoPay(@ModelAttribute Reservation reservation, HttpSession session) {
 		log.info("kakaoPay post.....................");
 		log.info("Controller reservation {} " + reservation);
-		System.out.println("Controller reservation: " + reservation);
 		session.setAttribute("reservation", reservation);
 		return "redirect:/kakao/ready";
 	}
@@ -36,7 +35,6 @@ public class KakaoPayController {
 	@GetMapping("/kakao/ready")
 	public String kakaoPayReady(HttpSession session) {
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
-		System.out.println("ready: " + reservation);
 		log.info("Controller reservatoin {} " + reservation);
 		return "redirect:" + kakaoPay.kakaoPayReady(session);
 	}
@@ -44,7 +42,6 @@ public class KakaoPayController {
 	@GetMapping("/success")
 	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpSession session) {
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
-		System.out.println("reservation 나오나: " + session);
 		model.addAttribute("Reservation", reservation);
 		return "kakaoPaySuccess";
 	}
