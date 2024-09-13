@@ -21,6 +21,386 @@
 # 3. 채택한 개발기술과 브랜치 전략
 
 # 4. 프로젝트 구조
+C:.
+└─main
+    ├─java
+    │  ├─.mvn
+    │  │  └─wrapper
+    │  │          maven-wrapper.properties
+    │  │          
+    │  └─com
+    │      └─makjan
+    │          └─sulgilddara
+    │              │  SulgilddaraApplication.java
+    │              │  
+    │              ├─board
+    │              │  ├─common
+    │              │  │  └─config
+    │              │  │          BoardFileConfig.java
+    │              │  │          
+    │              │  ├─controller
+    │              │  │      BoardController.java
+    │              │  │      
+    │              │  └─model
+    │              │      ├─mapper
+    │              │      │      BoardMapper.java
+    │              │      │      
+    │              │      ├─service
+    │              │      │  │  BoardService.java
+    │              │      │  │  
+    │              │      │  └─impl
+    │              │      │          BoardServiceImpl.java
+    │              │      │          
+    │              │      └─vo
+    │              │              Board.java
+    │              │              BoardFile.java
+    │              │              BoardPagination.java
+    │              │              BoardReply.java
+    │              │              BoardReplyUser.java
+    │              │              BoardTag.java
+    │              │              SearchLiquor.java
+    │              │              
+    │              ├─brewery
+    │              │  ├─common
+    │              │  │  └─config
+    │              │  │          BreweryFileConfig.java
+    │              │  │          
+    │              │  ├─controller
+    │              │  │      BreweryController.java
+    │              │  │      
+    │              │  └─model
+    │              │      ├─mapper
+    │              │      │      BreweryMapper.java
+    │              │      │      
+    │              │      ├─service
+    │              │      │  │  BreweryServiceImpl.java
+    │              │      │  │  
+    │              │      │  └─impl
+    │              │      │          BreweryService.java
+    │              │      │          
+    │              │      └─vo
+    │              │              Brewery.java
+    │              │              BreweryTag.java
+    │              │              
+    │              ├─common
+    │              │  └─utility
+    │              │          Util.java
+    │              │          
+    │              ├─controller
+    │              │      IndexController.java
+    │              │      TestController.java
+    │              │      
+    │              ├─kakao
+    │              │  ├─controller
+    │              │  │      KakaoPayController.java
+    │              │  │      
+    │              │  └─model
+    │              │      ├─domain
+    │              │      │      Amount.java
+    │              │      │      KakaoPay.java
+    │              │      │      KakaoPayApproval.java
+    │              │      │      
+    │              │      └─Service
+    │              │              KakaoPayService.java
+    │              │              
+    │              ├─liquor
+    │              │  ├─common
+    │              │  │  ├─config
+    │              │  │  │      LiquorFileConfig.java
+    │              │  │  │      OpenAiConfig.java
+    │              │  │  │      
+    │              │  │  └─dto
+    │              │  │          ChatGPTRequest.java
+    │              │  │          ChatGPTResponse.java
+    │              │  │          Message.java
+    │              │  │          
+    │              │  ├─controller
+    │              │  │      LiquorController.java
+    │              │  │      
+    │              │  └─model
+    │              │      ├─mapper
+    │              │      │      LiquorMapper.java
+    │              │      │      
+    │              │      ├─service
+    │              │      │  │  LiquorService.java
+    │              │      │  │  
+    │              │      │  └─impl
+    │              │      │          LiquorServiceImpl.java
+    │              │      │          
+    │              │      └─vo
+    │              │              AiSearchInfo.java
+    │              │              Liquor.java
+    │              │              LiquorDetail.java
+    │              │              LiquorImage.java
+    │              │              LiquorPagination.java
+    │              │              LiquorSearchInfo.java
+    │              │              LiquorTagInfo.java
+    │              │              
+    │              ├─model
+    │              │  └─vo
+    │              │          Pagination.java
+    │              │          
+    │              ├─reservation
+    │              │  ├─controller
+    │              │  │      ReservationController.java
+    │              │  │      
+    │              │  └─model
+    │              │      ├─Mapper
+    │              │      │      ReservationMapper.java
+    │              │      │      
+    │              │      ├─Service
+    │              │      │  │  ReservationService.java
+    │              │      │  │  
+    │              │      │  └─Impl
+    │              │      │          ReservationServiceImpl.java
+    │              │      │          
+    │              │      └─VO
+    │              │              Reservation.java
+    │              │              
+    │              ├─tour
+    │              │  ├─common
+    │              │  │  └─config
+    │              │  │          TourFileConfig.java
+    │              │  │          
+    │              │  ├─controller
+    │              │  │      TourController.java
+    │              │  │      
+    │              │  └─model
+    │              │      ├─mapper
+    │              │      │      TourMapper.java
+    │              │      │      
+    │              │      ├─service
+    │              │      │  │  TourService.java
+    │              │      │  │  
+    │              │      │  └─impl
+    │              │      │          TourServiceImpl.java
+    │              │      │          
+    │              │      └─vo
+    │              │              Tour.java
+    │              │              
+    │              └─user
+    │                  ├─common
+    │                  │  ├─fig
+    │                  │  │      UserFileConfig.java
+    │                  │  │      
+    │                  │  └─mail
+    │                  │          EncryptionUtils.java
+    │                  │          SendEmailService.java
+    │                  │          
+    │                  ├─controller
+    │                  │      UserController.java
+    │                  │      
+    │                  ├─model
+    │                  │  ├─mapper
+    │                  │  │      UserMapper.java
+    │                  │  │      
+    │                  │  ├─service
+    │                  │  │  │  UserService.java
+    │                  │  │  │  
+    │                  │  │  └─impl
+    │                  │  │          UserServiceImpl.java
+    │                  │  │          
+    │                  │  └─vo
+    │                  │          LoginType.java
+    │                  │          Mail.java
+    │                  │          User.java
+    │                  │          UserFile.java
+    │                  │          
+    │                  └─oauth
+    │                      ├─controller
+    │                      │      KakaoController.java
+    │                      │      
+    │                      └─model
+    │                          └─service
+    │                              │  KakaoService.java
+    │                              │  
+    │                              └─impl
+    │                                      KakaoServiceImpl.java
+    │                                      
+    └─resources
+        │  application.properties
+        │  
+        ├─.vscode
+        │      settings.json
+        │      
+        ├─mappers
+        │      board-mapper.xml
+        │      brewery-mapper.xml
+        │      liquor-mapper.xml
+        │      reservation-mapper.xml
+        │      tour-mapper.xml
+        │      user-mapper.xml
+        │      
+        ├─static
+        │  ├─css
+        │  │  │  boardWritePage.css
+        │  │  │  liquorSelectModal.css
+        │  │  │  main.css
+        │  │  │  
+        │  │  ├─board
+        │  │  │      boardDetail.css
+        │  │  │      boardModify.css
+        │  │  │      boardWritePage.css
+        │  │  │      footer.css
+        │  │  │      header.css
+        │  │  │      liquorSelectModal.css
+        │  │  │      listCard.css
+        │  │  │      
+        │  │  ├─brewery
+        │  │  │      breweryDetail.css
+        │  │  │      breweryList.css
+        │  │  │      breweryListAdmin.css
+        │  │  │      breweryMain.css
+        │  │  │      brewerySearchList.css
+        │  │  │      brewerySearchListAdmin.css
+        │  │  │      breweryUpdate.css
+        │  │  │      breweryWrite.css
+        │  │  │      
+        │  │  ├─liquor
+        │  │  │      liquorAdd.css
+        │  │  │      liquorAiSearch.css
+        │  │  │      liquorDetail.css
+        │  │  │      liquorList.css
+        │  │  │      liquorSearch.css
+        │  │  │      liquorUpdate.css
+        │  │  │      
+        │  │  ├─owlcarousel
+        │  │  │      jquery.min.js
+        │  │  │      owl.carousel.min.css
+        │  │  │      owl.carousel.min.js
+        │  │  │      owl.theme.default.min.css
+        │  │  │      
+        │  │  ├─reservation
+        │  │  │      kakaoPaySuccess.css
+        │  │  │      paymentPage.css
+        │  │  │      reservationlookup.css
+        │  │  │      reservationlookupadmin.css
+        │  │  │      reservationlookupdetail.css
+        │  │  │      reservationlookupResult.css
+        │  │  │      reservationregister.css
+        │  │  │      tourList.css
+        │  │  │      tourSearchResultList.css
+        │  │  │      
+        │  │  ├─tour
+        │  │  │      tourUpdate.css
+        │  │  │      tourWrite.css
+        │  │  │      
+        │  │  └─user
+        │  │          userDelete.css
+        │  │          userFindId.css
+        │  │          userFindPw.css
+        │  │          userJoin.css
+        │  │          userLogin.css
+        │  │          userModify.css
+        │  │          userReservation.css
+        │  │          userReview.css
+        │  │          
+        │  ├─img
+        │  │  │  air-conditioner.png
+        │  │  │  cafe.png
+        │  │  │  free-icon-facebook-circular-logo-20673.png
+        │  │  │  free-icon-instagram-4922972.png
+        │  │  │  free-icon-menu-3856832.png
+        │  │  │  free-icon-user-17095347.png
+        │  │  │  information.png
+        │  │  │  logo.png
+        │  │  │  luggage.png
+        │  │  │  map_all.jpg
+        │  │  │  map_chung.jpg
+        │  │  │  map_gang.jpg
+        │  │  │  map_gyeong.jpg
+        │  │  │  map_jeju.jpg
+        │  │  │  map_jeoll.jpg
+        │  │  │  map_sudo.jpg
+        │  │  │  nobaby.png
+        │  │  │  nodisabled.png
+        │  │  │  nonsmoking.png
+        │  │  │  park.png
+        │  │  │  restaurant.png
+        │  │  │  restroom.png
+        │  │  │  smoking.png
+        │  │  │  wifi.png
+        │  │  │  yesbaby.png
+        │  │  │  yesdisabled.png
+        │  │  │  그나마 시골.png
+        │  │  │  와인동굴.png
+        │  │  │  와인동굴인데 좀더 어두움.png
+        │  │  │  와인통 짱많.png
+        │  │  │  한옥느낌.png
+        │  │  │  
+        │  │  ├─board
+        │  │  │      defaultProfile.png
+        │  │  │      
+        │  │  ├─liquor
+        │  │  │      empty_bottle.png
+        │  │  │      
+        │  │  ├─reservation
+        │  │  │      free-icon-checkmark-8832119.png
+        │  │  │      kakaoPay.png
+        │  │  │      
+        │  │  └─user
+        │  │          default_profile.png
+        │  │          kakao_login.png
+        │  │          
+        │  └─js
+        │      └─liquor
+        │              liquorUpdate.js
+        │              
+        └─templates
+            │  index.html
+            │  kakaoPay.html
+            │  kakaoPaySuccess.html
+            │  
+            ├─board
+            │      boardDetail.html
+            │      boardList_card.html
+            │      boardModify.html
+            │      boardWrite.html
+            │      
+            ├─brewery
+            │      breweryDetail.html
+            │      breweryList.html
+            │      breweryListAdmin.html
+            │      breweryMain.html
+            │      brewerySearchList.html
+            │      brewerySearchListAdmin.html
+            │      breweryUpdate.html
+            │      breweryWrite.html
+            │      
+            ├─liquor
+            │      liquorAdd.html
+            │      liquorAiSearch.html
+            │      liquorDetail.html
+            │      liquorList.html
+            │      liquorSearch.html
+            │      liquorUpdate.html
+            │      
+            ├─reservation
+            │      paymentPage.html
+            │      registerPage.html
+            │      reservationlookup.html
+            │      reservationlookupadmin.html
+            │      reservationlookupdetail.html
+            │      reservationlookupResult.html
+            │      reservationSearchResultAdmin.html
+            │      tourList.html
+            │      tourSearchResultList.html
+            │      
+            ├─tour
+            │      TourList.html
+            │      tourUpdate.html
+            │      tourWrite.html
+            │      
+            └─user
+                    userDelete.html
+                    userFindId.html
+                    userFindPw.html
+                    userJoin.html
+                    userLogin.html
+                    userModify.html
+                    userReservation.html
+                    userReview.html
+                    
 
 # 5. 프로젝트 역할 분담
    ## 홍예은: 회원 정보 관리
