@@ -57,11 +57,15 @@
        - 카카오 회원
          ![image](https://github.com/user-attachments/assets/4dd2f095-6ffc-4243-97c0-3df90d125b8f)
       7) 아이디 찾기
-        ![image](https://github.com/user-attachments/assets/8daf2c3e-9760-4082-99bb-a5c10d943289)
+         ![image](https://github.com/user-attachments/assets/6d77f1e6-e0f7-4655-b597-f71ec025b26d)
          아이디 찾기 결과물
-         
+        ![image](https://github.com/user-attachments/assets/8daf2c3e-9760-4082-99bb-a5c10d943289)
+      8) 비밀번호 찾기
+         ![image](https://github.com/user-attachments/assets/bab0be04-5e08-479e-bb67-8a2f74b584e8)
+         비밀번호 찾기 결과물
+         ![image](https://github.com/user-attachments/assets/d8efa3b2-9196-461c-b398-3bd3936284c9)
+         ![image](https://github.com/user-attachments/assets/cb0556d0-06d0-4c3b-93e2-ab9c4ce15e5f)
 
-      9) 비밀번호 찾기
    2. 엄은지
    3. 조홍빈
    4. 김정욱
