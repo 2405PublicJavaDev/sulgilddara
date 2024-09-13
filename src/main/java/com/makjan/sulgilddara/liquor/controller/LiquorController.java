@@ -101,7 +101,7 @@ public class LiquorController {
 		ChatGPTRequest request = new ChatGPTRequest(model, baseInfo+
 					"위의 목록에서 다음 조건에 가까운 항목을 고르고 선택한 이유를 설명해줘\n"+
 					"가급적이면 술의 종류는 liquorType 에서 골라줘"+
-					"그리고 추천 주류의 링크도 만들어서 보여주는데 링크 형식은 http://127.0.0.1:8888/liquor/detail/${liquorId} 형식이야.\n"+sInfo.getKeyword());
+					"그리고 추천 주류의 링크도 만들어서 보여주는데 링크 형식은 http://192.168.60.234:8888/liquor/detail/${liquorId} 형식이야.\n"+sInfo.getKeyword());
 		ChatGPTResponse chatGPTResponse =  template.postForObject(apiURL, request, ChatGPTResponse.class);
 		System.out.println("답변 : "+chatGPTResponse.getChoices().get(0).getMessage().getContent()+"[답변종료]");
 		return chatGPTResponse.getChoices().get(0).getMessage().getContent();

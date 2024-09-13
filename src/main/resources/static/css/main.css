@@ -68,6 +68,12 @@ main {
 	margin: 0 auto;
 	padding: 0 20px;
 }
+.section-title {
+	font-size: 37px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #1a5f7a;
+}
 
 #popular-breweries {
 	width: 90vw;
@@ -138,6 +144,8 @@ body .story-content {
 
 #brewery-tour {
 	margin-bottom: 50px;
+	margin-left: 17px;
+	width: 100%;
 }
 
 .tour-grid {
