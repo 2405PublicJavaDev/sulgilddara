@@ -10,7 +10,7 @@
 팀원구성
 
 1. 개발환경
-
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 2. 채택한 개발기술과 브랜치 전략
 
 3. 프로젝트 구조
