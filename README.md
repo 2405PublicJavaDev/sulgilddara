@@ -96,9 +96,9 @@
    + 오른쪽 영역에서 결제 해야할 총 가격이 표시됩니다
    + 결제 하기 버튼을 통해 결제 사이트로 이동합니다
    + 결제 성공시 성공 페이지로 이동합니다
-   +  ![GOMCAM 20240913_1154330870 (1)](https://github.com/user-attachments/assets/c34ea540-a9bf-44a8-85e3-b6f7fc78e414)
-<br>
-   +![새로운 프로젝트 (2)](https://github.com/user-attachments/assets/a2e404d2-0de1-4329-af60-6b86af358f11)
+   +  ![GOMCAM 20240913_1154330870 (1)](https://github.com/user-attachments/assets/c34ea540-a9bf-44a8-85e3-b6f7fc78e414)<br>
+   +![새로운 프로젝트 (2)](https://github.com/user-attachments/assets/6c213037-20a2-4b74-ba04-e2b00c3fffb8)
+
 
 
 
