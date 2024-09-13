@@ -84,7 +84,7 @@ nav ul li a {
 
 .user-actions {
     display: flex;
-    /* gap: 20px; */
+    gap: 20px;
 }
 
 .icon-user, .icon-menu {
@@ -94,8 +94,8 @@ nav ul li a {
 }
 
 .user-actions img{
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
 }
 
 /* 메인 */

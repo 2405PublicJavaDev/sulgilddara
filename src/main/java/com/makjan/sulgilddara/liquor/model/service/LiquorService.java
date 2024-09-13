@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
-import com.makjan.sulgilddara.brewery.model.vo.Brewery;
 import com.makjan.sulgilddara.liquor.model.vo.AiSearchInfo;
 import com.makjan.sulgilddara.liquor.model.vo.Liquor;
 import com.makjan.sulgilddara.liquor.model.vo.LiquorDetail;

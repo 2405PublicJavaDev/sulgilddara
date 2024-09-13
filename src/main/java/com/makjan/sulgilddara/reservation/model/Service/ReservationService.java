@@ -114,14 +114,6 @@ List<Reservation> searchPaymentInfo(Reservation reservation, Tour tour);
  * @param reserveNo
  * @return
  */
-
 int deleteInfo(String reserveNo);
-
-
-
-
-
-
-
 
 }

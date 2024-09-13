@@ -59,8 +59,7 @@ public class ReservationController {
 			return "redirect:/user/login";
 		}
 		Tour tour = tService.searchByInfo(tourNo, tourName, breweryNo);
-		System.out.println("ReservationCOntroller: " + tour);
-//		Brewery brewery = bService.searchOneByNo(breweryNo);
+
 		session.setAttribute("tour", tour);
 		return "redirect:/reservation/register";
 	}
@@ -89,18 +88,13 @@ public class ReservationController {
 	public String RegisterInfo(Model model, HttpSession session, @ModelAttribute Reservation reservation,
 			@ModelAttribute Tour tour, @ModelAttribute Brewery brewery, @ModelAttribute User user) {
 		String userId = (String) session.getAttribute("userId");
-//		LocalTime Time = LocalTime.parse(reservation.getReserveTime());
-
 		reservation.setUserId(userId);
-//		reservation.setTourNo(tourNo);
-//		reservation.setBreweryNo(breweryNo);
-		System.out.println("Reservaton: " + reservation);
+
 		Tour sessionTour = (Tour) session.getAttribute("tour");
 		tour = tService.searchByInfo(sessionTour.getTourNo(), sessionTour.getTourName(), sessionTour.getBreweryNo());
 		String randomString = generateRandomString(10);
 		reservation.setReserveNo(randomString);
 		int result = rService.registerInfo(reservation, tour, brewery);
-		System.out.println("result: " + result);
 		model.addAttribute("reservation", reservation);
 		model.addAttribute("tour", tour);
 
@@ -109,7 +103,6 @@ public class ReservationController {
 
 	@GetMapping("/reservation/payment")
 	public String showPaymentForm(Model model, @ModelAttribute Reservation reservation, @ModelAttribute Tour tour) {
-		System.out.println("paymentController: " + reservation);
 		List<Reservation> rList = rService.searchPaymentInfo(reservation, tour);
 		model.addAttribute("rList", rList);
 		model.addAttribute("reservation", reservation);
@@ -131,7 +124,7 @@ public class ReservationController {
 			for (Tour tour : tList) {
 				String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
 				tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
-				System.out.println(imagePath);
+
 			}
 			model.addAttribute("tList", tList);
 
@@ -157,7 +150,6 @@ public class ReservationController {
 			for (Tour tour : tList) {
 				String imagePath = tour.getFilePath() + "/" + tour.getFileRename();
 				tour.setImagePath(imagePath); // Tour 클래스에 imagePath 필드와 setter 추가 필요
-				System.out.println(imagePath);
 			}
 			model.addAttribute("tList", tList);
 
@@ -193,7 +185,6 @@ public class ReservationController {
 			@RequestParam(value = "breweryName", required = false) String breweryName,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage) {
 		int totalCount = rService.getTotalCountWithConditiion(userId, breweryName);
-		System.out.println(currentPage);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
@@ -213,7 +204,6 @@ public class ReservationController {
 			@RequestParam(value = "breweryName", required = false) String breweryName,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage) {
 		int totalCount = rService.getTotalCountWithConditiion(userId, breweryName);
-		System.out.println(currentPage);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
@@ -233,7 +223,6 @@ public class ReservationController {
 			@RequestParam(value = "breweryName", required = false) String breweryName,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage) {
 		int totalCount = rService.getTotalCount(userId, breweryName);
-		System.out.println(currentPage);
 		Pagination pn = new Pagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
 		int offset = (currentPage - 1) * limit;
@@ -254,10 +243,8 @@ public class ReservationController {
 		if (!rList.isEmpty()) {
 			Reservation reservation = rList.get(0);
 			model.addAttribute("rList", rList);
-			System.out.println("ControllerrList:" + rList);
 			// Brewery 이미지 경로 설정
 			String imagePath = reservation.getFilePath() + "/" + reservation.getFileRename();
-			System.out.println("detail imagePath: " + imagePath);
 			model.addAttribute("ImagePath", imagePath);
 		} else {
 			// 예약이 없을 경우 처리

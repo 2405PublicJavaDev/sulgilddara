@@ -5,7 +5,7 @@
 <title>관리자 조회</title>
 <link rel="stylesheet"
 	href="/css/reservation/reservationlookupadmin.css">
-	<link
+<link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap"
 	rel="stylesheet">
 </head>
@@ -45,11 +45,9 @@
 		</div>
 		<nav>
 			<ul>
-				<li><a href="/#story">술길따라 이야기</a></li>
-				<li><a href="/brewery/">양조장 탐방</a></li>
-				<li><a href="/liquor/search">술 도감</a></li>
-				<li><a href="/reservation/list">투어 예약</a></li>
-				<li><a href="/board/listCard">술 이야기</a></li>
+				<li><a href="/brewery/admin/list">양조장 정보</a></li>
+                <li><a href="/liquor/list">술 정보</a></li>
+                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -60,9 +58,10 @@
 			<div class="searchArea">
 				<div class="searchDiv">
 					<div>
-						<label>양조장 명:</label> <input type="text" name="breweryName" placeholder="양조장 명을 입력하세요">
-						<label>예약자 ID:</label> <input type="text" name="userId"
-							th:value="${userId}" placeholder="예약자ID를 입력하세요">
+						<label>양조장 명:</label> <input type="text" name="breweryName"
+							placeholder="양조장 명을 입력하세요"> <label>예약자 ID:</label> <input
+							type="text" name="userId" th:value="${userId}"
+							placeholder="예약자ID를 입력하세요">
 					</div>
 					<button type="submit">검색</button>
 				</div>
@@ -104,16 +103,19 @@
 			</table>
 
 			<div class="pagination" th:unless="${#lists.isEmpty(rList)}">
-    <th:block th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
-        <a class="prev" th:if="${pn.startNavi > 1}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.prevPage})}">&lt;</a>
-        <th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
-            <a th:href="@{/reservation/searchListAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}" 
-               th:text="${p}" 
-               th:class="${p == pn.currentPage} ? 'current' : ''"></a>
-        </th:block>
-        <a class="next" th:if="${pn.endNavi < pn.maxPage}" th:href="@{/reservation/searchListAdmin(currentPage=${pn.nextPage})}">&gt;</a>
-    </th:block>
-</div>
+				<th:block
+					th:if="${pn!=null and pn.startNavi!= null and pn.endNavi != null}">
+					<a class="prev" th:if="${pn.startNavi > 1}"
+						th:href="@{/reservation/searchListAdmin(currentPage=${pn.prevPage})}">&lt;</a>
+					<th:block th:each="p:${#numbers.sequence(pn.startNavi,pn.endNavi)}">
+						<a
+							th:href="@{/reservation/searchListAdmin(currentPage=${p}, userId=${userId}, breweryName=${breweryName})}"
+							th:text="${p}" th:class="${p == pn.currentPage} ? 'current' : ''"></a>
+					</th:block>
+					<a class="next" th:if="${pn.endNavi < pn.maxPage}"
+						th:href="@{/reservation/searchListAdmin(currentPage=${pn.nextPage})}">&gt;</a>
+				</th:block>
+			</div>
 		</div>
 	</main>
 	<footer>
@@ -135,24 +137,25 @@
 			Reserved</p>
 	</footer>
 	<script>
-	 document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function() {
 			const userMenuToggle = document.getElementById('userMenuToggle');
 			const mypageDropdown = document.getElementById('mypageDropdown');
-			
+
 			if (userMenuToggle && mypageDropdown) {
-			    userMenuToggle.addEventListener('click', function(e) {
-			        e.preventDefault();
-			        mypageDropdown.classList.toggle('show');
-			    });
-			
-			    // 드롭다운 외부 클릭 시 닫기
-			    window.addEventListener('click', function(e) {
-			        if (!e.target.matches('.icon-user') && !e.target.matches('.header-img')) {
-			            if (mypageDropdown.classList.contains('show')) {
-			                mypageDropdown.classList.remove('show');
-			            }
-			        }
-			    });
+				userMenuToggle.addEventListener('click', function(e) {
+					e.preventDefault();
+					mypageDropdown.classList.toggle('show');
+				});
+
+				// 드롭다운 외부 클릭 시 닫기
+				window.addEventListener('click', function(e) {
+					if (!e.target.matches('.icon-user')
+							&& !e.target.matches('.header-img')) {
+						if (mypageDropdown.classList.contains('show')) {
+							mypageDropdown.classList.remove('show');
+						}
+					}
+				});
 			}
 		});
 	</script>

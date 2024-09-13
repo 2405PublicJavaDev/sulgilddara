@@ -5,7 +5,7 @@
 <title>관리자 세부사항</title>
 <link rel="stylesheet"
 	href="/css/reservation/reservationlookupdetail.css">
-	<link
+<link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap"
 	rel="stylesheet">
 </head>
@@ -15,7 +15,7 @@
 			<div style="width: 100px;"></div>
 			<a href="/" class="logo-link">
 				<div id="logo-container">
-					<img src="../img/logo.png" alt="" id="logo">
+					<img src="../../img/logo.png" alt="" id="logo">
 					<h1>술길따라</h1>
 				</div>
 			</a>
@@ -44,11 +44,9 @@
 		</div>
 		<nav>
 			<ul>
-				<li><a href="/#story">술길따라 이야기</a></li>
-				<li><a href="/brewery/">양조장 탐방</a></li>
-				<li><a href="/liquor/search">술 도감</a></li>
-				<li><a href="/reservation/list">투어 예약</a></li>
-				<li><a href="/board/listCard">술 이야기</a></li>
+				<li><a href="/brewery/admin/list">양조장 정보</a></li>
+                <li><a href="/liquor/list">술 정보</a></li>
+                <li><a href="/reservation/searchListAdmin">투어 예약 정보</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -96,9 +94,6 @@
 							결제정보: [카카오페이] 간편결제<br> 승인 일시 :
 							[[${Reservation.reserveCompleteTime}]]
 						</div>
-						<!-- 			<div class="creaditCancel">
-							<button onclick="cancelPayment();">결제 취소</button>
-						</div> -->
 					</div>
 				</div>
 				<div class="main-bottom">
@@ -147,24 +142,25 @@
 			Reserved</p>
 	</footer>
 	<script>
-	 document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function() {
 			const userMenuToggle = document.getElementById('userMenuToggle');
 			const mypageDropdown = document.getElementById('mypageDropdown');
-			
+
 			if (userMenuToggle && mypageDropdown) {
-			    userMenuToggle.addEventListener('click', function(e) {
-			        e.preventDefault();
-			        mypageDropdown.classList.toggle('show');
-			    });
-			
-			    // 드롭다운 외부 클릭 시 닫기
-			    window.addEventListener('click', function(e) {
-			        if (!e.target.matches('.icon-user') && !e.target.matches('.header-img')) {
-			            if (mypageDropdown.classList.contains('show')) {
-			                mypageDropdown.classList.remove('show');
-			            }
-			        }
-			    });
+				userMenuToggle.addEventListener('click', function(e) {
+					e.preventDefault();
+					mypageDropdown.classList.toggle('show');
+				});
+
+				// 드롭다운 외부 클릭 시 닫기
+				window.addEventListener('click', function(e) {
+					if (!e.target.matches('.icon-user')
+							&& !e.target.matches('.header-img')) {
+						if (mypageDropdown.classList.contains('show')) {
+							mypageDropdown.classList.remove('show');
+						}
+					}
+				});
 			}
 		});
 	</script>
