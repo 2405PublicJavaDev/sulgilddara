@@ -632,18 +632,18 @@ C:.
          - 검색조건 여러개를 중첩시킬 수 있습니다.
          - 검색결과는 한 페이지에 12개씩 페이징 처리 하였습니다.
          - 검색결과를 클릭하면 해당 주류의 상세페이지로 이동합니다.
-         ![Liquor_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_search_01.gif?raw=true)<br>
-         ![Liquor_detail](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_detail.gif?raw=true)<br>
+      ![Liquor_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_search_01.gif?raw=true)<br>
+      ![Liquor_detail](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_detail.gif?raw=true)<br>
       - AI 검색
          - 문장으로 입력된 질문에 대해 OpenAI API를 사용하여 DB의 내용 중 합당한 항목을 선택하여 주관적인 답변을 받습니다.
          - RestAPI를 통하여 OpenAI API로 post 요청을 보내고 결과를 받아 화면에 출력하도록 했습니다.
-         ![Ai_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/ai-search_01.gif?raw=true)<br>
+      ![Ai_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/ai-search_01.gif?raw=true)<br>
       - 주류정보 등록
          - 관리자 계정으로 접속 시 나오는 관리페이지에서 주류 정보 등록이 가능합니다.
-         ![Liquor_add](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_add.gif?raw=true)<br>
+      ![Liquor_add](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_add.gif?raw=true)<br>
       - 주류정보 수정 및 삭제
          - 주류정보 수정 및 삭제도 마찬가지로 관리페이지에서 수행 가능합니다.
-         ![Liquor_update_delete](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_update_delete.gif?raw=true)<br>
+      ![Liquor_update_delete](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_update_delete.gif?raw=true)<br>
  ##  5. 이충무
  ### 게시판 - 메인
  - 검색창을 이용한 검색, 태그 선택을 통한 간편검색 및 정렬기준 선택이 가능합니다.
