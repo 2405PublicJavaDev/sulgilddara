@@ -10,20 +10,24 @@
 팀원구성
 
 1. 개발환경<br>
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
-2. 채택한 개발기술과 브랜치 전략
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)<br>
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)<br>
+![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)<br>
+![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)<br>
 
-3. 프로젝트 구조
+3. 채택한 개발기술과 브랜치 전략
 
-4. 역할 분담
+4. 프로젝트 구조
 
-5. 개발 기간 및 작업 관리
+5. 역할 분담
 
-6. 페이지별 기능(여기에다가 각자 기능 하면 될듯?)
+6. 개발 기간 및 작업 관리
+
+7. 페이지별 기능(여기에다가 각자 기능 하면 될듯?)
    1. 홍예은
    2. 엄은지
    3. 조홍빈
    4. 김정욱
    5. 이충무
 
- 7. 프로젝트 후기
+ 8. 프로젝트 후기
