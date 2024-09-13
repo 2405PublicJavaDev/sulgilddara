@@ -82,7 +82,7 @@ nav ul li a {
 
 .user-actions {
     display: flex;
-    /* gap: 20px; */
+    gap: 20px;
 }
 
 .icon-user, .icon-menu {

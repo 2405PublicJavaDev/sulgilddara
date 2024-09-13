@@ -61,17 +61,17 @@
                     <img class="owlCarousel-item" src="./img/와인동굴.png" alt="">
                 </div>
                 <div class="carousel-item">
-                    <img class="owlCarousel-item" src="./img/그나마 시골.png" alt="">
+                    <img class="owlCarousel-item" src="./img/와인통 짱많.png" alt="">
                 </div>
                 <div class="carousel-item">
-                    <img class="owlCarousel-item" src="./img/와인동굴인데 좀더 어두움.png" alt="">
+                    <img class="owlCarousel-item" src="./img/그나마 시골.png" alt="">
                 </div>
                 
                 <div class="carousel-item">
-                    <img class="owlCarousel-item" src="./img/한옥느낌.png" alt="">
+                    <img class="owlCarousel-item" src="./img/와인동굴인데 좀더 어두움.png" alt="">
                 </div>
                 <div class="carousel-item">
-                    <img class="owlCarousel-item" src="./img/와인통 짱많.png" alt="">
+                    <img class="owlCarousel-item" src="./img/한옥느낌.png" alt="">
                 </div>
                 
                 
@@ -80,7 +80,7 @@
         
         <section id="story">
 
-            <h2>술길따라 이야기</h2>
+<!--             <h2 class="section-title">술길따라 이야기</h2> -->
             <div class="story-content">
                 <h1>술길따라 - 국내 양조장과 주류 정보를 한 눈에</h1>
                 <h3>酒路依良</h3>
@@ -100,7 +100,7 @@
         </section>
 
         <section id="brewery-tour">
-            <h2>인기 상품</h2>
+            <h2 class="section-title">인기 상품</h2>
             	<div class="liquor-grid">
 				    <!-- Thymeleaf로 반복 처리 -->
 				    <div th:each="liquor, iterStat : ${liquorList}" class="liquor-item" th:onclick="'window.location.href=\'' + @{/liquor/detail/{id}(id=${liquor.liquorId})} + '\''">
