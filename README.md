@@ -1,3 +1,4 @@
+- - -
 술길따라 README
 
 프로젝트 이름 : 술길따라
@@ -6,9 +7,7 @@
 프로젝트 목표
 - 국내 양조장 정보와 주류 리뷰를 통합하여 제공하는 플랫폼 개발
 - 기존 투어 예약 사이트와 차별화된, 주류와 양조장 정보에 특화된 사용자 친화적인 플랫폼을 제공
-
-팀원구성
-
+- - -
 # 1. 개발환경<br>
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
