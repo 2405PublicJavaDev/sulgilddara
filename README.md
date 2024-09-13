@@ -39,6 +39,75 @@
 
 # 8. 페이지별 기능(여기에다가 각자 기능 하면 될듯?)
  ## 1. 홍예은
+ ## [로그인]
+로그인은 일반 로그인과 소셜 로그인(카카오)를 구현하였습니다
+- 일반 로그인
+        ![image](https://github.com/user-attachments/assets/56158dbf-da17-47ad-8e28-c2a6855ce10b)
+- 소셜 로그인(카카오)
+
+  카카오 로그인 버튼을 누를 시 술길따라의 카카오 로그인 창으로 넘어가게 됩니다.
+
+  동의하기 버튼을 눌러 가입 후에 술길따라의 서비스를 이용할 수 있습니다.
+          ![image](https://github.com/user-attachments/assets/ff4d038e-bd13-443c-ba6f-c45c557ff02d)
+- 로그인 시 네비게이션 드롭 바
+
+  로그인 성공할 시 회원의 이름과 마이페이지, 로그아웃이 네비게이션 드롭다운 바로 나오도록 구현했습니다. 
+ 비회원일 경우에는 로그인 창으로 넘어가게 됩니다.
+          ![image](https://github.com/user-attachments/assets/add8bb69-245b-429d-a016-a83bbc84de02)
+
+## [회원가입]
++ 회원가입은 Spring boot의 Validation 어노테이션에서 @NotBlank을 사용하여 필수값 입력인 요소들을 입력하지 않으면 회원가입이 진행되지 않게 했습니다.
++ 또한 비밀번호에는 @Pattern 유효성을 주었고 이메일에는 @Email로 유효성을 주었습니다.
++ 그리고 비밀번호 동일 체크를 두어 비밀번호가 동일해야 회원가입이 가능하도록 하였습니다.
++ 또한 파일 첨부 기능을 두어 회원의 프로필을 설정하도록 하였습니다.
+
+![술길따라 기능시연-02-회원정보](https://github.com/user-attachments/assets/bdcaf875-49b9-4d9c-93a2-6c8879380ca9)
+## [마이페이지]
+### 1. 회원정보수정
+  - 일반 회원
+
+      일반회원에서 아이디, 이름을 제외한 정보들을 수정할 수 있으며 프로필 사진 또한 수정이 가능하도록 구현하였습니다.
+           ![image](https://github.com/user-attachments/assets/10f621fe-4ec6-4667-bdf4-f4d9d5d01d49)
+  - 카카오 회원
+    
+    카카오 회원으로 마이페이지에 접속 할 시 본인의 카카오 프로필 사진과 정보들이 보입니다.
+    
+   ![image](https://github.com/user-attachments/assets/56c01896-f495-4b71-8abd-e05f186921bb)
+### 2. 체험 예약 리스트
+  회원은 본인이 예약한 체험 리스트를 조회할 수 있습니다.
+
+예약번호, 투어이름, 투어비용, 예약날짜, 예약시간, 방문인원이 나타납니다.
+![image](https://github.com/user-attachments/assets/8e8080c4-a195-41ca-a2f0-2a36e5771223)
+### 3. 내가 쓴 리뷰
+
+  회원은 본인이 작성한 리뷰를 조회할 수 있습니다.
+
+게시글 번호, 제목, 상품명, 작성일, 조회수, 별점이 나타나고 제목을 누르면 게시글 상세로도 넘어갈 수 있습니다.
+ ![image](https://github.com/user-attachments/assets/6035508b-d013-4be9-b280-88dd23260cbf)
+### 4. 회원 탈퇴
+ - 일반 회원
+
+일반 회원으로 탈퇴 시에는 비밀번호가 일치해야 탈퇴가 가능하도록 구현하였습니다.
+
+![술길따라 기능시연-02-회원정보 (2)](https://github.com/user-attachments/assets/5df8d78f-e11d-4e9f-8e73-014a211bfd93)
+  - 카카오 회원
+
+    카카오 회원으로 탈퇴 시에는 비밀번호 입력 없이도 탈퇴가 가능하도록 구현하였습니다.
+         ![image](https://github.com/user-attachments/assets/4dd2f095-6ffc-4243-97c0-3df90d125b8f)
+## [아이디 찾기]
+회원은 본인의 이름과 이메일을 통해 아이디를 찾을 수 있도록 구현하였습니다.
+![image](https://github.com/user-attachments/assets/6d77f1e6-e0f7-4655-b597-f71ec025b26d)
+해당하는 아이디가 존재하면 아이디를 알려줍니다.
+        ![image](https://github.com/user-attachments/assets/8daf2c3e-9760-4082-99bb-a5c10d943289)
+## [비밀번호 찾기]
+회원은 본인의 아이디와 이메일을 통해 비밀번호를 찾을 수 있도록 구현하였습니다.
+ ![image](https://github.com/user-attachments/assets/bab0be04-5e08-479e-bb67-8a2f74b584e8)
+구글 이메일 전송 API를 사용하여 해당 이메일로 임시비밀번호를 전송하도록 하였습니다.
+         ![image](https://github.com/user-attachments/assets/d8efa3b2-9196-461c-b398-3bd3936284c9)
+         ![image](https://github.com/user-attachments/assets/cb0556d0-06d0-4c3b-93e2-ab9c4ce15e5f)
+
+만약 해당하는 정보가 없다면 다음과 같이 일치하는 정보가 없도록 뜨도록 하였습니다.
+    ![image](https://github.com/user-attachments/assets/172fd8b3-2b8f-4fe9-b3b6-aeb7e300864c)
  ## 2. 엄은지
    1. 양조장 메인페이지
       ![image](https://github.com/user-attachments/assets/646b646d-4126-4acc-b61f-b9aa1e7998e4)
