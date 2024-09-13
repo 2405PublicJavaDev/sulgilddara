@@ -80,10 +80,14 @@ public class LiquorController {
     public String chat1(@RequestParam(name = "prompt")String prompt){
         ChatGPTRequest request = new ChatGPTRequest(model, prompt);
         ChatGPTResponse chatGPTResponse =  template.postForObject(apiURL, request, ChatGPTResponse.class);
-        System.out.println("답변 : "+chatGPTResponse.getChoices().get(0).getMessage().getContent());
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
     }
 	
+	/**
+	 * Post 메소드로 prompt를 작성 및 전송하여 OpenAI API로 답변을 받아옴
+	 * @param prompt
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping("/chat")
 	public String chat(@ModelAttribute LiquorSearchInfo sInfo){
@@ -103,7 +107,6 @@ public class LiquorController {
 					"가급적이면 술의 종류는 liquorType 에서 골라줘"+
 					"그리고 추천 주류의 링크도 만들어서 보여주는데 링크 형식은 http://127.0.0.1:8888/liquor/detail/${liquorId} 형식이야.\n"+sInfo.getKeyword());
 		ChatGPTResponse chatGPTResponse =  template.postForObject(apiURL, request, ChatGPTResponse.class);
-		System.out.println("답변 : "+chatGPTResponse.getChoices().get(0).getMessage().getContent()+"[답변종료]");
 		return chatGPTResponse.getChoices().get(0).getMessage().getContent();
 	}
 	
@@ -114,9 +117,6 @@ public class LiquorController {
 	
 	@RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
 	public String liquorSearch(@RequestParam(value="cp", required=false, defaultValue="1") Integer currentPage, Model model, @ModelAttribute LiquorSearchInfo sInfo) {
-		System.out.println("sInfo:"+sInfo);
-		System.out.println("sInfo:"+sInfo);
-		System.out.println("sInfo:"+sInfo);
 		
 		if(sInfo.getBreweryLocal()==null)
 			sInfo.setBreweryLocal("all");
@@ -160,9 +160,6 @@ public class LiquorController {
 		
 		//페이징 데이터 처리
 		int totalCount = lService.detailSearchTotalCount(searchMap);
-		System.out.println("totalCount:"+totalCount);
-		System.out.println("totalCount:"+totalCount);
-		System.out.println("totalCount:"+totalCount);
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
 		pn.setBoardLimit(12);
 		int limit = pn.getBoardLimit();
@@ -171,25 +168,14 @@ public class LiquorController {
 		
 		//검색조건을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 		liquorList = lService.liquorSearch(searchMap, rowBounds);
-		System.out.println("list.size(): "+liquorList.size());
 		
 		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
 		for(int i=0; i<liquorList.size(); i++) {
-			System.out.println(liquorList.get(i).toString());
 			
 			//liquorId값을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 			int liquorId = liquorList.get(i).getLiquorId();
 			tagList.add(lService.searchTagsByLiquorId(liquorId));
 			imgList.add(lService.searchImageByLiquorId(liquorId));
-			
-			//결과값을 확인 하기 위한 임시 코드(추후 삭제 예정)
-			if(tagList.get(i)!=null && !tagList.get(i).isEmpty()) {
-				System.out.println("tList.size(): "+tagList.get(i).size());
-				for(LiquorTagInfo tInfo : tagList.get(i))
-					System.out.println("tInfo: "+tInfo.toString());
-				for(LiquorImage image : imgList.get(i))
-					System.out.println("image : "+image.toString());
-			}//(추후 삭제 예정
 		}
 		
 		//조회 결과를 Attribute에 추가하여 리스트 출력 페이지로 이동
@@ -328,9 +314,6 @@ public class LiquorController {
 		
 		model.addAttribute("bFileList", bFileList);
 		
-		System.out.println(liquor.toString());
-		for(LiquorTagInfo tag : tags)
-			System.out.println(tag.toString());
 		model.addAttribute("liquor", liquor);
 		model.addAttribute("images", images);
 		model.addAttribute("tags", tags);
@@ -353,8 +336,6 @@ public class LiquorController {
 		int totalCount = lService.getTotalCount(keyword, liquorType);
 		LiquorPagination pn = new LiquorPagination(totalCount, currentPage);
 		int limit = pn.getBoardLimit();
-		System.out.println("startNavi:"+pn.getStartNavi());
-		System.out.println("endNavi:"+pn.getEndNavi());
 		int offset = (currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Liquor> lList = lService.selectLiquorList(currentPage, rowBounds, keyword, liquorType);		//RowBounds 범위만큼의 데이터를 받아온 List
@@ -362,7 +343,6 @@ public class LiquorController {
 		
 		//조회된 리스트 항목 각각의 태그 및 이미지 정보를 받기위한 반복문
 		for(int i=0; i<lList.size(); i++) {
-			System.out.println(lList.get(i).toString());
 			
 			//liquorId값을 입력하여 business logic 수행 후 결과 리스트를 받는다.
 			int liquorId = lList.get(i).getLiquorId();
