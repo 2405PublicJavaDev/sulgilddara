@@ -39,8 +39,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Map<String, Object> selectBoardList(Integer currentPage, String searchKeyword, String searchCondition, String orderSelectBox) {
 		
-		System.out.println("seacrhCondition : "+searchCondition);
-		System.out.println("searchKeyword : "+searchKeyword);
+		
 		
 		int totalCount = bMapper.getTotalCount(searchCondition, searchKeyword);
 		BoardPagination pn = new BoardPagination(totalCount, currentPage);
@@ -54,22 +53,7 @@ public class BoardServiceImpl implements BoardService{
 		return map;
 	}
 	
-	// selectBoardList 오버로딩 - 간편(태그)검색
-//	@Override
-//	public Map<String, Object> selectBoardList(Integer currentPage, String[] tagList) {
-//		
-//		int totalCount = bMapper.getTotalCountTag(tagList);
-//		Pagination pn = new Pagination(totalCount, currentPage);
-//		int limit = pn.getBoardLimit();
-//		int offset = (currentPage-1) * limit ;
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//		List<Board> bList = bMapper.selectBoardListTag(tagList, rowBounds);
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("bList", bList);
-//		System.out.println(bList);
-//		map.put("pn", pn);
-//		return map;
-//	}
+	
 
 	@Override
 	public int insertBoard(Board board) {
@@ -95,11 +79,7 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
-	@Override
-	public int updateTag(List<String> tags) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public int deleteTag(Integer boardNo) {

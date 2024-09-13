@@ -422,8 +422,7 @@ public class BoardController {
 			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer currentPage,
 			
 			Model model) {
-			System.out.println("orderSelectBox :  "+orderSelectBox);
-			System.out.println("   +" + tags);
+			
 				
 				String[] tagList = tags.split(",");
 				
@@ -552,7 +551,7 @@ public class BoardController {
 		String userId = (String) session.getAttribute("userId");
 		
 		List<BoardReplyUser> boardReplyUserList = bService.selectBoardReplyUser(boardNo);
-		System.out.println(boardReplyUserList);
+		
 		
 		int replyTotalCount = boardReplyUserList.size();
 		
@@ -583,7 +582,6 @@ public class BoardController {
 	@PostMapping("/board/replyUpdate")
 	public String updateReply(@RequestParam("replyNo") Integer replyNo, @RequestParam("replyContent") String replyContent) {
 		
-		System.out.println(replyNo + " " + replyContent);
 		int result = bService.updateReply(replyNo, replyContent);
 		return "success";
 	}

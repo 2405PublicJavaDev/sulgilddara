@@ -18,6 +18,5 @@ public class BoardFile {
 	private String boardFilePath;
 	private Integer boardNo;
 	
-//	private MultipartFile uploadFile;
 	
 }

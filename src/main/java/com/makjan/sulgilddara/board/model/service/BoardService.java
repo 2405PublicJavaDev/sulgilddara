@@ -78,12 +78,7 @@ public interface BoardService {
 	 */
 	int insertTag(BoardTag boardTag);
 	
-	/**
-	 * 게시글 태그 수정
-	 * @param tags
-	 * @return
-	 */
-	int updateTag(List<String> tags);
+	
 	
 	/**
 	 * 게시글 태그 삭제
