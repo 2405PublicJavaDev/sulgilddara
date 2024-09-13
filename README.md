@@ -25,9 +25,9 @@
 
 
 
-# 3. 채택한 개발기술과 브랜치 전략
+# 2. 채택한 개발기술과 브랜치 전략
 
-# 4. 프로젝트 구조
+# 3. 프로젝트 구조
 C:.
 <br/>└─main
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;├─java
@@ -408,7 +408,7 @@ C:.
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userReservation.html
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userReview.html
 
-# 5. 프로젝트 역할 분담
+# 4. 프로젝트 역할 분담
    ## 홍예은: 회원 정보 관리
       - 회원 가입, 로그인, 회원 정보 수정 등 사용자 관련 기능 개발
    ## 엄은지: 양조장 정보 관리
@@ -420,10 +420,10 @@ C:.
    ## 이충무: 주류 리뷰 게시판 및 댓글 관리
       - 주류 리뷰 작성 및 댓글 기능 구현
 
-# 7. 개발 기간 및 작업 관리
+# 5. 개발 기간 및 작업 관리
    ![Development_period](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%9D%BC%EC%A0%95.jpg?raw=true)<br>
 
-# 8. 페이지별 기능
+# 6. 페이지별 기능
  ## 1. 홍예은
  ## [로그인]
 로그인은 일반 로그인과 소셜 로그인(카카오)를 구현하였습니다
@@ -679,4 +679,4 @@ C:.
 ![게시글 수정 삭제](https://github.com/user-attachments/assets/4fc73247-d165-44fb-b9d8-878277db800f)
 
 
- 10. 프로젝트 후기
+# 7. 프로젝트 후기
