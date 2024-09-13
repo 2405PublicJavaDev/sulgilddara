@@ -155,9 +155,9 @@
 ## 3. 조홍빈
 
 ### 체험 예약 리스트
-   + 체험 프로그램에 관한 내용들이 목록 형태로 출력이 됩니다
+   + 체험 프로그램에 관한 내용들이 <u>목록<u> 형태로 출력이 됩니다
    + 페이지 상단에서 체험 프로그램명 키워드를 통해 검색이 가능합니다.
-   + ![GOMCAM 20240913_1143530503](https://github.com/user-attachments/assets/5971d14a-8f51-4c55-8e20-deef603655c3)<br>
+    ![GOMCAM 20240913_1143530503](https://github.com/user-attachments/assets/5971d14a-8f51-4c55-8e20-deef603655c3)<br>
    
    
 ### 체험 예약
@@ -165,8 +165,8 @@
    + 양조장의 정보와 체험에 관한 정보를 상단에 표시 합니다.
    + 달력에서 원하는 날짜 클릭 시 해당 일자에 색깔로 표시 되며 달력 상단에 해당 날짜 달력이 표시 됩니다.
    + 예약자 정보 입력 칸에서는 모든 입력 칸이 필수 조건으로 하나라도 미입력시 입력하라는 알림이 표시됩니다.
-   + 예약하기 버튼 클릭 시 결제 페이지로 이동합니다.
-   + ![GOMCAM 20240913_1149480794 (1)](https://github.com/user-attachments/assets/195632eb-bfc1-4e18-9dc0-948d4d1190d2)
+   + 예약하기 버튼 클릭 시 결제 페이지로 이동합니다. <br>
+   ![GOMCAM 20240913_1149480794 (1)](https://github.com/user-attachments/assets/195632eb-bfc1-4e18-9dc0-948d4d1190d2)
 
 ### 결제
      
@@ -174,9 +174,9 @@
    + 오른쪽 영역에서 결제 해야할 총 가격이 표시됩니다
    + 결제 하기 버튼을 통해 결제 사이트로 이동합니다
    + 결제 성공시 성공 페이지로 이동합니다
-   +  ![GOMCAM 20240913_1154330870 (1)](https://github.com/user-attachments/assets/c34ea540-a9bf-44a8-85e3-b6f7fc78e414)<br>
-   +![GOMCAM 20240913_1159200137](https://github.com/user-attachments/assets/a88aa43c-b463-4620-b344-9269c0e3bf17)<br>
-   +![새로운 프로젝트 (2)](https://github.com/user-attachments/assets/6c213037-20a2-4b74-ba04-e2b00c3fffb8)
+     ![GOMCAM 20240913_1154330870 (1)](https://github.com/user-attachments/assets/c34ea540-a9bf-44a8-85e3-b6f7fc78e414)<br>
+   ![GOMCAM 20240913_1159200137](https://github.com/user-attachments/assets/a88aa43c-b463-4620-b344-9269c0e3bf17)<br>
+   ![새로운 프로젝트 (2)](https://github.com/user-attachments/assets/6c213037-20a2-4b74-ba04-e2b00c3fffb8)
 
 
 
@@ -184,14 +184,14 @@
 ### 예약 조회
 
    + 결제 후 제공된 예약 번호를 입력하면 예약관련 정보를 조회할 수 있습니다.
-   + ![GOMCAM 20240913_1213580243](https://github.com/user-attachments/assets/ca110ea3-e0ae-4bd4-a5c0-fe9e379aa4ff)
+     ![GOMCAM 20240913_1213580243](https://github.com/user-attachments/assets/ca110ea3-e0ae-4bd4-a5c0-fe9e379aa4ff)
 
 
 ### 예약관리자
 
    + 사용자의 모든 예약 내용을 조회 할 수 있습니다
    + 검색을 통해 특정 양조장 혹은 특정 사용자의 예약 내용에 대해 조회할 수 있습니다
-   + ![GOMCAM 20240913_1209100337](https://github.com/user-attachments/assets/1e86c2ac-44d9-45bf-b30a-922365fe4c7b)
+     ![GOMCAM 20240913_1209100337](https://github.com/user-attachments/assets/1e86c2ac-44d9-45bf-b30a-922365fe4c7b)
 
 
  ##  4. 김정욱
