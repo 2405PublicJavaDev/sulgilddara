@@ -32,8 +32,10 @@
    2. 엄은지
    3. 조홍빈
    4. 김정욱
-      - 주류 상세검색
+      - 술도감 (상세검색 기능)
         ![Liquor_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_search_01.gif?raw=true)<br>
+      - AI 검색
+        ![Ai_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/ai-search_01.gif?raw=true)<br>
    5. 이충무
 
  9. 프로젝트 후기
