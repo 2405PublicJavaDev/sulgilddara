@@ -31,6 +31,28 @@
    1. 홍예은
    2. 엄은지
    3. 조홍빈
+        # [체험 예약 리스트]
+   + 체험 프로그램에 관한 내용들이 목록 형태로 출력이 됩니다
+   + 페이지 상단에서 체험 프로그램명 키워드를 통해 검색이 가능합니다.
+   + ![GOMCAM 20240913_1143530503](https://github.com/user-attachments/assets/5971d14a-8f51-4c55-8e20-deef603655c3)<br>
+   
+   
+      # [체험 예약]
+   + 양조장의 정보와 체험에 관한 정보를 상단에 표시 합니다.
+   + 달력에서 원하는 날짜 클릭 시 해당 일자에 색깔로 표시 되며 달력 상단에 해당 날짜 달력이 표시 됩니다.
+   + 예약자 정보 입력 칸에서는 모든 입력 칸이 필수 조건으로 하나라도 미입력시 입력하라는 알림이 표시됩니다.
+   + 예약하기 버튼 클릭 시 결제 페이지로 이동합니다.
+   + ![GOMCAM 20240913_1149480794 (1)](https://github.com/user-attachments/assets/195632eb-bfc1-4e18-9dc0-948d4d1190d2)
+
+      # [결제]
+     
+   + 왼쪽영역 에서 결제 방식을 선택할 수 있습니다
+   + 오른쪽 영역에서 결제 해야할 총 가격이 표시됩니다
+   + 결제 하기 버튼을 통해 결제 사이트로 이동합니다
+   + 결제 성공시 성공 페이지로 이동합니다
+   + ![GOMCAM 20240913_1143530503](https://github.com/user-attachments/assets/5971d14a-8f51-4c55-8e20-deef603655c3)<br>
+   +![GOMCAM 20240913_1159200137](https://github.com/user-attachments/assets/e5a7ebdb-439f-414c-ad50-1eef0be0de0d)
+
    4. 김정욱
       - 술도감 (상세검색 기능)
         ![Liquor_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_search_01.gif?raw=true)<br>
@@ -38,4 +60,4 @@
         ![Ai_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/ai-search_01.gif?raw=true)<br>
    5. 이충무
 
- 9. 프로젝트 후기
+ 10. 프로젝트 후기
