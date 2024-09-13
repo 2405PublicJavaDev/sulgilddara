@@ -1,7 +1,5 @@
 package com.makjan.sulgilddara.liquor.model.vo;
 
-import java.sql.Timestamp;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
