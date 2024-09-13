@@ -25,12 +25,13 @@
 5. 역할 분담
 
 6. 개발 기간 및 작업 관리
+   ![Development_period](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%9D%BC%EC%A0%95.jpg?raw=true)<br>
 
-7. 페이지별 기능(여기에다가 각자 기능 하면 될듯?)
+8. 페이지별 기능(여기에다가 각자 기능 하면 될듯?)
    1. 홍예은
    2. 엄은지
    3. 조홍빈
    4. 김정욱
    5. 이충무
 
- 8. 프로젝트 후기
+ 9. 프로젝트 후기
