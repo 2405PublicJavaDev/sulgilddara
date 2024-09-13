@@ -431,9 +431,9 @@ C:.
         ![image](https://github.com/user-attachments/assets/56158dbf-da17-47ad-8e28-c2a6855ce10b)
 - 소셜 로그인(카카오)
 
-  카카오 로그인 버튼을 누를 시 술길따라의 카카오 로그인 창으로 넘어가게 됩니다.
-
-  동의하기 버튼을 눌러 가입 후에 술길따라의 서비스를 이용할 수 있습니다.
+  소셜 로그인은 카카오 API를 사용하여 로그인을 하였습니다.
+  처음에 SPRING SECURITY를 이용하여 구현하려고 하였으나 설정이 제대로 안되어서 SECURITY 없이 구현하게 되었습니다.
+  카카오 로그인 버튼을 누를 시 술길따라의 카카오 로그인 창으로 넘어가게 되고 동의하기 버튼을 눌러 가입 후에 술길따라의 서비스를 이용할 수 있습니다.
           ![image](https://github.com/user-attachments/assets/ff4d038e-bd13-443c-ba6f-c45c557ff02d)
 - 로그인 시 네비게이션 드롭 바
 
@@ -442,12 +442,13 @@ C:.
           ![image](https://github.com/user-attachments/assets/add8bb69-245b-429d-a016-a83bbc84de02)
 
 ## [회원가입]
+
 + 회원가입은 Spring boot의 Validation 어노테이션에서 @NotBlank을 사용하여 필수값 입력인 요소들을 입력하지 않으면 회원가입이 진행되지 않게 했습니다.
 + 또한 비밀번호에는 @Pattern 유효성을 주었고 이메일에는 @Email로 유효성을 주었습니다.
 + 그리고 비밀번호 동일 체크를 두어 비밀번호가 동일해야 회원가입이 가능하도록 하였습니다.
 + 또한 파일 첨부 기능을 두어 회원의 프로필을 설정하도록 하였습니다.
 
-![술길따라 기능시연-02-회원정보](https://github.com/user-attachments/assets/bdcaf875-49b9-4d9c-93a2-6c8879380ca9)
+![술길따라 기능시연-02-회원정보 (3)](https://github.com/user-attachments/assets/9e308e53-5d69-41d9-afb8-5cae2eb4bc3c)
 ## [마이페이지]
 ### 1. 회원정보수정
   - 일반 회원
