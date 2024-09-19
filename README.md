@@ -636,6 +636,7 @@ C:.
    - 검색조건 여러개를 중첩시킬 수 있습니다.
    - 검색결과는 한 페이지에 12개씩 페이징 처리 하였습니다.
    - 검색결과를 클릭하면 해당 주류의 상세페이지로 이동합니다.
+   - 상세검색은 Mybatis의 동적쿼리 기능을 사용하여 구현 하였습니다.
    ![Liquor_search_01](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_search_01.gif?raw=true)<br>
    ![Liquor_detail](https://github.com/2405PublicJavaDev/sulgilddara/blob/main/img/liquor_detail.gif?raw=true)<br>
    ### AI 검색
